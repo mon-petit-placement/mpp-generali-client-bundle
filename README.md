@@ -1,1 +1,5 @@
-# mpp-generali-client-bundle
+Connexion to Generali
+===================
+```
+$ composer require mpp/generali-client-bundle
+```
