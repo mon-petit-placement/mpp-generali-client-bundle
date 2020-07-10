@@ -1,0 +1,1 @@
+# mpp-generali-client-bundle
