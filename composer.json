@@ -1,0 +1,30 @@
+{
+  "name": "mpp/generali-client-bundle",
+  "type": "symfony-bundle",
+  "description": "Symfony PartnerBundle",
+  "keywords": ["Generali application", "json", "api", "web service"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Louis-Arnaud CATOIRE",
+      "email": "la.catoire@itefficience.com",
+      "homepage": "https://www.itefficience.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.3",
+    "guzzlehttp/guzzle": "^7.1@dev",
+    "symfony/dependency-injection": "^4.0",
+    "symfony/framework-bundle": "^4.0"
+  },
+  "autoload":{
+    "psr-4":{
+      "FOS\\RestBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "Resources/",
+      "Tests/"
+    ]
+  },
+  "minimum-stability":  "dev"
+}
