@@ -18,7 +18,9 @@ eight_points_guzzle:
             base_url: '%env(GENERALI_BASE_URL)%'
             options:
                 timeout: 30
+                http_errors: true
                 headers:
+                    User-Agent: "MppGeneraliClient/v1.0"
                     Accept: 'application/json'
                     Content-Type: 'application/json'
                     apiKey: '%env(GENERALI_API_KEY)%'
