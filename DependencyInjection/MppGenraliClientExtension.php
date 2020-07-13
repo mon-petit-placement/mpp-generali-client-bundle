@@ -2,16 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MppGeneraliClientBundle\DependencyInjection;
+namespace Mpp\GeneraliClientBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class MppGenraliClientExtension
- * @package MppGeneraliClientBundle\DependencyInjection
- */
 class MppGenraliClientExtension extends Extension
 {
     /**

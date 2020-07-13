@@ -21,7 +21,7 @@
   },
   "autoload":{
     "psr-4":{
-      "MPP\\GeneraliClientBundle\\": ""
+      "Mpp\\GeneraliClientBundle\\": ""
     },
     "exclude-from-classmap": [
       "Resources/",

@@ -2,14 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MppGeneraliClientBundle\HttpClient;
+namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use GuzzleHttp\Client;
 
-/**
- * Class GeneraliHttpClient
- * @package MppGeneraliClientBundle\HttpClient
- */
 class GeneraliHttpClient
 {
 
