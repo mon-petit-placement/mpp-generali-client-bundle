@@ -9,12 +9,10 @@ use GuzzleHttp\Client;
 class GeneraliHttpClient
 {
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     private $httpClient;
-    private $parameters;
-    private $endpoint;
-
-    private $path = '/v2.0/transaction/';
 
     private const STEPS = [
         "INITIATE" => "initier",
@@ -31,13 +29,11 @@ class GeneraliHttpClient
     ];
 
     /**
-     * GeneraliHttpClient constructor.
      * @param Client $httpClient
      */
     public function __construct(Client $httpClient)
     {
         $this->httpClient = $httpClient;
-        $this->endpoint = $this->parameters->get('generali_endpoint');
     }
 
 
