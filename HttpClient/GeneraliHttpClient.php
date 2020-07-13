@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace MppGeneraliClientBundle\HttpClient;
 
 use GuzzleHttp\Client;
-use http\Exception;
-use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class GeneraliHttpClient
+ * @package MppGeneraliClientBundle\HttpClient
+ */
 class GeneraliHttpClient
 {
 
     /** @var Client */
-    private $guzzleClient;
+    private $httpClient;
     private $parameters;
     private $endpoint;
 
@@ -34,11 +36,11 @@ class GeneraliHttpClient
 
     /**
      * GeneraliHttpClient constructor.
-     * @param Client $guzzleClient
+     * @param Client $httpClient
      */
-    public function __construct(Client $guzzleClient)
+    public function __construct(Client $httpClient)
     {
-        $this->guzzleClient = $guzzleClient;
+        $this->httpClient = $httpClient;
         $this->endpoint = $this->parameters->get('generali_endpoint');
     }
 
@@ -57,7 +59,7 @@ class GeneraliHttpClient
 
             try{
                 $response = $this
-                    ->guzzleClient
+                    ->httpClient
                     ->request('POST', $url_point, $this->requestOptions($parameters));
 
                 return $response->getBody();
