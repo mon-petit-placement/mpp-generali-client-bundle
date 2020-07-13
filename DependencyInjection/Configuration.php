@@ -15,5 +15,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder(self::CONFIGURATION_ROOT);
         $treeBuilder->getRootNode();
+
+        return $treeBuilder;
     }
 }
