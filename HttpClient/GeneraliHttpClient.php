@@ -47,6 +47,8 @@ class GeneraliHttpClient
     public function stepSouscription(string $step, string $product, array $parameters)
     {
 
+        dd($this->httpClient);
+
         if (
             !in_array($step, self::STEPS, true) ||
             !in_array($product, self::PRODUCTS, true)
@@ -54,8 +56,6 @@ class GeneraliHttpClient
             return false;
         }
 
-//        $url_point = $this->endpoint . $this->path . $product . $step;
-        dd($this->httpClient);
         try {
             $response = $this
                 ->httpClient
