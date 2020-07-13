@@ -16,12 +16,12 @@ eight_points_guzzle:
     clients:
         mpp_generali:
             base_url: '%env(GENERALI_BASE_URL)%'
-        options:
-            timeout: 30
-            headers:
-                Accept: 'application/json'
-                Content-Type: 'application/json'
-                apiKey: '%env(GENERALI_API_KEY)%'
+            options:
+                timeout: 30
+                headers:
+                    Accept: 'application/json'
+                    Content-Type: 'application/json'
+                    apiKey: '%env(GENERALI_API_KEY)%'
 ```
 
 Then configure the generali dedicated service with this newly created guzzle client in the `config/services.yaml`:
