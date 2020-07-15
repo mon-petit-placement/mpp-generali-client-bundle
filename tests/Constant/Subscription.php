@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Mpp\GeneraliClientBundle\Constant;
+namespace Mpp\GeneraliClientBundle\Tests\Constant;
 
 /**
- * Class Souscription
- * @package Constant
+ * Class Subscription
+ * @package Mpp\GeneraliClientBundle\Tests\Constant
  */
-class Souscription
+class Subscription
 {
     public const CLAUSESBENEFS = [
         [
@@ -833,6 +833,7 @@ class Souscription
 //          'libelle' => 'Tutelle (Mineur]',
 //        ],
     ];
+
     public const NATIONALITES = [
         [
             'code' => '99109ALLEMAGNE',

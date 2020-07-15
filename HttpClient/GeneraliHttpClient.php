@@ -6,11 +6,13 @@ namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use GuzzleHttp\Client;
 
+/**
+ * Class GeneraliHttpClient
+ * @package Mpp\GeneraliClientBundle\HttpClient
+ */
 class GeneraliHttpClient
 {
-    /**
-     * @var Client
-     */
+    /** @var Client */
     private $httpClient;
 
     private const STEPS = [
@@ -35,7 +37,6 @@ class GeneraliHttpClient
         $this->httpClient = $httpClient;
     }
 
-
     /**
      * @param string $step
      * @param string $product
@@ -43,10 +44,10 @@ class GeneraliHttpClient
      * @return bool|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function stepSouscription(string $step, string $product, array $parameters)
+    public function stepSubscription(string $step, string $product, array $parameters)
     {
         if (!isset(self::STEPS[$step])){
-            return 'step musst be part of these: ' . implode(", ", array_keys(yself::STEPS));
+            return 'step musst be part of these: ' . implode(", ", array_keys(self::STEPS));
         }
         if (!isset(self::PRODUCTS[$product])){
             return 'step musst be part of these: ' . implode(", ", array_keys(self::PRODUCTS));

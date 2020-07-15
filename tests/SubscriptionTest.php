@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * Class SouscriptionTest
  * @package MPP\GeneraliClientBundle\tests
  */
-class SouscriptionTest extends TestCase
+class SubscriptionTest extends TestCase
 {
     private $faker;
     /** SouscriptionTest constructor.*/
@@ -30,7 +30,6 @@ class SouscriptionTest extends TestCase
         $typePaiement =  ['PRELEVEMENT'];
         $typeDuree = ['VIE_ENTIERE'];
         $fiscalite = ['ASSURANCE_VIE'];
-
 
         $situationFamiliale = Souscription::SITUATIONSFAMILIALES[$this->faker->numberBetween(0, count(Souscription::SITUATIONSFAMILIALES)-1)]['code'];
         $codePays = Souscription::PAYSRESIDENCEFISCALE[$this->faker->numberBetween(0, count(Souscription::PAYSRESIDENCEFISCALE)-1)]['code'];

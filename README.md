@@ -31,7 +31,7 @@ Then you must configure your credentials `config/packages/framework.yaml`:
 parameters:
     generali_code_apporteur: '%env(GENERALI_CODE_APPORTEUR)%'
     generali_code_app: '%env(GENERALI_CODE_APP)%'
-    generali_code_subscription: '%env(GENERALI_CODE_SOUSCRIPTION)%'
+    generali_code_subscription: '%env(GENERALI_CODE_SUBSCRIPTION)%'
 ```
 
 Then configure the generali dedicated service with this newly created guzzle client in the `config/services.yaml`:
