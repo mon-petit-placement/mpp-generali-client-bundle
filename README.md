@@ -24,6 +24,14 @@ eight_points_guzzle:
                     Accept: 'application/json'
                     Content-Type: 'application/json'
                     apiKey: '%env(GENERALI_API_KEY)%'
+ ```
+                    
+Then you must configure your credentials `config/packages/framework.yaml`:
+```yaml
+parameters:
+    generali_code_apporteur: '%env(GENERALI_CODE_APPORTEUR)%'
+    generali_code_app: '%env(GENERALI_CODE_APP)%'
+    generali_code_subscription: '%env(GENERALI_CODE_SOUSCRIPTION)%'
 ```
 
 Then configure the generali dedicated service with this newly created guzzle client in the `config/services.yaml`:

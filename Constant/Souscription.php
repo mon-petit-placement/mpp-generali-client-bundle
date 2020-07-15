@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Constant;
+namespace Mpp\GeneraliClientBundle\Constant;
 
 /**
  * Class Souscription

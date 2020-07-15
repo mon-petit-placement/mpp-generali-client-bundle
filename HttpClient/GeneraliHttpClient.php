@@ -8,24 +8,23 @@ use GuzzleHttp\Client;
 
 class GeneraliHttpClient
 {
-
     /**
      * @var Client
      */
     private $httpClient;
 
     private const STEPS = [
-        "INITIATE" => "initier",
-        "CHECK" => "verifier",
-        "CONFIRM" => "confirmer",
-        "FINALIZE" => "finaliser"
+        "initiate" => "initier",
+        "check" => "verifier",
+        "confirm" => "confirmer",
+        "finalize" => "finaliser"
     ];
 
     private const PRODUCTS = [
-        "SOUSCRIPTION" => "souscription",
-        "VERSEMENTLIBRE" => "versementLibre",
-        "VERSEMENTLIBREPROGRAMMES" => "versementLibreProgrammes",
-        "ARBITRAGE" => "arbitrage",
+        "subscription" => "souscription",
+        "free_payment" => "versementLibre",
+        "schedule_free_payment" => "versementLibreProgrammes",
+        "arbitration" => "arbitrage",
     ];
 
     /**
@@ -46,39 +45,25 @@ class GeneraliHttpClient
      */
     public function stepSouscription(string $step, string $product, array $parameters)
     {
-
-        dd($this->httpClient);
-
-        if (
-            !in_array($step, self::STEPS, true) ||
-            !in_array($product, self::PRODUCTS, true)
-        ) {
-            return false;
+        if (!isset(self::STEPS[$step])){
+            return 'step musst be part of these: ' . implode(", ", array_keys(yself::STEPS));
         }
-
+        if (!isset(self::PRODUCTS[$product])){
+            return 'step musst be part of these: ' . implode(", ", array_keys(self::PRODUCTS));
+        }
+        
         try {
             $response = $this
                 ->httpClient
-                ->request('POST', $url_point, $this->requestOptions($parameters));
-            return $response->getBody();
+                ->request(
+                    'POST',
+                    '/epart/v2.0/transaction/'.self::PRODUCTS[$product].'/'.self::STEPS[$step], [
+                        'body'=> json_encode($parameters)
+                    ]
+                );
+            return $response;
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
-    }
-
-    /**
-     * @param array $body
-     * @return array
-     */
-    private function requestOptions(array $body)
-    {
-        return [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'apiKey' => $this->parameters->get('generali_api_key')
-            ],
-            'body' => $body,
-        ];
     }
 }
