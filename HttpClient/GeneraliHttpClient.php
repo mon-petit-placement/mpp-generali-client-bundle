@@ -25,7 +25,7 @@ class GeneraliHttpClient
     private const PRODUCTS = [
         "subscription" => "souscription",
         "free_payment" => "versementLibre",
-        "schedule_free_payment" => "versementLibreProgrammes",
+        "schedule_free_payment" => "versementsLibresProgrammes",
         "arbitration" => "arbitrage",
     ];
 
