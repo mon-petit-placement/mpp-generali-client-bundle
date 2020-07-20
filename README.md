@@ -41,3 +41,10 @@ services:
         class: Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient
         arguments: ['@eight_points_guzzle.client.mpp_generali']
 ```
+
+Documentation:
+--------------
+
+Here is resources to use this bundle: 
+
+ * [How to call Generali API](./Resources/docs/call-api.md)

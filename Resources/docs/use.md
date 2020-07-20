@@ -1,18 +1,18 @@
 Send Data to generali
-============================================
+=====================
 
 To initiate a subscription in your service:
-```yaml
+```php
 <?php
 
-namespace App\Service
+namespace App\Service;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Mpp\GeneraliClientBundle\Tests\Constant\Subscription;
 
-class GeneraliHttp {
-    
+class GeneraliHttp 
+{    
     /**
      * @param GeneraliHttpClient $client
      * @throws GuzzleException
@@ -25,11 +25,13 @@ class GeneraliHttp {
 
         $response = $client->stepSubscription('initiate', 'subscription', $data);
         $content = json_decode($response->getBody()->getContents(), true);
-        ....
+        
+        //...
         
         $response = $client->stepSubscription('check', 'subscription', $data);
         $response = $client->stepSubscription('confirm', 'subscription', $data);
         $response = $client->stepSubscription('finalize', 'subscription', $data);
 
     }
+}
  ```

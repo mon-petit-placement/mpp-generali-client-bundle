@@ -15,6 +15,7 @@
     "php": ">=7.3",
     "symfony/dependency-injection": "^4.0",
     "symfony/framework-bundle": "^4.0",
+    "symfony/options-resolver": "^4.0",
     "fzaninotto/faker": "^1.9",
     "ext-json": "*",
     "eightpoints/guzzle-bundle": "^8.0"
