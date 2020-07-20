@@ -76,12 +76,10 @@ class GeneraliHttpClient
     private function configureSubscriptionParameters(OptionsResolver $resolver)
     {
          $resolver
-             ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])
-             ->setNormalizer('contexte', function (Options $options, $value) {
+             ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                  return $this->resolveContext($value);
              })
-             ->setRequired('souscription')->setAllowedTypes('souscription', ['array'])
-             ->setNormalizer('souscription', function(Options $options, $value) {
+             ->setRequired('souscription')->setAllowedTypes('souscription', ['array'])->setNormalizer('souscription', function(Options $options, $value) {
                  return $this->resolveSouscription($value);
              })
              ->setRequired('dateSignature')->setAllowedTypes('dateSignature', ['\DateTime'])->setNormalizer('dateSignature', function(Options $options, $value) {
@@ -102,8 +100,7 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('referencesExternes')->setAllowedTypes('referencesExternes', ['array'])
-            ->setNormalizer('referencesExternes', function (Options $options, $value) {
+            ->setRequired('referencesExternes')->setAllowedTypes('referencesExternes', ['array'])->setNormalizer('referencesExternes', function (Options $options, $value) {
                 return $this->resolveReferencesExternes($value);
             })
             ->setRequired('typePaiement')->setAllowedTypes('typePaiement', ['string'])
@@ -127,16 +124,15 @@ class GeneraliHttpClient
             ->setDefined('limitationMoinsValues')->setAllowedTypes('limitationMoinsValues', ['array'])->setNormalizer('limitationMoinsValues', function(Options $options, $value) {
                 return $this->resolveLimitationMoinsValues($value);
             })
-            ->setDefined('duree')->setAllowedTypes('duree', ['array']) //$typeDuree[$this->faker->numberBetween(0, count($typeDuree) - 1)],
-            ->setNormalizer('duree', function (Options $options, $value) {
+            ->setDefined('duree')->setAllowedTypes('duree', ['array'])->setNormalizer('duree', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('typeDuree')->setAllowedTypes('typeDuree', ['string'])
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setDefined('fiscalite')->setAllowedTypes('fiscalite', ['string']) //$fiscalite[$this->faker->numberBetween(0, count($fiscalite) - 1)],
-
+            ->setDefined('fiscalite')->setAllowedTypes('fiscalite', ['string'])
             ->setDefined('clauseBeneficiaireDeces')->setAllowedTypes('clauseBeneficiaireDeces', ['array'])->setNormalizer('clauseBeneficiaireDeces', function(Options $options, $value) {
                 return $this->resolveClauseBeneficiaireDeces($value);
             })
@@ -150,6 +146,7 @@ class GeneraliHttpClient
                 return $this->resolveIbanContractant($value);
             })
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -168,11 +165,11 @@ class GeneraliHttpClient
             ->setDefined('ibanContractant')->setAllowedTypes('ibanContractant', ['string'])
             ->setDefined('bic')->setAllowedTypes('bic', ['string'])
             ->setDefined('autorisationPrelevement')->setAllowedTypes('autorisationPrelevement', ['bool'])
-            ->setDefined('adresseAgenceBancaire')->setAllowedTypes('adresseAgenceBancaire', ['array'])
-            ->setNormalizer('adresseAgenceBancaire', function(Options $options, $value){
+            ->setDefined('adresseAgenceBancaire')->setAllowedTypes('adresseAgenceBancaire', ['array'])->setNormalizer('adresseAgenceBancaire', function(Options $options, $value){
                 return $this->resolveAdresseAgenceBancaire($value);
             })
-            ;
+        ;
+
         return $resolver->resolve($value);
     }
 
@@ -206,8 +203,7 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('originesFonds')->setAllowedTypes('originesFonds', ['array'])
-            ->setNormalizer('originesFonds', function (Options $options, $values) {
+            ->setRequired('originesFonds')->setAllowedTypes('originesFonds', ['array'])->setNormalizer('originesFonds', function (Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolvedValues = [];
 
@@ -222,10 +218,12 @@ class GeneraliHttpClient
                 foreach ($values as $value) {
                     $resolvedValues[] = $resolver->resolve($value);
                 }
+
                 return $resolvedValues;
 
             })
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -237,8 +235,9 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-                ->setDefined('codeModeGestion')->setAllowedTypes('codeModeGestion', ['string'])
+            ->setDefined('codeModeGestion')->setAllowedTypes('codeModeGestion', ['string'])
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -272,6 +271,7 @@ class GeneraliHttpClient
             ->setDefined('codeFondsCible')->setAllowedTypes('codeFondsCible', ['string'])
             ->setDefined('codeFondsAExclure')->setAllowedTypes('codeFondsAExclure', ['array'])
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -285,8 +285,7 @@ class GeneraliHttpClient
         $resolvedValue = [];
 
         $resolver
-            ->setRequired('securisationFonds')->setAllowedTypes('securisationFonds', ['array'])
-            ->setNormalizer('securisationFonds', function(Options $options, $values) {
+            ->setRequired('securisationFonds')->setAllowedTypes('securisationFonds', ['array'])->setNormalizer('securisationFonds', function(Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeFondsSource')->setAllowedTypes('codeFondsSource', ['string'])
@@ -296,9 +295,11 @@ class GeneraliHttpClient
                 foreach ($values as $value){
                     $resolvedValue[] = $resolver->resolve($value);
                 }
+
                 return $resolvedValue;
             })
-            ;
+        ;
+
         return $resolver->resolve($value);
     }
 
@@ -309,8 +310,7 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])
-            ->setNormalizer('repartition', function (Options $options, $values) {
+            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeFonds')->setAllowedTypes('codeFonds', ['string'])
@@ -321,24 +321,25 @@ class GeneraliHttpClient
                     ->setRequired('avenantValide')->setAllowedTypes('avenantValide', ['bool'])
                 ;
                 $resolvedValue = [];
-                foreach ($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValue[] = $resolver->resolve($value);
                 }
+
                 return $resolvedValue;
             })
             ->setRequired('jourPrelevement')->setAllowedTypes('jourPrelevement', ['int'])
-            ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])
-            ->setNormalizer('vlpMontant', function(Options $options, $value) {
+            ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])->setNormalizer('vlpMontant', function(Options $options, $value) {
                 $resolver = new OptionsResolver();
 
                 $resolver
                     ->setRequired('montant')->setAllowedTypes('montant', ['int'])
                     ->setRequired('periodicite')->setAllowedTypes('periodicite', ['string'])
                 ;
+
                 return $resolver->resolve($value);
             })
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -352,8 +353,7 @@ class GeneraliHttpClient
 
         $resolver
             ->setDefined('montant', 0)->setAllowedTypes('montant', ['int'])
-            ->setDefined('repartition')->setAllowedTypes('repartition', ['array'])
-            ->setNormalizer('repartition', function (Options $options, $values) {
+            ->setDefined('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setDefined('codeFonds')->setAllowedTypes('codeFonds', ['string'])
@@ -363,13 +363,14 @@ class GeneraliHttpClient
                     ->setDefined('numeroEngagement')->setAllowedTypes('numeroEngagement', ['int'])
                     ->setDefined('avenantValide')->setAllowedTypes('avenantValide', ['bool'])
                 ;
-                foreach ($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValue[] = $resolver->resolve($value);
                 }
+
                 return $resolvedValue;
             })
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -382,19 +383,17 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('situationPatrimoniale')->setAllowedTypes('situationPatrimoniale', ['array'])
-            ->setNormalizer('situationPatrimoniale', function(Options $options, $value) {
+            ->setRequired('situationPatrimoniale')->setAllowedTypes('situationPatrimoniale', ['array'])->setNormalizer('situationPatrimoniale', function(Options $options, $value) {
                 return $this->resolveSituationPatrimoniale($value);
             })
-            ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])
-            ->setNormalizer('objectifsVersement', function(Options $options, $value) {
+            ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function(Options $options, $value) {
                 return $this->resolveObjectifsVersement($value);
             })
-            ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])
-            ->setNormalizer('originePaiement', function(Options $options, $value) {
+            ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function(Options $options, $value) {
                 return $this->resolveOriginePaiement($value);
             })
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -409,8 +408,7 @@ class GeneraliHttpClient
         $resolver
             ->setRequired('moyenPaiementFrancais')->setAllowedTypes('moyenPaiementFrancais', ['bool'])
             ->setRequired('paiementParTiersPayeur')->setAllowedTypes('paiementParTiersPayeur', ['bool'])
-            ->setRequired('tiersPayeur')->setAllowedTypes('tiersPayeur', ['array'])
-            ->setNormalizer('tiersPayeur', function (Options $options, $value) {
+            ->setRequired('tiersPayeur')->setAllowedTypes('tiersPayeur', ['array'])->setNormalizer('tiersPayeur', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('personnePhysique')->setAllowedTypes('personnePhysique', ['bool'])
@@ -420,8 +418,7 @@ class GeneraliHttpClient
                     ->setRequired('parenteAvecSouscripteur')->setAllowedTypes('parenteAvecSouscripteur', ['bool'])
                     ->setDefined('precisionLienAvecSouscripteur')->setAllowedTypes('precisionLienAvecSouscripteur', ['string'])
                     ->setDefined('motifIntervention')->setAllowedTypes('motifIntervention', ['string'])
-                    ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])
-                    ->setNormalizer('pieceIdentite', function (Options $options, $value) {
+                    ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
 
                         $resolver
@@ -430,12 +427,15 @@ class GeneraliHttpClient
                                 return $value->format('Y-m-d');
                             })
                         ;
+
                         return $resolver->resolve($value);
                     })
                 ;
+
                 return $resolver->resolve($value);
             })
-            ;
+        ;
+
         return $resolver->resolve($value);
     }
 
@@ -454,6 +454,7 @@ class GeneraliHttpClient
         foreach ($values as $value){
             $resolvedValues[] = $resolver->resolve($value);
         }
+
         return $resolvedValues;
     }
 
@@ -466,8 +467,7 @@ class GeneraliHttpClient
             ->setRequired('codeTranchePatrimoine')->setAllowedTypes('codeTranchePatrimoine', ['string'])
             ->setRequired('montantRevenu')->setAllowedTypes('montantRevenu', ['int'])
             ->setRequired('montantPatrimoine')->setAllowedTypes('montantPatrimoine', ['int'])
-            ->setDefined('originePatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])
-            ->setNormalizer('originePatrimoniale', function(Options $options, $values){
+            ->setDefined('originePatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('originePatrimoniale', function(Options $options, $values){
                 $resolver = new OptionsResolver();
                 $resolvedValue = [];
                 $resolver
@@ -477,10 +477,10 @@ class GeneraliHttpClient
                 foreach ($values as $value){
                     $resolvedValue[] = $resolver->resolve($value);
                 }
+
                 return $resolvedValue;
             })
-            ->setDefined('repartitionPatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])
-            ->setNormalizer('repartitionPatrimoniale', function(Options $options, $values){
+            ->setDefined('repartitionPatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('repartitionPatrimoniale', function(Options $options, $values){
                 $resolver = new OptionsResolver();
                 $resolvedValue = [];
                 $resolver
@@ -491,9 +491,11 @@ class GeneraliHttpClient
                 foreach ($values as $value){
                     $resolvedValue[] = $resolver->resolve($value);
                 }
+
                 return $resolvedValue;
             })
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -505,8 +507,7 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('noms')->setAllowedTypes('noms', ['array'])
-            ->setNormalizer('noms', function (Options $options, $value) {
+            ->setRequired('noms')->setAllowedTypes('noms', ['array'])->setNormalizer('noms', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeCivilite')->setAllowedTypes('codeCivilite', ['string'])
@@ -514,18 +515,18 @@ class GeneraliHttpClient
                     ->setRequired('nom')->setAllowedTypes('nom', ['string'])
                     ->setDefined('nomNaissance')->setAllowedTypes('nomNaissance', ['string'])
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setRequired('residenceFiscale')->setAllowedTypes('residenceFiscale', ['array'])
-            ->setNormalizer('residenceFiscale', function (Options $options, $value) {
+            ->setRequired('residenceFiscale')->setAllowedTypes('residenceFiscale', ['array'])->setNormalizer('residenceFiscale', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codePays')->setAllowedTypes('codePays', ['string'])
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setRequired('naissance')->setAllowedTypes('naissance', ['array'])
-            ->setNormalizer('naissance', function (Options $options, $value) {
+            ->setRequired('naissance')->setAllowedTypes('naissance', ['array'])->setNormalizer('naissance', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('dateNaissance')->setAllowedTypes('dateNaissance', ['\DateTime'])
@@ -535,11 +536,11 @@ class GeneraliHttpClient
                     ->setDefined('codeInseeCommuneNaissance')->setAllowedTypes('codeInseeCommuneNaissance', ['int'])
                     ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
                 ;
+
                 return $resolver->resolve($value);
             })
             ->setRequired('nationalite')->setAllowedTypes('nationalite', ['string'])
-            ->setDefined('complement')->setAllowedTypes('complement', ['array'])
-            ->setNormalizer('complement', function (Options $options, $value) {
+            ->setDefined('complement')->setAllowedTypes('complement', ['array'])->setNormalizer('complement', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('situationFamiliale')->setAllowedTypes('situationFamiliale', ['int'])
@@ -553,14 +554,13 @@ class GeneraliHttpClient
                     ->setRequired('cspDerniereProfession')->setAllowedTypes('cspDerniereProfession', ['string'])
                     ->setRequired('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\DateTime'])
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setDefined('contact')->setAllowedTypes('contact', ['array'])
-            ->setNormalizer('contact', function (Options $options, $value) {
+            ->setDefined('contact')->setAllowedTypes('contact', ['array'])->setNormalizer('contact', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('adressePostale')->setAllowedTypes('adressePostale', ['array'])
-                    ->setNormalizer('adressePostale', function (Options $options, $value) {
+                    ->setRequired('adressePostale')->setAllowedTypes('adressePostale', ['array'])->setNormalizer('adressePostale', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
                         $resolver
                             ->setDefault('adresse1PointRemise', '')->setAllowedTypes('adresse1PointRemise', ['string'])
@@ -572,57 +572,60 @@ class GeneraliHttpClient
                             ->setDefined('codePays')->setAllowedTypes('codePays', ['string'])
                             ->setDefined('nePasNormaliser')->setAllowedTypes('nePasNormaliser', ['bool'])
                         ;
+
                         return $resolver->resolve($value);
                     })
                     ->setRequired('telephone')->setAllowedTypes('telephone', ['string'])
                     ->setRequired('telephonePortable')->setAllowedTypes('telephonePortable', ['string'])
                     ->setDefined('email')->setAllowedTypes('email', ['string'])
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setDefined('ppe')->setAllowedTypes('ppe', ['array'])
-            ->setNormalizer('ppe', function (Options $options, $value) {
+            ->setDefined('ppe')->setAllowedTypes('ppe', ['array'])->setNormalizer('ppe', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('etatPPE')->setAllowedTypes('etatPPE', ['array'])
-                    ->setNormalizer('etatPPE', function (Options $options, $value) {
+                    ->setRequired('etatPPE')->setAllowedTypes('etatPPE', ['array'])->setNormalizer('etatPPE', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
                         $resolver
                             ->setDefault('indicateur', false)->setAllowedTypes('indicateur', ['bool'])
                         ;
+
                         return $resolver->resolve($value);
                     })
-                    ->setRequired('etatPPEFamille')->setAllowedTypes('etatPPEFamille', ['array'])
-                    ->setNormalizer('etatPPEFamille', function (Options $options, $value) {
+                    ->setRequired('etatPPEFamille')->setAllowedTypes('etatPPEFamille', ['array'])->setNormalizer('etatPPEFamille', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
                         $resolver
                             ->setDefault('indicateur', false)->setAllowedTypes('indicateur', ['bool'])
                         ;
+
                         return $resolver->resolve($value);
                     })
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setDefined('fatca')->setAllowedTypes('fatca', ['array'])
-            ->setNormalizer('fatca', function(Options $options, $value) {
+            ->setDefined('fatca')->setAllowedTypes('fatca', ['array'])->setNormalizer('fatca', function(Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setDefault('citoyenUSA', false)->setAllowedTypes('citoyenUSA', ['bool'])
                     ->setDefault('residenceUSA', false)->setAllowedTypes('residenceUSA', ['bool'])
                 ;
+
                 return $resolver->resolve($value);
             })
-            ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])
-            ->setNormalizer('pieceIdentite', function (Options $options, $value) {
+            ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codePieceIdentite')->setAllowedTypes('codePieceIdentite', ['string'])
                     ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])
                 ;
+
                 return $resolver->resolve($value);
             })
             ->setDefined('capaciteJuridique')->setAllowedTypes('capaciteJuridique', ['string'])
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -639,6 +642,7 @@ class GeneraliHttpClient
             ->setRequired('codeSubscription')->setAllowedTypes('codeSubscription', 'string')
             ->setDefault('elementsAttendus', [])->setAllowedTypes('elementsAttendus', ['array'])
         ;
+
         return $resolver->resolve($value);
     }
 
@@ -653,6 +657,7 @@ class GeneraliHttpClient
             ->setDefined('refExterne')->setAllowedTypes('refExterne', ['string'])
             ->setDefined('refExterne2')->setAllowedTypes('refExterne2', ['string'])
         ;
+
         return $resolver->resolve($value);
     }
 }
