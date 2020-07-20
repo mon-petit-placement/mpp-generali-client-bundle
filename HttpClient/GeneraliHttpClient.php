@@ -61,8 +61,6 @@ class GeneraliHttpClient
 
         $resolvedParameters = $resolver->resolve($parameters);
 
-        dd( $resolvedParameters);
-
         return $this->httpClient->request(
             'POST',
             sprintf('/epart/v2.0/transaction/%s/%s', self::PRODUCTS[$product], self::STEPS[$step]),
