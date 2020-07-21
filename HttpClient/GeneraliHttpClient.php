@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Mpp\GeneraliClientBundle\OptionsResolver\ContexteResolver;
+use Mpp\GeneraliClientBundle\Model\Subscription;
 
 /**
  * Class GeneraliHttpClient
@@ -18,20 +19,6 @@ class GeneraliHttpClient
     /** @var Client */
     private $httpClient;
 
-    private const STEPS = [
-        "initiate" => "initier",
-        "check" => "verifier",
-        "confirm" => "confirmer",
-        "finalize" => "finaliser"
-    ];
-
-    private const PRODUCTS = [
-        "subscription" => "souscription",
-        "free_payment" => "versementLibre",
-        "schedule_free_payment" => "versementsLibresProgrammes",
-        "arbitration" => "arbitrage",
-    ];
-
     /**
      * @param Client $httpClient
      */
@@ -41,19 +28,63 @@ class GeneraliHttpClient
     }
 
     /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function initiateSubscription(string $product, array $parameters)
+    {
+        return $this->stepSubscription(Subscription::STEP_INITIATE, $product,  $parameters);
+    }
+
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkSubscription(string $product, array $parameters)
+    {
+        return $this->stepSubscription(Subscription::STEP_CHECK, $product,  $parameters);
+    }
+
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function confirmSubscription(string $product, array $parameters)
+    {
+        return $this->stepSubscription(Subscription::STEP_CONFIRM, $product,  $parameters);
+    }
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function finalizeSubscription(string $product, array $parameters)
+    {
+        return $this->stepSubscription(Subscription::STEP_FINALIZE, $product,  $parameters);
+    }
+
+
+    /**
      * @param string $step
      * @param string $product
      * @param array $parameters
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function stepSubscription(string $step, string $product, array $parameters)
+    private function stepSubscription(string $step, string $product, array $parameters)
     {
-        if (!isset(self::STEPS[$step])){
-            throw new \UnexpectedValueException('Step must be part of these: ' . implode(", ", array_keys(self::STEPS)));
+        if (!isset(Subscription::STEPS_MAP[$step])){
+            throw new \UnexpectedValueException('Step must be part of these: ' . implode(", ", Subscription::AVAILABLE_STEPS));
         }
-        if (!isset(self::PRODUCTS[$product])){
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", array_keys(self::PRODUCTS)));
+        if (!isset(Subscription::PRODUCTS_MAP[$product])){
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
         }
 
         $resolver = new OptionsResolver();
@@ -63,7 +94,7 @@ class GeneraliHttpClient
 
         return $this->httpClient->request(
             'POST',
-            sprintf('/epart/v2.0/transaction/%s/%s', self::PRODUCTS[$product], self::STEPS[$step]),
+            sprintf('/epart/v2.0/transaction/%s/%s', Subscription::PRODUCTS_MAP[$product], Subscription::STEPS_MAP[$step]),
             [
                 'body'=> json_encode($resolvedParameters),
             ]
@@ -327,7 +358,7 @@ class GeneraliHttpClient
 
                 return $resolvedValue;
             })
-            ->setRequired('jourPrelevement')->setAllowedTypes('jourPrelevement', ['int'])
+            ->setRequired('jourPrelevement')->setAllowedVALUES('jourPrelevement', Subscription::AVAILABLE_BANK_DEBIT)
             ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])->setNormalizer('vlpMontant', function(Options $options, $value) {
                 $resolver = new OptionsResolver();
 
@@ -422,7 +453,7 @@ class GeneraliHttpClient
                         $resolver = new OptionsResolver();
 
                         $resolver
-                            ->setDefined('codePieceIdentite')->setAllowedTypes('codePieceIdentite', ['string'])
+                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)
                             ->setDefined('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
                                 return $value->format('Y-m-d');
                             })
@@ -463,15 +494,15 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('codeTrancheRevenu')->setAllowedTypes('codeTrancheRevenu', ['string'])
-            ->setRequired('codeTranchePatrimoine')->setAllowedTypes('codeTranchePatrimoine', ['string'])
+            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', Subscription::AVAILABLE_INCOME_BRACKETS)
+            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', Subscription::AVAILABLE_PERSONAL_ASSETS)
             ->setRequired('montantRevenu')->setAllowedTypes('montantRevenu', ['int'])
             ->setRequired('montantPatrimoine')->setAllowedTypes('montantPatrimoine', ['int'])
             ->setDefined('originePatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('originePatrimoniale', function(Options $options, $values){
                 $resolver = new OptionsResolver();
                 $resolvedValue = [];
                 $resolver
-                    ->setRequired('code')->setAllowedTypes('code', ['string'])
+                    ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_ORIGIN)
                     ->setRequired('precision')->setAllowedTypes('precision', ['string'])
                 ;
                 foreach ($values as $value){
@@ -480,11 +511,11 @@ class GeneraliHttpClient
 
                 return $resolvedValue;
             })
-            ->setDefined('repartitionPatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('repartitionPatrimoniale', function(Options $options, $values){
+            ->setDefined('repartitionPatrimoniale')->setAllowedTypes('repartitionPatrimoniale', ['array'])->setNormalizer('repartitionPatrimoniale', function(Options $options, $values){
                 $resolver = new OptionsResolver();
                 $resolvedValue = [];
                 $resolver
-                    ->setRequired('code')->setAllowedTypes('code', ['string'])
+                    ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_DISTRIBUTION)
                     ->setRequired('pourcentage')->setAllowedTypes('pourcentage', ['int', 'float'])
                     ->setRequired('precision')->setAllowedTypes('precision', ['string'])
                 ;
@@ -510,7 +541,7 @@ class GeneraliHttpClient
             ->setRequired('noms')->setAllowedTypes('noms', ['array'])->setNormalizer('noms', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codeCivilite')->setAllowedTypes('codeCivilite', ['string'])
+                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', Subscription::AVAILABLE_CIVILITY)
                     ->setRequired('prenom')->setAllowedTypes('prenom', ['string'])
                     ->setRequired('nom')->setAllowedTypes('nom', ['string'])
                     ->setDefined('nomNaissance')->setAllowedTypes('nomNaissance', ['string'])
@@ -543,16 +574,18 @@ class GeneraliHttpClient
             ->setDefined('complement')->setAllowedTypes('complement', ['array'])->setNormalizer('complement', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('situationFamiliale')->setAllowedTypes('situationFamiliale', ['int'])
-                    ->setRequired('situationProfessionnelle')->setAllowedTypes('situationProfessionnelle', ['string'])
-                    ->setRequired('regimeMatrimonial')->setAllowedTypes('regimeMatrimonial', ['string'])
-                    ->setRequired('csp')->setAllowedTypes('csp', ['string'])
+                    ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', Subscription::AVAILABLE_FAMILY_SITUATION)
+                    ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)
+                    ->setRequired('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)
+                    ->setRequired('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)
                     ->setRequired('profession')->setAllowedTypes('profession', ['string'])
-                    ->setRequired('codeNaf')->setAllowedTypes('codeNaf', ['string'])
+                    ->setRequired('codeNaf')->setAllowedValues('codeNaf', Subscription::AVAILABLE_NAF_CODE)
                     ->setRequired('siret')->setAllowedTypes('siret', ['int'])
                     ->setRequired('nomEmployeur')->setAllowedTypes('nomEmployeur', ['string'])
-                    ->setRequired('cspDerniereProfession')->setAllowedTypes('cspDerniereProfession', ['string'])
-                    ->setRequired('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\DateTime'])
+                    ->setRequired('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', Subscription::AVAILABLE_CSPS_CODE)
+                    ->setRequired('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\DateTime'])->setNormalizer('dateDebutInactivite', function(Options $options, $value) {
+                        return $value->format('Y-m-d');
+                    })
                 ;
 
                 return $resolver->resolve($value);
@@ -617,8 +650,10 @@ class GeneraliHttpClient
             ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePieceIdentite')->setAllowedTypes('codePieceIdentite', ['string'])
-                    ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])
+                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)
+                    ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
+                        return $value->format('Y-m-d');
+                    })
                 ;
 
                 return $resolver->resolve($value);
