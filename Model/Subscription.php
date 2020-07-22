@@ -380,6 +380,7 @@ class Subscription
     public const INCOME_BRACKETS_SLICE_4 = 'slice_4';
     public const INCOME_BRACKETS_SLICE_5 = 'slice_5';
     public const INCOME_BRACKETS_SLICE_6 = 'slice_6';
+    public const INCOME_BRACKETS_SLICE_7 = 'slice_7';
 
     public const INCOME_BRACKETS_MAP = [
         self::INCOME_BRACKETS_SLICE_1 =>[
@@ -432,6 +433,7 @@ class Subscription
         self::INCOME_BRACKETS_SLICE_4,
         self::INCOME_BRACKETS_SLICE_5,
         self::INCOME_BRACKETS_SLICE_6,
+        self::INCOME_BRACKETS_SLICE_7,
     ];
 
     /**
@@ -649,7 +651,7 @@ class Subscription
         ],
     ];
 
-    public const AVAILABLE_FUNDS_ORIGIN_MAP = [
+    public const AVAILABLE_FUNDS_ORIGIN = [
         self::FUNDS_ORIGIN_INCOME,
         self::FUNDS_ORIGIN_HERITAGE,
         self::FUNDS_ORIGIN_DONATION,
@@ -1152,73 +1154,15 @@ class Subscription
         self::CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE,
     ];
 
-    public const PAYSRESIDENCEFISCALE = [
-        [
+    public const FISCALITY_RESIDENCE_COUNTRY_FRANCE = 'france';
+    
+    public const AVAILABLE_FISCALITY_RESIDENCE_COUNTRY = [
+        self::FISCALITY_RESIDENCE_COUNTRY_FRANCE,
+    ]; 
+    public const FISCALITY_RESIDENCE_COUNTRY_MAP = [
+        self::FISCALITY_RESIDENCE_COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
-        ], [
-            'code' => 'XXXXXGUADELOUPE',
-            'libelle' => 'GUADELOUPE',
-        ], [
-            'code' => 'XXXXXGUYANE',
-            'libelle' => 'GUYANE',
-        ], [
-            'code' => 'XXXXXMARTINIQUE',
-            'libelle' => 'MARTINIQUE',
-        ], [
-            'code' => 'XXXXXNOUVELLE-CALEDONIE',
-            'libelle' => 'NOUVELLE-CALEDONIE',
-        ], [
-            'code' => 'XXXXXPOLYNESIE FRANCAISE',
-            'libelle' => 'POLYNESIE FRANCAISE',
-        ], [
-            'code' => 'XXXXXREUNION',
-            'libelle' => 'REUNION',
-        ], [
-            'code' => '99109',
-            'libelle' => 'ALLEMAGNE',
-        ], [
-            'code' => '99110',
-            'libelle' => 'AUTRICHE',
-        ], [
-            'code' => '99131',
-            'libelle' => 'BELGIQUE',
-        ],[
-            'code' => '99101',
-            'libelle' => 'DANEMARK',
-        ],[
-            'code' => '99134',
-            'libelle' => 'ESPAGNE',
-        ], [
-            'code' => '99132GUERNESEY',
-            'libelle' => 'GUERNESEY',
-        ], [
-            'code' => '99136',
-            'libelle' => 'IRLANDE, OU EIRE',
-        ], [
-            'code' => '99127',
-            'libelle' => 'ITALIE',
-        ], [
-            'code' => '99132JERSEY',
-            'libelle' => 'JERSEY',
-        ], [
-            'code' => '99137',
-            'libelle' => 'LUXEMBOURG',
-        ], [
-            'code' => '99132MAN (ILE]',
-            'libelle' => 'MAN (ILE]',
-        ], [
-            'code' => '99135',
-            'libelle' => 'PAYS-BAS',
-        ], [
-            'code' => '99139',
-            'libelle' => 'PORTUGAL',
-        ], [
-            'code' => '99132ROYAUME-UNI',
-            'libelle' => 'ROYAUME-UNI',
-        ], [
-            'code' => 'AUTRE_PAYS',
-            'libelle' => 'Autre pays',
         ],
     ];
 
@@ -1400,6 +1344,7 @@ class Subscription
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MAJOR,
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MINOR,
     ];
+
     public const LEGAL_CAPACITY_MAP = [
         self::LEGAL_CAPACITY_LEGAL_CAPABLE_MAJOR => [
             'code' => '0',
