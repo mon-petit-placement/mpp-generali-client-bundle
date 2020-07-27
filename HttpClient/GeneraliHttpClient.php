@@ -571,7 +571,11 @@ class GeneraliHttpClient
             })
             ->setRequired('residenceFiscale')->setAllowedTypes('residenceFiscale', ['array'])->setNormalizer('residenceFiscale', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
-                $resolver->setRequired('codePays')->setAllowedTypes('codePays', ['string']);
+                $resolver
+                    ->setRequired('codePays')->setAllowedValues('codePays', Subscription::FISCALITY_RESIDENCE_COUNTRY_MAP)->setNormalizer('codePays', function (Options $options, $value){
+
+                    })
+                ;
 
                 return $resolver->resolve($value);
             })
@@ -684,8 +688,8 @@ class GeneraliHttpClient
             ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function(Options $options, $value){
-                        return Subscription::IDENTITY_DOC_MAP[$value]['code'];
+                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)->setNormalizer('codePieceIdentite', function(Options $options, $value){
+                        return Subscription::IDENTITY_DOC_2_MAP[$value];
                     })
                     ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
                         return $value->format('Y-m-d');
