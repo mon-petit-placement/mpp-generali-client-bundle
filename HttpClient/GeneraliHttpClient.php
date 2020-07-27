@@ -92,13 +92,15 @@ class GeneraliHttpClient
 
         $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->httpClient->request(
+        $response = $this->httpClient->request(
             'POST',
             sprintf('/epart/v2.0/transaction/%s/%s', Subscription::PRODUCTS_MAP[$product], Subscription::STEPS_MAP[$step]),
             [
                 'body'=> json_encode($resolvedParameters),
             ]
         );
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -239,7 +241,9 @@ class GeneraliHttpClient
                 $resolvedValues = [];
 
                 $resolver
-                    ->setDefined('code')->setAllowedTypes('code', ['string']) //Subscription::ORIGINESFONDS[$this->faker->numberBetween(1, count(Subscription::ORIGINESFONDS) - 1)]['code'],
+                    ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_FUNDS_ORIGIN)->setNormalizer('code', function (Options $options, $value){
+                        return Subscription::FUNDS_ORIGIN_MAP[$value]['code'];
+                    })
                     ->setDefined('montant')->setAllowedTypes('montant', ['int'])
                     ->setDefined('date')->setAllowedTypes('date', ['\DateTime'])->setNormalizer('date', function(Options $options, $value) {
                         return $value->format('Y-m-d');
@@ -282,7 +286,9 @@ class GeneraliHttpClient
 
         $resolver
             ->setDefined('denouement')->setAllowedTypes('denouement', ['string']) //Subscription::TYPESDENOUEMENT[$this->faker->numberBetween(0, count(Subscription::TYPESDENOUEMENT) - 1)]['code'],
-            ->setDefined('code')->setAllowedTypes('code', ['string']) //Subscription::CLAUSESBENEFS[$this->faker->numberBetween(0, count(Subscription::CLAUSESBENEFS) - 1)]['code'],
+            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_BENEFICIARY_CLAUSES)->setNormalizer('code', function (Options $options, $value){
+                return Subscription::BENEFICIARY_CLAUSES_MAP[$value]['code'];
+            })
             ->setDefined('texteLibre')->setAllowedTypes('texteLibre', ['string'])
         ;
 
@@ -358,7 +364,9 @@ class GeneraliHttpClient
 
                 return $resolvedValue;
             })
-            ->setRequired('jourPrelevement')->setAllowedVALUES('jourPrelevement', Subscription::AVAILABLE_BANK_DEBIT)
+            ->setRequired('jourPrelevement')->setAllowedVALUES('jourPrelevement', Subscription::AVAILABLE_BANK_DEBIT)->setNormalizer('jourPrelevement', function (Options $options, $value){
+                return Subscription::BANK_DEBIT_MAP[$value];
+            })
             ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])->setNormalizer('vlpMontant', function(Options $options, $value) {
                 $resolver = new OptionsResolver();
 
@@ -453,7 +461,9 @@ class GeneraliHttpClient
                         $resolver = new OptionsResolver();
 
                         $resolver
-                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)
+                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function (Options $options, $value){
+                                return Subscription::IDENTITY_DOC_MAP[$value]['code'];
+                            })
                             ->setDefined('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
                                 return $value->format('Y-m-d');
                             })
@@ -494,15 +504,21 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', Subscription::AVAILABLE_INCOME_BRACKETS)
-            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', Subscription::AVAILABLE_PERSONAL_ASSETS)
+            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('codeTrancheRevenu', function (Options $options, $value){
+                return Subscription::INCOME_BRACKETS_MAP[$value]['code'];
+            })
+            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('codeTranchePatrimoine', function (Options $options, $value){
+                return Subscription::PERSONAL_ASSETS_MAP[$value]['code'];
+            })
             ->setRequired('montantRevenu')->setAllowedTypes('montantRevenu', ['int'])
             ->setRequired('montantPatrimoine')->setAllowedTypes('montantPatrimoine', ['int'])
             ->setDefined('originePatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('originePatrimoniale', function(Options $options, $values){
                 $resolver = new OptionsResolver();
                 $resolvedValue = [];
                 $resolver
-                    ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_ORIGIN)
+                    ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_ORIGIN)->setNormalizer('code', function (Options $options, $value){
+                        return Subscription::HERITAGE_ORIGIN_MAP[$value]['code'];
+                    })
                     ->setRequired('precision')->setAllowedTypes('precision', ['string'])
                 ;
                 foreach ($values as $value){
@@ -515,7 +531,9 @@ class GeneraliHttpClient
                 $resolver = new OptionsResolver();
                 $resolvedValue = [];
                 $resolver
-                    ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_DISTRIBUTION)
+                    ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_DISTRIBUTION)->setNormalizer('code', function (Options $options, $value){
+                        return Subscription::HERITAGE_DISTRIBUTION_MAP[$value]['code'];
+                    })
                     ->setRequired('pourcentage')->setAllowedTypes('pourcentage', ['int', 'float'])
                     ->setRequired('precision')->setAllowedTypes('precision', ['string'])
                 ;
@@ -541,7 +559,9 @@ class GeneraliHttpClient
             ->setRequired('noms')->setAllowedTypes('noms', ['array'])->setNormalizer('noms', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', Subscription::AVAILABLE_CIVILITY)
+                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', Subscription::AVAILABLE_CIVILITY)->setNormalizer('codeCivilite', function (Options $options, $value){
+                        return Subscription::CIVILITY_MAP[$value]['code'];
+                    })
                     ->setRequired('prenom')->setAllowedTypes('prenom', ['string'])
                     ->setRequired('nom')->setAllowedTypes('nom', ['string'])
                     ->setDefined('nomNaissance')->setAllowedTypes('nomNaissance', ['string'])
@@ -551,16 +571,16 @@ class GeneraliHttpClient
             })
             ->setRequired('residenceFiscale')->setAllowedTypes('residenceFiscale', ['array'])->setNormalizer('residenceFiscale', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
-                $resolver
-                    ->setRequired('codePays')->setAllowedTypes('codePays', ['string'])
-                ;
+                $resolver->setRequired('codePays')->setAllowedTypes('codePays', ['string']);
 
                 return $resolver->resolve($value);
             })
             ->setRequired('naissance')->setAllowedTypes('naissance', ['array'])->setNormalizer('naissance', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('dateNaissance')->setAllowedTypes('dateNaissance', ['\DateTime'])
+                    ->setRequired('dateNaissance')->setAllowedTypes('dateNaissance', ['\DateTime'])->setNormalizer('dateNaissance', function (Options $options, $value){
+                        return $value->format('Y-m-d');
+                    })
                     ->setRequired('lieuNaissance')->setAllowedTypes('lieuNaissance', ['string'])
                     ->setRequired('paysNaissance')->setAllowedTypes('paysNaissance', ['string'])
                     ->setDefined('codeDepartementNaissance')->setAllowedTypes('codeDepartementNaissance', ['string'])
@@ -574,15 +594,27 @@ class GeneraliHttpClient
             ->setDefined('complement')->setAllowedTypes('complement', ['array'])->setNormalizer('complement', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', Subscription::AVAILABLE_FAMILY_SITUATION)
-                    ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)
-                    ->setRequired('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)
-                    ->setRequired('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)
+                    ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', Subscription::AVAILABLE_FAMILY_SITUATION)->setNormalizer('situationFamiliale', function (Options $options, $value){
+                        return Subscription::FAMILY_SITUATION_MAP[$value]['code'];
+                    })
+                    ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('situationProfessionnelle', function (Options $options, $value){
+                        return Subscription::PROFESSIONAL_SITUATION_MAP[$value]['code'];
+                    })
+                    ->setRequired('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('regimeMatrimonial', function (Options $options, $value){
+                        return Subscription::MATRIMONIAL_REGIME_MAP[$value]['code'];
+                    })
+                    ->setRequired('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value){
+                        return Subscription::CSPS_CODE_MAP[$value]['code'];
+                    })
                     ->setRequired('profession')->setAllowedTypes('profession', ['string'])
-                    ->setRequired('codeNaf')->setAllowedValues('codeNaf', Subscription::AVAILABLE_NAF_CODE)
+                    ->setRequired('codeNaf')->setAllowedValues('codeNaf', Subscription::AVAILABLE_NAF_CODE)->setNormalizer('codeNaf', function (Options $options, $value){
+                        return Subscription::NAF_CODE_MAP[$value]['code'];
+                    })
                     ->setRequired('siret')->setAllowedTypes('siret', ['int'])
                     ->setRequired('nomEmployeur')->setAllowedTypes('nomEmployeur', ['string'])
-                    ->setRequired('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', Subscription::AVAILABLE_CSPS_CODE)
+                    ->setRequired('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('cspDerniereProfession', function (Options $options, $value){
+                        return Subscription::CSPS_CODE_MAP[$value]['code'];
+                    })
                     ->setRequired('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\DateTime'])->setNormalizer('dateDebutInactivite', function(Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
@@ -602,7 +634,9 @@ class GeneraliHttpClient
                             ->setDefined('adresse3LibelleVoie')->setAllowedTypes('adresse3LibelleVoie', ['string'])
                             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
                             ->setDefined('commune')->setAllowedTypes('commune', ['string'])
-                            ->setDefined('codePays')->setAllowedTypes('codePays', ['string'])
+                            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_ADDRESS_COUNTRY)->setNormalizer('codePays', function( Options $options, $value){
+                                return Subscription::ADDRESS_COUNTRY_MAP[$value]['code'];
+                            })
                             ->setDefined('nePasNormaliser')->setAllowedTypes('nePasNormaliser', ['bool'])
                         ;
 
@@ -650,7 +684,9 @@ class GeneraliHttpClient
             ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)
+                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function(Options $options, $value){
+                        return Subscription::IDENTITY_DOC_MAP[$value]['code'];
+                    })
                     ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
@@ -658,7 +694,9 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('capaciteJuridique')->setAllowedTypes('capaciteJuridique', ['string'])
+            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value){
+                return Subscription::LEGAL_CAPACITY_MAP[$value]['code'];
+            })
         ;
 
         return $resolver->resolve($value);
