@@ -873,8 +873,8 @@ class Subscription
 
     public const NAF_CODE_MAP = [
         self::CODE_NAF_AGRICULTURE_FORESTRY_FISHING =>[
-               'code' => '1',
-               'libelle' => 'Agriculture, sylviculture et pêche',
+            'code' => '1',
+            'libelle' => 'Agriculture, sylviculture et pêche',
            ],
         self::CODE_NAF_EXTRACTIVE_INDUSTRY =>[
             'code' => '2',
