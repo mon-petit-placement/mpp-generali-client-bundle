@@ -39,12 +39,14 @@ class Subscription
     public const PRODUCT_FREE_PAYMENT = 'free_payment';
     public const PRODUCT_SCHEDULED_FREE_PAYMENT = 'scheduled_free_payment';
     public const PRODUCT_ARBITRATION = 'arbitration';
+    public const PRODUCT_PARTIAL_SURRENDER = 'partial_surrender';
 
     public const PRODUCTS_MAP = [
         self::PRODUCT_SUBSCRIPTION => 'souscription',
         self::PRODUCT_FREE_PAYMENT => 'versementLibre',
         self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'versementsLibresProgrammes',
         self::PRODUCT_ARBITRATION => 'arbitrage',
+        self::PRODUCT_PARTIAL_SURRENDER => 'rachatpartiel',
     ];
 
     public const AVAILABLE_PRODUCTS = [
@@ -52,6 +54,7 @@ class Subscription
         self::PRODUCT_FREE_PAYMENT,
         self::PRODUCT_SCHEDULED_FREE_PAYMENT,
         self::PRODUCT_ARBITRATION,
+        self::PRODUCT_PARTIAL_SURRENDER,
     ];
 
     /**
@@ -1395,16 +1398,11 @@ class Subscription
 
     public const AVAILABLE_FISCALITY_COUNTRY = [
       self::FISCALITY_COUNTRY_FRANCE,
-      self::FISCALITY_COUNTRY_GUYANA,
     ];
     public const FISCALITY_COUNTRY_MAP = [
         self::FISCALITY_COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
-        ],
-        self::FISCALITY_COUNTRY_GUYANA => [
-            'code' => 'XXXXXGUADELOUPE',
-            'libelle' => 'GUADELOUPE',
         ],
     ];
 
