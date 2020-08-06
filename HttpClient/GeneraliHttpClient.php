@@ -773,7 +773,7 @@ class GeneraliHttpClient
 
         $resolver
             ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
-            ->setRequired('codeSubscription')->setAllowedTypes('codeSubscription', 'string')
+            ->setRequired('codeSouscription')->setAllowedTypes('codeSouscription', 'string')
             ->setDefined('elementsAttendus', [])->setAllowedTypes('elementsAttendus', ['array'])
         ;
 
