@@ -41,21 +41,25 @@ class GeneraliHttpClient
         switch ($product){
             case Subscription::PRODUCT_SUBSCRIPTION:
                 $this->configureSubscriptionParameters($resolver);
+//                dump($resolver->resolve($parameters));
                 break;
             case Subscription::PRODUCT_FREE_PAYMENT:
                 $this->configureFreePaymentParameters($resolver);
                 break;
             case Subscription::PRODUCT_SCHEDULED_FREE_PAYMENT:
                 $this->configureScheduledFreePaymentParameters($resolver);
+//                dump(json_encode($resolver->resolve($parameters)));
                 break;
             case Subscription::PRODUCT_ARBITRATION:
                 $this->configureArbitrationParameters($resolver);
+//                dump(json_encode($resolver->resolve($parameters)));
                 break;
             case Subscription::PRODUCT_PARTIAL_SURRENDER:
                 $this->configurePartialSurrender($resolver);
-                dump(json_encode($resolver->resolve($parameters)));
+//                dump(json_encode($resolver->resolve($parameters)));
                 break;
         }
+
         $resolvedParameters = $resolver->resolve($parameters);
         
         return $this->runStep(Subscription::STEP_INITIATE, $product,  $resolvedParameters);
@@ -176,13 +180,14 @@ class GeneraliHttpClient
 
         $file = new UploadedFile($path.$fileName, $fileName);
         $url = sprintf('/epart/v1.0/transaction/fournirPiece/%s/%s', $idTransaction, $document['idPieceAFournir']);
-        $request = $this->httpClient->post(
+        $request = $this->httpClient->request('POST',
             $url,
             [
-                'form-data' => [
+                'multipart' => [
                     [
                         'name'     => $document['libelle'],
                         'contents' => $file,
+                        'Type-Mime'=> 'application/pdf',
                     ]
                 ]
             ]
@@ -246,9 +251,7 @@ class GeneraliHttpClient
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('typeDuree')->setAllowedTypes('typeDuree', ['string'])
-                    ->setDefined('dureeNecessaire')->setAllowedTypes('dureeNecessaire', ['bool'])
-                    ->setDefined('dureeMin')->setAllowedTypes('dureeMin', ['int'])
-                    ->setDefined('dureeMax')->setAllowedTypes('dureeMax', ['int'])
+                    ->setDefined('duree')->setAllowedTypes('duree', ['int'])
                 ;
 
                 return $resolver->resolve($value);
@@ -257,10 +260,6 @@ class GeneraliHttpClient
             ->setDefined('clauseBeneficiaireDeces')->setAllowedTypes('clauseBeneficiaireDeces', ['array'])->setNormalizer('clauseBeneficiaireDeces', function(Options $options, $value) {
                 return $this->resolveClauseBeneficiaireDeces($value);
             })
-            ->setDefault('ouvrirAccesEnLigne', true)->setAllowedTypes('ouvrirAccesEnLigne', ['bool'])
-
-
-
 
             ->setDefined('modeGestion')->setAllowedTypes('modeGestion', ['array'])->setNormalizer('modeGestion', function(Options $options, $value) {
                 return $this->resolveModeGestion($value);
@@ -306,12 +305,12 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setDefined('adresse1PointRemise', '')->setAllowedTypes('adresse1PointRemise', ['string'])
-            ->setDefined('adresse2PointGeographique', '')->setAllowedTypes('adresse2PointGeographique', ['string'])
+            ->setDefined('adresse1PointRemise')->setAllowedTypes('adresse1PointRemise', ['string'])
+            ->setDefined('adresse2PointGeographique')->setAllowedTypes('adresse2PointGeographique', ['string'])
             ->setDefined('adresse3LibelleVoie')->setAllowedTypes('adresse3LibelleVoie', ['string'])
-            ->setDefined('adresse4LieuDitBP', '')->setAllowedTypes('adresse4LieuDitBP', ['string'])
+            ->setDefined('adresse4LieuDitBP')->setAllowedTypes('adresse4LieuDitBP', ['string'])
             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
-            ->setDefined('commune', '')->setAllowedTypes('commune', ['string'])
+            ->setDefined('commune')->setAllowedTypes('commune', ['string'])
             ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function(Options $options, $value){
                 return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
             })
@@ -690,9 +689,9 @@ class GeneraliHttpClient
                     ->setRequired('adressePostale')->setAllowedTypes('adressePostale', ['array'])->setNormalizer('adressePostale', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
                         $resolver
-                            ->setDefined('adresse1PointRemise', '')->setAllowedTypes('adresse1PointRemise', ['string'])
-                            ->setDefined('adresse2PointGeographique', '')->setAllowedTypes('adresse2PointGeographique', ['string'])
-                            ->setDefined('adresse4LieuDitBP', '')->setAllowedTypes('adresse4LieuDitBP', ['string'])
+                            ->setDefined('adresse1PointRemise')->setAllowedTypes('adresse1PointRemise', ['string'])
+                            ->setDefined('adresse2PointGeographique')->setAllowedTypes('adresse2PointGeographique', ['string'])
+                            ->setDefined('adresse4LieuDitBP')->setAllowedTypes('adresse4LieuDitBP', ['string'])
                             ->setDefined('adresse3LibelleVoie')->setAllowedTypes('adresse3LibelleVoie', ['string'])
                             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
                             ->setDefined('commune')->setAllowedTypes('commune', ['string'])
@@ -1040,7 +1039,7 @@ class GeneraliHttpClient
                 $resolvedValue = [];
                 foreach($values as $value)
                 {
-                    $resolvedValue[]= $this->resolveFond($value);
+                    $resolvedValues[]= $this->resolveFond($value);
                 }
                 return $resolvedValue;
             })
@@ -1193,7 +1192,7 @@ class GeneraliHttpClient
             });
         $resolvedValue = [];
         foreach ($values as $value) {
-            $resolvedValue[] = $resolver->resolve($value);
+            $resolvedValues[] = $resolver->resolve($value);
         }
 
         return $resolvedValue;
@@ -1212,7 +1211,7 @@ class GeneraliHttpClient
             });
         $resolvedValue = [];
         foreach ($values as $value) {
-            $resolvedValue[] = $resolver->resolve($value);
+            $resolvedValues[] = $resolver->resolve($value);
         }
 
         return $resolvedValue;
@@ -1241,10 +1240,10 @@ class GeneraliHttpClient
                 $resolver
                     ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
                     ->setRequired('numContrat')->setAllowedTypes('numContrat', ['string'])
-                    ->setRequired('codeCompagnie')->setAllowedTypes('codeCompagnie', ['string'])
-                    ->setRequired('codePortefeuille')->setAllowedTypes('codePortefeuille', ['string'])
-                    ->setRequired('utilisateur')->setAllowedTypes('utilisateur', ['string'])
-                    ->setRequired('numeroOrdreTransactionLiee')->setAllowedTypes('numeroOrdreTransactionLiee', ['string'])
+                    ->setDefined('codeCompagnie')->setAllowedTypes('codeCompagnie', ['string'])
+                    ->setDefined('codePortefeuille')->setAllowedTypes('codePortefeuille', ['string'])
+                    ->setDefined('utilisateur')->setAllowedTypes('utilisateur', ['string'])
+                    ->setDefined('numeroOrdreTransactionLiee')->setAllowedTypes('numeroOrdreTransactionLiee', ['string'])
                     ->setDefined('elementsAttendus')->setAllowedTypes('elementsAttendus', ['array'])
                 ;
 
