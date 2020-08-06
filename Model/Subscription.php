@@ -531,27 +531,43 @@ class Subscription
     public const FUNDS_ORIGIN_ASSOCIATED_CURRENT_ACCOUNT = '15';
     public const FUNDS_ORIGIN_ASSIGNMENT_WORK_ART = '16';
 
+    public const FUNDS_ORIGIN_PONCTUAL_BONUS = '3';
+    public const FUNDS_ORIGIN_ANNUITY = '4';
+    public const FUNDS_ORIGIN_ACTIVITY_INCOME = '1';
+    public const FUNDS_ORIGIN_PROPERTY_INCOME = '2';
+
+    public const FUNDS_ORIGIN_INCOME_MAP = [
+         self::FUNDS_ORIGIN_PONCTUAL_BONUS => [
+             'code' => '3',
+             'libelle' => 'Prime ponctuelle / Indemnités',
+         ],
+        self::FUNDS_ORIGIN_ANNUITY => [
+            'code' => '4',
+            'libelle' => 'Rente',
+        ],
+        self::FUNDS_ORIGIN_ACTIVITY_INCOME => [
+            'code' => '1',
+            'libelle' => 'Revenu de l\'activité',
+        ],
+        self::FUNDS_ORIGIN_PROPERTY_INCOME =>[
+            'code' => '2',
+            'libelle' => 'Revenus locatifs - fonciers',
+        ]
+    ];
+
+    public const AVAILABLE_FUNDS_ORIGIN_INCOME = [
+        self::FUNDS_ORIGIN_PONCTUAL_BONUS,
+        self::FUNDS_ORIGIN_ANNUITY,
+        self::FUNDS_ORIGIN_ACTIVITY_INCOME,
+        self::FUNDS_ORIGIN_PROPERTY_INCOME
+    ];
+
     public const FUNDS_ORIGIN_MAP = [
         self::FUNDS_ORIGIN_INCOME => [
             'code' => '1',
             'libelle' => 'Revenus',
             'dateNecessaire' => false,
             'commentaireNecessaire' => false,
-            'detail' => [
-                [
-                    'code' => '3',
-                    'libelle' => 'Prime ponctuelle / Indemnités',
-                ], [
-                    'code' => '4',
-                    'libelle' => 'Rente',
-                ], [
-                    'code' => '1',
-                    'libelle' => 'Revenu de l\'activité',
-                ], [
-                    'code' => '2',
-                    'libelle' => 'Revenus locatifs - fonciers',
-                ],
-            ],
             'bloquantDemat' => false,
         ],
         self::FUNDS_ORIGIN_HERITAGE => [
@@ -1977,8 +1993,15 @@ class Subscription
         ],
     ];
 
-    public const PAYSNAISSANCE = [
-        [
+    public const COUNTRY_FRANCE = 'france';
+    public const COUNTRY_AFGHANISTAN = 'afghanistan';
+
+    public const AVAILABLE_COUNTRY = [
+        self::COUNTRY_FRANCE,
+        self::COUNTRY_AFGHANISTAN,
+    ];
+    public const COUNTRY_MAP = [
+        self::COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
             'departements' => [
@@ -2295,8 +2318,14 @@ class Subscription
                     'code' => '986',
                     'libelle' => 'Wallis et Futuna',
                 ]
+            ],
+
+        ],
+        self::COUNTRY_AFGHANISTAN =>
+            [
+                "code" => "99212AFGHANISTAN",
+                "libelle" => "AFGHANISTAN"
             ]
-        ]
     ];
     /**
      * ADDRESS COUNTRY
