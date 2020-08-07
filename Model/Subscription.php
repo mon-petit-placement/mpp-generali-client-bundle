@@ -531,20 +531,12 @@ class Subscription
     public const FUNDS_ORIGIN_ASSOCIATED_CURRENT_ACCOUNT = '15';
     public const FUNDS_ORIGIN_ASSIGNMENT_WORK_ART = '16';
 
-    public const FUNDS_ORIGIN_PONCTUAL_BONUS = '3';
-    public const FUNDS_ORIGIN_ANNUITY = '4';
     public const FUNDS_ORIGIN_ACTIVITY_INCOME = '1';
     public const FUNDS_ORIGIN_PROPERTY_INCOME = '2';
+    public const FUNDS_ORIGIN_PONCTUAL_BONUS = '3';
+    public const FUNDS_ORIGIN_ANNUITY = '4';
 
     public const FUNDS_ORIGIN_INCOME_MAP = [
-         self::FUNDS_ORIGIN_PONCTUAL_BONUS => [
-             'code' => '3',
-             'libelle' => 'Prime ponctuelle / Indemnités',
-         ],
-        self::FUNDS_ORIGIN_ANNUITY => [
-            'code' => '4',
-            'libelle' => 'Rente',
-        ],
         self::FUNDS_ORIGIN_ACTIVITY_INCOME => [
             'code' => '1',
             'libelle' => 'Revenu de l\'activité',
@@ -552,7 +544,16 @@ class Subscription
         self::FUNDS_ORIGIN_PROPERTY_INCOME =>[
             'code' => '2',
             'libelle' => 'Revenus locatifs - fonciers',
-        ]
+        ],
+        self::FUNDS_ORIGIN_PONCTUAL_BONUS => [
+             'code' => '3',
+             'libelle' => 'Prime ponctuelle / Indemnités',
+         ],
+        self::FUNDS_ORIGIN_ANNUITY => [
+            'code' => '4',
+            'libelle' => 'Rente',
+        ],
+
     ];
 
     public const AVAILABLE_FUNDS_ORIGIN_INCOME = [

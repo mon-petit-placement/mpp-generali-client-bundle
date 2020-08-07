@@ -43,6 +43,7 @@ class GeneraliHttpClient
                     ->setDefined('numContrat')->setAllowedTypes('numContrat', ['string'])
                     ->setDefined('elementsAttendus')->setAllowedTypes('elementsAttendus', ['array'])
                 ;
+
                 return $resolver->resolve($value);
             })
         ;
@@ -52,8 +53,7 @@ class GeneraliHttpClient
             sprintf(
                 '/epart/v2.0/transaction/%s/donnees',
                 Subscription::PRODUCTS_MAP[$product]
-            ),
-            [
+            ), [
                 'body'=> json_encode($resolvedParameters),
             ]
         );
@@ -90,8 +90,7 @@ class GeneraliHttpClient
                 break;
         }
         $resolvedParameters = $resolver->resolve($parameters);
-        dump(json_encode($resolvedParameters));
-        
+
         return $this->runStep(Subscription::STEP_INITIATE, $product,  $resolvedParameters);
     }
 
@@ -132,7 +131,8 @@ class GeneraliHttpClient
             ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('statut')->setAllowedTypes('statut', ['string']);
+                    ->setRequired('statut')->setAllowedTypes('statut', ['string'])
+                ;
 
                 return $resolver->resolve($value);
             })
@@ -201,8 +201,7 @@ class GeneraliHttpClient
                 $path .= '/'.$parameters['contexte']['numContrat'];
             }
         }
-        $response = $this->httpClient->request(
-            'POST',
+        $response = $this->httpClient->post(
             $path,
             [
                 'body'=> json_encode($parameters),
@@ -227,9 +226,7 @@ class GeneraliHttpClient
 
         $file = new UploadedFile($path.$fileName, $fileName);
         $url = sprintf('/epart/v1.0/transaction/fournirPiece/%s/%s', $idTransaction, $document['idPieceAFournir']);
-        $request = $this->httpClient->request('POST',
-            $url,
-            [
+        $request = $this->httpClient->post($url, [
                 'multipart' => [
                     [
                         'name'     => $document['libelle'],
@@ -335,7 +332,6 @@ class GeneraliHttpClient
             ->setDefined('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function(Options $options, $value) {
                 return $this->resolveReglement($value);
             })
-
         ;
 
         return $resolver->resolve($value);
@@ -1002,6 +998,7 @@ class GeneraliHttpClient
                 foreach ($values as $value){
                    $resolvedValues[] = Subscription::FUNDS_ORIGIN_INCOME_MAP[$value]['code'];
                }
+
                 return $resolvedValues;
             })
             ->setDefined('montant')->setAllowedTypes('montant', ['int'])
@@ -1223,7 +1220,8 @@ class GeneraliHttpClient
             })
             ->setRequired('arbitrage')->setAllowedTypes('arbitrage', ['array'])->setNormalizer('arbitrage', function (Options $options, $value) {
                 return $this->resolveArbitrage($value);
-            });
+            })
+        ;
     }
 
     /**
@@ -1245,7 +1243,6 @@ class GeneraliHttpClient
             ->setDefined('mandatTransmissionOrdre')->setAllowedTypes('mandatTransmissionOrdre', ['bool'])
             ->setDefined('mandatArbitrage')->setAllowedTypes('mandatArbitrage', ['bool'])
             ->setRequired('fondsInvestis')->setAllowedTypes('fondsInvestis', ['array'])->setNormalizer('fondsInvestis', function (Options $options, $values) {
-
                 $resolver = new OptionsResolver();
                 $resolvedValues = [];
                 foreach ($values as $value)
@@ -1258,8 +1255,7 @@ class GeneraliHttpClient
             ->setDefined('fondsDesinvestis')->setAllowedTypes('fondsDesinvestis', ['array'])->setNormalizer('fondsDesinvestis', function (Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolvedValues = [];
-                foreach ($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValues[] = $this->resolveFondsDesInvestis($value);
                 }
 
@@ -1280,7 +1276,9 @@ class GeneraliHttpClient
         $resolver
             ->setDefined('fondsInvesti')->setAllowedTypes('fondsInvesti', ['array'])->setNormalizer('fondsInvesti', function (Options $options, $value) {
                 return $this->resolveFond($value);
-            });
+            })
+        ;
+
        return $resolver->resolve($value);
     }
 
