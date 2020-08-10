@@ -160,17 +160,96 @@ class GeneraliHttpClient
     public function finalize(string $product, array $parameters)
     {
         $resolver = new OptionsResolver();
-        $resolver->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
-            $resolver = new OptionsResolver();
-            $resolver
-                ->setRequired('idTransaction')->setAllowedTypes('idTransaction', ['string']);
-            return $resolver->resolve($value);
-        });
+        $resolver
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
+                $resolver = new OptionsResolver();
+                $resolver
+                    ->setRequired('idTransaction')->setAllowedTypes('idTransaction', ['string']);
+                return $resolver->resolve($value);
+            });
         $resolvedParameters = $resolver->resolve($parameters);
 
         return $this->runStep(Subscription::STEP_FINALIZE, $product,  $resolvedParameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function suspendScheduledFreePayment(array $parameters)
+    {
+        $resolver = new OptionsResolver();
+        $resolver
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
+                return $this->resolveContext($value);
+            })
+        ;
+        $resolvedParameters = $resolver->resolve($parameters);
+
+        return $this->runSpecificStep(Subscription::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND, $resolvedParameters);
+    }
+
+    /**
+     * @param string $step
+     * @param string $product
+     * @param array $parameters
+     * @param string|null $path
+     */
+    private function runSpecificStep(string $step, array $parameters)
+    {
+        $path = sprintf(
+            '/epart/v1.0/transaction/%s/%s',
+            Subscription::STEP_SCHEDULED_FREE_PAYMENT_MAP[$step],
+            $parameters['contexte']['numContrat']
+        );
+
+        return $this->call($path, $parameters);
+    }
+
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     */
+    public function initiateScheduledFreePaymentEdition(array $parameters)
+    {
+        $resolver = new OptionsResolver();
+        $resolvedParameters = $this->resolveContext($parameters);
+
+       return $this->runSpecificStep(Subscription::STEP_SCHEDULED_FREE_PAYMENT_INITIATE, $resolvedParameters);
+    }
+
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     */
+    public function checkScheduledFreePaymentEdition(array $parameters)
+    {
+        $resolver = new OptionsResolver();
+        $resolvedParameters = $this->resolveContext($parameters);
+
+       return $this->runSpecificStep(Subscription::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE, $resolvedParameters);
+    }
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     */
+    public function confirmScheduledFreePaymentEdition(array $parameters)
+    {
+        $resolver = new OptionsResolver();
+        $resolver
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
+                return $this->resolveContext($value);
+            })
+        ;
+
+        $resolvedParameters = $resolver->resolve($parameters);
+
+       return $this->runSpecificStep(Subscription::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE, $resolvedParameters);
+    }
 
     /**
      * @param string $step
@@ -190,23 +269,34 @@ class GeneraliHttpClient
         $path = sprintf('/epart/v2.0/transaction/%s/%s', Subscription::PRODUCTS_MAP[$product], Subscription::STEPS_MAP[$step]);
 
         if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER){
-
             $path = sprintf(
                 '/epart/v1.0/transaction/%s/%s',
                 Subscription::PRODUCTS_MAP[$product],
                 Subscription::STEPS_MAP[$step],
-                );
-
+                )
+            ;
             if ($step === Subscription::STEP_INITIATE){
                 $path .= '/'.$parameters['contexte']['numContrat'];
             }
         }
+
+        return $this->call($path, $parameters);
+    }
+
+    /**
+     * @param string $path
+     * @param array $parameters
+     * @return mixed
+     */
+    private function call(string $path, array $parameters)
+    {
         $response = $this->httpClient->post(
             $path,
             [
                 'body'=> json_encode($parameters),
             ]
         );
+
         return json_decode($response->getBody()->getContents(), true);
     }
 
@@ -839,7 +929,8 @@ class GeneraliHttpClient
 
         $resolver
             ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
-            ->setRequired('codeSouscription')->setAllowedTypes('codeSouscription', 'string')
+            ->setDefined('numContrat')->setAllowedTypes('numContrat', ['string'])
+            ->setDefined('codeSouscription')->setAllowedTypes('codeSouscription', 'string')
             ->setDefined('elementsAttendus', [])->setAllowedTypes('elementsAttendus', ['array'])
         ;
 

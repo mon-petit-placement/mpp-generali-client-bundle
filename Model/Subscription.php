@@ -32,6 +32,29 @@ class Subscription
         SELF::STEP_CONFIRM,
         SELF::STEP_FINALIZE,
     ];
+
+    /**
+     * SPECIFIC STEP FOR SCHEDULED FREE PAYMENT
+     */
+    public const STEP_SCHEDULED_FREE_PAYMENT_SUSPEND = 'suspend';
+    public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE = 'initiate_edit';
+    public const STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE = 'check_edit';
+    public const STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE = 'confirm_edit';
+
+    public const STEP_SCHEDULED_FREE_PAYMENT_MAP = [
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND => "suspensionVersementsLibresProgrammes",
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE => "modificationVersementsLibresProgrammes/initier",
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE => "modificationVersementsLibresProgrammes/verifier",
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE => "modificationVersementsLibresProgrammes/confirmer",
+    ];
+
+    public const AVAILABLE_STEPS_SCHEDULED_FREE_PAYMENT = [
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE,
+    ];
+
     /**
      * PRODUCTS
      */
