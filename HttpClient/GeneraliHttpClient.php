@@ -344,7 +344,11 @@ class GeneraliHttpClient
             sprintf(
                 '/epart/v1.0/transaction/piecesAFournir/list/%s/%s',
                 $idTransaction,
+<<<<<<< HEAD
                 strtoupper(Subscription::PRODUCTS_FILES_MAP[$product])
+=======
+                strtoupper(Subscription::PRODUCTS_MAP[$product])
+>>>>>>> 1fdee5560009a49a01344e90791775bb4da745de
             )
         );
         return json_decode($request->getBody()->getContents(), true);
@@ -1122,7 +1126,11 @@ class GeneraliHttpClient
             ->setDefined('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('regimeMatrimonial', function (Options $options, $value){
                 return Subscription::MATRIMONIAL_REGIME_MAP[$value]['code'];
             })
+<<<<<<< HEAD
             ->setDefined('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value){
+=======
+            ->setRequired('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value){
+>>>>>>> 1fdee5560009a49a01344e90791775bb4da745de
                 return Subscription::CSPS_CODE_MAP[$value]['code'];
             })
             ->setRequired('profession')->setAllowedTypes('profession', ['string'])
