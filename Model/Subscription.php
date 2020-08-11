@@ -32,6 +32,29 @@ class Subscription
         SELF::STEP_CONFIRM,
         SELF::STEP_FINALIZE,
     ];
+
+    /**
+     * SPECIFIC STEP FOR SCHEDULED FREE PAYMENT
+     */
+    public const STEP_SCHEDULED_FREE_PAYMENT_SUSPEND = 'suspend';
+    public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE = 'initiate_edit';
+    public const STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE = 'check_edit';
+    public const STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE = 'confirm_edit';
+
+    public const STEP_SCHEDULED_FREE_PAYMENT_MAP = [
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND => "suspensionVersementsLibresProgrammes",
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE => "modificationVersementsLibresProgrammes/initier",
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE => "modificationVersementsLibresProgrammes/verifier",
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE => "modificationVersementsLibresProgrammes/confirmer",
+    ];
+
+    public const AVAILABLE_STEPS_SCHEDULED_FREE_PAYMENT = [
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE,
+    ];
+
     /**
      * PRODUCTS
      */
@@ -39,12 +62,20 @@ class Subscription
     public const PRODUCT_FREE_PAYMENT = 'free_payment';
     public const PRODUCT_SCHEDULED_FREE_PAYMENT = 'scheduled_free_payment';
     public const PRODUCT_ARBITRATION = 'arbitration';
+    public const PRODUCT_PARTIAL_SURRENDER = 'partial_surrender';
 
     public const PRODUCTS_MAP = [
         self::PRODUCT_SUBSCRIPTION => 'souscription',
         self::PRODUCT_FREE_PAYMENT => 'versementLibre',
         self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'versementsLibresProgrammes',
         self::PRODUCT_ARBITRATION => 'arbitrage',
+        self::PRODUCT_PARTIAL_SURRENDER => 'rachatpartiel',
+    ];
+
+    public const PRODUCTS_FILES_MAP = [
+        self::PRODUCT_SUBSCRIPTION => 'SOUSCRIPTION',
+        self::PRODUCT_FREE_PAYMENT => 'VERSEMENT_LIBRE',
+        self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'CREATION_VERSEMENT_LIBRE_PROGRAMME',
     ];
 
     public const AVAILABLE_PRODUCTS = [
@@ -52,6 +83,7 @@ class Subscription
         self::PRODUCT_FREE_PAYMENT,
         self::PRODUCT_SCHEDULED_FREE_PAYMENT,
         self::PRODUCT_ARBITRATION,
+        self::PRODUCT_PARTIAL_SURRENDER,
     ];
 
     /**
@@ -380,6 +412,7 @@ class Subscription
     public const INCOME_BRACKETS_SLICE_4 = 'slice_4';
     public const INCOME_BRACKETS_SLICE_5 = 'slice_5';
     public const INCOME_BRACKETS_SLICE_6 = 'slice_6';
+    public const INCOME_BRACKETS_SLICE_7 = 'slice_7';
 
     public const INCOME_BRACKETS_MAP = [
         self::INCOME_BRACKETS_SLICE_1 =>[
@@ -432,6 +465,7 @@ class Subscription
         self::INCOME_BRACKETS_SLICE_4,
         self::INCOME_BRACKETS_SLICE_5,
         self::INCOME_BRACKETS_SLICE_6,
+        self::INCOME_BRACKETS_SLICE_7,
     ];
 
     /**
@@ -526,27 +560,44 @@ class Subscription
     public const FUNDS_ORIGIN_ASSOCIATED_CURRENT_ACCOUNT = '15';
     public const FUNDS_ORIGIN_ASSIGNMENT_WORK_ART = '16';
 
+    public const FUNDS_ORIGIN_ACTIVITY_INCOME = '1';
+    public const FUNDS_ORIGIN_PROPERTY_INCOME = '2';
+    public const FUNDS_ORIGIN_PONCTUAL_BONUS = '3';
+    public const FUNDS_ORIGIN_ANNUITY = '4';
+
+    public const FUNDS_ORIGIN_INCOME_MAP = [
+        self::FUNDS_ORIGIN_ACTIVITY_INCOME => [
+            'code' => '1',
+            'libelle' => 'Revenu de l\'activité',
+        ],
+        self::FUNDS_ORIGIN_PROPERTY_INCOME =>[
+            'code' => '2',
+            'libelle' => 'Revenus locatifs - fonciers',
+        ],
+        self::FUNDS_ORIGIN_PONCTUAL_BONUS => [
+             'code' => '3',
+             'libelle' => 'Prime ponctuelle / Indemnités',
+         ],
+        self::FUNDS_ORIGIN_ANNUITY => [
+            'code' => '4',
+            'libelle' => 'Rente',
+        ],
+
+    ];
+
+    public const AVAILABLE_FUNDS_ORIGIN_INCOME = [
+        self::FUNDS_ORIGIN_PONCTUAL_BONUS,
+        self::FUNDS_ORIGIN_ANNUITY,
+        self::FUNDS_ORIGIN_ACTIVITY_INCOME,
+        self::FUNDS_ORIGIN_PROPERTY_INCOME
+    ];
+
     public const FUNDS_ORIGIN_MAP = [
         self::FUNDS_ORIGIN_INCOME => [
             'code' => '1',
             'libelle' => 'Revenus',
             'dateNecessaire' => false,
             'commentaireNecessaire' => false,
-            'detail' => [
-                [
-                    'code' => '3',
-                    'libelle' => 'Prime ponctuelle / Indemnités',
-                ], [
-                    'code' => '4',
-                    'libelle' => 'Rente',
-                ], [
-                    'code' => '1',
-                    'libelle' => 'Revenu de l\'activité',
-                ], [
-                    'code' => '2',
-                    'libelle' => 'Revenus locatifs - fonciers',
-                ],
-            ],
             'bloquantDemat' => false,
         ],
         self::FUNDS_ORIGIN_HERITAGE => [
@@ -649,7 +700,7 @@ class Subscription
         ],
     ];
 
-    public const AVAILABLE_FUNDS_ORIGIN_MAP = [
+    public const AVAILABLE_FUNDS_ORIGIN = [
         self::FUNDS_ORIGIN_INCOME,
         self::FUNDS_ORIGIN_HERITAGE,
         self::FUNDS_ORIGIN_DONATION,
@@ -871,8 +922,8 @@ class Subscription
 
     public const NAF_CODE_MAP = [
         self::CODE_NAF_AGRICULTURE_FORESTRY_FISHING =>[
-               'code' => '1',
-               'libelle' => 'Agriculture, sylviculture et pêche',
+            'code' => '1',
+            'libelle' => 'Agriculture, sylviculture et pêche',
            ],
         self::CODE_NAF_EXTRACTIVE_INDUSTRY =>[
             'code' => '2',
@@ -1152,73 +1203,15 @@ class Subscription
         self::CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE,
     ];
 
-    public const PAYSRESIDENCEFISCALE = [
-        [
+    public const FISCALITY_RESIDENCE_COUNTRY_FRANCE = 'france';
+    
+    public const AVAILABLE_FISCALITY_RESIDENCE_COUNTRY = [
+        self::FISCALITY_RESIDENCE_COUNTRY_FRANCE,
+    ]; 
+    public const FISCALITY_RESIDENCE_COUNTRY_MAP = [
+        self::FISCALITY_RESIDENCE_COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
-        ], [
-            'code' => 'XXXXXGUADELOUPE',
-            'libelle' => 'GUADELOUPE',
-        ], [
-            'code' => 'XXXXXGUYANE',
-            'libelle' => 'GUYANE',
-        ], [
-            'code' => 'XXXXXMARTINIQUE',
-            'libelle' => 'MARTINIQUE',
-        ], [
-            'code' => 'XXXXXNOUVELLE-CALEDONIE',
-            'libelle' => 'NOUVELLE-CALEDONIE',
-        ], [
-            'code' => 'XXXXXPOLYNESIE FRANCAISE',
-            'libelle' => 'POLYNESIE FRANCAISE',
-        ], [
-            'code' => 'XXXXXREUNION',
-            'libelle' => 'REUNION',
-        ], [
-            'code' => '99109',
-            'libelle' => 'ALLEMAGNE',
-        ], [
-            'code' => '99110',
-            'libelle' => 'AUTRICHE',
-        ], [
-            'code' => '99131',
-            'libelle' => 'BELGIQUE',
-        ],[
-            'code' => '99101',
-            'libelle' => 'DANEMARK',
-        ],[
-            'code' => '99134',
-            'libelle' => 'ESPAGNE',
-        ], [
-            'code' => '99132GUERNESEY',
-            'libelle' => 'GUERNESEY',
-        ], [
-            'code' => '99136',
-            'libelle' => 'IRLANDE, OU EIRE',
-        ], [
-            'code' => '99127',
-            'libelle' => 'ITALIE',
-        ], [
-            'code' => '99132JERSEY',
-            'libelle' => 'JERSEY',
-        ], [
-            'code' => '99137',
-            'libelle' => 'LUXEMBOURG',
-        ], [
-            'code' => '99132MAN (ILE]',
-            'libelle' => 'MAN (ILE]',
-        ], [
-            'code' => '99135',
-            'libelle' => 'PAYS-BAS',
-        ], [
-            'code' => '99139',
-            'libelle' => 'PORTUGAL',
-        ], [
-            'code' => '99132ROYAUME-UNI',
-            'libelle' => 'ROYAUME-UNI',
-        ], [
-            'code' => 'AUTRE_PAYS',
-            'libelle' => 'Autre pays',
         ],
     ];
 
@@ -1373,7 +1366,6 @@ class Subscription
         ],
     ];
 
-
     /**
      * LEGAL CAPACITY
      */
@@ -1388,7 +1380,7 @@ class Subscription
     public const LEGALE_CAPACITY_UNDER_SUPERVISION_MAJOR = 'under_supervision_major';
     public const LEGALE_CAPACITY_UNDER_SUPERVISION_MINOR = 'under_supervision_minor';
 
-    public const AVAILABLE_LEGAL_CAPACITY_MAP = [
+    public const AVAILABLE_LEGAL_CAPACITY = [
         self::LEGAL_CAPACITY_LEGAL_CAPABLE_MAJOR,
         self::LEGAL_CAPACITY_SIMPLE_CURATORSHIP,
         self::LEGAL_CAPACITY_REINFORCED_CURATORSHIP,
@@ -1400,6 +1392,7 @@ class Subscription
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MAJOR,
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MINOR,
     ];
+
     public const LEGAL_CAPACITY_MAP = [
         self::LEGAL_CAPACITY_LEGAL_CAPABLE_MAJOR => [
             'code' => '0',
@@ -1443,6 +1436,92 @@ class Subscription
         ]
     ];
 
+    /**
+     * FISCALITY COUNTRY
+     */
+    public const FISCALITY_COUNTRY_FRANCE = 'france';
+    public const FISCALITY_COUNTRY_GUYANA = 'guyana';
+
+    public const AVAILABLE_FISCALITY_COUNTRY = [
+      self::FISCALITY_COUNTRY_FRANCE,
+    ];
+    public const FISCALITY_COUNTRY_MAP = [
+        self::FISCALITY_COUNTRY_FRANCE => [
+            'code' => 'XXXXXFRANCE',
+            'libelle' => 'FRANCE',
+        ],
+    ];
+
+    public const PAYSRESIDENCEFISCALE = [
+        [
+            'code' => 'XXXXXFRANCE',
+            'libelle' => 'FRANCE',
+        ], [
+            'code' => 'XXXXXGUADELOUPE',
+            'libelle' => 'GUADELOUPE',
+        ], [
+            'code' => 'XXXXXGUYANE',
+            'libelle' => 'GUYANE',
+        ], [
+            'code' => 'XXXXXMARTINIQUE',
+            'libelle' => 'MARTINIQUE',
+        ], [
+            'code' => 'XXXXXNOUVELLE-CALEDONIE',
+            'libelle' => 'NOUVELLE-CALEDONIE',
+        ], [
+            'code' => 'XXXXXPOLYNESIE FRANCAISE',
+            'libelle' => 'POLYNESIE FRANCAISE',
+        ], [
+            'code' => 'XXXXXREUNION',
+            'libelle' => 'REUNION',
+        ], [
+            'code' => '99109',
+            'libelle' => 'ALLEMAGNE',
+        ], [
+            'code' => '99110',
+            'libelle' => 'AUTRICHE',
+        ], [
+            'code' => '99131',
+            'libelle' => 'BELGIQUE',
+        ],[
+            'code' => '99101',
+            'libelle' => 'DANEMARK',
+        ],[
+            'code' => '99134',
+            'libelle' => 'ESPAGNE',
+        ], [
+            'code' => '99132GUERNESEY',
+            'libelle' => 'GUERNESEY',
+        ], [
+            'code' => '99136',
+            'libelle' => 'IRLANDE, OU EIRE',
+        ], [
+            'code' => '99127',
+            'libelle' => 'ITALIE',
+        ], [
+            'code' => '99132JERSEY',
+            'libelle' => 'JERSEY',
+        ], [
+            'code' => '99137',
+            'libelle' => 'LUXEMBOURG',
+        ], [
+            'code' => '99132MAN (ILE]',
+            'libelle' => 'MAN (ILE]',
+        ], [
+            'code' => '99135',
+            'libelle' => 'PAYS-BAS',
+        ], [
+            'code' => '99139',
+            'libelle' => 'PORTUGAL',
+        ], [
+            'code' => '99132ROYAUME-UNI',
+            'libelle' => 'ROYAUME-UNI',
+        ], [
+            'code' => 'AUTRE_PAYS',
+            'libelle' => 'Autre pays',
+        ],
+    ];
+
     public const NATIONALITES = [
         [
             'code' => '99109ALLEMAGNE',
@@ -1483,71 +1562,142 @@ class Subscription
         ],
     ];
 
-    public const PIECESJUSTIFICATIVES = [
-        [
-            'code' => 'FE03',
-            'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
-        ], [
-            'code' => 'FE04',
-            'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
-        ], [
+    public const VOUCHERS_ADDRESS_PROOF = 'address_proof';
+    public const VOUCHERS_ADDRESS_PROOF_2 = 'address_proof_2';
+    public const VOUCHERS_WEDDING_CONTRACT = 'wedding_contract';
+    public const VOUCHERS_ARBITRAGE_MANDATE = 'arbitrage_mandate';
+    public const VOUCHERS_VALID_CNI = 'valid_cni';
+    public const VOUCHERS_NATIONAL_IDENTITY_CARD = 'national_identity_card';
+    public const VOUCHERS_PASSPORT = 'passport';
+    public const VOUCHERS_DRIVING_LICENSE_SECOND_GENERATION = 'driving_license_second_generation';
+    public const VOUCHERS_FAMILY_RECORD_BOOK = 'family_record';
+    public const VOUCHERS_FRENCH_ELECTORAL_MAP = 'french_electoral_map';
+    public const VOUCHERS_BIRTH_CERTIFICATE = 'birth_certificate';
+    public const VOUCHERS_VALID_OFFICIAL_IDENTITY = 'valid_official_identity';
+    public const VOUCHERS_DIRECT_DEBIT_MANDATE = 'direct_debit_mandate';
+    public const VOUCHERS_BENEFICIARY_DECLARATION_FORM = 'direct_debit_beneficiary_declaration_form';
+    public const VOUCHERS_USEFUL_FREE = 'useful_free';
+    public const VOUCHERS_RIB = 'rib';
+    public const VOUCHERS_WEDDING_CERTIFICATE = 'wedding_certificate';
+    public const VOUCHERS_PEOPLE_SAVING_PLAN_CERTIFICATE = 'people_saving_plan_certificate';
+    public const VOUCHERS_FATCA_CRS_OCDE = 'fatca_crs_ocde';
+    public const VOUCHERS_COURTIER_PRESENTATION = 'courtier_presentation';
+    public const VOUCHERS_W8_BEN_CERTIFICATE = 'w8_ben_certificate';
+
+
+    public const AVAILABLE_VOUCHERS = [
+        self::VOUCHERS_ADDRESS_PROOF,
+        self::VOUCHERS_ADDRESS_PROOF_2,
+        self::VOUCHERS_WEDDING_CONTRACT,
+        self::VOUCHERS_ARBITRAGE_MANDATE,
+        self::VOUCHERS_VALID_CNI,
+        self::VOUCHERS_NATIONAL_IDENTITY_CARD,
+        self::VOUCHERS_PASSPORT,
+        self::VOUCHERS_DRIVING_LICENSE_SECOND_GENERATION,
+        self::VOUCHERS_FAMILY_RECORD_BOOK,
+        self::VOUCHERS_FRENCH_ELECTORAL_MAP,
+        self::VOUCHERS_BIRTH_CERTIFICATE,
+        self::VOUCHERS_VALID_OFFICIAL_IDENTITY,
+        self::VOUCHERS_DIRECT_DEBIT_MANDATE,
+        self::VOUCHERS_BENEFICIARY_DECLARATION_FORM,
+        self::VOUCHERS_USEFUL_FREE,
+        self::VOUCHERS_RIB,
+        self::VOUCHERS_WEDDING_CERTIFICATE,
+        self::VOUCHERS_PEOPLE_SAVING_PLAN_CERTIFICATE,
+        self::VOUCHERS_FATCA_CRS_OCDE,
+        self::VOUCHERS_COURTIER_PRESENTATION,
+        self::VOUCHERS_W8_BEN_CERTIFICATE
+    ];
+
+    public const VOUCHERS_MAP = [
+        self::VOUCHERS_ADDRESS_PROOF  => [
+          'code' => 'FE03',
+          'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
+      ],
+        self::VOUCHERS_ADDRESS_PROOF_2 => [
+          'code' => 'FE04',
+          'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
+      ],
+        self::VOUCHERS_WEDDING_CONTRACT => [
             'code' => 'FE07',
             'libelle' => 'La photocopie du contrat de mariage (communauté universelle avec clause d\'attrib',
-        ], [
+        ],
+        self::VOUCHERS_ARBITRAGE_MANDATE => [
             'code' => 'FE13',
             'libelle' => 'Mandat d\'arbitrage',
-        ], [
+        ],
+        self::VOUCHERS_VALID_CNI => [
             'code' => 'FE20',
             'libelle' => 'CNI en cours de validité ou Passeport ou Permis de conduire ou Carte de séjour o',
-        ], [
+        ],
+        self::VOUCHERS_NATIONAL_IDENTITY_CARD => [
             'code' => 'FE21',
             'libelle' => 'La Carte Nationale d\'Identité (CNI] du {0}',
-        ], [
+        ],
+        self::VOUCHERS_PASSPORT => [
             'code' => 'FE22',
             'libelle' => 'Le passeport du {0}',
-        ], [
+        ],
+        self::VOUCHERS_DRIVING_LICENSE_SECOND_GENERATION => [
             'code' => 'FE23',
             'libelle' => 'Le permis de conduire seconde génération avec date de validité',
-        ], [
+        ],
+        self::VOUCHERS_FAMILY_RECORD_BOOK => [
             'code' => 'FE25',
             'libelle' => 'Pages du livret de famille où figure le {0}',
-        ], [
+        ],
+        self::VOUCHERS_FRENCH_ELECTORAL_MAP => [
             'code' => 'FE26',
             'libelle' => 'Carte électorale française du {0}',
-        ], [
+        ],
+        self::VOUCHERS_BIRTH_CERTIFICATE => [
             'code' => 'FE27',
             'libelle' => 'Acte de naissance du {0}',
-        ], [
+        ],
+        self::VOUCHERS_VALID_OFFICIAL_IDENTITY => [
             'code' => 'FE30',
             'libelle' => 'La photocopie recto-verso d\'une pièce officielle d\'identité en cours de validité',
-        ], [
+        ],
+        self::VOUCHERS_DIRECT_DEBIT_MANDATE => [
             'code' => 'FE31',
             'libelle' => 'Mandat de prélèvement',
-        ], [
+        ],
+        self::VOUCHERS_BENEFICIARY_DECLARATION_FORM => [
             'code' => 'FE32',
             'libelle' => 'Le formulaire de déclaration de bénéficiaires (obligatoire si ma clause excède 1',
-        ], [
+        ],
+        self::VOUCHERS_USEFUL_FREE => [
             'code' => 'FE34',
             'libelle' => 'Pièce libre utile en complément du dossier',
-        ], [
+        ],
+        self::VOUCHERS_RIB => [
             'code' => 'FE35',
             'libelle' => 'Le Relevé d\'Identité Bancaire (RIB]',
-        ], [
+        ],
+        self::VOUCHERS_WEDDING_CERTIFICATE => [
             'code' => 'FE36',
             'libelle' => 'La photocopie d\'un extrait d\'acte de mariage.',
-        ], [
+        ],
+        self::VOUCHERS_PEOPLE_SAVING_PLAN_CERTIFICATE => [
             'code' => 'FE37',
             'libelle' => 'L\'attestation d\'ouverture de Plan d\'épargne Populaire (PEP] signée.',
-        ], [
-            'code' => 'FE38',
-            'libelle' => 'La fiche de présentation de mon ${courtier} signée dont je conserve un exemplair',
-        ], [
+        ],
+        self::VOUCHERS_FATCA_CRS_OCDE => [
             'code' => 'FE39',
             'libelle' => 'Le questionnaire FATCA/CRS-OCDE complété et signé',
-        ], [
+        ],
+        self::VOUCHERS_COURTIER_PRESENTATION => [
+            'code' => 'FE38',
+            'libelle' => 'La fiche de présentation de mon ${courtier} signée dont je conserve un exemplair',
+        ],
+        self::VOUCHERS_W8_BEN_CERTIFICATE => [
             'code' => 'FE40',
             'libelle' => 'Le certificat W8-BEN relatif au co-contractant',
-        ], [
+        ]
+    ];
+
+    public const PIECESJUSTIFICATIVES = [
+        [
             'code' => 'FE41',
             'libelle' => 'Le certificat W8-BEN relatif au contractant',
         ], [
@@ -1873,8 +2023,15 @@ class Subscription
         ],
     ];
 
-    public const PAYSNAISSANCE = [
-        [
+    public const COUNTRY_FRANCE = 'france';
+    public const COUNTRY_AFGHANISTAN = 'afghanistan';
+
+    public const AVAILABLE_COUNTRY = [
+        self::COUNTRY_FRANCE,
+        self::COUNTRY_AFGHANISTAN,
+    ];
+    public const COUNTRY_MAP = [
+        self::COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
             'departements' => [
@@ -2191,8 +2348,14 @@ class Subscription
                     'code' => '986',
                     'libelle' => 'Wallis et Futuna',
                 ]
+            ],
+
+        ],
+        self::COUNTRY_AFGHANISTAN =>
+            [
+                "code" => "99212AFGHANISTAN",
+                "libelle" => "AFGHANISTAN"
             ]
-        ]
     ];
     /**
      * ADDRESS COUNTRY
@@ -2522,24 +2685,31 @@ class Subscription
         ]
     ];
 
-    /**
-     * IDENTITY DOCUMENT
-     */
     public const IDENTITY_DOC_NATIONAL_CARD = 'national_card';
     public const IDENTITY_DOC_PASSPORT = 'passport';
     public const IDENTITY_DOC_NEW_DRIVER_LICENSE = 'new_driver_license';
 
-    public const IDENTITY_DOC_MAP = [
-        self::IDENTITY_DOC_2_NATIONAL_CARD => 'FE21',
-        self::IDENTITY_DOC_2_PASSPORT => 'FE22',
-        self::IDENTITY_DOC_2_NEW_DRIVER_LICENSE => 'FE23',
-    ];
     public const AVAILABLE_IDENTITY_DOC = [
-        self::IDENTITY_DOC_2_NATIONAL_CARD,
-        self::IDENTITY_DOC_2_PASSPORT,
-        self::IDENTITY_DOC_2_NEW_DRIVER_LICENSE,
-        ]
-    ;
+        self::IDENTITY_DOC_NATIONAL_CARD,
+        self::IDENTITY_DOC_PASSPORT,
+        self::IDENTITY_DOC_NEW_DRIVER_LICENSE,
+    ];
+    public const IDENTITY_DOC_MAP = [
+        self::IDENTITY_DOC_NATIONAL_CARD => [
+            'code' => 'FE21',
+            'libelle' => 'Carte Nationale d\'Identité (CNI]',
+        ],
+        self::IDENTITY_DOC_PASSPORT => [
+            'code' => 'FE22',
+            'libelle' => 'Passeport',
+        ],
+        self::IDENTITY_DOC_NEW_DRIVER_LICENSE => [
+            'code' => 'FE23',
+            'libelle' => 'Nouveau permis de conduire',
+        ],
+    ];
+
+
     /**
      * IDENTITY DOCUMENT 2
      */
@@ -2560,6 +2730,7 @@ class Subscription
         self::IDENTITY_DOC_2_BIRTH_CERTIFICATE => 'FE27',
         self::IDENTITY_DOC_2_DRIVER_LICENSE => 'FE30',
     ];
+
     public const AVAILABLE_IDENTITY_DOC_2 = [
         self::IDENTITY_DOC_2_NATIONAL_CARD,
         self::IDENTITY_DOC_2_PASSPORT,
