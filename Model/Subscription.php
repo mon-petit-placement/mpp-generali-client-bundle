@@ -70,15 +70,12 @@ class Subscription
         self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'versementsLibresProgrammes',
         self::PRODUCT_ARBITRATION => 'arbitrage',
         self::PRODUCT_PARTIAL_SURRENDER => 'rachatpartiel',
-<<<<<<< HEAD
     ];
 
     public const PRODUCTS_FILES_MAP = [
         self::PRODUCT_SUBSCRIPTION => 'SOUSCRIPTION',
         self::PRODUCT_FREE_PAYMENT => 'VERSEMENT_LIBRE',
         self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'CREATION_VERSEMENT_LIBRE_PROGRAMME',
-=======
->>>>>>> 1fdee5560009a49a01344e90791775bb4da745de
     ];
 
     public const AVAILABLE_PRODUCTS = [
