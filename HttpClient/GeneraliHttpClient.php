@@ -28,11 +28,6 @@ class GeneraliHttpClient
         $this->httpClient = $httpClient;
     }
 
-    /**
-     * @param string $product
-     * @param array $parameters
-     * @return mixed
-     */
     public function getAvailableFunds(string $product, array $parameters)
     {
         if (!isset(Subscription::PRODUCTS_MAP[$product])){
@@ -94,10 +89,9 @@ class GeneraliHttpClient
                 $this->configurePartialSurrender($resolver);
                 break;
         }
-
         $resolvedParameters = $resolver->resolve($parameters);
-        dump(json_encode($resolvedParameters));
-//        return $this->runStep(Subscription::STEP_INITIATE, $product,  $resolvedParameters);
+
+        return $this->runStep(Subscription::STEP_INITIATE, $product,  $resolvedParameters);
     }
 
     /**
