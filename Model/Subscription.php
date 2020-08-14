@@ -38,36 +38,21 @@ class Subscription
      */
     public const STEP_SCHEDULED_FREE_PAYMENT_SUSPEND = 'suspend';
     public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE = 'initiate_edit';
-<<<<<<< HEAD
     public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK = 'check_edit';
     public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM = 'confirm_edit';
-=======
-    public const STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE = 'check_edit';
-    public const STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE = 'confirm_edit';
->>>>>>> 10a8406bcf4167a5a223efb40477c3f5034e721e
 
     public const STEP_SCHEDULED_FREE_PAYMENT_MAP = [
         SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND => "suspensionVersementsLibresProgrammes",
         SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE => "modificationVersementsLibresProgrammes/initier",
-<<<<<<< HEAD
         SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK => "modificationVersementsLibresProgrammes/verifier",
         SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM => "modificationVersementsLibresProgrammes/confirmer",
-=======
-        SELF::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE => "modificationVersementsLibresProgrammes/verifier",
-        SELF::STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE => "modificationVersementsLibresProgrammes/confirmer",
->>>>>>> 10a8406bcf4167a5a223efb40477c3f5034e721e
     ];
 
     public const AVAILABLE_STEPS_SCHEDULED_FREE_PAYMENT = [
         SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND,
         SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
-<<<<<<< HEAD
         SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
         SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
-=======
-        SELF::STEP_SCHEDULED_FREE_PAYMENT_CHECK_INITIATE,
-        SELF::STEP_SCHEDULED_FREE_PAYMENT_CONFIRM_INITIATE,
->>>>>>> 10a8406bcf4167a5a223efb40477c3f5034e721e
     ];
 
     /**

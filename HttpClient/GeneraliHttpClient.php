@@ -49,11 +49,16 @@ class GeneraliHttpClient
         ;
         $resolvedParameters = $resolver->resolve($parameters);
 
+        $path =  sprintf(
+            '/epart/v2.0/transaction/%s/donnees',
+            Subscription::PRODUCTS_MAP[$product]
+        );
+        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER){
+            $path .= '/all';
+        }
+
         $response = $this->httpClient->post(
-            sprintf(
-                '/epart/v2.0/transaction/%s/donnees',
-                Subscription::PRODUCTS_MAP[$product]
-            ), [
+            $path, [
                 'body'=> json_encode($resolvedParameters),
             ]
         );
@@ -90,6 +95,7 @@ class GeneraliHttpClient
                 break;
         }
         $resolvedParameters = $resolver->resolve($parameters);
+        dump(json_encode($resolvedParameters));
 
         return $this->runStep(Subscription::STEP_INITIATE, $product,  $resolvedParameters);
     }
@@ -132,6 +138,7 @@ class GeneraliHttpClient
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('statut')->setAllowedTypes('statut', ['string'])
+                    ->setDefined('numContrat')->setAllowedTypes('numContrat', ['string'])
                 ;
 
                 return $resolver->resolve($value);
@@ -1485,37 +1492,46 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $values){
-                $resolver  = new OptionsResolver();
-                $resolver
-                    ->setRequired('codeFonds')->setAllowedTypes('codeFonds', ['string'])
-                    ->setRequired('montant')->setAllowedTypes('montant', ['int'])
-                    ->setRequired('rachatTotal')->setAllowedTypes('rachatTotal', ['bool'])
-                ;
-                $resolvedValues = [];
-                foreach ($values as $value){
-                    $resolvedValues[] = $resolver->resolve($value);
-                }
-
-                return $resolvedValues;
-            })
-            ->setRequired('modeReglement')->setAllowedTypes('modeReglement', ['array'])->setNormalizer('modeReglement', function(Options $options, $value){
+            ->setRequired('rachatPartiel')->setAllowedTypes('rachatPartiel', ['array'])->setNormalizer('rachatPartiel', function(Options $options, $value){
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('typePaiement')->setAllowedTypes('typePaiement', ['string'])
-                    ->setRequired('compteBancaire')->setAllowedTypes('compteBancaire', ['array'])->setNormalizer('compteBancaire', function(Options $options, $value){
+                    ->setRequired('montant')->setAllowedTypes('montant', ['int'])
+                    ->setRequired('codeMotif')->setAllowedTypes('codeMotif', ['string'])
+                    ->setDefined('repartitionProportionnelle')->setAllowedTypes('repartitionProportionnelle', ['bool'])
+                    ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $values){
+                        $resolver  = new OptionsResolver();
+                        $resolver
+                            ->setRequired('codeFonds')->setAllowedTypes('codeFonds', ['string'])
+                            ->setRequired('montant')->setAllowedTypes('montant', ['int'])
+                            ->setRequired('rachatTotal')->setAllowedTypes('rachatTotal', ['bool'])
+                        ;
+                        $resolvedValues = [];
+                        foreach ($values as $value){
+                            $resolvedValues[] = $resolver->resolve($value);
+                        }
+
+                        return $resolvedValues;
+                    })
+                    ->setRequired('modeReglement')->setAllowedTypes('modeReglement', ['array'])->setNormalizer('modeReglement', function(Options $options, $value){
                         $resolver = new OptionsResolver();
                         $resolver
-                            ->setDefined('domiciliation')->setAllowedTypes('domiciliation', ['string'])
-                            ->setDefined('titulaire')->setAllowedTypes('titulaire', ['string'])
-                            ->setDefined('iban')->setAllowedTypes('iban', ['string'])
-                            ->setDefined('bic')->setAllowedTypes('bic', ['string'])
+                            ->setRequired('typePaiement')->setAllowedTypes('typePaiement', ['string'])
+                            ->setRequired('compteBancaire')->setAllowedTypes('compteBancaire', ['array'])->setNormalizer('compteBancaire', function(Options $options, $value){
+                                $resolver = new OptionsResolver();
+                                $resolver
+                                    ->setDefined('domiciliation')->setAllowedTypes('domiciliation', ['string'])
+                                    ->setDefined('titulaire')->setAllowedTypes('titulaire', ['string'])
+                                    ->setDefined('iban')->setAllowedTypes('iban', ['string'])
+                                    ->setDefined('bic')->setAllowedTypes('bic', ['string'])
+                                ;
+
+                                return $resolver->resolve($value);
+                            })
                         ;
 
                         return $resolver->resolve($value);
                     })
                 ;
-
                 return $resolver->resolve($value);
             })
         ;
