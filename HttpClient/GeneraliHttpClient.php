@@ -77,7 +77,6 @@ class GeneraliHttpClient
             );
             $this->logger->info('[Generali - httpClient.getAvailableFunds] SUCCESS');
         } catch (Exception $exception) {
-
             $this->logger->error(sprintf(
                 '[Generali - httpClient.getAvailableFunds] ERROR: %s',
                 $exception->getMessage()
@@ -389,7 +388,6 @@ class GeneraliHttpClient
                 $path
             ));
         } catch (Exception $exception) {
-
             $this->logger->error(sprintf(
                 '[Generali - httpClient.call %s ] ERROR: %s',
                 $path,
@@ -436,7 +434,6 @@ class GeneraliHttpClient
                 $url
             ));
         } catch (Exception $exception) {
-
             $this->logger->error(sprintf(
                 '[Generali - httpClient.sendFile %s on %s] ERROR: %s',
                 $fileName,
@@ -472,7 +469,6 @@ class GeneraliHttpClient
                 $idTransaction
             ));
         } catch (Exception $exception) {
-
             $this->logger->error(sprintf(
                 '[Generali - httpClient.checkFiles on idTransaction %s] ERROR: %s',
                 $idTransaction,
