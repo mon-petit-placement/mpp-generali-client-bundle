@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use GuzzleHttp\Client;
+use \Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Mpp\GeneraliClientBundle\OptionsResolver\ContexteResolver;
 use Mpp\GeneraliClientBundle\Model\Subscription;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class GeneraliHttpClient
@@ -20,14 +22,23 @@ class GeneraliHttpClient
     /** @var Client */
     private $httpClient;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /**
      * @param Client $httpClient
      */
-    public function __construct(Client $httpClient)
+    public function __construct(Client $httpClient, LoggerInterface $logger)
     {
         $this->httpClient = $httpClient;
+        $this->logger = $logger;
     }
 
+    /**
+     * @param string $product
+     * @param array $parameters
+     * @return mixed
+     */
     public function getAvailableFunds(string $product, array $parameters)
     {
         if (!isset(Subscription::PRODUCTS_MAP[$product])) {
@@ -57,12 +68,21 @@ class GeneraliHttpClient
             $path .= '/all';
         }
 
-        $response = $this->httpClient->post(
-            $path,
-            [
-                'body'=> json_encode($resolvedParameters),
-            ]
-        );
+        try {
+            $response = $this->httpClient->post(
+                $path,
+                [
+                    'body'=> json_encode($resolvedParameters),
+                ]
+            );
+            $this->logger->info('[Generali - httpClient.getAvailableFunds] SUCCESS');
+        } catch (Exception $exception) {
+
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.getAvailableFunds] ERROR: %s',
+                $exception->getMessage()
+            ));
+        }
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -95,7 +115,6 @@ class GeneraliHttpClient
                 break;
         }
         $resolvedParameters = $resolver->resolve($parameters);
-        dump(json_encode($resolvedParameters));
 
         return $this->runStep(Subscription::STEP_INITIATE, $product, $resolvedParameters);
     }
@@ -158,6 +177,7 @@ class GeneraliHttpClient
 
         return $this->runStep(Subscription::STEP_CONFIRM, $product, $resolvedParameters);
     }
+
     /**
      * @param string $product
      * @param array $parameters
@@ -231,6 +251,7 @@ class GeneraliHttpClient
                 return $this->resolveContext($value);
             });
         $resolvedParameters = $resolver->resolve($parameters);
+
         return $this->runSpecificStep(
             Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
             $resolvedParameters,
@@ -322,7 +343,7 @@ class GeneraliHttpClient
      * @param string $product
      * @param array $parameters
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\Exception
      */
     private function runStep(string $step, string $product, array $parameters)
     {
@@ -356,12 +377,25 @@ class GeneraliHttpClient
      */
     private function call(string $path, array $parameters)
     {
-        $response = $this->httpClient->post(
-            $path,
-            [
-                'body'=> json_encode($parameters),
-            ]
-        );
+        try {
+            $response = $this->httpClient->post(
+                $path,
+                [
+                    'body'=> json_encode($parameters),
+                ]
+            );
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.call %s ] SUCCESS',
+                $path
+            ));
+        } catch (Exception $exception) {
+
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.call %s ] ERROR: %s',
+                $path,
+                $exception->getMessage()
+            ));
+        }
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -382,19 +416,36 @@ class GeneraliHttpClient
 
         $file = new UploadedFile($path.$fileName, $fileName);
         $url = sprintf('/epart/v1.0/transaction/fournirPiece/%s/%s', $idTransaction, $document['idPieceAFournir']);
-        $request = $this->httpClient->post(
-            $url,
-            [
-                'multipart' => [
-                    [
-                        'name'     => $document['libelle'],
-                        'contents' => $file,
-                        'filename' => $fileName,
+
+        try {
+            $response = $this->httpClient->post(
+                $url,
+                [
+                    'multipart' => [
+                        [
+                            'name'     => $document['libelle'],
+                            'contents' => $file,
+                            'filename' => $fileName,
+                        ]
                     ]
                 ]
-            ]
-        );
-        return json_decode($request->getBody()->getContents(), true);
+            );
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.sendFile %s on %s] SUCCESS',
+                $fileName,
+                $url
+            ));
+        } catch (Exception $exception) {
+
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.sendFile %s on %s] ERROR: %s',
+                $fileName,
+                $url,
+                $exception->getMessage()
+            ));
+        }
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -408,14 +459,29 @@ class GeneraliHttpClient
             throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
         }
 
-        $request = $this->httpClient->get(
-            sprintf(
-                '/epart/v1.0/transaction/piecesAFournir/list/%s/%s',
+        try {
+            $response = $this->httpClient->get(
+                sprintf(
+                    '/epart/v1.0/transaction/piecesAFournir/list/%s/%s',
+                    $idTransaction,
+                    strtoupper(Subscription::PRODUCTS_FILES_MAP[$product])
+                )
+            );
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.checkFiles on idTransaction %s] SUCCESS',
+                $idTransaction
+            ));
+        } catch (Exception $exception) {
+
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.checkFiles on idTransaction %s] ERROR: %s',
                 $idTransaction,
-                strtoupper(Subscription::PRODUCTS_FILES_MAP[$product])
-            )
-        );
-        return json_decode($request->getBody()->getContents(), true);
+                $exception->getMessage()
+            ));
+        }
+
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -1298,6 +1364,10 @@ class GeneraliHttpClient
         return $resolver->resolve($value);
     }
 
+    /**
+     * @param $value
+     * @return array
+     */
     public function resolveVersement($value)
     {
         $resolver = new OptionsResolver();

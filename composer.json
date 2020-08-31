@@ -18,6 +18,7 @@
     "symfony/options-resolver": "^4.0",
     "fzaninotto/faker": "^1.9",
     "ext-json": "*",
+    "symfony/monolog-bundle": "*",
     "eightpoints/guzzle-bundle": "^8.0"
   },
   "autoload":{
