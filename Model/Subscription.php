@@ -1123,7 +1123,7 @@ class Subscription
     
     public const AVAILABLE_FISCALITY_RESIDENCE_COUNTRY = [
         self::FISCALITY_RESIDENCE_COUNTRY_FRANCE,
-    ]; 
+    ];
     public const FISCALITY_RESIDENCE_COUNTRY_MAP = [
         self::FISCALITY_RESIDENCE_COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',

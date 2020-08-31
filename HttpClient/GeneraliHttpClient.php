@@ -30,7 +30,7 @@ class GeneraliHttpClient
 
     public function getAvailableFunds(string $product, array $parameters)
     {
-        if (!isset(Subscription::PRODUCTS_MAP[$product])){
+        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
             throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
         }
 
@@ -53,18 +53,18 @@ class GeneraliHttpClient
             '/epart/v2.0/transaction/%s/donnees',
             Subscription::PRODUCTS_MAP[$product]
         );
-        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER){
+        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER) {
             $path .= '/all';
         }
 
         $response = $this->httpClient->post(
-            $path, [
+            $path,
+            [
                 'body'=> json_encode($resolvedParameters),
             ]
         );
 
         return json_decode($response->getBody()->getContents(), true);
-
     }
 
     /**
@@ -77,7 +77,7 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
 
-        switch ($product){
+        switch ($product) {
             case Subscription::PRODUCT_SUBSCRIPTION:
                 $this->configureSubscriptionParameters($resolver);
                 break;
@@ -97,7 +97,7 @@ class GeneraliHttpClient
         $resolvedParameters = $resolver->resolve($parameters);
         dump(json_encode($resolvedParameters));
 
-        return $this->runStep(Subscription::STEP_INITIATE, $product,  $resolvedParameters);
+        return $this->runStep(Subscription::STEP_INITIATE, $product, $resolvedParameters);
     }
 
     /**
@@ -121,7 +121,7 @@ class GeneraliHttpClient
         });
         $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->runStep(Subscription::STEP_CHECK, $product,  $resolvedParameters);
+        return $this->runStep(Subscription::STEP_CHECK, $product, $resolvedParameters);
     }
 
     /**
@@ -143,7 +143,7 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('options')->setAllowedTypes('options', ['array'])->setNormalizer('options', function(Options $options, $value) {
+            ->setDefined('options')->setAllowedTypes('options', ['array'])->setNormalizer('options', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setDefined('genererUnBulletin')->setAllowedTypes('genererUnBulletin', ['bool'])->setDefault('genererUnBulletin', true)
@@ -156,7 +156,7 @@ class GeneraliHttpClient
         ;
         $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->runStep(Subscription::STEP_CONFIRM, $product,  $resolvedParameters);
+        return $this->runStep(Subscription::STEP_CONFIRM, $product, $resolvedParameters);
     }
     /**
      * @param string $product
@@ -176,7 +176,7 @@ class GeneraliHttpClient
             });
         $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->runStep(Subscription::STEP_FINALIZE, $product,  $resolvedParameters);
+        return $this->runStep(Subscription::STEP_FINALIZE, $product, $resolvedParameters);
     }
 
     /**
@@ -211,7 +211,7 @@ class GeneraliHttpClient
     {
         $path = '/epart/v1.0/transaction/'.Subscription::STEP_SCHEDULED_FREE_PAYMENT_MAP[$step];
 
-        if ($contractCode){
+        if ($contractCode) {
             $path .= '/' . $contractCode;
         }
 
@@ -227,15 +227,15 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function(Options $options, $value){
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                 return $this->resolveContext($value);
             });
         $resolvedParameters = $resolver->resolve($parameters);
-       return $this->runSpecificStep(
-           Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
-           $resolvedParameters,
-           $resolvedParameters['contexte']['numContrat']
-       );
+        return $this->runSpecificStep(
+            Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
+            $resolvedParameters,
+            $resolvedParameters['contexte']['numContrat']
+        );
     }
 
     /**
@@ -247,7 +247,7 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function(Options $options, $value){
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
@@ -257,23 +257,23 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setRequired('modifVersementLibreProgrammes')->setAllowedTypes('modifVersementLibreProgrammes', ['array'])->setNormalizer('modifVersementLibreProgrammes', function (Options $options, $value){
+            ->setRequired('modifVersementLibreProgrammes')->setAllowedTypes('modifVersementLibreProgrammes', ['array'])->setNormalizer('modifVersementLibreProgrammes', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('versement')->setAllowedTypes('versement', ['array'])->setNormalizer('versement', function(Options $options, $value){
+                    ->setRequired('versement')->setAllowedTypes('versement', ['array'])->setNormalizer('versement', function (Options $options, $value) {
                         return $this->resolveVersement($value);
                     })
-                    ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $value){
+                    ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
                         $resolver
-                            ->setRequired('fondsInvestis')->setAllowedTypes('fondsInvestis', ['array'])->setNormalizer('fondsInvestis', function(Options $options, $values){
+                            ->setRequired('fondsInvestis')->setAllowedTypes('fondsInvestis', ['array'])->setNormalizer('fondsInvestis', function (Options $options, $values) {
                                 $resolver = new OptionsResolver();
                                 $resolver
                                     ->setRequired('codeFonds')->setAllowedTypes('codeFonds', ['string'])
                                     ->setRequired('montant')->setAllowedTypes('montant', ['int'])
                                 ;
                                 $resolvedValues = [];
-                                foreach ($values as $value){
+                                foreach ($values as $value) {
                                     $resolvedValues[] = $resolver->resolve($value);
                                 }
                                 return $resolvedValues;
@@ -289,11 +289,11 @@ class GeneraliHttpClient
         ;
         $resolvedParameters = $resolver->resolve($parameters);
 
-       return $this->runSpecificStep(
-           Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
-           $resolvedParameters,
-           $resolvedParameters['contexte']['numContrat']
-       );
+        return $this->runSpecificStep(
+            Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
+            $resolvedParameters,
+            $resolvedParameters['contexte']['numContrat']
+        );
     }
 
     /**
@@ -311,10 +311,10 @@ class GeneraliHttpClient
         ;
         $resolvedParameters = $resolver->resolve($parameters);
 
-       return $this->runSpecificStep(
-           Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
-           $resolvedParameters
-       );
+        return $this->runSpecificStep(
+            Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
+            $resolvedParameters
+        );
     }
 
     /**
@@ -326,22 +326,22 @@ class GeneraliHttpClient
      */
     private function runStep(string $step, string $product, array $parameters)
     {
-        if (!isset(Subscription::STEPS_MAP[$step])){
+        if (!isset(Subscription::STEPS_MAP[$step])) {
             throw new \UnexpectedValueException('Step must be part of these: ' . implode(", ", Subscription::AVAILABLE_STEPS));
         }
-        if (!isset(Subscription::PRODUCTS_MAP[$product])){
+        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
             throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
         }
         $path = sprintf('/epart/v2.0/transaction/%s/%s', Subscription::PRODUCTS_MAP[$product], Subscription::STEPS_MAP[$step]);
 
-        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER){
+        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER) {
             $path = sprintf(
                 '/epart/v1.0/transaction/%s/%s',
                 Subscription::PRODUCTS_MAP[$product],
                 Subscription::STEPS_MAP[$step],
-                )
+            )
             ;
-            if ($step === Subscription::STEP_INITIATE){
+            if ($step === Subscription::STEP_INITIATE) {
                 $path .= '/'.$parameters['contexte']['numContrat'];
             }
         }
@@ -376,13 +376,15 @@ class GeneraliHttpClient
      */
     public function sendFile(string $product, string $path, string $idTransaction, string $fileName, array $document)
     {
-        if (!isset(Subscription::PRODUCTS_MAP[$product])){
+        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
             throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
         }
 
         $file = new UploadedFile($path.$fileName, $fileName);
         $url = sprintf('/epart/v1.0/transaction/fournirPiece/%s/%s', $idTransaction, $document['idPieceAFournir']);
-        $request = $this->httpClient->post($url, [
+        $request = $this->httpClient->post(
+            $url,
+            [
                 'multipart' => [
                     [
                         'name'     => $document['libelle'],
@@ -402,7 +404,7 @@ class GeneraliHttpClient
      */
     public function checkFiles(string $product, string $idTransaction)
     {
-        if (!isset(Subscription::PRODUCTS_MAP[$product])){
+        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
             throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
         }
 
@@ -421,14 +423,14 @@ class GeneraliHttpClient
      */
     private function configureSubscriptionParameters(OptionsResolver $resolver)
     {
-         $resolver
+        $resolver
              ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                  return $this->resolveContext($value);
              })
-             ->setRequired('souscription')->setAllowedTypes('souscription', ['array'])->setNormalizer('souscription', function(Options $options, $value) {
+             ->setRequired('souscription')->setAllowedTypes('souscription', ['array'])->setNormalizer('souscription', function (Options $options, $value) {
                  return $this->resolveSouscription($value);
              })
-             ->setDefined('dateSignature')->setAllowedTypes('dateSignature', ['\DateTime'])->setNormalizer('dateSignature', function(Options $options, $value) {
+             ->setDefined('dateSignature')->setAllowedTypes('dateSignature', ['\DateTime'])->setNormalizer('dateSignature', function (Options $options, $value) {
                  return $value->format('Y-m-d');
              })
              ->setDefined('destinataireVirement')->setAllowedTypes('destinataireVirement', ['string', 'null'])
@@ -449,22 +451,22 @@ class GeneraliHttpClient
             ->setRequired('referencesExternes')->setAllowedTypes('referencesExternes', ['array'])->setNormalizer('referencesExternes', function (Options $options, $value) {
                 return $this->resolveReferencesExternes($value);
             })
-            ->setDefined('souscripteur')->setAllowedTypes('souscripteur', ['array'])->setNormalizer('souscripteur', function(Options $options, $value) {
+            ->setDefined('souscripteur')->setAllowedTypes('souscripteur', ['array'])->setNormalizer('souscripteur', function (Options $options, $value) {
                 return $this->resolveSouscripteur($value);
             })
-            ->setDefined('dossierClient')->setAllowedTypes('dossierClient', ['array'])->setNormalizer('dossierClient', function(Options $options, $value) {
+            ->setDefined('dossierClient')->setAllowedTypes('dossierClient', ['array'])->setNormalizer('dossierClient', function (Options $options, $value) {
                 return $this->resolveDossierClient($value);
             })
-            ->setDefined('versementInitial')->setAllowedTypes('versementInitial', ['array'])->setNormalizer('versementInitial', function(Options $options, $value) {
+            ->setDefined('versementInitial')->setAllowedTypes('versementInitial', ['array'])->setNormalizer('versementInitial', function (Options $options, $value) {
                 return $this->resolveVersementInitial($value);
             })
-            ->setDefined('versementsLibresProgrammes')->setAllowedTypes('versementsLibresProgrammes', ['array'])->setNormalizer('versementsLibresProgrammes', function(Options $options, $value) {
+            ->setDefined('versementsLibresProgrammes')->setAllowedTypes('versementsLibresProgrammes', ['array'])->setNormalizer('versementsLibresProgrammes', function (Options $options, $value) {
                 return $this->resolveVersementLibreProgrammes($value);
             })
-            ->setDefined('limitationMoinsValuesV1')->setAllowedTypes('limitationMoinsValuesV1', ['array'])->setNormalizer('limitationMoinsValuesV1', function(Options $options, $value) {
+            ->setDefined('limitationMoinsValuesV1')->setAllowedTypes('limitationMoinsValuesV1', ['array'])->setNormalizer('limitationMoinsValuesV1', function (Options $options, $value) {
                 return $this->resolveLimitationMoinsValuesV1($value);
             })
-            ->setDefined('limitationMoinsValues')->setAllowedTypes('limitationMoinsValues', ['array'])->setNormalizer('limitationMoinsValues', function(Options $options, $value) {
+            ->setDefined('limitationMoinsValues')->setAllowedTypes('limitationMoinsValues', ['array'])->setNormalizer('limitationMoinsValues', function (Options $options, $value) {
                 return $this->resolveLimitationMoinsValues($value);
             })
             ->setRequired('typePaiement')->setAllowedTypes('typePaiement', ['string'])
@@ -478,14 +480,14 @@ class GeneraliHttpClient
                 return $resolver->resolve($value);
             })
             ->setDefined('fiscalite')->setAllowedTypes('fiscalite', ['string'])
-            ->setDefined('clauseBeneficiaireDeces')->setAllowedTypes('clauseBeneficiaireDeces', ['array'])->setNormalizer('clauseBeneficiaireDeces', function(Options $options, $value) {
+            ->setDefined('clauseBeneficiaireDeces')->setAllowedTypes('clauseBeneficiaireDeces', ['array'])->setNormalizer('clauseBeneficiaireDeces', function (Options $options, $value) {
                 return $this->resolveClauseBeneficiaireDeces($value);
             })
 
-            ->setDefined('modeGestion')->setAllowedTypes('modeGestion', ['array'])->setNormalizer('modeGestion', function(Options $options, $value) {
+            ->setDefined('modeGestion')->setAllowedTypes('modeGestion', ['array'])->setNormalizer('modeGestion', function (Options $options, $value) {
                 return $this->resolveModeGestion($value);
             })
-            ->setDefined('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function(Options $options, $value) {
+            ->setDefined('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function (Options $options, $value) {
                 return $this->resolveReglement($value);
             })
         ;
@@ -508,7 +510,7 @@ class GeneraliHttpClient
             ->setDefined('ibanContractant')->setAllowedTypes('ibanContractant', ['string'])
             ->setDefined('bic')->setAllowedTypes('bic', ['string'])
             ->setDefined('autorisationPrelevement')->setAllowedTypes('autorisationPrelevement', ['bool'])
-            ->setDefined('adresseAgenceBancaire')->setAllowedTypes('adresseAgenceBancaire', ['array'])->setNormalizer('adresseAgenceBancaire', function(Options $options, $value){
+            ->setDefined('adresseAgenceBancaire')->setAllowedTypes('adresseAgenceBancaire', ['array'])->setNormalizer('adresseAgenceBancaire', function (Options $options, $value) {
                 return $this->resolveAdresseAgenceBancaire($value);
             })
         ;
@@ -531,7 +533,7 @@ class GeneraliHttpClient
             ->setDefined('adresse4LieuDitBP')->setAllowedTypes('adresse4LieuDitBP', ['string'])
             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
             ->setDefined('commune')->setAllowedTypes('commune', ['string'])
-            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function(Options $options, $value){
+            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
                 return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
             })
             ->setDefined('nePasNormaliser')->setAllowedTypes('nePasNormaliser', ['bool'])
@@ -548,13 +550,13 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setDefined('originesFonds')->setAllowedTypes('originesFonds', ['array'])->setNormalizer('originesFonds', function(Options $options, $values){
+            ->setDefined('originesFonds')->setAllowedTypes('originesFonds', ['array'])->setNormalizer('originesFonds', function (Options $options, $values) {
                 return $this->resolveOriginesFonds($values);
             })
-            ->setDefined('typeReglementVersementPonctuel')->setAllowedValues('typeReglementVersementPonctuel', Subscription::AVAILABLE_PAYMENT_METHOD)->setNormalizer('typeReglementVersementPonctuel', function(Options $options, $value){
+            ->setDefined('typeReglementVersementPonctuel')->setAllowedValues('typeReglementVersementPonctuel', Subscription::AVAILABLE_PAYMENT_METHOD)->setNormalizer('typeReglementVersementPonctuel', function (Options $options, $value) {
                 return Subscription::PAYMENT_METHOD_MAP[$value];
             })
-            ->setDefined('ibanContractant')->setAllowedTypes('ibanContractant', ['array'])->setNormalizer('ibanContractant', function(Options $options, $value) {
+            ->setDefined('ibanContractant')->setAllowedTypes('ibanContractant', ['array'])->setNormalizer('ibanContractant', function (Options $options, $value) {
                 return $this->resolveIbanContractant($value);
             })
             ->setDefined('destinataireVirement')->setAllowedTypes('destinataireVirement', ['string'])
@@ -587,7 +589,7 @@ class GeneraliHttpClient
 
         $resolver
             ->setDefined('denouement')->setAllowedTypes('denouement', ['string']) //Subscription::TYPESDENOUEMENT[$this->faker->numberBetween(0, count(Subscription::TYPESDENOUEMENT) - 1)]['code'],
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_BENEFICIARY_CLAUSES)->setNormalizer('code', function (Options $options, $value){
+            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_BENEFICIARY_CLAUSES)->setNormalizer('code', function (Options $options, $value) {
                 return Subscription::BENEFICIARY_CLAUSES_MAP[$value]['code'];
             })
             ->setDefined('texteLibre')->setAllowedTypes('texteLibre', ['string'])
@@ -623,14 +625,14 @@ class GeneraliHttpClient
         $resolvedValue = [];
 
         $resolver
-            ->setRequired('securisationFonds')->setAllowedTypes('securisationFonds', ['array'])->setNormalizer('securisationFonds', function(Options $options, $values) {
+            ->setRequired('securisationFonds')->setAllowedTypes('securisationFonds', ['array'])->setNormalizer('securisationFonds', function (Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeFondsSource')->setAllowedTypes('codeFondsSource', ['string'])
                     ->setRequired('codeFondsCible')->setAllowedTypes('codeFondsCible', ['string'])
                     ->setRequired('tauxDeclenchement')->setAllowedTypes('tauxDeclenchement', ['int'])
                 ;
-                foreach ($values as $value){
+                foreach ($values as $value) {
                     $resolvedValue[] = $resolver->resolve($value);
                 }
 
@@ -656,10 +658,10 @@ class GeneraliHttpClient
 
                 return $resolvedValue;
             })
-            ->setRequired('jourPrelevement')->setAllowedValues('jourPrelevement', Subscription::AVAILABLE_BANK_DEBIT)->setNormalizer('jourPrelevement', function (Options $options, $value){
+            ->setRequired('jourPrelevement')->setAllowedValues('jourPrelevement', Subscription::AVAILABLE_BANK_DEBIT)->setNormalizer('jourPrelevement', function (Options $options, $value) {
                 return Subscription::BANK_DEBIT_MAP[$value];
             })
-            ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])->setNormalizer('vlpMontant', function(Options $options, $value) {
+            ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])->setNormalizer('vlpMontant', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
 
                 $resolver
@@ -705,13 +707,13 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('situationPatrimoniale')->setAllowedTypes('situationPatrimoniale', ['array'])->setNormalizer('situationPatrimoniale', function(Options $options, $value) {
+            ->setRequired('situationPatrimoniale')->setAllowedTypes('situationPatrimoniale', ['array'])->setNormalizer('situationPatrimoniale', function (Options $options, $value) {
                 return $this->resolveSituationPatrimoniale($value);
             })
-            ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function(Options $options, $value) {
+            ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function (Options $options, $value) {
                 return $this->resolveObjectifsVersement($value);
             })
-            ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function(Options $options, $value) {
+            ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function (Options $options, $value) {
                 return $this->resolveOriginePaiement($value);
             })
         ;
@@ -744,10 +746,10 @@ class GeneraliHttpClient
                         $resolver = new OptionsResolver();
 
                         $resolver
-                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function (Options $options, $value){
+                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function (Options $options, $value) {
                                 return Subscription::IDENTITY_DOC_MAP[$value]['code'];
                             })
-                            ->setDefined('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
+                            ->setDefined('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function (Options $options, $value) {
                                 return $value->format('Y-m-d');
                             })
                         ;
@@ -775,7 +777,7 @@ class GeneraliHttpClient
             ->setDefined('codeObjectif')->setAllowedTypes('codeObjectif', ['string'])
             ->setDefined('precision')->setAllowedTypes('precision', ['string'])
         ;
-        foreach ($values as $value){
+        foreach ($values as $value) {
             $resolvedValues[] = $resolver->resolve($value);
         }
 
@@ -791,18 +793,18 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('codeTrancheRevenu', function (Options $options, $value){
+            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('codeTrancheRevenu', function (Options $options, $value) {
                 return Subscription::INCOME_BRACKETS_MAP[$value]['code'];
             })
-            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('codeTranchePatrimoine', function (Options $options, $value){
+            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('codeTranchePatrimoine', function (Options $options, $value) {
                 return Subscription::PERSONAL_ASSETS_MAP[$value]['code'];
             })
             ->setRequired('montantRevenu')->setAllowedTypes('montantRevenu', ['int'])
             ->setRequired('montantPatrimoine')->setAllowedTypes('montantPatrimoine', ['int'])
-            ->setDefined('originePatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('originePatrimoniale', function(Options $options, $values){
+            ->setDefined('originePatrimoniale')->setAllowedTypes('originePatrimoniale', ['array'])->setNormalizer('originePatrimoniale', function (Options $options, $values) {
                 return $this->resolveOriginePatrimoniale($values);
             })
-            ->setDefined('repartitionPatrimoniale')->setAllowedTypes('repartitionPatrimoniale', ['array'])->setNormalizer('repartitionPatrimoniale', function(Options $options, $values){
+            ->setDefined('repartitionPatrimoniale')->setAllowedTypes('repartitionPatrimoniale', ['array'])->setNormalizer('repartitionPatrimoniale', function (Options $options, $values) {
                 return $this->resolveRepartitionPatrimoniale($values);
             })
         ;
@@ -819,12 +821,12 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
         $resolvedValue = [];
         $resolver
-            ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_ORIGIN)->setNormalizer('code', function (Options $options, $value){
+            ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_ORIGIN)->setNormalizer('code', function (Options $options, $value) {
                 return Subscription::HERITAGE_ORIGIN_MAP[$value]['code'];
             })
             ->setRequired('precision')->setAllowedTypes('precision', ['string'])
         ;
-        foreach ($values as $value){
+        foreach ($values as $value) {
             $resolvedValue[] = $resolver->resolve($value);
         }
 
@@ -840,13 +842,13 @@ class GeneraliHttpClient
         $resolver = new OptionsResolver();
         $resolvedValue = [];
         $resolver
-            ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_DISTRIBUTION)->setNormalizer('code', function (Options $options, $value){
+            ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_DISTRIBUTION)->setNormalizer('code', function (Options $options, $value) {
                 return Subscription::HERITAGE_DISTRIBUTION_MAP[$value]['code'];
             })
             ->setRequired('pourcentage')->setAllowedTypes('pourcentage', ['int', 'double', 'float'])
             ->setRequired('precision')->setAllowedTypes('precision', ['string'])
         ;
-        foreach ($values as $value){
+        foreach ($values as $value) {
             $resolvedValue[] = $resolver->resolve($value);
         }
 
@@ -864,7 +866,7 @@ class GeneraliHttpClient
             ->setRequired('noms')->setAllowedTypes('noms', ['array'])->setNormalizer('noms', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', Subscription::AVAILABLE_CIVILITY)->setNormalizer('codeCivilite', function (Options $options, $value){
+                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', Subscription::AVAILABLE_CIVILITY)->setNormalizer('codeCivilite', function (Options $options, $value) {
                         return Subscription::CIVILITY_MAP[$value]['code'];
                     })
                     ->setRequired('prenom')->setAllowedTypes('prenom', ['string'])
@@ -877,7 +879,7 @@ class GeneraliHttpClient
             ->setRequired('residenceFiscale')->setAllowedTypes('residenceFiscale', ['array'])->setNormalizer('residenceFiscale', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value){
+                    ->setRequired('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
                         return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
                     })
                 ;
@@ -887,11 +889,11 @@ class GeneraliHttpClient
             ->setRequired('naissance')->setAllowedTypes('naissance', ['array'])->setNormalizer('naissance', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('dateNaissance')->setAllowedTypes('dateNaissance', ['\DateTime'])->setNormalizer('dateNaissance', function (Options $options, $value){
+                    ->setRequired('dateNaissance')->setAllowedTypes('dateNaissance', ['\DateTime'])->setNormalizer('dateNaissance', function (Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('lieuNaissance')->setAllowedTypes('lieuNaissance', ['string'])
-                    ->setRequired('paysNaissance')->setAllowedValues('paysNaissance', Subscription::AVAILABLE_COUNTRY)->setNormalizer('paysNaissance', function(Options $options, $value){
+                    ->setRequired('paysNaissance')->setAllowedValues('paysNaissance', Subscription::AVAILABLE_COUNTRY)->setNormalizer('paysNaissance', function (Options $options, $value) {
                         return Subscription::COUNTRY_MAP[$value]['code'];
                     })
                     ->setDefined('codeDepartementNaissance')->setAllowedTypes('codeDepartementNaissance', ['string'])
@@ -917,7 +919,7 @@ class GeneraliHttpClient
                             ->setDefined('adresse3LibelleVoie')->setAllowedTypes('adresse3LibelleVoie', ['string'])
                             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
                             ->setDefined('commune')->setAllowedTypes('commune', ['string'])
-                            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_ADDRESS_COUNTRY)->setNormalizer('codePays', function( Options $options, $value){
+                            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_ADDRESS_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
                                 return Subscription::ADDRESS_COUNTRY_MAP[$value]['code'];
                             })
                             ->setDefined('nePasNormaliser')->setAllowedTypes('nePasNormaliser', ['bool'])
@@ -955,7 +957,7 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('fatca')->setAllowedTypes('fatca', ['array'])->setNormalizer('fatca', function(Options $options, $value) {
+            ->setDefined('fatca')->setAllowedTypes('fatca', ['array'])->setNormalizer('fatca', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setDefined('citoyenUSA', false)->setAllowedTypes('citoyenUSA', ['bool'])
@@ -967,17 +969,17 @@ class GeneraliHttpClient
             ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)->setNormalizer('codePieceIdentite', function(Options $options, $value){
+                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)->setNormalizer('codePieceIdentite', function (Options $options, $value) {
                         return Subscription::IDENTITY_DOC_2_MAP[$value];
                     })
-                    ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function(Options $options, $value) {
+                    ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function (Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
                 ;
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value){
+            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value) {
                 return Subscription::LEGAL_CAPACITY_MAP[$value]['code'];
             })
         ;
@@ -1024,7 +1026,7 @@ class GeneraliHttpClient
     private function configureFreePaymentParameters(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function(Options $options, $value){
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
@@ -1034,7 +1036,7 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setRequired('versementLibre')->setAllowedTypes('versementLibre', ['array'])->setNormalizer('versementLibre', function(Options $options, $value){
+            ->setRequired('versementLibre')->setAllowedTypes('versementLibre', ['array'])->setNormalizer('versementLibre', function (Options $options, $value) {
                 return $this->resolveVersementLibre($value);
             })
         ;
@@ -1054,7 +1056,7 @@ class GeneraliHttpClient
             ->setDefined('residenceFiscale')->setAllowedValues('residenceFiscale', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('residenceFiscale', function (Options $options, $value) {
                 return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
             })
-            ->setDefined('complement')->setAllowedTypes('complement', ['array'])->setNormalizer('complement', function (Options $options, $value){
+            ->setDefined('complement')->setAllowedTypes('complement', ['array'])->setNormalizer('complement', function (Options $options, $value) {
                 return $this->resolveComplement($value);
             })
             ->setDefined('ppe')->setAllowedTypes('ppe', ['array'])->setNormalizer('ppe', function (Options $options, $value) {
@@ -1080,7 +1082,7 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value){
+            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value) {
                 return Subscription::LEGAL_CAPACITY_MAP[$value]['code'];
             })
         ;
@@ -1096,22 +1098,22 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('dossierClient')->setAllowedTypes('dossierClient', ['array'])->setNormalizer('dossierClient', function(Options $options, $value){
+            ->setRequired('dossierClient')->setAllowedTypes('dossierClient', ['array'])->setNormalizer('dossierClient', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setDefined('contractant')->setAllowedTypes('contractant', ['array'])->setNormalizer('contractant', function(Options $options, $value) {
+                    ->setDefined('contractant')->setAllowedTypes('contractant', ['array'])->setNormalizer('contractant', function (Options $options, $value) {
                         return $this->resolveContractant($value);
                     })
-                    ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function(Options $options, $value) {
+                    ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function (Options $options, $value) {
                         return $this->resolveObjectifsVersement($value);
                     })
-                    ->setDefined('originesPatrimoine')->setAllowedTypes('originesPatrimoine', ['array'])->setNormalizer('originesPatrimoine', function(Options $options, $values){
+                    ->setDefined('originesPatrimoine')->setAllowedTypes('originesPatrimoine', ['array'])->setNormalizer('originesPatrimoine', function (Options $options, $values) {
                         return $this->resolveOriginePatrimoniale($values);
                     })
-                    ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function(Options $options, $value) {
+                    ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function (Options $options, $value) {
                         return $this->resolveOriginePaiement($value);
                     })
-                    ->setRequired('repartitionPatrimoine')->setAllowedTypes('repartitionPatrimoine', ['array'])->setNormalizer('repartitionPatrimoine', function(Options $options, $value){
+                    ->setRequired('repartitionPatrimoine')->setAllowedTypes('repartitionPatrimoine', ['array'])->setNormalizer('repartitionPatrimoine', function (Options $options, $value) {
                         return $this->resolveRepartitionPatrimoniale($value);
                     })
                     ->setDefined('revenusAnnuelsNetFoyer')->setAllowedTypes('revenusAnnuelsNetFoyer', ['array'])->setNormalizer('revenusAnnuelsNetFoyer', function (Options $options, $value) {
@@ -1125,10 +1127,10 @@ class GeneraliHttpClient
                 return $resolver->resolve($value);
             })
 
-            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values){
+            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                 return $this->resolveRepartition($values);
             })
-            ->setRequired('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function (Options $options, $value){
+            ->setRequired('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function (Options $options, $value) {
                 return $this->resolveReglement($value);
             })
             ->setRequired('montant')->setAllowedTypes('montant', ['int'])
@@ -1148,18 +1150,18 @@ class GeneraliHttpClient
         $resolvedValues = [];
 
         $resolver
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_FUNDS_ORIGIN)->setNormalizer('code', function (Options $options, $value){
+            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_FUNDS_ORIGIN)->setNormalizer('code', function (Options $options, $value) {
                 return Subscription::FUNDS_ORIGIN_MAP[$value]['code'];
             })
-            ->setDefined('codesDetail')->setAllowedTypes('codesDetail', ['array'])->setNormalizer('codesDetail', function(Options $options, $values){
-                foreach ($values as $value){
-                   $resolvedValues[] = Subscription::FUNDS_ORIGIN_INCOME_MAP[$value]['code'];
-               }
+            ->setDefined('codesDetail')->setAllowedTypes('codesDetail', ['array'])->setNormalizer('codesDetail', function (Options $options, $values) {
+                foreach ($values as $value) {
+                    $resolvedValues[] = Subscription::FUNDS_ORIGIN_INCOME_MAP[$value]['code'];
+                }
 
                 return $resolvedValues;
             })
             ->setDefined('montant')->setAllowedTypes('montant', ['int'])
-            ->setDefined('date')->setAllowedTypes('date', ['\DateTime'])->setNormalizer('date', function(Options $options, $value) {
+            ->setDefined('date')->setAllowedTypes('date', ['\DateTime'])->setNormalizer('date', function (Options $options, $value) {
                 return $value->format('Y-m-d');
             })
             ->setDefined('precision')->setAllowedTypes('precision', ['string'])
@@ -1179,28 +1181,28 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', Subscription::AVAILABLE_FAMILY_SITUATION)->setNormalizer('situationFamiliale', function (Options $options, $value){
+            ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', Subscription::AVAILABLE_FAMILY_SITUATION)->setNormalizer('situationFamiliale', function (Options $options, $value) {
                 return Subscription::FAMILY_SITUATION_MAP[$value]['code'];
             })
-            ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('situationProfessionnelle', function (Options $options, $value){
+            ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('situationProfessionnelle', function (Options $options, $value) {
                 return Subscription::PROFESSIONAL_SITUATION_MAP[$value]['code'];
             })
-            ->setDefined('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('regimeMatrimonial', function (Options $options, $value){
+            ->setDefined('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('regimeMatrimonial', function (Options $options, $value) {
                 return Subscription::MATRIMONIAL_REGIME_MAP[$value]['code'];
             })
-            ->setDefined('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value){
+            ->setDefined('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value) {
                 return Subscription::CSPS_CODE_MAP[$value]['code'];
             })
             ->setRequired('profession')->setAllowedTypes('profession', ['string'])
-            ->setDefined('codeNaf')->setAllowedValues('codeNaf', Subscription::AVAILABLE_NAF_CODE)->setNormalizer('codeNaf', function (Options $options, $value){
+            ->setDefined('codeNaf')->setAllowedValues('codeNaf', Subscription::AVAILABLE_NAF_CODE)->setNormalizer('codeNaf', function (Options $options, $value) {
                 return Subscription::NAF_CODE_MAP[$value]['code'];
             })
             ->setDefined('siret')->setAllowedTypes('siret', ['int'])
             ->setDefined('nomEmployeur')->setAllowedTypes('nomEmployeur', ['string'])
-            ->setDefined('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('cspDerniereProfession', function(Options $options, $value){
+            ->setDefined('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('cspDerniereProfession', function (Options $options, $value) {
                 return Subscription::CSPS_CODE_MAP[$value]['code'];
             })
-            ->setDefined('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\Datetime'])->setNormalizer('dateDebutInactivite', function(Options $options, $value){
+            ->setDefined('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\Datetime'])->setNormalizer('dateDebutInactivite', function (Options $options, $value) {
                 return $value->format('Y-m-d');
             })
         ;
@@ -1214,7 +1216,7 @@ class GeneraliHttpClient
     private function configureScheduledFreePaymentParameters(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value){
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
@@ -1223,7 +1225,7 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setRequired('versementsLibresProgrammes')->setAllowedTypes('versementsLibresProgrammes', ['array'])->setNormalizer('versementsLibresProgrammes', function (Options $options, $value){
+            ->setRequired('versementsLibresProgrammes')->setAllowedTypes('versementsLibresProgrammes', ['array'])->setNormalizer('versementsLibresProgrammes', function (Options $options, $value) {
                 return $this->resolveVersementsLibreProgrammes($value);
             })
         ;
@@ -1237,52 +1239,51 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('dossierClient')->setAllowedTypes('dossierClient', ['array'])->setNormalizer('dossierClient', function(Options $options, $value){
+            ->setRequired('dossierClient')->setAllowedTypes('dossierClient', ['array'])->setNormalizer('dossierClient', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('contractant')->setAllowedTypes('contractant', ['array'])->setNormalizer('contractant', function(Options $options, $value){
+                    ->setRequired('contractant')->setAllowedTypes('contractant', ['array'])->setNormalizer('contractant', function (Options $options, $value) {
                         return $this->resolveContractant($value);
                     })
-                    ->setRequired('estimationPatrimoineFoyer')->setAllowedTypes('estimationPatrimoineFoyer', ['array'])->setNormalizer('estimationPatrimoineFoyer', function (Options $options, $value){
+                    ->setRequired('estimationPatrimoineFoyer')->setAllowedTypes('estimationPatrimoineFoyer', ['array'])->setNormalizer('estimationPatrimoineFoyer', function (Options $options, $value) {
                         return $this->resolveEstimationPatrimoineFoyer($value);
                     })
-                    ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function (Options $option, $value){
+                    ->setRequired('objectifsVersement')->setAllowedTypes('objectifsVersement', ['array'])->setNormalizer('objectifsVersement', function (Options $option, $value) {
                         return $this->resolveObjectifsVersement($value);
                     })
-                    ->setRequired('originesPatrimoine')->setAllowedTypes('originesPatrimoine', ['array'])->setNormalizer('originesPatrimoine', function(Options $options, $value){
+                    ->setRequired('originesPatrimoine')->setAllowedTypes('originesPatrimoine', ['array'])->setNormalizer('originesPatrimoine', function (Options $options, $value) {
                         return $this->resolveOriginePatrimoniale($value);
                     })
-                    ->setRequired('repartitionPatrimoine')->setAllowedTypes('repartitionPatrimoine', ['array'])->setNormalizer('repartitionPatrimoine', function(Options $options, $value){
+                    ->setRequired('repartitionPatrimoine')->setAllowedTypes('repartitionPatrimoine', ['array'])->setNormalizer('repartitionPatrimoine', function (Options $options, $value) {
                         return $this->resolveRepartitionPatrimoniale($value);
                     })
-                    ->setRequired('revenusAnnuelsNetFoyer')->setAllowedTypes('revenusAnnuelsNetFoyer', ['array'])->setNormalizer('revenusAnnuelsNetFoyer', function(Options $options, $value){
+                    ->setRequired('revenusAnnuelsNetFoyer')->setAllowedTypes('revenusAnnuelsNetFoyer', ['array'])->setNormalizer('revenusAnnuelsNetFoyer', function (Options $options, $value) {
                         return $this->resolveRevenusAnnuelsNetFoyer($value);
                     })
-                    ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function(Options $options, $value){
+                    ->setRequired('originePaiement')->setAllowedTypes('originePaiement', ['array'])->setNormalizer('originePaiement', function (Options $options, $value) {
                         return $this->resolveOriginePaiement($value);
                     })
                 ;
 
                 return $resolver->resolve($value);
             })
-            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $values){
+            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                 $resolvedValues = [];
-                foreach($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValues[]= $this->resolveFond($value);
                 }
                 return $resolvedValues;
             })
-            ->setRequired('versement')->setAllowedTypes('versement', ['array'])->setNormalizer('versement', function(Options $options, $value){
+            ->setRequired('versement')->setAllowedTypes('versement', ['array'])->setNormalizer('versement', function (Options $options, $value) {
                 return $this->resolveVersement($value);
             })
-            ->setRequired('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function(Options $options, $value){
+            ->setRequired('reglement')->setAllowedTypes('reglement', ['array'])->setNormalizer('reglement', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('ibanContractant')->setAllowedTypes('ibanContractant', ['array'])->setNormalizer('ibanContractant', function(Options $options, $value){
+                    ->setRequired('ibanContractant')->setAllowedTypes('ibanContractant', ['array'])->setNormalizer('ibanContractant', function (Options $options, $value) {
                         return $this->resolveIbanContractant($value);
                     })
-                    ->setDefined('originesFonds')->setAllowedTypes('originesFonds', ['array'])->setNormalizer('originesFonds', function(Options $options, $values){
+                    ->setDefined('originesFonds')->setAllowedTypes('originesFonds', ['array'])->setNormalizer('originesFonds', function (Options $options, $values) {
                         return $this->resolveOriginesFonds($values);
                     })
                     ->setDefined('compteExternePartenaire')->setAllowedTypes('compteExternePartenaire', ['bool'])
@@ -1316,7 +1317,7 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('code', function (Options $options, $value){
+            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('code', function (Options $options, $value) {
                 return Subscription::PERSONAL_ASSETS_MAP[$value]['code'];
             })
             ->setDefined('montant')->setAllowedTypes('montant', ['int'])
@@ -1333,7 +1334,7 @@ class GeneraliHttpClient
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('code', function(Options $options, $value){
+            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('code', function (Options $options, $value) {
                 return Subscription::INCOME_BRACKETS_MAP[$value]['code'];
             })
             ->setDefined('montant')->setAllowedTypes('montant', ['int'])
@@ -1407,8 +1408,7 @@ class GeneraliHttpClient
             ->setRequired('fondsInvestis')->setAllowedTypes('fondsInvestis', ['array'])->setNormalizer('fondsInvestis', function (Options $options, $values) {
                 $resolver = new OptionsResolver();
                 $resolvedValues = [];
-                foreach ($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValues[] = $this->resolveFondsInvestis($value);
                 }
 
@@ -1441,7 +1441,7 @@ class GeneraliHttpClient
             })
         ;
 
-       return $resolver->resolve($value);
+        return $resolver->resolve($value);
     }
 
     /**
@@ -1466,7 +1466,7 @@ class GeneraliHttpClient
      */
     private function resolveRepartition($values)
     {
-        foreach ($values as $value){
+        foreach ($values as $value) {
             $resolvedValues[] = $this->resolveFond($value);
         }
         return $resolvedValues;
@@ -1478,7 +1478,7 @@ class GeneraliHttpClient
     private function configurePartialSurrender(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function(Options $options, $value){
+            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
                 $resolver  = new OptionsResolver();
                 $resolver
                     ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
@@ -1492,13 +1492,13 @@ class GeneraliHttpClient
 
                 return $resolver->resolve($value);
             })
-            ->setRequired('rachatPartiel')->setAllowedTypes('rachatPartiel', ['array'])->setNormalizer('rachatPartiel', function(Options $options, $value){
+            ->setRequired('rachatPartiel')->setAllowedTypes('rachatPartiel', ['array'])->setNormalizer('rachatPartiel', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('montant')->setAllowedTypes('montant', ['int'])
                     ->setRequired('codeMotif')->setAllowedTypes('codeMotif', ['string'])
                     ->setDefined('repartitionProportionnelle')->setAllowedTypes('repartitionProportionnelle', ['bool'])
-                    ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $values){
+                    ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                         $resolver  = new OptionsResolver();
                         $resolver
                             ->setRequired('codeFonds')->setAllowedTypes('codeFonds', ['string'])
@@ -1506,17 +1506,17 @@ class GeneraliHttpClient
                             ->setRequired('rachatTotal')->setAllowedTypes('rachatTotal', ['bool'])
                         ;
                         $resolvedValues = [];
-                        foreach ($values as $value){
+                        foreach ($values as $value) {
                             $resolvedValues[] = $resolver->resolve($value);
                         }
 
                         return $resolvedValues;
                     })
-                    ->setRequired('modeReglement')->setAllowedTypes('modeReglement', ['array'])->setNormalizer('modeReglement', function(Options $options, $value){
+                    ->setRequired('modeReglement')->setAllowedTypes('modeReglement', ['array'])->setNormalizer('modeReglement', function (Options $options, $value) {
                         $resolver = new OptionsResolver();
                         $resolver
                             ->setRequired('typePaiement')->setAllowedTypes('typePaiement', ['string'])
-                            ->setRequired('compteBancaire')->setAllowedTypes('compteBancaire', ['array'])->setNormalizer('compteBancaire', function(Options $options, $value){
+                            ->setRequired('compteBancaire')->setAllowedTypes('compteBancaire', ['array'])->setNormalizer('compteBancaire', function (Options $options, $value) {
                                 $resolver = new OptionsResolver();
                                 $resolver
                                     ->setDefined('domiciliation')->setAllowedTypes('domiciliation', ['string'])
