@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class MppGeneraliClientExtension extends Extension
 {
     /**
-     * @param array $configs
+     * @param array            $configs
      * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -21,5 +21,18 @@ class MppGeneraliClientExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         //$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         //$loader->load('services.yaml');
+
+        $container->setParameter(
+            sprintf('%s.intermediary_code', Configuration::CONFIGURATION_ROOT),
+            $config['intermediary_code']
+        );
+        $container->setParameter(
+            sprintf('%s.app_code', Configuration::CONFIGURATION_ROOT),
+            $config['app_code']
+        );
+        $container->setParameter(
+            sprintf('%s.subscription_code', Configuration::CONFIGURATION_ROOT),
+            $config['subscription_code']
+        );
     }
 }

@@ -6,13 +6,12 @@ declare(strict_types=1);
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Subscription
- * @package Mpp\GeneraliClientBundle\Model
+ * Class Subscription.
  */
 class Subscription
 {
     /**
-     * STEPS
+     * STEPS.
      */
     public const STEP_INITIATE = 'initiate';
     public const STEP_CHECK = 'check';
@@ -20,10 +19,10 @@ class Subscription
     public const STEP_FINALIZE = 'finalize';
 
     public const STEPS_MAP = [
-        SELF::STEP_INITIATE => "initier",
-        SELF::STEP_CHECK => "verifier",
-        SELF::STEP_CONFIRM => "confirmer",
-        SELF::STEP_FINALIZE => "finaliser",
+        SELF::STEP_INITIATE => 'initier',
+        SELF::STEP_CHECK => 'verifier',
+        SELF::STEP_CONFIRM => 'confirmer',
+        SELF::STEP_FINALIZE => 'finaliser',
     ];
 
     public const AVAILABLE_STEPS = [
@@ -32,19 +31,50 @@ class Subscription
         SELF::STEP_CONFIRM,
         SELF::STEP_FINALIZE,
     ];
+
     /**
-     * PRODUCTS
+     * SPECIFIC STEP FOR SCHEDULED FREE PAYMENT.
+     */
+    public const STEP_SCHEDULED_FREE_PAYMENT_SUSPEND = 'suspend';
+    public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE = 'initiate_edit';
+    public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK = 'check_edit';
+    public const STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM = 'confirm_edit';
+
+    public const STEP_SCHEDULED_FREE_PAYMENT_MAP = [
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND => 'suspensionVersementsLibresProgrammes',
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE => 'modificationVersementsLibresProgrammes/initier',
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK => 'modificationVersementsLibresProgrammes/verifier',
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM => 'modificationVersementsLibresProgrammes/confirmer',
+    ];
+
+    public const AVAILABLE_STEPS_SCHEDULED_FREE_PAYMENT = [
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
+        SELF::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
+    ];
+
+    /**
+     * PRODUCTS.
      */
     public const PRODUCT_SUBSCRIPTION = 'subscription';
     public const PRODUCT_FREE_PAYMENT = 'free_payment';
     public const PRODUCT_SCHEDULED_FREE_PAYMENT = 'scheduled_free_payment';
     public const PRODUCT_ARBITRATION = 'arbitration';
+    public const PRODUCT_PARTIAL_SURRENDER = 'partial_surrender';
 
     public const PRODUCTS_MAP = [
         self::PRODUCT_SUBSCRIPTION => 'souscription',
         self::PRODUCT_FREE_PAYMENT => 'versementLibre',
         self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'versementsLibresProgrammes',
         self::PRODUCT_ARBITRATION => 'arbitrage',
+        self::PRODUCT_PARTIAL_SURRENDER => 'rachatpartiel',
+    ];
+
+    public const PRODUCTS_FILES_MAP = [
+        self::PRODUCT_SUBSCRIPTION => 'SOUSCRIPTION',
+        self::PRODUCT_FREE_PAYMENT => 'VERSEMENT_LIBRE',
+        self::PRODUCT_SCHEDULED_FREE_PAYMENT => 'CREATION_VERSEMENT_LIBRE_PROGRAMME',
     ];
 
     public const AVAILABLE_PRODUCTS = [
@@ -52,14 +82,15 @@ class Subscription
         self::PRODUCT_FREE_PAYMENT,
         self::PRODUCT_SCHEDULED_FREE_PAYMENT,
         self::PRODUCT_ARBITRATION,
+        self::PRODUCT_PARTIAL_SURRENDER,
     ];
 
     /**
-     * CIVILITY
+     * CIVILITY.
      */
     public const CIVILITY_MR = 'sir';
     public const CIVILITY_MME = 'madam';
-    
+
     public const CIVILITY_MAP = [
         self::CIVILITY_MR => [
             'code' => 'MONSIEUR',
@@ -74,9 +105,9 @@ class Subscription
         self::CIVILITY_MR,
         self::CIVILITY_MME,
     ];
-    
+
     /**
-     * BENEFICIARY CLAUSES
+     * BENEFICIARY CLAUSES.
      */
     public const BENEFICIARY_CLAUSE_A = 'clause_a';
     public const BENEFICIARY_CLAUSE_C = 'clause_c';
@@ -122,7 +153,7 @@ class Subscription
     ];
 
     /**
-     * PAYMENT METHOD
+     * PAYMENT METHOD.
      */
     public const PAYMENT_METHOD_DIRECT_DEBIT = 'direct_debit';
     public const PAYMENT_METHOD_TRANSFER = 'transfer';
@@ -141,7 +172,7 @@ class Subscription
     ];
 
     /**
-     * DURATION TYPE
+     * DURATION TYPE.
      */
     public const DURATION_ENTIRE_LIFE = 'entire_life';
     public const DURATION_DEFERRED_CAPITAL = 'deferred_capital';
@@ -167,20 +198,20 @@ class Subscription
     ];
 
     /**
-     * BANK DEBIT DAY
+     * BANK DEBIT DAY.
      */
     public const BANK_DEBIT_10_DAY = 'debit_10_day';
 
     public const BANK_DEBIT_MAP = [
-        self::BANK_DEBIT_10_DAY => 10
+        self::BANK_DEBIT_10_DAY => 10,
     ];
 
     public const AVAILABLE_BANK_DEBIT = [
-        self::BANK_DEBIT_10_DAY
+        self::BANK_DEBIT_10_DAY,
     ];
 
     /**
-     * TYPE OF OUTCOME
+     * TYPE OF OUTCOME.
      */
     public const OUTCOME_TYPE_FIRST_DEATH = 'first_death';
     public const OUTCOME_TYPE_SECOND_DEATH = 'second_death';
@@ -193,7 +224,7 @@ class Subscription
         self::OUTCOME_TYPE_SECOND_DEATH => [
             'code' => 'SECOND_DECES',
             'libelle' => '2nd décès',
-        ]
+        ],
     ];
 
     public const AVAILABLE_OUTCOME_TYPE = [
@@ -202,12 +233,19 @@ class Subscription
     ];
 
     /**
-     * PROFESSIONAL SITUATIONS
+     * PROFESSIONAL SITUATIONS.
      */
     public const PROFESSIONAL_SITUATION_RETIRED = 'retired';
     public const PROFESSIONAL_SITUATION_EMPLOYED = 'employed';
     public const PROFESSIONAL_SITUATION_WITHOUT_ACTIVITY = 'without_activity';
-    public const PROFESSIONAL_SITUATION_SELF_EMPLOYED= 'self_employed';
+    public const PROFESSIONAL_SITUATION_SELF_EMPLOYED = 'self_employed';
+
+    public const AVAILABLE_PROFESSIONAL_SITUATION = [
+        self::PROFESSIONAL_SITUATION_RETIRED,
+        self::PROFESSIONAL_SITUATION_EMPLOYED,
+        self::PROFESSIONAL_SITUATION_WITHOUT_ACTIVITY,
+        self::PROFESSIONAL_SITUATION_SELF_EMPLOYED,
+    ];
 
     public const PROFESSIONAL_SITUATION_MAP = [
         self::PROFESSIONAL_SITUATION_RETIRED => [
@@ -217,69 +255,6 @@ class Subscription
         self::PROFESSIONAL_SITUATION_EMPLOYED => [
             'code' => 'SAL',
             'libelle' => 'Salarié',
-            'listeCsp' => [
-                [
-                    'code' => '37',
-                    'libelle' => 'Professions intermédiaires administratives et commerciales des entreprises',
-                ], [
-                    'code' => '38',
-                    'libelle' => 'Techniciens',
-                ], [
-                    'code' => '39',
-                    'libelle' => 'Contremaîtres, agents de maîtrise',
-                ], [
-                    'code' => '40',
-                    'libelle' => 'Employés administratifs d\'entreprise',
-                ], [
-                    'code' => '41',
-                    'libelle' => 'Employés de commerce',
-                ], [
-                    'code' => '42',
-                    'libelle' => 'Personnels des services directs aux particuliers',
-                ], [
-                    'code' => '43',
-                    'libelle' => 'Ouvriers qualifiés',
-                ], [
-                    'code' => '44',
-                    'libelle' => 'Ouvriers non qualifiés',
-                ], [
-                    'code' => '45',
-                    'libelle' => 'Ouvriers agricoles',
-                ], [
-                    'code' => '52',
-                    'libelle' => 'Cadres de la fonction publique',
-                ], [
-                    'code' => '53',
-                    'libelle' => 'Professeurs, professions scientifiques',
-                ], [
-                    'code' => '54',
-                    'libelle' => 'Professions de l\'information, des arts et des spectacles',
-                ], [
-                    'code' => '55',
-                    'libelle' => 'Cadres administratifs et commerciaux d\'entreprise',
-                ], [
-                    'code' => '56',
-                    'libelle' => 'Professeurs des écoles, instituteurs et assimilés',
-                ], [
-                    'code' => '57',
-                    'libelle' => 'Professions intermédiaires de la santé et du travail social',
-                ], [
-                    'code' => '58',
-                    'libelle' => 'Clergé, religieux',
-                ], [
-                    'code' => '59',
-                    'libelle' => 'Professions intermédiaires administratives de la fonction publique',
-                ], [
-                    'code' => '60',
-                    'libelle' => 'Employés civils et agents de service de la fonction publique',
-                ], [
-                    'code' => '61',
-                    'libelle' => 'Policiers et militaires',
-                ], [
-                    'code' => '63',
-                    'libelle' => 'Ingénieurs et cadres techniques d\'entreprise',
-                ]
-            ]
         ],
         self::PROFESSIONAL_SITUATION_WITHOUT_ACTIVITY => [
             'code' => 'NPR',
@@ -288,39 +263,11 @@ class Subscription
         self::PROFESSIONAL_SITUATION_SELF_EMPLOYED => [
             'code' => 'NSAL',
             'libelle' => 'Travailleur non salarié',
-            'listeCsp' => [
-                [
-                    'code' => '32',
-                    'libelle' => 'Agriculteurs exploitants',
-                ], [
-                    'code' => '33',
-                    'libelle' => 'Artisans',
-                ], [
-                    'code' => '34',
-                    'libelle' => 'Commerçants et assimilés',
-                ], [
-                    'code' => '35',
-                    'libelle' => 'Chefs d\'entreprise de 10 salariés ou plus',
-                ], [
-                    'code' => '36',
-                    'libelle' => 'Professions libérales et assimilés',
-                ], [
-                    'code' => '57',
-                    'libelle' => 'Professions intermédiaires de la santé et du travail social',
-                ]
-            ]
         ],
     ];
 
-    public const AVAILABLE_PROFESSIONAL_SITUATION = [
-        self::PROFESSIONAL_SITUATION_RETIRED,
-        self::PROFESSIONAL_SITUATION_EMPLOYED,
-        self::PROFESSIONAL_SITUATION_WITHOUT_ACTIVITY,
-        self::PROFESSIONAL_SITUATION_SELF_EMPLOYED,
-    ];
-
     /**
-     * FAMIILY SITUATION
+     * FAMIILY SITUATION.
      */
     public const FAMILY_SITUATION_SINGLE = 'single';
     public const FAMILY_SITUATION_DIVORCED = 'divorced';
@@ -334,6 +281,10 @@ class Subscription
         self::FAMILY_SITUATION_SINGLE => [
             'code' => '1',
             'libelle' => 'Célibataire',
+        ],
+        self::FAMILY_SITUATION_WIDOWED => [
+            'code' => '2',
+            'libelle' => 'Veuf(ve]',
         ],
         self::FAMILY_SITUATION_DIVORCED => [
             'code' => '3',
@@ -355,10 +306,6 @@ class Subscription
             'code' => '7',
             'libelle' => 'Union libre',
         ],
-        self::FAMILY_SITUATION_WIDOWED => [
-            'code' => '2',
-            'libelle' => 'Veuf(ve]',
-        ],
     ];
 
     public const AVAILABLE_FAMILY_SITUATION = [
@@ -372,7 +319,7 @@ class Subscription
     ];
 
     /**
-     * SLICE OF INCOME BRACKETS
+     * SLICE OF INCOME BRACKETS.
      */
     public const INCOME_BRACKETS_SLICE_1 = 'slice_1';
     public const INCOME_BRACKETS_SLICE_2 = 'slice_2';
@@ -380,21 +327,22 @@ class Subscription
     public const INCOME_BRACKETS_SLICE_4 = 'slice_4';
     public const INCOME_BRACKETS_SLICE_5 = 'slice_5';
     public const INCOME_BRACKETS_SLICE_6 = 'slice_6';
+    public const INCOME_BRACKETS_SLICE_7 = 'slice_7';
 
     public const INCOME_BRACKETS_MAP = [
-        self::INCOME_BRACKETS_SLICE_1 =>[
+        self::INCOME_BRACKETS_SLICE_1 => [
             'code' => '1',
             'libelle' => '0 à 25 000',
             'trancheMin' => 0,
             'trancheMax' => 25000,
         ],
-        self::INCOME_BRACKETS_SLICE_2 =>[
+        self::INCOME_BRACKETS_SLICE_2 => [
             'code' => '2',
             'libelle' => '25 000 à 50 000',
             'trancheMin' => 25000,
             'trancheMax' => 50000,
         ],
-        self::INCOME_BRACKETS_SLICE_3 =>[
+        self::INCOME_BRACKETS_SLICE_3 => [
             'code' => '3',
             'libelle' => '50 000 à 75 000',
             'trancheMin' => 50000,
@@ -406,19 +354,19 @@ class Subscription
             'trancheMin' => 75000,
             'trancheMax' => 100000,
         ],
-        self::INCOME_BRACKETS_SLICE_5 =>[
+        self::INCOME_BRACKETS_SLICE_5 => [
             'code' => '5',
             'libelle' => '100 000 à 150 000',
             'trancheMin' => 100000,
             'trancheMax' => 150000,
         ],
-        self::INCOME_BRACKETS_SLICE_6 =>[
+        self::INCOME_BRACKETS_SLICE_6 => [
             'code' => '6',
             'libelle' => '150 000 à 300 000',
             'trancheMin' => 150000,
             'trancheMax' => 300000,
         ],
-        self::INCOME_BRACKETS_SLICE_7 =>[
+        self::INCOME_BRACKETS_SLICE_7 => [
             'code' => '7',
             'libelle' => 'Plus de 300 000',
             'trancheMin' => 300000,
@@ -432,19 +380,20 @@ class Subscription
         self::INCOME_BRACKETS_SLICE_4,
         self::INCOME_BRACKETS_SLICE_5,
         self::INCOME_BRACKETS_SLICE_6,
+        self::INCOME_BRACKETS_SLICE_7,
     ];
 
     /**
-     * SLICE OF PERSONAL ASSETS
+     * SLICE OF PERSONAL ASSETS.
      */
-    public const PERSONAL_ASSETS_SLICE_1  = 'slice_1';
-    public const PERSONAL_ASSETS_SLICE_2  = 'slice_2';
-    public const PERSONAL_ASSETS_SLICE_3  = 'slice_3';
-    public const PERSONAL_ASSETS_SLICE_4  = 'slice_4';
-    public const PERSONAL_ASSETS_SLICE_5  = 'slice_5';
-    public const PERSONAL_ASSETS_SLICE_6  = 'slice_6';
-    public const PERSONAL_ASSETS_SLICE_7  = 'slice_7';
-    public const PERSONAL_ASSETS_SLICE_8  = 'slice_8';
+    public const PERSONAL_ASSETS_SLICE_1 = 'slice_1';
+    public const PERSONAL_ASSETS_SLICE_2 = 'slice_2';
+    public const PERSONAL_ASSETS_SLICE_3 = 'slice_3';
+    public const PERSONAL_ASSETS_SLICE_4 = 'slice_4';
+    public const PERSONAL_ASSETS_SLICE_5 = 'slice_5';
+    public const PERSONAL_ASSETS_SLICE_6 = 'slice_6';
+    public const PERSONAL_ASSETS_SLICE_7 = 'slice_7';
+    public const PERSONAL_ASSETS_SLICE_8 = 'slice_8';
 
     public const PERSONAL_ASSETS_MAP = [
         self::PERSONAL_ASSETS_SLICE_1 => [
@@ -465,7 +414,7 @@ class Subscription
             'trancheMin' => 300000,
             'trancheMax' => 500000,
         ],
-        self::PERSONAL_ASSETS_SLICE_4 =>  [
+        self::PERSONAL_ASSETS_SLICE_4 => [
             'code' => '4',
             'libelle' => '500 000 à 1 000 000',
             'trancheMin' => 500000,
@@ -483,7 +432,7 @@ class Subscription
             'trancheMin' => 2000000,
             'trancheMax' => 5000000,
         ],
-        self::PERSONAL_ASSETS_SLICE_7  => [
+        self::PERSONAL_ASSETS_SLICE_7 => [
             'code' => '7',
             'libelle' => '5 000 000 à 10 000 000',
             'trancheMin' => 5000000,
@@ -508,7 +457,7 @@ class Subscription
     ];
 
     /**
-     * ORIGIN OF FUNDS
+     * ORIGIN OF FUNDS.
      */
     public const FUNDS_ORIGIN_INCOME = '1';
     public const FUNDS_ORIGIN_HERITAGE = '3';
@@ -526,27 +475,43 @@ class Subscription
     public const FUNDS_ORIGIN_ASSOCIATED_CURRENT_ACCOUNT = '15';
     public const FUNDS_ORIGIN_ASSIGNMENT_WORK_ART = '16';
 
+    public const FUNDS_ORIGIN_ACTIVITY_INCOME = '1';
+    public const FUNDS_ORIGIN_PROPERTY_INCOME = '2';
+    public const FUNDS_ORIGIN_PONCTUAL_BONUS = '3';
+    public const FUNDS_ORIGIN_ANNUITY = '4';
+
+    public const FUNDS_ORIGIN_INCOME_MAP = [
+        self::FUNDS_ORIGIN_ACTIVITY_INCOME => [
+            'code' => '1',
+            'libelle' => 'Revenu de l\'activité',
+        ],
+        self::FUNDS_ORIGIN_PROPERTY_INCOME => [
+            'code' => '2',
+            'libelle' => 'Revenus locatifs - fonciers',
+        ],
+        self::FUNDS_ORIGIN_PONCTUAL_BONUS => [
+             'code' => '3',
+             'libelle' => 'Prime ponctuelle / Indemnités',
+         ],
+        self::FUNDS_ORIGIN_ANNUITY => [
+            'code' => '4',
+            'libelle' => 'Rente',
+        ],
+    ];
+
+    public const AVAILABLE_FUNDS_ORIGIN_INCOME = [
+        self::FUNDS_ORIGIN_PONCTUAL_BONUS,
+        self::FUNDS_ORIGIN_ANNUITY,
+        self::FUNDS_ORIGIN_ACTIVITY_INCOME,
+        self::FUNDS_ORIGIN_PROPERTY_INCOME,
+    ];
+
     public const FUNDS_ORIGIN_MAP = [
         self::FUNDS_ORIGIN_INCOME => [
             'code' => '1',
             'libelle' => 'Revenus',
             'dateNecessaire' => false,
             'commentaireNecessaire' => false,
-            'detail' => [
-                [
-                    'code' => '3',
-                    'libelle' => 'Prime ponctuelle / Indemnités',
-                ], [
-                    'code' => '4',
-                    'libelle' => 'Rente',
-                ], [
-                    'code' => '1',
-                    'libelle' => 'Revenu de l\'activité',
-                ], [
-                    'code' => '2',
-                    'libelle' => 'Revenus locatifs - fonciers',
-                ],
-            ],
             'bloquantDemat' => false,
         ],
         self::FUNDS_ORIGIN_HERITAGE => [
@@ -649,7 +614,7 @@ class Subscription
         ],
     ];
 
-    public const AVAILABLE_FUNDS_ORIGIN_MAP = [
+    public const AVAILABLE_FUNDS_ORIGIN = [
         self::FUNDS_ORIGIN_INCOME,
         self::FUNDS_ORIGIN_HERITAGE,
         self::FUNDS_ORIGIN_DONATION,
@@ -664,11 +629,11 @@ class Subscription
         self::FUNDS_ORIGIN_CONTRACT_CAPITAL,
         self::FUNDS_ORIGIN_DIVIDEND_PAYMENT,
         self::FUNDS_ORIGIN_ASSOCIATED_CURRENT_ACCOUNT,
-        self::FUNDS_ORIGIN_ASSIGNMENT_WORK_ART ,
+        self::FUNDS_ORIGIN_ASSIGNMENT_WORK_ART,
     ];
 
     /**
-     * CONTRACTOR LINK
+     * CONTRACTOR LINK.
      */
     public const CONTRACTOR_LINK_SPOUSES = '1';
     public const CONTRACTOR_LINK_OTHER = '2';
@@ -681,15 +646,15 @@ class Subscription
         CONTRACTOR_LINK_OTHER => [
             'code' => '2',
             'libelle' => 'Autre',
-        ]
+        ],
     ];
     public const AVAILABLE_CONTRACTOR_LINK = [
         CONTRACTOR_LINK_SPOUSES,
-        CONTRACTOR_LINK_OTHER
+        CONTRACTOR_LINK_OTHER,
     ];
 
     /**
-     * PPE FUNCTIONS
+     * PPE FUNCTIONS.
      */
     public const FUNCTION_PPE_HEAD_STATE = '1';
     public const FUNCTION_PPE_MEMBER_PARLIAMENT = '2';
@@ -706,7 +671,7 @@ class Subscription
             'code' => '1',
             'libelle' => 'Chef d\'Etat, chef de gouvernement, membre d\'un gouvernement national ou de la Commission Européenne',
         ],
-        FUNCTION_PPE_MEMBER_PARLIAMENT =>  [
+        FUNCTION_PPE_MEMBER_PARLIAMENT => [
             'code' => '2',
             'libelle' => 'Membre d\'une assemblée parlementaire nationale ou du Parlement européen',
         ],
@@ -737,7 +702,7 @@ class Subscription
         FUNCTION_PPE_INTERNATIONAL_PUBLIC_INSTITUTION_DIRECTOR => [
             'code' => '9',
             'libelle' => 'Dirigeant d\'une institution internationale publique créée par un traité',
-        ]
+        ],
     ];
 
     public const AVAILABLE_FUNCTION_PPE = [
@@ -753,7 +718,7 @@ class Subscription
     ];
 
     /**
-     * PPE CONTRACTOR LINK
+     * PPE CONTRACTOR LINK.
      */
     public const PPE_CONTRACTOR_LINK_NOTORIOUS_SPOUSE = '1';
     public const PPE_CONTRACTOR_LINK_FOREIGN_PARTNERSHIP_CONTRACT = '2';
@@ -781,18 +746,18 @@ class Subscription
         PPE_CONTRACTOR_LINK_BUSINESS_TIES => [
             'code' => '5',
             'libelle' => 'Toute personne physique connue comme entretenant des liens d\'affaires étroits avec ce client',
-        ]
+        ],
     ];
     public const AVAILABLE_PPE_CONTRACTOR_LINK = [
         PPE_CONTRACTOR_LINK_NOTORIOUS_SPOUSE,
         PPE_CONTRACTOR_LINK_FOREIGN_PARTNERSHIP_CONTRACT,
         PPE_CONTRACTOR_LINK_FOREIGN_DIRECT_LINE,
         PPE_CONTRACTOR_LINK_BENEFICIAL_OWNER,
-        PPE_CONTRACTOR_LINK_BUSINESS_TIES
+        PPE_CONTRACTOR_LINK_BUSINESS_TIES,
     ];
 
     /**
-     * PAYMENT OBJECTIVES
+     * PAYMENT OBJECTIVES.
      */
     public const PAYMENT_OBJECTIVE_INHERITANCE_TRANSMISSION = '1';
     public const PAYMENT_OBJECTIVE_GUARANTEE_INSTRUMENT = '2';
@@ -800,14 +765,14 @@ class Subscription
     public const PAYMENT_OBJECTIVE_IMMEDIATE_ADDITIONAL_INCOME = '4';
     public const PAYMENT_OBJECTIVE_FUTUR_PROJECT_FINANCING = '5';
     public const PAYMENT_OBJECTIVE_OTHERS = '6';
-    public const PAYMENT_OBJECTIVE_BUILD_CAPITAL  = '7';
+    public const PAYMENT_OBJECTIVE_BUILD_CAPITAL = '7';
 
     public const PAYMENT_OBJECTIVE_MAP = [
         self::PAYMENT_OBJECTIVE_INHERITANCE_TRANSMISSION => [
             'code' => '1',
             'libelle' => 'Transmettre un capital à mes héritiers ou à des tiers',
         ],
-        self::PAYMENT_OBJECTIVE_GUARANTEE_INSTRUMENT =>   [
+        self::PAYMENT_OBJECTIVE_GUARANTEE_INSTRUMENT => [
             'code' => '2',
             'libelle' => 'Utiliser le contrat comme un instrument de garantie',
         ],
@@ -844,7 +809,7 @@ class Subscription
     ];
 
     /**
-     * NAF CODE
+     * NAF CODE.
      */
     public const CODE_NAF_AGRICULTURE_FORESTRY_FISHING = '1';
     public const CODE_NAF_EXTRACTIVE_INDUSTRY = '2';
@@ -857,8 +822,8 @@ class Subscription
     public const CODE_NAF_HOTEL_RESTAURANT = '9';
     public const CODE_NAF_INFORMATION_COMMUNICATION = '10';
     public const CODE_NAF_FINANCIAL_INSURANCE = '11';
-    public const CODE_NAF_REAL_ESTATE= '12';
-    public const CODE_NAF_SCIENTIFIC_TECHNICAL= '13';
+    public const CODE_NAF_REAL_ESTATE = '12';
+    public const CODE_NAF_SCIENTIFIC_TECHNICAL = '13';
     public const CODE_NAF_ADMINISTRATIVE_SUPPORT = '14';
     public const CODE_NAF_PUBLIC_ADMINISTRATIVE = '15';
     public const CODE_NAF_EDUCATION = '16';
@@ -870,43 +835,43 @@ class Subscription
     public const CODE_NAF_UNDEFINED = '22';
 
     public const NAF_CODE_MAP = [
-        self::CODE_NAF_AGRICULTURE_FORESTRY_FISHING =>[
-               'code' => '1',
-               'libelle' => 'Agriculture, sylviculture et pêche',
+        self::CODE_NAF_AGRICULTURE_FORESTRY_FISHING => [
+            'code' => '1',
+            'libelle' => 'Agriculture, sylviculture et pêche',
            ],
-        self::CODE_NAF_EXTRACTIVE_INDUSTRY =>[
+        self::CODE_NAF_EXTRACTIVE_INDUSTRY => [
             'code' => '2',
             'libelle' => 'Industries extractives',
         ],
-        self::CODE_NAF_MANUFACTURING_INDUSTRY =>[
+        self::CODE_NAF_MANUFACTURING_INDUSTRY => [
             'code' => '3',
             'libelle' => 'Industrie manufacturière',
         ],
-        self::CODE_NAF_ELECTRICITY_GAS_AIR_MANAGEMENT =>[
+        self::CODE_NAF_ELECTRICITY_GAS_AIR_MANAGEMENT => [
             'code' => '4',
             'libelle' => 'Production et distribution d\'électricité de gaz de vapeur et d\'air conditionné',
         ],
-        self::CODE_NAF_WATER_WASTE_MANAGEMENT =>[
+        self::CODE_NAF_WATER_WASTE_MANAGEMENT => [
             'code' => '5',
             'libelle' => 'Production et distribution d\'eau , assainissement gestion des déchets et dépollution',
         ],
-        self::CODE_NAF_PUBLIC_CONSTRUCTION =>[
+        self::CODE_NAF_PUBLIC_CONSTRUCTION => [
             'code' => '6',
             'libelle' => 'public construction',
         ],
-        self::CODE_NAF_AUTO_MOTO_INDUSTRY =>[
+        self::CODE_NAF_AUTO_MOTO_INDUSTRY => [
             'code' => '7',
             'libelle' => 'commerce, réparation d\'automobile et de motocycles',
         ],
-        self::CODE_NAF_TRANSPORT_STORAGE =>[
+        self::CODE_NAF_TRANSPORT_STORAGE => [
             'code' => '8',
             'libelle' => 'Transports et entreposage',
         ],
-        self::CODE_NAF_HOTEL_RESTAURANT =>[
+        self::CODE_NAF_HOTEL_RESTAURANT => [
             'code' => '9',
             'libelle' => 'Hébergement et restauration',
         ],
-        self::CODE_NAF_INFORMATION_COMMUNICATION =>[
+        self::CODE_NAF_INFORMATION_COMMUNICATION => [
             'code' => '10',
             'libelle' => 'Information et communication',
         ],
@@ -914,47 +879,47 @@ class Subscription
         'code' => '11',
         'libelle' => 'Activités financières et d\'assurance',
         ],
-        self::CODE_NAF_REAL_ESTATE=>[
+        self::CODE_NAF_REAL_ESTATE => [
         'code' => '12',
         'libelle' => 'Activités immobilières',
         ],
-        self::CODE_NAF_SCIENTIFIC_TECHNICAL=>[
+        self::CODE_NAF_SCIENTIFIC_TECHNICAL => [
         'code' => '13',
         'libelle' => 'Activités spécialisées, scientifiques et techniques',
         ],
-        self::CODE_NAF_ADMINISTRATIVE_SUPPORT =>[
+        self::CODE_NAF_ADMINISTRATIVE_SUPPORT => [
         'code' => '14',
         'libelle' => 'Activités de services administratifs et de soutien',
         ],
-        self::CODE_NAF_PUBLIC_ADMINISTRATIVE =>[
+        self::CODE_NAF_PUBLIC_ADMINISTRATIVE => [
         'code' => '15',
         'libelle' => 'Administration publique',
         ],
-        self::CODE_NAF_EDUCATION =>[
+        self::CODE_NAF_EDUCATION => [
             'code' => '16',
             'libelle' => 'Enseignement',
         ],
-        self::CODE_NAF_HEALTH_SOCIAL =>[
+        self::CODE_NAF_HEALTH_SOCIAL => [
             'code' => '17',
             'libelle' => 'Santé humaine et action sociale',
         ],
-        self::CODE_NAF_ART_ENTERTAINMENT =>[
+        self::CODE_NAF_ART_ENTERTAINMENT => [
             'code' => '18',
             'libelle' => 'Arts, spectacles et activités récréatives',
         ],
-        self::CODE_NAF_OTHER_SERVICE =>[
+        self::CODE_NAF_OTHER_SERVICE => [
             'code' => '19',
             'libelle' => 'Autres activités de services',
         ],
-        self::CODE_NAF_EMPLOYERS_HOUSEHOLD =>[
+        self::CODE_NAF_EMPLOYERS_HOUSEHOLD => [
         'code' => '20',
         'libelle' => 'Activités des ménages en tant qu\'employeurs',
         ],
-        self::CODE_NAF_EXTRA_TERRITORIAL =>[
+        self::CODE_NAF_EXTRA_TERRITORIAL => [
         'code' => '21',
         'libelle' => 'Activités extra-territoriales',
         ],
-        self::CODE_NAF_UNDEFINED =>[
+        self::CODE_NAF_UNDEFINED => [
             'code' => '22',
             'libelle' => 'Non défini',
         ],
@@ -986,42 +951,41 @@ class Subscription
     ];
 
     /**
-     * CSPS CODE
+     * CSPS CODE.
      */
-    public const CSPS_CODE_NOT_SPECIFIED  = '0';
-    public const CSPS_CODE_FARMER  = '32';
-    public const CSPS_CODE_ARTISANS  = '33';
-    public const CSPS_CODE_TRADERS_ASSIMILATED = '34';
-    public const CSPS_CODE_MANAGER_MORE_10_EMPLOYEES = '35';
-    public const CSPS_CODE_LIBERAL_ASSIMILATED = '36';
-    public const CSPS_CODE_SALE_ADMINISTRATIVE_INTERMEDIARY_COMPANY = '37';
-    public const CSPS_CODE_TECHNICIANS = '38';
-    public const CSPS_CODE_SUPERVISOR = '39';
-    public const CSPS_CODE_ADMINISTRATIVE_EMPLOYEE = '40';
-    public const CSPS_CODE_COMMERCIAL_EMPLOYEE = '41';
-    public const CSPS_CODE_PERSONAL_SERVICE_EMPLOYE = '42';
-    public const CSPS_CODE_SKILLED_WORKER = '43';
-    public const CSPS_CODE_UNSKILLED_WORKER = '44';
-    public const CSPS_CODE_AGRICULTURAL_WORKER = '45';
-    public const CSPS_CODE_PUBLIC_SERVICE_EXECUTIVE = '52';
-    public const CSPS_CODE_PPROFESSOR_SCIENTIFIC_PROFESSION = '53';
-    public const CSPS_CODE_INFORMATION_ART_ENTERTAINMENT = '54';
-    public const CSPS_CODE_EXECUTIVES_SALES = '55';
-    public const CSPS_CODE_SCHOOL_TEACHER = '56';
-    public const CSPS_CODE_HEALTH_SOCIAL_INTERMEDIARY = '57';
-    public const CSPS_CODE_RELIGIOUS = '58';
-    public const CSPS_CODE_PUBLIC_SERVICE_INTERMEDIARY_PROFESSION = '59';
-    public const CSPS_CODE_CIVILIAN_EMPLOYEE_CIVIL_SERVANTS = '60';
-    public const CSPS_CODE_POLICE_MILITARY = '61';
-    public const CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE = '63';
-
+    public const CSPS_CODE_NOT_SPECIFIED = 'unkwown';
+    public const CSPS_CODE_FARMER = 'farmer';
+    public const CSPS_CODE_ARTISANS = 'artisans';
+    public const CSPS_CODE_TRADERS_ASSIMILATED = 'traders_assimilated';
+    public const CSPS_CODE_MANAGER_MORE_10_EMPLOYEES = 'manager_more_10_employees';
+    public const CSPS_CODE_LIBERAL_ASSIMILATED = 'liberal_assimilated';
+    public const CSPS_CODE_SALE_ADMINISTRATIVE_INTERMEDIARY_COMPANY = 'sale_administrative_intermediary_company';
+    public const CSPS_CODE_TECHNICIANS = 'technicians';
+    public const CSPS_CODE_SUPERVISOR = 'supervisor';
+    public const CSPS_CODE_ADMINISTRATIVE_EMPLOYEE = 'administrative_employee';
+    public const CSPS_CODE_COMMERCIAL_EMPLOYEE = 'commercial_employee';
+    public const CSPS_CODE_PERSONAL_SERVICE_EMPLOYE = 'personal_service_employe';
+    public const CSPS_CODE_SKILLED_WORKER = 'skilled_worker';
+    public const CSPS_CODE_UNSKILLED_WORKER = 'unskilled_worker';
+    public const CSPS_CODE_AGRICULTURAL_WORKER = 'agricultural_worker';
+    public const CSPS_CODE_PUBLIC_SERVICE_EXECUTIVE = 'public_service_executive';
+    public const CSPS_CODE_PPROFESSOR_SCIENTIFIC_PROFESSION = 'professor_scientific_profession';
+    public const CSPS_CODE_INFORMATION_ART_ENTERTAINMENT = 'information_art_entertainment';
+    public const CSPS_CODE_EXECUTIVES_SALES = 'executives_sales';
+    public const CSPS_CODE_SCHOOL_TEACHER = 'school_teacher';
+    public const CSPS_CODE_HEALTH_SOCIAL_INTERMEDIARY = 'health_social_intermediary';
+    public const CSPS_CODE_RELIGIOUS = 'religious';
+    public const CSPS_CODE_PUBLIC_SERVICE_INTERMEDIARY_PROFESSION = 'public_service_intermediary_profession';
+    public const CSPS_CODE_CIVILIAN_EMPLOYEE_CIVIL_SERVANTS = 'civilian_employee_civil_servants';
+    public const CSPS_CODE_POLICE_MILITARY = 'police_military';
+    public const CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE = 'engineer_technical_executive';
 
     public const CSPS_CODE_MAP = [
         self::CSPS_CODE_NOT_SPECIFIED => [
             'code' => '0',
             'libelle' => 'Non renseigné',
         ],
-        self::CSPS_CODE_FARMER =>[
+        self::CSPS_CODE_FARMER => [
             'code' => '32',
             'libelle' => 'Agriculteurs exploitants',
         ],
@@ -1029,27 +993,27 @@ class Subscription
             'code' => '33',
             'libelle' => 'Artisans',
         ],
-        self::CSPS_CODE_TRADERS_ASSIMILATED=> [
+        self::CSPS_CODE_TRADERS_ASSIMILATED => [
             'code' => '34',
             'libelle' => 'Commerçants et assimilés',
         ],
-        self::CSPS_CODE_MANAGER_MORE_10_EMPLOYEES=> [
+        self::CSPS_CODE_MANAGER_MORE_10_EMPLOYEES => [
             'code' => '35',
             'libelle' => 'Chefs d\'entreprise de 10 salariés ou plus',
         ],
-        self::CSPS_CODE_LIBERAL_ASSIMILATED=> [
+        self::CSPS_CODE_LIBERAL_ASSIMILATED => [
             'code' => '36',
             'libelle' => 'Professions libérales et assimilés',
         ],
-        self::CSPS_CODE_SALE_ADMINISTRATIVE_INTERMEDIARY_COMPANY=> [
+        self::CSPS_CODE_SALE_ADMINISTRATIVE_INTERMEDIARY_COMPANY => [
             'code' => '37',
             'libelle' => 'Professions intermédiaires administratives et commerciales des entreprises',
         ],
-        self::CSPS_CODE_TECHNICIANS=>  [
+        self::CSPS_CODE_TECHNICIANS => [
             'code' => '38',
             'libelle' => 'Techniciens',
         ],
-        self::CSPS_CODE_SUPERVISOR=> [
+        self::CSPS_CODE_SUPERVISOR => [
             'code' => '39',
             'libelle' => 'Contremaîtres, agents de maîtrise',
         ],
@@ -1057,43 +1021,43 @@ class Subscription
             'code' => '40',
             'libelle' => 'Employés administratifs d\'entreprise',
         ],
-        self::CSPS_CODE_COMMERCIAL_EMPLOYEE=> [
+        self::CSPS_CODE_COMMERCIAL_EMPLOYEE => [
             'code' => '41',
             'libelle' => 'Employés de commerce',
         ],
-        self::CSPS_CODE_PERSONAL_SERVICE_EMPLOYE=> [
+        self::CSPS_CODE_PERSONAL_SERVICE_EMPLOYE => [
             'code' => '42',
             'libelle' => 'Personnels des services directs aux particuliers',
         ],
-        self::CSPS_CODE_SKILLED_WORKER=> [
+        self::CSPS_CODE_SKILLED_WORKER => [
             'code' => '43',
             'libelle' => 'Ouvriers qualifiés',
         ],
-        self::CSPS_CODE_UNSKILLED_WORKER=> [
+        self::CSPS_CODE_UNSKILLED_WORKER => [
             'code' => '44',
             'libelle' => 'Ouvriers non qualifiés',
         ],
-        self::CSPS_CODE_AGRICULTURAL_WORKER=> [
+        self::CSPS_CODE_AGRICULTURAL_WORKER => [
             'code' => '45',
             'libelle' => 'Ouvriers agricoles',
         ],
-        self::CSPS_CODE_PUBLIC_SERVICE_EXECUTIVE=> [
+        self::CSPS_CODE_PUBLIC_SERVICE_EXECUTIVE => [
             'code' => '52',
             'libelle' => 'Cadres de la fonction publique',
         ],
-        self::CSPS_CODE_PPROFESSOR_SCIENTIFIC_PROFESSION=> [
+        self::CSPS_CODE_PPROFESSOR_SCIENTIFIC_PROFESSION => [
             'code' => '53',
             'libelle' => 'Professeurs, professions scientifiques',
         ],
-        self::CSPS_CODE_INFORMATION_ART_ENTERTAINMENT=> [
+        self::CSPS_CODE_INFORMATION_ART_ENTERTAINMENT => [
             'code' => '54',
             'libelle' => 'Professions de l\'information, des arts et des spectacles',
         ],
-        self::CSPS_CODE_EXECUTIVES_SALES=> [
+        self::CSPS_CODE_EXECUTIVES_SALES => [
             'code' => '55',
             'libelle' => 'Cadres administratifs et commerciaux d\'entreprise',
         ],
-        self::CSPS_CODE_SCHOOL_TEACHER=> [
+        self::CSPS_CODE_SCHOOL_TEACHER => [
             'code' => '56',
             'libelle' => 'Professeurs des écoles, instituteurs et assimilés',
         ],
@@ -1101,11 +1065,11 @@ class Subscription
             'code' => '57',
             'libelle' => 'Professions intermédiaires de la santé et du travail social',
         ],
-        self::CSPS_CODE_RELIGIOUS=> [
+        self::CSPS_CODE_RELIGIOUS => [
             'code' => '58',
             'libelle' => 'Clergé, religieux',
         ],
-        self::CSPS_CODE_PUBLIC_SERVICE_INTERMEDIARY_PROFESSION=> [
+        self::CSPS_CODE_PUBLIC_SERVICE_INTERMEDIARY_PROFESSION => [
             'code' => '59',
             'libelle' => 'Professions intermédiaires administratives de la fonction publique',
         ],
@@ -1113,11 +1077,11 @@ class Subscription
             'code' => '60',
             'libelle' => 'Employés civils et agents de service de la fonction publique',
         ],
-        self::CSPS_CODE_POLICE_MILITARY=> [
+        self::CSPS_CODE_POLICE_MILITARY => [
             'code' => '61',
             'libelle' => 'Policiers et militaires',
         ],
-        self::CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE=> [
+        self::CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE => [
             'code' => '63',
             'libelle' => 'Ingénieurs et cadres techniques d\'entreprise',
         ],
@@ -1152,78 +1116,20 @@ class Subscription
         self::CSPS_CODE_ENGINEER_TECHNICAL_EXECUTIVE,
     ];
 
-    public const PAYSRESIDENCEFISCALE = [
-        [
+    public const FISCALITY_RESIDENCE_COUNTRY_FRANCE = 'france';
+
+    public const AVAILABLE_FISCALITY_RESIDENCE_COUNTRY = [
+        self::FISCALITY_RESIDENCE_COUNTRY_FRANCE,
+    ];
+    public const FISCALITY_RESIDENCE_COUNTRY_MAP = [
+        self::FISCALITY_RESIDENCE_COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
-        ], [
-            'code' => 'XXXXXGUADELOUPE',
-            'libelle' => 'GUADELOUPE',
-        ], [
-            'code' => 'XXXXXGUYANE',
-            'libelle' => 'GUYANE',
-        ], [
-            'code' => 'XXXXXMARTINIQUE',
-            'libelle' => 'MARTINIQUE',
-        ], [
-            'code' => 'XXXXXNOUVELLE-CALEDONIE',
-            'libelle' => 'NOUVELLE-CALEDONIE',
-        ], [
-            'code' => 'XXXXXPOLYNESIE FRANCAISE',
-            'libelle' => 'POLYNESIE FRANCAISE',
-        ], [
-            'code' => 'XXXXXREUNION',
-            'libelle' => 'REUNION',
-        ], [
-            'code' => '99109',
-            'libelle' => 'ALLEMAGNE',
-        ], [
-            'code' => '99110',
-            'libelle' => 'AUTRICHE',
-        ], [
-            'code' => '99131',
-            'libelle' => 'BELGIQUE',
-        ],[
-            'code' => '99101',
-            'libelle' => 'DANEMARK',
-        ],[
-            'code' => '99134',
-            'libelle' => 'ESPAGNE',
-        ], [
-            'code' => '99132GUERNESEY',
-            'libelle' => 'GUERNESEY',
-        ], [
-            'code' => '99136',
-            'libelle' => 'IRLANDE, OU EIRE',
-        ], [
-            'code' => '99127',
-            'libelle' => 'ITALIE',
-        ], [
-            'code' => '99132JERSEY',
-            'libelle' => 'JERSEY',
-        ], [
-            'code' => '99137',
-            'libelle' => 'LUXEMBOURG',
-        ], [
-            'code' => '99132MAN (ILE]',
-            'libelle' => 'MAN (ILE]',
-        ], [
-            'code' => '99135',
-            'libelle' => 'PAYS-BAS',
-        ], [
-            'code' => '99139',
-            'libelle' => 'PORTUGAL',
-        ], [
-            'code' => '99132ROYAUME-UNI',
-            'libelle' => 'ROYAUME-UNI',
-        ], [
-            'code' => 'AUTRE_PAYS',
-            'libelle' => 'Autre pays',
         ],
     ];
 
     /**
-     * MATRIMONIAL REGIMES
+     * MATRIMONIAL REGIMES.
      */
     public const MATRIMONIAL_REGIME_LEGAL_COMMUNITY = 'legal_community';
     public const MATRIMONIAL_REGIME_REDUCED_ACQUESTS_COMMUNITY = 'reduced_acquest_community';
@@ -1281,7 +1187,7 @@ class Subscription
     ];
 
     /**
-     * HERITAGE DISTRIBUTION
+     * HERITAGE DISTRIBUTION.
      */
     public const HERITAGE_DISTRIBUTION_REAL_ESTATE = 'real_estate';
     public const HERITAGE_DISTRIBUTION_SECURITIES_PORTFOLIO = 'securities_portfolio';
@@ -1298,7 +1204,7 @@ class Subscription
     ];
 
     public const HERITAGE_DISTRIBUTION_MAP = [
-        self::HERITAGE_DISTRIBUTION_REAL_ESTATE =>[
+        self::HERITAGE_DISTRIBUTION_REAL_ESTATE => [
             'code' => '1',
             'libelle' => 'Immobilier',
         ],
@@ -1320,9 +1226,8 @@ class Subscription
         ],
     ];
 
-
     /**
-     * HERITAGE ORIGINS
+     * HERITAGE ORIGINS.
      */
     public const HERITAGE_ORIGIN_SAVING_INCOME = 'epargne_revenus';
     public const HERITAGE_ORIGIN_INHERITANCE_DONATION = 'inheritance_donation';
@@ -1373,9 +1278,8 @@ class Subscription
         ],
     ];
 
-
     /**
-     * LEGAL CAPACITY
+     * LEGAL CAPACITY.
      */
     public const LEGAL_CAPACITY_LEGAL_CAPABLE_MAJOR = 'legal_capable_major';
     public const LEGAL_CAPACITY_SIMPLE_CURATORSHIP = 'simple_curatorship';
@@ -1388,7 +1292,7 @@ class Subscription
     public const LEGALE_CAPACITY_UNDER_SUPERVISION_MAJOR = 'under_supervision_major';
     public const LEGALE_CAPACITY_UNDER_SUPERVISION_MINOR = 'under_supervision_minor';
 
-    public const AVAILABLE_LEGAL_CAPACITY_MAP = [
+    public const AVAILABLE_LEGAL_CAPACITY = [
         self::LEGAL_CAPACITY_LEGAL_CAPABLE_MAJOR,
         self::LEGAL_CAPACITY_SIMPLE_CURATORSHIP,
         self::LEGAL_CAPACITY_REINFORCED_CURATORSHIP,
@@ -1400,6 +1304,7 @@ class Subscription
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MAJOR,
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MINOR,
     ];
+
     public const LEGAL_CAPACITY_MAP = [
         self::LEGAL_CAPACITY_LEGAL_CAPABLE_MAJOR => [
             'code' => '0',
@@ -1440,7 +1345,93 @@ class Subscription
         self::LEGALE_CAPACITY_UNDER_SUPERVISION_MINOR => [
             'code' => '7',
             'libelle' => 'Tutelle (Mineur]',
-        ]
+        ],
+    ];
+
+    /**
+     * FISCALITY COUNTRY.
+     */
+    public const FISCALITY_COUNTRY_FRANCE = 'france';
+    public const FISCALITY_COUNTRY_GUYANA = 'guyana';
+
+    public const AVAILABLE_FISCALITY_COUNTRY = [
+      self::FISCALITY_COUNTRY_FRANCE,
+    ];
+    public const FISCALITY_COUNTRY_MAP = [
+        self::FISCALITY_COUNTRY_FRANCE => [
+            'code' => 'XXXXXFRANCE',
+            'libelle' => 'FRANCE',
+        ],
+    ];
+
+    public const PAYSRESIDENCEFISCALE = [
+        [
+            'code' => 'XXXXXFRANCE',
+            'libelle' => 'FRANCE',
+        ], [
+            'code' => 'XXXXXGUADELOUPE',
+            'libelle' => 'GUADELOUPE',
+        ], [
+            'code' => 'XXXXXGUYANE',
+            'libelle' => 'GUYANE',
+        ], [
+            'code' => 'XXXXXMARTINIQUE',
+            'libelle' => 'MARTINIQUE',
+        ], [
+            'code' => 'XXXXXNOUVELLE-CALEDONIE',
+            'libelle' => 'NOUVELLE-CALEDONIE',
+        ], [
+            'code' => 'XXXXXPOLYNESIE FRANCAISE',
+            'libelle' => 'POLYNESIE FRANCAISE',
+        ], [
+            'code' => 'XXXXXREUNION',
+            'libelle' => 'REUNION',
+        ], [
+            'code' => '99109',
+            'libelle' => 'ALLEMAGNE',
+        ], [
+            'code' => '99110',
+            'libelle' => 'AUTRICHE',
+        ], [
+            'code' => '99131',
+            'libelle' => 'BELGIQUE',
+        ], [
+            'code' => '99101',
+            'libelle' => 'DANEMARK',
+        ], [
+            'code' => '99134',
+            'libelle' => 'ESPAGNE',
+        ], [
+            'code' => '99132GUERNESEY',
+            'libelle' => 'GUERNESEY',
+        ], [
+            'code' => '99136',
+            'libelle' => 'IRLANDE, OU EIRE',
+        ], [
+            'code' => '99127',
+            'libelle' => 'ITALIE',
+        ], [
+            'code' => '99132JERSEY',
+            'libelle' => 'JERSEY',
+        ], [
+            'code' => '99137',
+            'libelle' => 'LUXEMBOURG',
+        ], [
+            'code' => '99132MAN (ILE]',
+            'libelle' => 'MAN (ILE]',
+        ], [
+            'code' => '99135',
+            'libelle' => 'PAYS-BAS',
+        ], [
+            'code' => '99139',
+            'libelle' => 'PORTUGAL',
+        ], [
+            'code' => '99132ROYAUME-UNI',
+            'libelle' => 'ROYAUME-UNI',
+        ], [
+            'code' => 'AUTRE_PAYS',
+            'libelle' => 'Autre pays',
+        ],
     ];
 
     public const NATIONALITES = [
@@ -1453,7 +1444,7 @@ class Subscription
         ], [
             'code' => '99131BELGIQUE',
             'libelle' => 'Belge',
-        ],[
+        ], [
             'code' => '99101DANEMARK',
             'libelle' => 'Danoise',
         ], [
@@ -1462,10 +1453,10 @@ class Subscription
         ], [
             'code' => '99136IRLANDE, OU EIRE',
             'libelle' => 'Irlandaise',
-        ],[
+        ], [
             'code' => '99127ITALIE',
             'libelle' => 'Italienne',
-        ],[
+        ], [
             'code' => '99137LUXEMBOURG',
             'libelle' => 'Luxembourgeoise',
         ], [
@@ -1483,71 +1474,141 @@ class Subscription
         ],
     ];
 
-    public const PIECESJUSTIFICATIVES = [
-        [
-            'code' => 'FE03',
-            'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
-        ], [
-            'code' => 'FE04',
-            'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
-        ], [
+    public const VOUCHERS_ADDRESS_PROOF = 'address_proof';
+    public const VOUCHERS_ADDRESS_PROOF_2 = 'address_proof_2';
+    public const VOUCHERS_WEDDING_CONTRACT = 'wedding_contract';
+    public const VOUCHERS_ARBITRAGE_MANDATE = 'arbitrage_mandate';
+    public const VOUCHERS_VALID_CNI = 'valid_cni';
+    public const VOUCHERS_NATIONAL_IDENTITY_CARD = 'national_identity_card';
+    public const VOUCHERS_PASSPORT = 'passport';
+    public const VOUCHERS_DRIVING_LICENSE_SECOND_GENERATION = 'driving_license_second_generation';
+    public const VOUCHERS_FAMILY_RECORD_BOOK = 'family_record';
+    public const VOUCHERS_FRENCH_ELECTORAL_MAP = 'french_electoral_map';
+    public const VOUCHERS_BIRTH_CERTIFICATE = 'birth_certificate';
+    public const VOUCHERS_VALID_OFFICIAL_IDENTITY = 'valid_official_identity';
+    public const VOUCHERS_DIRECT_DEBIT_MANDATE = 'direct_debit_mandate';
+    public const VOUCHERS_BENEFICIARY_DECLARATION_FORM = 'direct_debit_beneficiary_declaration_form';
+    public const VOUCHERS_USEFUL_FREE = 'useful_free';
+    public const VOUCHERS_RIB = 'rib';
+    public const VOUCHERS_WEDDING_CERTIFICATE = 'wedding_certificate';
+    public const VOUCHERS_PEOPLE_SAVING_PLAN_CERTIFICATE = 'people_saving_plan_certificate';
+    public const VOUCHERS_FATCA_CRS_OCDE = 'fatca_crs_ocde';
+    public const VOUCHERS_COURTIER_PRESENTATION = 'courtier_presentation';
+    public const VOUCHERS_W8_BEN_CERTIFICATE = 'w8_ben_certificate';
+
+    public const AVAILABLE_VOUCHERS = [
+        self::VOUCHERS_ADDRESS_PROOF,
+        self::VOUCHERS_ADDRESS_PROOF_2,
+        self::VOUCHERS_WEDDING_CONTRACT,
+        self::VOUCHERS_ARBITRAGE_MANDATE,
+        self::VOUCHERS_VALID_CNI,
+        self::VOUCHERS_NATIONAL_IDENTITY_CARD,
+        self::VOUCHERS_PASSPORT,
+        self::VOUCHERS_DRIVING_LICENSE_SECOND_GENERATION,
+        self::VOUCHERS_FAMILY_RECORD_BOOK,
+        self::VOUCHERS_FRENCH_ELECTORAL_MAP,
+        self::VOUCHERS_BIRTH_CERTIFICATE,
+        self::VOUCHERS_VALID_OFFICIAL_IDENTITY,
+        self::VOUCHERS_DIRECT_DEBIT_MANDATE,
+        self::VOUCHERS_BENEFICIARY_DECLARATION_FORM,
+        self::VOUCHERS_USEFUL_FREE,
+        self::VOUCHERS_RIB,
+        self::VOUCHERS_WEDDING_CERTIFICATE,
+        self::VOUCHERS_PEOPLE_SAVING_PLAN_CERTIFICATE,
+        self::VOUCHERS_FATCA_CRS_OCDE,
+        self::VOUCHERS_COURTIER_PRESENTATION,
+        self::VOUCHERS_W8_BEN_CERTIFICATE,
+    ];
+
+    public const VOUCHERS_MAP = [
+        self::VOUCHERS_ADDRESS_PROOF => [
+          'code' => 'FE03',
+          'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
+      ],
+        self::VOUCHERS_ADDRESS_PROOF_2 => [
+          'code' => 'FE04',
+          'libelle' => 'Un justificatif de domicile de moins de 3 mois si l\'adresse de la pièce d\'identi',
+      ],
+        self::VOUCHERS_WEDDING_CONTRACT => [
             'code' => 'FE07',
             'libelle' => 'La photocopie du contrat de mariage (communauté universelle avec clause d\'attrib',
-        ], [
+        ],
+        self::VOUCHERS_ARBITRAGE_MANDATE => [
             'code' => 'FE13',
             'libelle' => 'Mandat d\'arbitrage',
-        ], [
+        ],
+        self::VOUCHERS_VALID_CNI => [
             'code' => 'FE20',
             'libelle' => 'CNI en cours de validité ou Passeport ou Permis de conduire ou Carte de séjour o',
-        ], [
+        ],
+        self::VOUCHERS_NATIONAL_IDENTITY_CARD => [
             'code' => 'FE21',
             'libelle' => 'La Carte Nationale d\'Identité (CNI] du {0}',
-        ], [
+        ],
+        self::VOUCHERS_PASSPORT => [
             'code' => 'FE22',
             'libelle' => 'Le passeport du {0}',
-        ], [
+        ],
+        self::VOUCHERS_DRIVING_LICENSE_SECOND_GENERATION => [
             'code' => 'FE23',
             'libelle' => 'Le permis de conduire seconde génération avec date de validité',
-        ], [
+        ],
+        self::VOUCHERS_FAMILY_RECORD_BOOK => [
             'code' => 'FE25',
             'libelle' => 'Pages du livret de famille où figure le {0}',
-        ], [
+        ],
+        self::VOUCHERS_FRENCH_ELECTORAL_MAP => [
             'code' => 'FE26',
             'libelle' => 'Carte électorale française du {0}',
-        ], [
+        ],
+        self::VOUCHERS_BIRTH_CERTIFICATE => [
             'code' => 'FE27',
             'libelle' => 'Acte de naissance du {0}',
-        ], [
+        ],
+        self::VOUCHERS_VALID_OFFICIAL_IDENTITY => [
             'code' => 'FE30',
             'libelle' => 'La photocopie recto-verso d\'une pièce officielle d\'identité en cours de validité',
-        ], [
+        ],
+        self::VOUCHERS_DIRECT_DEBIT_MANDATE => [
             'code' => 'FE31',
             'libelle' => 'Mandat de prélèvement',
-        ], [
+        ],
+        self::VOUCHERS_BENEFICIARY_DECLARATION_FORM => [
             'code' => 'FE32',
             'libelle' => 'Le formulaire de déclaration de bénéficiaires (obligatoire si ma clause excède 1',
-        ], [
+        ],
+        self::VOUCHERS_USEFUL_FREE => [
             'code' => 'FE34',
             'libelle' => 'Pièce libre utile en complément du dossier',
-        ], [
+        ],
+        self::VOUCHERS_RIB => [
             'code' => 'FE35',
             'libelle' => 'Le Relevé d\'Identité Bancaire (RIB]',
-        ], [
+        ],
+        self::VOUCHERS_WEDDING_CERTIFICATE => [
             'code' => 'FE36',
             'libelle' => 'La photocopie d\'un extrait d\'acte de mariage.',
-        ], [
+        ],
+        self::VOUCHERS_PEOPLE_SAVING_PLAN_CERTIFICATE => [
             'code' => 'FE37',
             'libelle' => 'L\'attestation d\'ouverture de Plan d\'épargne Populaire (PEP] signée.',
-        ], [
-            'code' => 'FE38',
-            'libelle' => 'La fiche de présentation de mon ${courtier} signée dont je conserve un exemplair',
-        ], [
+        ],
+        self::VOUCHERS_FATCA_CRS_OCDE => [
             'code' => 'FE39',
             'libelle' => 'Le questionnaire FATCA/CRS-OCDE complété et signé',
-        ], [
+        ],
+        self::VOUCHERS_COURTIER_PRESENTATION => [
+            'code' => 'FE38',
+            'libelle' => 'La fiche de présentation de mon ${courtier} signée dont je conserve un exemplair',
+        ],
+        self::VOUCHERS_W8_BEN_CERTIFICATE => [
             'code' => 'FE40',
             'libelle' => 'Le certificat W8-BEN relatif au co-contractant',
-        ], [
+        ],
+    ];
+
+    public const PIECESJUSTIFICATIVES = [
+        [
             'code' => 'FE41',
             'libelle' => 'Le certificat W8-BEN relatif au contractant',
         ], [
@@ -1562,7 +1623,7 @@ class Subscription
         ], [
             'code' => 'FE45',
             'libelle' => 'Une pièce par fonds dédié sélectionné. Cette pièce est facultative',
-        ],[
+        ], [
             'code' => 'FE46',
             'libelle' => 'Une pièce par fonds dédié sélectionné. Cette pièce est facultative',
         ], [
@@ -1760,7 +1821,7 @@ class Subscription
         ], [
             'code' => 'PJ38',
             'libelle' => 'La copie de l\'avis d\'exécution du virement de ${montant-libre} euros corresponda',
-        ],[
+        ], [
             'code' => 'PJ40',
             'libelle' => 'si chèque de banque : Copie du chèque de banque',
         ], [
@@ -1799,7 +1860,7 @@ class Subscription
         ], [
             'code' => 'PJ57',
             'libelle' => 'Lettre d\'engagement',
-        ],[
+        ], [
             'code' => 'PJ59',
             'libelle' => 'Pièce(s] d\'identité du Représentant légal et/ou Représentant habilité / Mandatai',
         ], [
@@ -1835,7 +1896,7 @@ class Subscription
         ], [
             'code' => 'PJ70',
             'libelle' => 'Questionnaire d\'auto-certification "FATCA / CRS PERSONNE MORALE"',
-        ],['code' => 'PJ71',
+        ], ['code' => 'PJ71',
             'libelle' => 'Le cas échéant le Formulaire W8-BEN-E (FATCA] PERSONNE MORALE',
         ], [
             'code' => 'PJ74',
@@ -1873,8 +1934,15 @@ class Subscription
         ],
     ];
 
-    public const PAYSNAISSANCE = [
-        [
+    public const COUNTRY_FRANCE = 'france';
+    public const COUNTRY_AFGHANISTAN = 'afghanistan';
+
+    public const AVAILABLE_COUNTRY = [
+        self::COUNTRY_FRANCE,
+        self::COUNTRY_AFGHANISTAN,
+    ];
+    public const COUNTRY_MAP = [
+        self::COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
             'departements' => [
@@ -1902,16 +1970,16 @@ class Subscription
                 ], [
                     'code' => '08',
                     'libelle' => 'Ardennes',
-                ],[
+                ], [
                     'code' => '09',
                     'libelle' => 'Ariège',
-                ],[
+                ], [
                     'code' => '10',
                     'libelle' => 'Aube',
                 ], [
                     'code' => '11',
                     'libelle' => 'Aude',
-                ],[
+                ], [
                     'code' => '12',
                     'libelle' => 'Aveyron',
                 ], [
@@ -2190,23 +2258,27 @@ class Subscription
                 ], [
                     'code' => '986',
                     'libelle' => 'Wallis et Futuna',
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
+        self::COUNTRY_AFGHANISTAN => [
+                'code' => '99212AFGHANISTAN',
+                'libelle' => 'AFGHANISTAN',
+            ],
     ];
     /**
-     * ADDRESS COUNTRY
+     * ADDRESS COUNTRY.
      */
     public const ADDRESS_COUNTRY_FRANCE = 'france';
 
     public const AVAILABLE_ADDRESS_COUNTRY = [
-        self::ADDRESS_COUNTRY_FRANCE
+        self::ADDRESS_COUNTRY_FRANCE,
     ];
     public const ADDRESS_COUNTRY_MAP = [
         self::ADDRESS_COUNTRY_FRANCE => [
             'code' => 'XXXXXFRANCE',
             'libelle' => 'FRANCE',
-        ]
+        ],
     ];
 
     public const PAYSCRSCODE = [
@@ -2240,7 +2312,7 @@ class Subscription
         ], [
             'code' => '99501',
             'libelle' => 'AUSTRALIE',
-        ],[
+        ], [
             'code' => '99110',
             'libelle' => 'AUTRICHE',
         ], [
@@ -2333,7 +2405,7 @@ class Subscription
         ], [
             'code' => '99435',
             'libelle' => 'GRENADE',
-        ],[
+        ], [
             'code' => '99430',
             'libelle' => 'GROENLAND',
         ], [
@@ -2405,7 +2477,7 @@ class Subscription
         ], [
             'code' => '99113',
             'libelle' => 'LIECHTENSTEIN',
-        ],[
+        ], [
             'code' => '99108',
             'libelle' => 'LITUANIE',
         ], [
@@ -2519,29 +2591,35 @@ class Subscription
         ], [
             'code' => '99514',
             'libelle' => 'VANUATU',
-        ]
+        ],
     ];
 
-    /**
-     * IDENTITY DOCUMENT
-     */
     public const IDENTITY_DOC_NATIONAL_CARD = 'national_card';
     public const IDENTITY_DOC_PASSPORT = 'passport';
     public const IDENTITY_DOC_NEW_DRIVER_LICENSE = 'new_driver_license';
 
-    public const IDENTITY_DOC_MAP = [
-        self::IDENTITY_DOC_2_NATIONAL_CARD => 'FE21',
-        self::IDENTITY_DOC_2_PASSPORT => 'FE22',
-        self::IDENTITY_DOC_2_NEW_DRIVER_LICENSE => 'FE23',
-    ];
     public const AVAILABLE_IDENTITY_DOC = [
-        self::IDENTITY_DOC_2_NATIONAL_CARD,
-        self::IDENTITY_DOC_2_PASSPORT,
-        self::IDENTITY_DOC_2_NEW_DRIVER_LICENSE,
-        ]
-    ;
+        self::IDENTITY_DOC_NATIONAL_CARD,
+        self::IDENTITY_DOC_PASSPORT,
+        self::IDENTITY_DOC_NEW_DRIVER_LICENSE,
+    ];
+    public const IDENTITY_DOC_MAP = [
+        self::IDENTITY_DOC_NATIONAL_CARD => [
+            'code' => 'FE21',
+            'libelle' => 'Carte Nationale d\'Identité (CNI]',
+        ],
+        self::IDENTITY_DOC_PASSPORT => [
+            'code' => 'FE22',
+            'libelle' => 'Passeport',
+        ],
+        self::IDENTITY_DOC_NEW_DRIVER_LICENSE => [
+            'code' => 'FE23',
+            'libelle' => 'Nouveau permis de conduire',
+        ],
+    ];
+
     /**
-     * IDENTITY DOCUMENT 2
+     * IDENTITY DOCUMENT 2.
      */
     public const IDENTITY_DOC_2_NATIONAL_CARD = 'national_card';
     public const IDENTITY_DOC_2_PASSPORT = 'passport';
@@ -2560,6 +2638,7 @@ class Subscription
         self::IDENTITY_DOC_2_BIRTH_CERTIFICATE => 'FE27',
         self::IDENTITY_DOC_2_DRIVER_LICENSE => 'FE30',
     ];
+
     public const AVAILABLE_IDENTITY_DOC_2 = [
         self::IDENTITY_DOC_2_NATIONAL_CARD,
         self::IDENTITY_DOC_2_PASSPORT,
@@ -2577,7 +2656,7 @@ class Subscription
         ], [
             'code' => 'FE22',
             'libelle' => 'Passeport',
-        ],[
+        ], [
             'code' => 'FE23',
             'libelle' => 'Nouveau permis de conduire',
         ], [
@@ -2586,7 +2665,7 @@ class Subscription
         ], [
             'code' => 'FE26',
             'libelle' => 'Carte électorale française',
-        ],[
+        ], [
             'code' => 'FE27',
             'libelle' => 'Acte de naissance',
         ], [
