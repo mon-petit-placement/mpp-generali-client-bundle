@@ -41,7 +41,8 @@ class GeneraliHttpClient
     /**
      * @param string $product
      * @param array $parameters
-     * @return mixed
+     * @return array|mixed
+     * @throws GuzzleException
      */
     public function getAvailableFunds(string $product, array $parameters)
     {
@@ -99,7 +100,7 @@ class GeneraliHttpClient
      * @param string $product
      * @param array $parameters
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function initiate(string $product, array $parameters)
     {
@@ -131,7 +132,7 @@ class GeneraliHttpClient
      * @param string $product
      * @param array $parameters
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function check(string $product, array $parameters)
     {
@@ -159,6 +160,17 @@ class GeneraliHttpClient
      */
     public function confirm(string $product, array $parameters)
     {
+        $resolvedParameters = $this->resolveConfirm($parameters);
+
+        return $this->runStep(Subscription::STEP_CONFIRM, $product, $resolvedParameters);
+    }
+
+    /**
+     * @param $parameters
+     * @return array
+     */
+    private function resolveConfirm($parameters)
+    {
         $resolver = new OptionsResolver();
         $resolver
             ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
@@ -181,9 +193,8 @@ class GeneraliHttpClient
                 return $resolver->resolve($value);
             })
         ;
-        $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->runStep(Subscription::STEP_CONFIRM, $product, $resolvedParameters);
+        return $resolver->resolve($parameters);
     }
 
     /**
@@ -203,7 +214,6 @@ class GeneraliHttpClient
                 return $resolver->resolve($value);
             });
         $resolvedParameters = $resolver->resolve($parameters);
-
         return $this->runStep(Subscription::STEP_FINALIZE, $product, $resolvedParameters);
     }
 
@@ -332,13 +342,7 @@ class GeneraliHttpClient
      */
     public function confirmScheduledFreePaymentEdition(array $parameters)
     {
-        $resolver = new OptionsResolver();
-        $resolver
-            ->setRequired('contexte')->setAllowedTypes('contexte', ['array'])->setNormalizer('contexte', function (Options $options, $value) {
-                return $this->resolveContext($value);
-            })
-        ;
-        $resolvedParameters = $resolver->resolve($parameters);
+        $resolvedParameters = $this->resolveConfirm($parameters);
 
         return $this->runSpecificStep(
             Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
