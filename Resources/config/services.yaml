@@ -1,0 +1,14 @@
+services:
+    Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient:
+        public: true
+        arguments: ['@eight_points_guzzle.client.mpp_generali']
+
+    mpp.generali.api_client:
+        alias: Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient
+
+    Mpp\GeneraliClientBundle\PdfGenerator\GeneraliPdfGenerator:
+        public: true
+        arguments:
+          - '@twig'
+          - '@logger'
+          - '@eight_points_guzzle.client.wkhtmltopdf'

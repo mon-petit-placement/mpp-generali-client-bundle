@@ -4,130 +4,36 @@ declare(strict_types=1);
 
 namespace Mpp\GeneraliClientBundle\PdfGenerator;
 
+use App\Tests\Behat\GeneraliBundle\DataGenerator\SubscriptionDataGenerator;
+use Exception;
 use Mpp\GeneraliClientBundle\Model\Subscription;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
+use GuzzleHttp\Client;
+
 
 /**
  * Class GeneraliPdfGenerator
  */
 class GeneraliPdfGenerator
 {
-    /** @var ContainerInterface $container */
-    private $container;
-
-    /** @var Environment $twig */
+    /** @var Environment */
     private $twig;
 
-    public function __construct(ContainerInterface $container, Environment $twig)
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var Client */
+    private $wkHtmlToPdfClient;
+
+    public function __construct(Environment $twig, LoggerInterface $logger, Client $wkHtmlToPdfClient)
     {
-        $this->container = $container;
         $this->twig = $twig;
-    }
-
-    public function parametersFileMap(array $subscriptionParameters)
-    {
-        $resp = [];
-
-        $customer = $subscriptionParameters['souscription']['souscripteur'];
-        $funds = $subscriptionParameters['souscription']['reglement'];
-        $folder = $subscriptionParameters['souscription']['dossierClient'];
-
-        $resp['resp'] = [
-            'civility'=> $customer['noms']['codeCivilite'],
-            'lastname'=> $customer['noms']['nom'],
-            'firstname'=> $customer['noms']['prenom'],
-            'birthname'=> $customer['noms']['nomNaissance'],
-            'address'=> $customer['contact']['adressePostale']['adresse1PointRemise'].' '.$customer['contact']['adressePostale']['adresse2PointGeographique'].' '.$customer['contact']['adressePostale']['adresse3LibelleVoie'],
-            'zipcode'=> $customer['contact']['adressePostale']['codePostal'],
-            'city'=> $customer['contact']['adressePostale']['commune'],
-            'country'=> 'toto',
-            'birthdate'=> $customer['naissance']['dateNaissance'],
-            'birthZipcode'=> $customer['naissance']['codePostal'],
-            'birthCity'=> $customer['naissance']['lieuNaissance'],
-            'birthCountry'=> $customer['naissance']['paysNaissance'],
-            'nationality'=> $customer['nationalite'],
-            'taxCountry'=> $customer['residenceFiscale']['codePays'],
-            'phoneNumber'=> $customer['contact']['telephone'],
-            'email'=> $customer['contact']['email'],
-            'identityDocumentType'=> $customer['pieceIdentite']['codePieceIdentite'],
-            'maritalStatus'=> $customer['complement']['situationFamiliale'],
-            'matrimonialRegime'=> isset($customer['complement']['regimeMatrimonial']) ? $customer['complement']['regimeMatrimonial'] : Subscription::MATRIMONIAL_REGIME_OTHER,
-            'nbChildren'=> 999,
-            'professionalStatus'=> $customer['complement']['situationProfessionnelle'],
-            'socioprofessionalCategory'=> 'toto',
-            'activityArea'=> 'toto',
-            'employer'=> $customer['complement']['nomEmployeur'],
-            'siretNumber'=> $customer['complement']['siret'],
-            'job'=> $customer['complement']['profession'],
-            'activityEndDate'=> $customer['complement']['dateDebutInactivite'],
-            'incomeCategory'=> 'toto',
-            'patrimonyCategory'=> $folder['situationPatrimoniale']['codeTranchePatrimoine'],
-            'percentEstate'=> 'toto',
-            'percentFinancialInstruments'=> 'toto',
-            'percentSavings'=> 'toto',
-            'percentCapitalizationContracts'=> 'toto',
-            'percentOthers'=> 'toto',
-            'patrimonyOrigins'=> 'toto',
-            'goals'=> 'toto',
-            'durationCategory'=> 'toto',
-            'beneficiaryClause'=> 'toto',
-            'initialInvestment'=> 'toto',
-            'todayDate'=> new \DateTime('now'),
-            'contractId'=> 'toto',
-            'establishmentCode'=> 'toto',
-            'counter'=> 'toto',
-            'accountNumber'=> 'toto',
-            'ribKey'=> 'toto',
-            'iban'=> 'toto',
-            'bic'=> 'toto',
-            'monthlyInvestment'=> 'toto',
-        ];
-
-        $fundsOrigin = [];
-
-        foreach ($funds['originesFonds'] as $fundOrigin) {
-            $fundsOrigin[] = [
-                'label' => $fundOrigin['code'],
-                'date' => $fundOrigin['date'],
-                'amount' => $fundOrigin['montant'],
-            ];
-        }
-        $resp['resp']['fundsOrigins'] = $fundsOrigin;
-
-        $resp['otherTaxCountry'] = 'toto';
-        $resp['taxCountry'] = 'toto';
-        $resp['nif'] = 'toto';
-        $resp['taxAddress'] = 'toto';
-        $resp['noDematerialization'] = 'toto';
-
-        $resp['resp']['initialRepartition'] = [
-            [
-                'name'=> 'toto',
-                'isin'=> 'toto',
-                'percent'=> 'toto',
-            ], [
-                'name'=> 'toto',
-                'isin'=> 'toto',
-                'percent'=> 'toto',
-            ]
-        ];
-
-        $resp['resp']['monthlyRepartition'] = [
-            [
-                'name'=> 'toto',
-                'isin'=> 'toto',
-                'percent'=> 'toto',
-            ],[
-                'name'=> 'toto',
-                'isin'=> 'toto',
-                'percent'=> 'toto',
-            ]
-        ];
-
-        return $resp;
+        $this->logger = $logger;
+        $this->wkHtmlToPdfClient = $wkHtmlToPdfClient;
     }
 
     /**
@@ -283,19 +189,30 @@ class GeneraliPdfGenerator
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function generateFile(array $parameters)
+    public function generateFile(array $parameters): string
     {
-        $parameters = $this->parametersFileMap($parameters);
         $resolvedParameters = $this->resolveFileParameters($parameters);
 
-        foreach ([1, 2, 3, 4, 5] as $index_file){
+        foreach ([1, 2, 3, 4, 5] as $index_file) {
+
             $html = $this->twig->render(
                 '@generali_contracts/page-'.$index_file.'.html.twig',
                 $resolvedParameters
             );
-            dump($html);
+            $this->logger->info('[Generali - pdfGenerator.renderHtml] SUCCESS');
 
-//            $this->container->get('knp_snappy.pdf')->generateFromHtml($html, 'page-'.$index_file.'.pdf');
+
+            $result = $this->wkHtmlToPdfClient->post(
+                '/',
+                [
+                   'body' => json_encode([
+                       "contents" => base64_encode($html),
+                   ])
+                ]
+            );
+            file_put_contents('toto.pdf', $result->getBody()->getContents());
+
+            $this->logger->info('[Generali - pdfGenerator.exportPdf] SUCCESS');
         }
 
         return hash('sha1', json_encode($resolvedParameters));
