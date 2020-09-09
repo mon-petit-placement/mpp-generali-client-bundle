@@ -7,11 +7,11 @@ namespace Mpp\GeneraliClientBundle\HttpClient;
 use GuzzleHttp\Client;
 use \Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Mpp\GeneraliClientBundle\OptionsResolver\ContexteResolver;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class GeneraliHttpClient
@@ -19,9 +19,7 @@ use Psr\Log\LoggerInterface;
  */
 class GeneraliHttpClient
 {
-    /**
-     * @var Client
-     */
+    /** @var Client */
     private $httpClient;
 
     /**
@@ -57,6 +55,7 @@ class GeneraliHttpClient
                 $resolver
                     ->setRequired('codeApporteur')->setAllowedTypes('codeApporteur', ['string'])
                     ->setDefined('numContrat')->setAllowedTypes('numContrat', ['string'])
+                    ->setDefined('utilisateur')->setAllowedTypes('utilisateur', ['string'])
                     ->setDefined('elementsAttendus')->setAllowedTypes('elementsAttendus', ['array'])
                 ;
 
@@ -64,13 +63,12 @@ class GeneraliHttpClient
             })
         ;
         $resolvedParameters = $resolver->resolve($parameters);
-
         $path =  sprintf(
             '/epart/v2.0/transaction/%s/donnees',
             Subscription::PRODUCTS_MAP[$product]
         );
         if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER) {
-            $path .= '/all';
+            $path = '/epart/v1.0/donnees/rachatpartiel/all';
         }
         $contents = [];
 
@@ -81,7 +79,6 @@ class GeneraliHttpClient
                     'body'=> json_encode($resolvedParameters),
                 ]
             );
-
             $contents = json_decode($response->getBody()->getContents(), true);
 
             $this->logger->info('[Generali - httpClient.getAvailableFunds] SUCCESS');

@@ -19,6 +19,7 @@
     "fzaninotto/faker": "^1.9",
     "ext-json": "*",
     "symfony/monolog-bundle": "*",
+    "knplabs/knp-snappy-bundle": "^1.7",
     "eightpoints/guzzle-bundle": "^8.0"
   },
   "autoload":{
