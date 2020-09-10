@@ -12,3 +12,5 @@ services:
           - '@twig'
           - '@logger'
           - '@eight_points_guzzle.client.wkhtmltopdf'
+          - '%generali_debit_mandate_template%'
+          - '%generali_debit_mandate_export_path%'

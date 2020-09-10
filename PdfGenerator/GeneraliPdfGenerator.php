@@ -29,11 +29,24 @@ class GeneraliPdfGenerator
     /** @var Client */
     private $wkHtmlToPdfClient;
 
-    public function __construct(Environment $twig, LoggerInterface $logger, Client $wkHtmlToPdfClient)
+    private $twigTemplate;
+    private $exportPathFile;
+
+    public function __construct(Environment $twig, LoggerInterface $logger, Client $wkHtmlToPdfClient, $twigTemplate, $exportPathFile)
     {
         $this->twig = $twig;
         $this->logger = $logger;
         $this->wkHtmlToPdfClient = $wkHtmlToPdfClient;
+        $this->twigTemplate = $twigTemplate;
+        $this->exportPathFile = $exportPathFile;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExportPathFile()
+    {
+        return $this->exportPathFile;
     }
 
     /**
@@ -192,29 +205,26 @@ class GeneraliPdfGenerator
     public function generateFile(array $parameters): string
     {
         $resolvedParameters = $this->resolveFileParameters($parameters);
+        $html = $this->twig->render($this->twigTemplate, $resolvedParameters);
+        $this->logger->info('[Generali - pdfGenerator.renderHtml] SUCCESS');
 
-        foreach ([1, 2, 3, 4, 5] as $index_file) {
+        $result = $this->wkHtmlToPdfClient->post(
+            '/',
+            [
+                'body' => json_encode([
+                    "contents" => base64_encode($html),
+                ])
+            ]
+        );
+        $filename = hash('sha1', json_encode($resolvedParameters)).'.pdf';
 
-            $html = $this->twig->render(
-                '@generali_contracts/page-'.$index_file.'.html.twig',
-                $resolvedParameters
-            );
-            $this->logger->info('[Generali - pdfGenerator.renderHtml] SUCCESS');
+        file_put_contents(
+            $this->exportPathFile.$filename,
+            $result->getBody()->getContents()
+        );
 
+        $this->logger->info('[Generali - pdfGenerator.exportPdf] SUCCESS');
 
-            $result = $this->wkHtmlToPdfClient->post(
-                '/',
-                [
-                   'body' => json_encode([
-                       "contents" => base64_encode($html),
-                   ])
-                ]
-            );
-            file_put_contents('toto.pdf', $result->getBody()->getContents());
-
-            $this->logger->info('[Generali - pdfGenerator.exportPdf] SUCCESS');
-        }
-
-        return hash('sha1', json_encode($resolvedParameters));
+        return $filename;
     }
 }
