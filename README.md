@@ -34,17 +34,14 @@ parameters:
     generali_code_subscription: '%env(GENERALI_CODE_SUBSCRIPTION)%'
 ```
 
-Then configure the generali dedicated service with this newly created guzzle client in the `config/services.yaml`:
-```yaml
-services:
-    mpp.generali.api_client:
-        class: Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient
-        arguments: ['@eight_points_guzzle.client.mpp_generali']
-```
-
 Documentation:
 --------------
 
 Here is resources to use this bundle: 
 
- * [How to call Generali API](./Resources/docs/call-api.md)
+ * [How to call Generali API to create a Subscription](./Resources/docs/CallApi/subscription.md)
+ * [How to call Generali API to create a Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
+ * [How to call Generali API to create a Arbitration](./Resources/docs/CallApi/arbitration.md)
+ * [How to call Generali API to create a Free Payment](./Resources/docs/CallApi/free_payment.md)
+ * [How to call Generali API to create a Scheduled Free Payment](./Resources/docs/CallApi/scheduled_free_payment.md)
+ * [How to generate the Debit Mandate for Generali API](./Resources/docs/pdf_generation.md)
