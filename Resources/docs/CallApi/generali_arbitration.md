@@ -1,4 +1,4 @@
-Installation:
+How to use Arbitration with Generali:
 -------------
 
 Use this model to get all the constants created for this bundl
