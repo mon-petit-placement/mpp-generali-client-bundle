@@ -3,7 +3,7 @@ How to use Arbitration with Generali:
 
 Use this model to get all the constants created for this bundl
 ```php
-use Mpp\GeneraliClientBundle\Model\Subscription;
+use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient;
  
 /** @var GeneraliHttpClient */
 private $httpClient;

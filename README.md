@@ -1,4 +1,4 @@
-Symfony Bundle to interact with Generali API
+Symfony Bundle to interact with Generali API and wkhtmltopdf API
 ============================================
 
 Installation:
@@ -24,14 +24,29 @@ eight_points_guzzle:
                     Accept: 'application/json'
                     Content-Type: 'application/json'
                     apiKey: '%env(GENERALI_API_KEY)%'
+        wkhtmltopdf:
+            base_url: '%env(WKHTMLTOPDF_BASE_URL)%'
+            options:
+                timeout: 60
+                http_errors: true
+                headers:
+                    User-Agent: "MppWkHtmlToPdfClient/v1.0"
+                    Accept: 'application/json'
+                    Content-Type: 'application/json'
  ```
                     
-Then you must configure your credentials `config/packages/framework.yaml`:
+Then you must configure your template and a pat of exporting pdf `config/packages/framework.yaml`:
 ```yaml
 parameters:
-    generali_code_apporteur: '%env(GENERALI_CODE_APPORTEUR)%'
-    generali_code_app: '%env(GENERALI_CODE_APP)%'
-    generali_code_subscription: '%env(GENERALI_CODE_SUBSCRIPTION)%'
+    generali_debit_mandate_template: '/generali/debit_mandate.html.twig'
+    generali_debit_mandate_export_path: 'var/generali/debit_mandate/'
+```                 
+Then you must configure credentials `config/packages/mpp_generali_client.yaml`:
+```yaml
+mpp_generali_client:
+    intermediary_code: '%env(GENERALI_INTERMEDIARY_CODE)%'
+    app_code: '%env(GENERALI_APP_CODE)%'
+    subscription_code: '%env(GENERALI_SUBSCRIPTION_CODE)%'
 ```
 
 Documentation:
