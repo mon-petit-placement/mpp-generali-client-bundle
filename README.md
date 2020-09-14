@@ -9,6 +9,24 @@ To install this bundle, simply run the following command:
 $ composer require mpp/generali-client-bundle
 ```
 
+How to run:
+-----------
+
+Before run, you need to add `UNIVERSIGN_ENTRYPOINT_URL` variable in the `.env` file of your project with the url and the credentials of the universign account.
+
+```
+###> mpp/generali-client-bundle ###
+GENERALI_BASE_URL=https://generalifrprod-recette.apigee.net/epart
+GENERALI_API_KEY=YOUR_API_KEY
+GENERALI_INTERMEDIARY_CODE=YOUR_INTERMEDIARY_CODE
+GENERALI_APP_CODE=YOUR_APP_CODE
+GENERALI_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
+
+WKHTMLTOPDF_BASE_URL=http://USER:PASSWORD@wkhtmltopdf:5555
+###< mpp/generali-client-bundle ###
+
+```
+
 Then you must configure the generali api client using eight point guzzle:
 In the `config/packages/eight_points_guzzle.yaml`:
 ```yaml
@@ -38,7 +56,6 @@ eight_points_guzzle:
 Then you must configure your template and a pat of exporting pdf `config/packages/framework.yaml`:
 ```yaml
 parameters:
-    generali_debit_mandate_template: '/generali/debit_mandate.html.twig'
     generali_debit_mandate_export_path: 'var/generali/debit_mandate/'
 ```                 
 Then you must configure credentials `config/packages/mpp_generali_client.yaml`:

@@ -3,6 +3,7 @@
 
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
+use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
 
@@ -34,48 +35,29 @@ interface GeneraliHttpClientInterface
     public function getSubscriptionInformations(string $contractNumber, array $expectedItems = []): array;
 
     /**
-     *  Initiate a Subscription with $subscription data
+     * Create a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process
      *
      * path: /epart/v2.0/transaction/souscription/initier
-     *
-     * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
-     */
-    public function initiateSubscription(array $expectedItems, array $subscription): SubscriptionResponse;
-
-    /**
-     *  Check a Subscription with a token Status
-     *
      * path: /epart/v2.0/transaction/souscription/verifier
-     *
-     * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
-     */
-    public function checkSubscription(array $expectedItems, array $subscription): array;
-
-    /**
-     *  Confirm a Subscription with a token Status
-     *
      * path: /epart/v2.0/transaction/souscription/confirmer
      *
-     * @param array $expectedItems
-     * @param array $subscription
+     * @param Context $context
+     * @param Subscription $subscription
+     * @param string $comment
+     * @param bool $dematerialization
      * @return SubscriptionResponse
      */
-    public function confirmSubscription(array $expectedItems, array $subscription): array;
+    public function createSubscription(Context $context, Subscription $subscription, string $comment, bool $dematerialization): SubscriptionResponse;
 
     /**
      *  Finalize a Subscription with a token Status
      *
      * path: /epart/v2.0/transaction/souscription/finaliser
      *
-     * @param array $expectedItems
-     * @param array $subscription
-     * @return array
+     * @param Context $context
+     * @return TransactionOrder
      */
-    public function finalizeSubscription(array $expectedItems, array $subscription): array;
+    public function finalizeSubscription(Context $context): TransactionOrder;
 
     /**
      * Retrieve free payment informations with contractNumber & expectedItems
@@ -95,7 +77,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $freePayment
-     * @return array
+     * @return SubscriptionResponse
      */
     public function initiateFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse;
 
@@ -128,9 +110,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $freePayment
-     * @return array
+     * @return TransactionOrder
      */
-    public function finalizeFreePayment(array $expectedItems, array $freePayment): array;
+    public function finalizeFreePayment(array $expectedItems, array $freePayment): TransactionOrder;
 
     /**
      * Retrieve scheduled free payment informations with contractNumber & expectedItems
@@ -150,7 +132,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return array
+     * @return SubscriptionResponse
      */
     public function initiateScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
 
@@ -183,9 +165,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return array
+     * @return TransactionOrder
      */
-    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
+    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): TransactionOrder;
 
     /**
      * Suspend a Scheduled Free Payment
@@ -205,7 +187,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return array
+     * @return SubscriptionResponse
      */
     public function initiateEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
 
@@ -249,7 +231,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $partialSurrender
-     * @return array
+     * @return SubscriptionResponse
      */
     public function initiatePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
 
@@ -282,9 +264,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $partialSurrender
-     * @return array
+     * @return TransactionOrder
      */
-    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): array;
+    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): TransactionOrder;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems
@@ -304,7 +286,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $arbitration
-     * @return array
+     * @return SubscriptionResponse
      */
     public function initiateArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
 
@@ -337,9 +319,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $arbitration
-     * @return array
+     * @return TransactionOrder
      */
-    public function finalizeArbitration(array $expectedItems, array $arbitration): array;
+    public function finalizeArbitration(array $expectedItems, array $arbitration): TransactionOrder;
 
     /**
      * Send File needed, after confirm Request, for the subscription and Free Payment

@@ -5,12 +5,10 @@ namespace Mpp\GeneraliClientBundle\HttpClient;
 
 
 use GuzzleHttp\Client;
+use Mpp\GeneraliClientBundle\Model\Context;
 
 class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 {
-    const AVAILABLE_EXPECTED_ITEMS = [
-
-    ];
 
     /**
      * @var Client
@@ -72,22 +70,18 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
+     * @param array $parameters
      * @param array $expectedItems
-     * @return array
+     * @return Context
      */
-    private function buildContextBody(array $expectedItems = [])
+    private function buildContext(array $parameters, array $expectedItems = []): Context
     {
-        //TODO vérifier contenu $expectedItems
 
-        $body = [
-            'contexte' => [
-                'codeApporteur' => $this->providerCode,
-            ],
-        ];
-        if(!empty($expectedItems)) {
-            $body['contexte']['elementsAttendus'] = $expectedItems;
-        }
+        $context = new Context($expectedItems);
+        $context
+            ->setProviderCode($this->providerCode)
+        ;
 
-        return $body;
+        return $context;
     }
 }

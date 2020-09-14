@@ -13,6 +13,11 @@ class SubscriptionResponse
     private $status;
 
     /**
+     * @var string
+     */
+    private $idTransaction;
+
+    /**
      * @var array
      */
     private $messages;
@@ -23,12 +28,39 @@ class SubscriptionResponse
     private $donnees;
 
     /**
+     * @var array
+     */
+    private $requiredDocuments;
+
+    /**
      * SubscriptionResponse constructor.
      */
     public function __construct()
     {
         $this->messages = [];
         $this->donnees = [];
+        $this->requiredDocuments = [];
+    }
+
+    public function getRequiredDocuments()
+    {
+        return $this->requiredDocuments;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdTransaction()
+    {
+        return $this->idTransaction;
+    }
+
+    /**
+     * @param string $idTransaction
+     */
+    public function setIdTransaction(string $idTransaction)
+    {
+        $this->idTransaction = $idTransaction;
     }
 
     /**

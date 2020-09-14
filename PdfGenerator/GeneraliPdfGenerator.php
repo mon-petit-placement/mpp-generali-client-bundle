@@ -18,7 +18,7 @@ use GuzzleHttp\Client;
 /**
  * Class GeneraliPdfGenerator
  */
-class GeneraliPdfGenerator
+class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
 {
     /** @var Environment */
     private $twig;
@@ -29,15 +29,13 @@ class GeneraliPdfGenerator
     /** @var Client */
     private $wkHtmlToPdfClient;
 
-    private $twigTemplate;
     private $exportPathFile;
 
-    public function __construct(Environment $twig, LoggerInterface $logger, Client $wkHtmlToPdfClient, $twigTemplate, $exportPathFile)
+    public function __construct(Environment $twig, LoggerInterface $logger, Client $wkHtmlToPdfClient, $exportPathFile)
     {
         $this->twig = $twig;
         $this->logger = $logger;
         $this->wkHtmlToPdfClient = $wkHtmlToPdfClient;
-        $this->twigTemplate = $twigTemplate;
         $this->exportPathFile = $exportPathFile;
     }
 
@@ -196,16 +194,17 @@ class GeneraliPdfGenerator
     }
 
     /**
+     * @param string $template
      * @param array $parameters
      * @return string
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function generateFile(array $parameters): string
+    public function generateFile(string $template, array $parameters): string
     {
         $resolvedParameters = $this->resolveFileParameters($parameters);
-        $html = $this->twig->render($this->twigTemplate, $resolvedParameters);
+        $html = $this->twig->render($template, $resolvedParameters);
         $this->logger->info('[Generali - pdfGenerator.renderHtml] SUCCESS');
 
         $result = $this->wkHtmlToPdfClient->post(
