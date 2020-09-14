@@ -3,6 +3,7 @@
 
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
+use Mpp\GeneraliClientBundle\Model\Subscription;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
 
 /**
@@ -52,7 +53,7 @@ interface GeneraliHttpClientInterface
      * @param array $subscription
      * @return SubscriptionResponse
      */
-    public function checkSubscription(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function checkSubscription(array $expectedItems, array $subscription): array;
 
     /**
      *  Confirm a Subscription with a token Status
@@ -63,7 +64,7 @@ interface GeneraliHttpClientInterface
      * @param array $subscription
      * @return SubscriptionResponse
      */
-    public function confirmSubscription(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function confirmSubscription(array $expectedItems, array $subscription): array;
 
     /**
      *  Finalize a Subscription with a token Status
@@ -72,9 +73,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $subscription
-     * @return SubscriptionResponse
+     * @return array
      */
-    public function finalizeSubscription(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function finalizeSubscription(array $expectedItems, array $subscription): array;
 
     /**
      * Retrieve free payment informations with contractNumber & expectedItems
@@ -93,10 +94,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementLibre/initier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $freePayment
+     * @return array
      */
-    public function initiateFreePayment(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function initiateFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse;
 
     /**
      *  Check a Free Payment with a token Status
@@ -104,10 +105,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementLibre/verifier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $freePayment
+     * @return array
      */
-    public function checkFreePayment(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function checkFreePayment(array $expectedItems, array $freePayment): array;
 
     /**
      *  Confirm a Free Payment with a token Status
@@ -115,10 +116,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementLibre/confirmer
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $freePayment
+     * @return array
      */
-    public function confirmFreePayment(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function confirmFreePayment(array $expectedItems, array $freePayment): array;
 
     /**
      *  Finalize a Free Payment with a token Status
@@ -126,10 +127,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementLibre/finaliser
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $freePayment
+     * @return array
      */
-    public function finalizeFreePayment(array $expectedItems, array $subscription): SubscriptionResponse;
+    public function finalizeFreePayment(array $expectedItems, array $freePayment): array;
 
     /**
      * Retrieve scheduled free payment informations with contractNumber & expectedItems
@@ -148,8 +149,8 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/initier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $scheduledFreePayment
+     * @return array
      */
     public function initiateScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
 
@@ -159,10 +160,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/verifier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $scheduledFreePayment
+     * @return array
      */
-    public function checkScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function checkScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
 
     /**
      *  Confirm a Scheduled Free Payment with a token Status
@@ -170,10 +171,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/confirmer
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $scheduledFreePayment
+     * @return array
      */
-    public function confirmScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function confirmScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
 
     /**
      *  Finalize a Scheduled Free Payment with a token Status
@@ -181,10 +182,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/finaliser
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $scheduledFreePayment
+     * @return array
      */
-    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
 
     /**
      * Suspend a Scheduled Free Payment
@@ -193,9 +194,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return SubscriptionResponse
+     * @return array
      */
-    public function suspendScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function suspendScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
 
     /**
      * Intiate a Scheduled Free Payment's edit
@@ -204,7 +205,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return SubscriptionResponse
+     * @return array
      */
     public function initiateEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
 
@@ -215,9 +216,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return SubscriptionResponse
+     * @return array
      */
-    public function checkEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function checkEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
 
     /**
      * Confirm a Scheduled Free Payment's edit
@@ -226,9 +227,9 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      * @param array $scheduledFreePayment
-     * @return SubscriptionResponse
+     * @return array
      */
-    public function confirmEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function confirmEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems
@@ -247,8 +248,8 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/rachatpartiel/initier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $partialSurrender
+     * @return array
      */
     public function initiatePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
 
@@ -258,10 +259,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/rachatpartiel/verifier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $partialSurrender
+     * @return array
      */
-    public function checkPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function checkPartialSurrender(array $expectedItems, array $partialSurrender): array;
 
     /**
      *  Confirm a Partial Surrender with a token Status
@@ -269,10 +270,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/rachatpartiel/confirmer
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $partialSurrender
+     * @return array
      */
-    public function confirmPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function confirmPartialSurrender(array $expectedItems, array $partialSurrender): array;
 
     /**
      *  Finalize a Partial Surrender with a token Status
@@ -280,10 +281,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/rachatpartiel/finaliser
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $partialSurrender
+     * @return array
      */
-    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): array;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems
@@ -302,8 +303,8 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/arbitrage/initier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $arbitration
+     * @return array
      */
     public function initiateArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
 
@@ -313,10 +314,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/arbitrage/verifier
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $arbitration
+     * @return array
      */
-    public function checkArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
+    public function checkArbitration(array $expectedItems, array $arbitration): array;
 
     /**
      *  Confirm a Arbitration with a token Status
@@ -324,10 +325,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/arbitrage/confirmer
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $arbitration
+     * @return array
      */
-    public function confirmArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
+    public function confirmArbitration(array $expectedItems, array $arbitration): array;
 
     /**
      *  Finalize a Arbitration with a token Status
@@ -335,8 +336,32 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/arbitrage/finaliser
      *
      * @param array $expectedItems
-     * @param array $subscription
-     * @return SubscriptionResponse
+     * @param array $arbitration
+     * @return array
      */
-    public function finalizeArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
+    public function finalizeArbitration(array $expectedItems, array $arbitration): array;
+
+    /**
+     * Send File needed, after confirm Request, for the subscription and Free Payment
+     *
+     *  path: '/epart/v1.0/transaction/fournirPiece/{idTransaction}/{idPieceAFournir}
+     *
+     * @param string $idTransaction
+     * @param string $idPieceAFournir
+     * @param string $path
+     * @param string $fileName
+     * @return array
+     */
+    public function sendFile(string $idTransaction, string $idPieceAFournir, string $path, string $fileName): array;
+
+    /**
+     * List all the files sent, and the file to send for a subscription or a Free Payment
+     *
+     * /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/{product}
+     *
+     * @param string $idTransaction
+     * @param string $product
+     * @return array
+     */
+    public function listFile(string $idTransaction, string $product): array;
 }
