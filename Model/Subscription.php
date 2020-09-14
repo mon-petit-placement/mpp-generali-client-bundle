@@ -639,18 +639,18 @@ class Subscription
     public const CONTRACTOR_LINK_OTHER = '2';
 
     public const CONTRACTOR_LINK_MAP = [
-        CONTRACTOR_LINK_SPOUSES => [
+        self::CONTRACTOR_LINK_SPOUSES => [
             'code' => '1',
             'libelle' => 'Conjoint',
         ],
-        CONTRACTOR_LINK_OTHER => [
+        self::CONTRACTOR_LINK_OTHER => [
             'code' => '2',
             'libelle' => 'Autre',
         ],
     ];
     public const AVAILABLE_CONTRACTOR_LINK = [
-        CONTRACTOR_LINK_SPOUSES,
-        CONTRACTOR_LINK_OTHER,
+        self::CONTRACTOR_LINK_SPOUSES,
+        self::CONTRACTOR_LINK_OTHER,
     ];
 
     /**
@@ -667,39 +667,39 @@ class Subscription
     public const FUNCTION_PPE_INTERNATIONAL_PUBLIC_INSTITUTION_DIRECTOR = '9';
 
     public const FUNCTION_PPE_MAP = [
-        FUNCTION_PPE_HEAD_STATE => [
+        self::FUNCTION_PPE_HEAD_STATE => [
             'code' => '1',
             'libelle' => 'Chef d\'Etat, chef de gouvernement, membre d\'un gouvernement national ou de la Commission Européenne',
         ],
-        FUNCTION_PPE_MEMBER_PARLIAMENT => [
+        self::FUNCTION_PPE_MEMBER_PARLIAMENT => [
             'code' => '2',
             'libelle' => 'Membre d\'une assemblée parlementaire nationale ou du Parlement européen',
         ],
-        FUNCTION_PPE_MEMBER_SUPREME_COURT => [
-        'code' => '3',
+        self::FUNCTION_PPE_MEMBER_SUPREME_COURT => [
+            'code' => '3',
             'libelle' => 'Membre d\'une cour suprême, d\'une cour public constitutionnelle ou d\'une autre haute juridiction dont les décisions ne sont pas, sauf cirpublic constances exceptionnelles, susceptibles de recours',
         ],
-        FUNCTION_PPE_MEMBER_COURT_AUDITORS => [
+        self::FUNCTION_PPE_MEMBER_COURT_AUDITORS => [
             'code' => '4',
             'libelle' => 'Membre d\'une cour des comptes',
         ],
-        FUNCTION_PPE_BANK_DIRECTOR => [
+        self::FUNCTION_PPE_BANK_DIRECTOR => [
             'code' => '5',
             'libelle' => 'Dirigeant ou membre de l\'organe de direction d\'une banque centrale',
         ],
-        FUNCTION_PPE_AMBASSADOR => [
+        self::FUNCTION_PPE_AMBASSADOR => [
             'code' => '6',
             'libelle' => 'Ambassadeur, chargé d\'affaires, consul général et consul de carrière',
         ],
-        FUNCTION_PPE_ARMY_OFFICER => [
+        self::FUNCTION_PPE_ARMY_OFFICER => [
             'code' => '7',
             'libelle' => 'Officier général ou officier supérieur assurant le commandement d\'une armée',
         ],
-        FUNCTION_PPE_ADMINISTRATIVE_MEMBER => [
+        self::FUNCTION_PPE_ADMINISTRATIVE_MEMBER => [
             'code' => '8',
             'libelle' => 'Membre d\'un organe d\'administration, de direction ou de surveillance d\'une entreprise publique',
         ],
-        FUNCTION_PPE_INTERNATIONAL_PUBLIC_INSTITUTION_DIRECTOR => [
+        self::FUNCTION_PPE_INTERNATIONAL_PUBLIC_INSTITUTION_DIRECTOR => [
             'code' => '9',
             'libelle' => 'Dirigeant d\'une institution internationale publique créée par un traité',
         ],
@@ -727,23 +727,23 @@ class Subscription
     public const PPE_CONTRACTOR_LINK_BUSINESS_TIES = '5';
 
     public const PPE_CONTRACTOR_LINK_MAP = [
-         PPE_CONTRACTOR_LINK_NOTORIOUS_SPOUSE => [
+         self::PPE_CONTRACTOR_LINK_NOTORIOUS_SPOUSE => [
              'code' => '1',
              'libelle' => 'Le conjoint ou le concubin notoire',
          ],
-        PPE_CONTRACTOR_LINK_FOREIGN_PARTNERSHIP_CONTRACT => [
+        self::PPE_CONTRACTOR_LINK_FOREIGN_PARTNERSHIP_CONTRACT => [
             'code' => '2',
             'libelle' => 'Le partenaire lié par un pacte civil de solidarité ou par un contrat de partenariat enregistré en vertu d\'une loi étrangère',
         ],
-        PPE_CONTRACTOR_LINK_FOREIGN_DIRECT_LINE => [
+        self::PPE_CONTRACTOR_LINK_FOREIGN_DIRECT_LINE => [
             'code' => '3',
             'libelle' => 'En ligne directe, les ascendants, descendants et alliés, au premier degré, ainsi que leur conjoint, leur partenaire lié par un pacte civil de solidarité ou par un contrat de partenariat enregistré en vertu d\'une loi étrangère',
         ],
-        PPE_CONTRACTOR_LINK_BENEFICIAL_OWNER => [
+        self::PPE_CONTRACTOR_LINK_BENEFICIAL_OWNER => [
             'code' => '4',
             'libelle' => 'Toute personne physique identifiée comme étant le bénéficiaire effectif d\'une personne morale conjointement avec ce client ;',
         ],
-        PPE_CONTRACTOR_LINK_BUSINESS_TIES => [
+        self::PPE_CONTRACTOR_LINK_BUSINESS_TIES => [
             'code' => '5',
             'libelle' => 'Toute personne physique connue comme entretenant des liens d\'affaires étroits avec ce client',
         ],

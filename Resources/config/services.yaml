@@ -1,10 +1,17 @@
 services:
     Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient:
         public: true
-        arguments: ['@eight_points_guzzle.client.mpp_generali']
+        arguments:
+          - '@eight_points_guzzle.client.mpp_generali'
+          - '@logger'
 
-    mpp.generali.api_client:
-        alias: Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient
+    Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientV2:
+        public: true
+        arguments:
+          - '@eight_points_guzzle.client.mpp_generali'
+          - '@logger'
+          - '%mpp_generali_client.app_code%'
+          - '%mpp_generali_client.subscription_code%'
 
     Mpp\GeneraliClientBundle\PdfGenerator\GeneraliPdfGenerator:
         public: true

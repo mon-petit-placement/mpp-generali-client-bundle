@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Class GeneraliHttpClient
  * @package Mpp\GeneraliClientBundle\HttpClient
  */
-class GeneraliHttpClient
+class GeneraliHttpClient implements GeneraliHttpClientInterface
 {
     /** @var Client */
     private $httpClient;
@@ -120,9 +120,8 @@ class GeneraliHttpClient
                 $this->configurePartialSurrender($resolver);
                 break;
         }
-        $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->runStep(Subscription::STEP_INITIATE, $product, $resolvedParameters);
+        return $this->runStep(Subscription::STEP_INITIATE, $product, $resolver->resolve($parameters));
     }
 
     /**
@@ -142,11 +141,11 @@ class GeneraliHttpClient
                 ->setDefined('utilisateur')->setAllowedTypes('utilisateur', ['string'])
                 ->setDefined('numContrat')->setAllowedTypes('numContrat', ['string'])
             ;
+
             return $resolver->resolve($value);
         });
-        $resolvedParameters = $resolver->resolve($parameters);
 
-        return $this->runStep(Subscription::STEP_CHECK, $product, $resolvedParameters);
+        return $this->runStep(Subscription::STEP_CHECK, $product, $resolver->resolve($parameters));
     }
 
     /**
@@ -244,6 +243,8 @@ class GeneraliHttpClient
      */
     private function runSpecificStep(string $step, array $parameters, string $contractCode = null)
     {
+        dump($parameters);
+
         $path = '/epart/v1.0/transaction/'.Subscription::STEP_SCHEDULED_FREE_PAYMENT_MAP[$step];
 
         if ($contractCode) {
@@ -369,8 +370,8 @@ class GeneraliHttpClient
                 '/epart/v1.0/transaction/%s/%s',
                 Subscription::PRODUCTS_MAP[$product],
                 Subscription::STEPS_MAP[$step],
-            )
-            ;
+            );
+
             if ($step === Subscription::STEP_INITIATE) {
                 $path .= '/'.$parameters['contexte']['numContrat'];
             }
@@ -765,7 +766,7 @@ class GeneraliHttpClient
      * @param $value
      * @return array
      */
-    private function resolveVersementInitial($value)
+    private static function resolveVersementInitial($value)
     {
         $resolver = new OptionsResolver();
 
