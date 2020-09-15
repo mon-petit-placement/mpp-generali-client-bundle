@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -35,6 +33,11 @@ class AssetsRepartition
         ;
     }
 
+    /**
+     * @param array $value
+     *
+     * @return AssetsRepartition
+     */
     public static function createFromArray(array $value)
     {
         $resolver = new OptionsResolver();
@@ -59,6 +62,7 @@ class AssetsRepartition
 
     /**
      * @param string $codeRepartition
+     *
      * @return AssetsRepartition
      */
     public function setCodeRepartition(string $codeRepartition): self
@@ -68,6 +72,7 @@ class AssetsRepartition
 
     /**
      * @param string $precision
+     *
      * @return AssetsRepartition
      */
     public function setPrecision(string $precision): self
@@ -87,6 +92,7 @@ class AssetsRepartition
 
     /**
      * @param string $percentRepartition
+     *
      * @return AssetsRepartition
      */
     public function setPercentRepartition(string $percentRepartition): self

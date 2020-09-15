@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,13 +24,13 @@ class InitialPayment
     {
         $resolver
             ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $values){
+            ->setDefault('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                 $resolvedValues = [];
 
-                foreach ($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValues[] = Repartition::createFromArray($value);
                 }
+
                 return $resolvedValues;
             })
         ;
@@ -42,9 +40,9 @@ class InitialPayment
     {
         $resolver = new OptionsResolver();
         self::configureData($resolver);
-        
+
         $resolvedValues = $resolver->resolve($data);
-        
+
         return (new self())
             ->setAmount($resolvedValues['amount'])
             ->setRepartition($resolvedValues['repartition'])
@@ -54,35 +52,37 @@ class InitialPayment
     /**
      * @return float
      */
-    public function getAmount(): float 
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
     /**
      * @param float $amount
+     *
      * @return $this
      */
     public function setAmount(float $amount)
     {
         $this->amount = $amount;
-        
+
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getRepartition(): array 
+    public function getRepartition(): array
     {
         return $this->repartition;
     }
 
     /**
      * @param string $repartition
+     *
      * @return InitialPayment
      */
-    public function setRepartition(string $repartition): self 
+    public function setRepartition(string $repartition): self
     {
         $this->repartition = $repartition;
     }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -56,13 +54,12 @@ class Settlement
             ->setDefault('accountIban', null)->setAllowedTypes('accountIban', ['string', 'null'])
             ->setDefault('accountBic', null)->setAllowedTypes('accountBic', ['string', 'null'])
             ->setDefault('debitAuthorization', true)->setAllowedTypes('debitAuthorization', ['bool', 'null'])
-            ->setDefault('fundsOrigin', [])->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values){
+            ->setDefault('fundsOrigin', [])->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values) {
                 $resolvedValues = [];
-                foreach ($values as $value)
-                {
+                foreach ($values as $value) {
                     $resolvedValues[] = FundsOrigin::createFromArray($value);
                 }
-                
+
                 return $resolvedValues;
             })
         ;
@@ -98,6 +95,7 @@ class Settlement
 
     /**
      * @param string $paymentType
+     *
      * @return Settlement
      */
     public function setPaymentType(string $paymentType): self
@@ -115,6 +113,7 @@ class Settlement
 
     /**
      * @param string $bankName
+     *
      * @return Settlement
      */
     public function setBankName(string $bankName): self
@@ -134,6 +133,7 @@ class Settlement
 
     /**
      * @param string $accountOwner
+     *
      * @return Settlement
      */
     public function setAccountOwner(string $accountOwner): self
@@ -151,6 +151,7 @@ class Settlement
 
     /**
      * @param string $accountIban
+     *
      * @return Settlement
      */
     public function setAccountIban(string $accountIban): self
@@ -162,9 +163,10 @@ class Settlement
 
     /**
      * @param string $accountBic
+     *
      * @return Settlement
      */
-    public function setAccountBic(string $accountBic):self
+    public function setAccountBic(string $accountBic): self
     {
         $this->accountBic = $accountBic;
     }
@@ -187,6 +189,7 @@ class Settlement
 
     /**
      * @param bool $debitAuthorization
+     *
      * @return Settlement
      */
     public function setDebitAuthorization(bool $debitAuthorization): self
@@ -196,12 +199,13 @@ class Settlement
 
     /**
      * @param string $fundsOrigin
+     *
      * @return Settlement
      */
-    public function setFundsOrigin(string $fundsOrigin): self 
+    public function setFundsOrigin(string $fundsOrigin): self
     {
         $this->fundsOrigin = $fundsOrigin;
-        
+
         return $this;
     }
 

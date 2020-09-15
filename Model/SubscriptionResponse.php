@@ -3,7 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class SubscriptionResponse
+ * Class SubscriptionResponse.
  */
 class SubscriptionResponse
 {

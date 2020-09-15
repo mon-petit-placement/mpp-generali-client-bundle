@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class CustomerFolder
+ * Class CustomerFolder.
  */
 class CustomerFolder
 {
@@ -51,7 +49,7 @@ class CustomerFolder
      * @var array
      */
     protected $assetsOrigin;
-    
+
     /**
      * @var array
      */
@@ -69,29 +67,26 @@ class CustomerFolder
             ->setDefault('assetCode', null)->setAllowedTypes('assetCode', ['string', 'null'])
             ->setDefault('frenchOriginPayment', null)->setAllowedTypes('frenchOriginPayment', ['bool', 'null'])
             ->setDefault('thirdPartyPayment', null)->setAllowedTypes('thirdPartyPayment', ['bool', 'null'])
-            ->setDefault('payoutTargets', [])->setAllowedTypes('payoutTargets', ['array', 'null'])->setNormalizer('payoutTargets', function(Options $options, $values){
+            ->setDefault('payoutTargets', [])->setAllowedTypes('payoutTargets', ['array', 'null'])->setNormalizer('payoutTargets', function (Options $options, $values) {
                 $resolvedValues = [];
-                foreach ($values as $value)
-                {
-                    $resolvedValues[]= PayoutTarget::createFromArray($value);
+                foreach ($values as $value) {
+                    $resolvedValues[] = PayoutTarget::createFromArray($value);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefault('assetsOrigin', [])->setAllowedTypes('assetsOrigin', ['array', 'null'])->setNormalizer('assetsOrigin', function(Options $options, $values){
+            ->setDefault('assetsOrigin', [])->setAllowedTypes('assetsOrigin', ['array', 'null'])->setNormalizer('assetsOrigin', function (Options $options, $values) {
                 $resolvedValues = [];
-                foreach ($values as $value)
-                {
-                    $resolvedValues[]= AssetOrigin::createFromArray($value);
+                foreach ($values as $value) {
+                    $resolvedValues[] = AssetOrigin::createFromArray($value);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefault('assetsRepartition', [])->setAllowedTypes('assetsRepartition', ['array', 'null'])->setNormalizer('assetsRepartition', function(Options $options, $values){
+            ->setDefault('assetsRepartition', [])->setAllowedTypes('assetsRepartition', ['array', 'null'])->setNormalizer('assetsRepartition', function (Options $options, $values) {
                 $resolvedValues = [];
-                foreach ($values as $value)
-                {
-                    $resolvedValues[]= AssetsRepartition::createFromArray($value);
+                foreach ($values as $value) {
+                    $resolvedValues[] = AssetsRepartition::createFromArray($value);
                 }
 
                 return $resolvedValues;
@@ -101,6 +96,7 @@ class CustomerFolder
 
     /**
      * @param array $data
+     *
      * @return CustomerFolder
      */
     public static function createFromArray(array $data)
@@ -133,6 +129,7 @@ class CustomerFolder
 
     /**
      * @param string $incomeAmount
+     *
      * @return CustomerFolder
      */
     public function setIncomeAmount(string $incomeAmount): self
@@ -142,6 +139,7 @@ class CustomerFolder
 
     /**
      * @param string $incomeCode
+     *
      * @return CustomerFolder
      */
     public function setIncomeCode(string $incomeCode): self
@@ -167,6 +165,7 @@ class CustomerFolder
 
     /**
      * @param string $heritageAmount
+     *
      * @return CustomerFolder
      */
     public function setAssetAmount(string $assetAmount): self
@@ -176,6 +175,7 @@ class CustomerFolder
 
     /**
      * @param string $assetCode
+     *
      * @return CustomerFolder
      */
     public function setAssetCode(string $assetCode): self
@@ -203,6 +203,7 @@ class CustomerFolder
 
     /**
      * @param bool $frenchOriginPayment
+     *
      * @return CustomerFolder
      */
     public function setFrenchOriginPayment(bool $frenchOriginPayment): self
@@ -222,6 +223,7 @@ class CustomerFolder
 
     /**
      * @param string $thirdPartyPayment
+     *
      * @return CustomerFolder
      */
     public function setThirdPartyPayment(string $thirdPartyPayment): self
@@ -239,6 +241,7 @@ class CustomerFolder
 
     /**
      * @param array $payoutTargets
+     *
      * @return CustomerFolder
      */
     public function setPayoutTargets(array $payoutTargets): self
@@ -249,16 +252,17 @@ class CustomerFolder
     /**
      * @return array
      */
-    public function getAssetsRepartition(): array 
+    public function getAssetsRepartition(): array
     {
         return $this->assetsRepartition;
     }
 
     /**
      * @param array $assetsRepartition
+     *
      * @return CustomerFolder
      */
-    public function setAssetsRepartition(array $assetsRepartition): self 
+    public function setAssetsRepartition(array $assetsRepartition): self
     {
         $this->assetsRepartition = $assetsRepartition;
     }
@@ -266,17 +270,18 @@ class CustomerFolder
     /**
      * @return array
      */
-    public function getAssetsOrigin(): array 
+    public function getAssetsOrigin(): array
     {
         return $this->assetsOrigin;
     }
 
     /**
      * @param array $assetsorigin
+     *
      * @return CustomerFolder
      */
-    public function setAssetsOrigin(array $assetsorigin): self 
+    public function setAssetsOrigin(array $assetsorigin): self
     {
         $this->assetsOrigin = $assetsorigin;
     }
- }
+}

@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Context
+ * Class Context.
  */
 class Context
 {
@@ -23,7 +22,6 @@ class Context
         'paramRachatPartielProgramme',
         'referentiel',
     ];
-
 
     /**
      * @var string
@@ -62,6 +60,7 @@ class Context
 
     /**
      * Context constructor.
+     *
      * @param array $expectedItems
      */
     public function __construct(array $expectedItems = [])
@@ -69,13 +68,12 @@ class Context
         $this->user = 'CLIENT';
 
         $items = [];
-        foreach ($expectedItems as $expectedItem)
-        {
-            if(in_array($expectedItem, self::AVAILABLE_EXPECTED_ITEMS, true)){
-                $items[]= $expectedItem;
+        foreach ($expectedItems as $expectedItem) {
+            if (in_array($expectedItem, self::AVAILABLE_EXPECTED_ITEMS, true)) {
+                $items[] = $expectedItem;
             }
         }
-        if (!empty($items)){
+        if (!empty($items)) {
             $this->setExpectedItems($items);
         }
     }

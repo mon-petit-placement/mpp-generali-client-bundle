@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PayoutTarget
+ * Class PayoutTarget.
  */
 class PayoutTarget
 {
@@ -34,15 +32,16 @@ class PayoutTarget
 
     /**
      * @param array $data
+     *
      * @return array
      */
-    public static function createFromArray(array $data): array 
+    public static function createFromArray(array $data): array
     {
         $resolver = new OptionsResolver();
         self::configureData($resolver);
-        
+
         $resolvedValues = $resolver->resolve($data);
-        
+
         return (new self())
             ->setPrecision($resolvedValues['precision'])
             ->setTargetCode($resolvedValues['targetCode'])
@@ -52,19 +51,20 @@ class PayoutTarget
     /**
      * @return string
      */
-    public function getTargetCode(): string 
+    public function getTargetCode(): string
     {
         return $this->targetCode;
     }
 
     /**
      * @param string $targetCode
+     *
      * @return PayoutTarget
      */
-    public function setTargetCode(string $targetCode): self 
+    public function setTargetCode(string $targetCode): self
     {
         $this->targetCode = $targetCode;
-        
+
         return $this;
     }
 
@@ -78,12 +78,13 @@ class PayoutTarget
 
     /**
      * @param string $precision
+     *
      * @return PayoutTarget
      */
-    public function setPrecision(string $precision): self 
+    public function setPrecision(string $precision): self
     {
         $this->precision = $precision;
-        
+
         return $this;
     }
 }

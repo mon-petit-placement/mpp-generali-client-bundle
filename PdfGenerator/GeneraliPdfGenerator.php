@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace Mpp\GeneraliClientBundle\PdfGenerator;
 
-use App\Tests\Behat\GeneraliBundle\DataGenerator\SubscriptionDataGenerator;
-use Exception;
 use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
 use GuzzleHttp\Client;
 
-
 /**
- * Class GeneraliPdfGenerator
+ * Class GeneraliPdfGenerator.
  */
 class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
 {
@@ -49,6 +45,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
 
     /**
      * @param array $fileParameters
+     *
      * @return array
      */
     private function resolveFileParameters(array $fileParameters)
@@ -56,7 +53,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('resp')->setAllowedTypes('resp', ['array'])->setNormalizer('resp', function(Options $options, $value){
+            ->setRequired('resp')->setAllowedTypes('resp', ['array'])->setNormalizer('resp', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
                     ->setRequired('civility')->setAllowedValues('civility', SubscriptionConstant::AVAILABLE_CIVILITY)->setNormalizer('civility', function (Options $options, $value) {
@@ -69,7 +66,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                     ->setRequired('zipcode')->setAllowedTypes('zipcode', ['integer'])
                     ->setRequired('city')->setAllowedTypes('city', ['string'])
                     ->setRequired('country')->setAllowedTypes('country', ['string'])
-                    ->setRequired('birthdate')->setAllowedTypes('birthdate', ['\DateTime'])->setNormalizer('birthdate', function(Options $options, $value){
+                    ->setRequired('birthdate')->setAllowedTypes('birthdate', ['\DateTime'])->setNormalizer('birthdate', function (Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('birthZipcode')->setAllowedTypes('birthZipcode', ['integer'])
@@ -101,7 +98,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                     ->setRequired('employer')->setAllowedTypes('employer', ['string'])
                     ->setRequired('siretNumber')->setAllowedTypes('siretNumber', ['integer'])
                     ->setRequired('job')->setAllowedTypes('job', ['string'])
-                    ->setRequired('activityEndDate')->setAllowedTypes('activityEndDate', ['\DateTime'])->setNormalizer('activityEndDate', function (Options $options, $value){
+                    ->setRequired('activityEndDate')->setAllowedTypes('activityEndDate', ['\DateTime'])->setNormalizer('activityEndDate', function (Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('incomeCategory')->setAllowedTypes('incomeCategory', ['string'])
@@ -116,19 +113,18 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                     ->setRequired('goals')->setAllowedTypes('goals', ['string'])
                     ->setRequired('durationCategory')->setAllowedTypes('durationCategory', ['string'])
                     ->setRequired('percentEstate')->setAllowedTypes('percentEstate', ['string'])
-                    ->setRequired('fundsOrigins')->setAllowedTypes('fundsOrigins', ['array'])->setNormalizer('fundsOrigins', function(Options $options, $values) {
+                    ->setRequired('fundsOrigins')->setAllowedTypes('fundsOrigins', ['array'])->setNormalizer('fundsOrigins', function (Options $options, $values) {
                         $resolver = new OptionsResolver();
                         $resolver
                             ->setRequired('label')->setAllowedTypes('label', ['string'])
-                            ->setRequired('date')->setAllowedTypes('date', ['\DateTime'])->setNormalizer('date', function(Options $options, $value) {
+                            ->setRequired('date')->setAllowedTypes('date', ['\DateTime'])->setNormalizer('date', function (Options $options, $value) {
                                 return $value->format('Y-m-d');
                             })
                             ->setRequired('amount')->setAllowedTypes('amount', ['integer'])
                         ;
 
                         $resolvedValues = [];
-                        foreach ($values as $value)
-                        {
+                        foreach ($values as $value) {
                             $resolvedValues[] = $resolver->resolve($value);
                         }
 
@@ -144,7 +140,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                     ->setRequired('initialInvestment')->setAllowedTypes('initialInvestment', ['string'])
                     ->setRequired('monthlyInvestment')->setAllowedTypes('monthlyInvestment', ['string'])
                     ->setRequired('ribKey')->setAllowedTypes('ribKey', ['string'])
-                    ->setRequired('todayDate')->setAllowedTypes('todayDate', ['\DateTime'])->setNormalizer('todayDate', function(Options $options, $value) {
+                    ->setRequired('todayDate')->setAllowedTypes('todayDate', ['\DateTime'])->setNormalizer('todayDate', function (Options $options, $value) {
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('initialRepartition')->setAllowedTypes('initialRepartition', ['array'])->setNormalizer('initialRepartition', function (Options $options, $values) {
@@ -156,14 +152,13 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                         ;
 
                         $resolvedValues = [];
-                        foreach ($values as $value)
-                        {
+                        foreach ($values as $value) {
                             $resolvedValues[] = $resolver->resolve($value);
                         }
 
                         return $resolvedValues;
                     })
-                    ->setRequired('monthlyRepartition')->setAllowedTypes('monthlyRepartition', ['array'])->setNormalizer('monthlyRepartition', function(Options $options, $values) {
+                    ->setRequired('monthlyRepartition')->setAllowedTypes('monthlyRepartition', ['array'])->setNormalizer('monthlyRepartition', function (Options $options, $values) {
                         $resolver = new OptionsResolver();
                         $resolver
                             ->setRequired('name')->setAllowedTypes('name', ['string'])
@@ -172,8 +167,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                         ;
 
                         $resolvedValues = [];
-                        foreach ($values as $value)
-                        {
+                        foreach ($values as $value) {
                             $resolvedValues[] = $resolver->resolve($value);
                         }
 
@@ -195,8 +189,10 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
 
     /**
      * @param string $template
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return string
+     *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -211,8 +207,8 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
             '/',
             [
                 'body' => json_encode([
-                    "contents" => base64_encode($html),
-                ])
+                    'contents' => base64_encode($html),
+                ]),
             ]
         );
         $filename = hash('sha1', json_encode($resolvedParameters)).'.pdf';

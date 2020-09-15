@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\HttpClient;
-
 
 use GuzzleHttp\Client;
 use Mpp\GeneraliClientBundle\Model\Context;
 
 class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 {
-
     /**
      * @var Client
      */
@@ -32,10 +29,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      * GeneraliHttpClientV2 constructor.
-     * @param Client $httpClient
+     *
+     * @param Client          $httpClient
      * @param LoggerInterface $logger
-     * @param string $providerCode
-     * @param string $subscriptionCode
+     * @param string          $providerCode
+     * @param string          $subscriptionCode
      */
     public function __construct(Client $httpClient, LoggerInterface $logger, string $providerCode, string $subscriptionCode)
     {
@@ -46,7 +44,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getContractInformations(string $contractNumber, array $exepectedItems = []): array
     {
@@ -72,11 +70,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * @param array $parameters
      * @param array $expectedItems
+     *
      * @return Context
      */
     private function buildContext(array $parameters, array $expectedItems = []): Context
     {
-
         $context = new Context($expectedItems);
         $context
             ->setProviderCode($this->providerCode)

@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Subscriber
+ * Class Subscriber.
  */
 class Subscriber
 {
@@ -274,7 +273,6 @@ class Subscriber
         ];
     }
 
-
     /**
      * @param OptionsResolver $resolver
      */
@@ -312,6 +310,7 @@ class Subscriber
 
     /**
      * @param array $data
+     *
      * @return Subscriber
      */
     public static function createFromArray(array $data): self
@@ -752,17 +751,17 @@ class Subscriber
         $this->cspCodeLastProfession = $cspCodeLastProfession;
     }
 
-    /**
-     * @return string
-     */
+   /**
+    * @return string
+    */
    public function getStartDateInactivity(): string
    {
        return $this->startDateInactivity;
    }
 
-    /**
-     * @param string $startDateInactivity
-     */
+   /**
+    * @param string $startDateInactivity
+    */
    public function setStartDateInactivity(string $startDateInactivity): void
    {
        $this->startDateInactivity = $startDateInactivity;
@@ -912,49 +911,49 @@ class Subscriber
         $this->addressStreetName = $addressStreeName;
     }
 
-    /**
-     * @return string
-     */
+   /**
+    * @return string
+    */
    public function getAddressDropOffPoint(): string
    {
        return $this->addressDropOffPoint;
    }
 
-    /**
-     * @param string $addressDropOffPoint
-     */
+   /**
+    * @param string $addressDropOffPoint
+    */
    public function setAddressDropOffPoint(string $addressDropOffPoint): void
    {
        $this->addressDropOffPoint = $addressDropOffPoint;
    }
 
-    /**
-     * @return string
-     */
+   /**
+    * @return string
+    */
    public function getAddressGeographicPoint(): string
    {
        return $this->addressGeographicPoint;
    }
 
-    /**
-     * @param string $addressGeographicPoint
-     */
+   /**
+    * @param string $addressGeographicPoint
+    */
    public function setAddressGeographicPoint(string $addressGeographicPoint): void
    {
        $this->addressGeographicPoint = $addressGeographicPoint;
    }
 
-    /**
-     * @return string
-     */
+   /**
+    * @return string
+    */
    public function getAddressPostBox(): string
    {
        return $this->addressPostBox;
    }
 
-    /**
-     * @param string $addressPostBox
-     */
+   /**
+    * @param string $addressPostBox
+    */
    public function setAddressPostbox(string $addressPostBox): void
    {
        $this->addressPostBox = $addressPostBox;

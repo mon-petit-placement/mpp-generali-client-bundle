@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 class ScheduledFreePayment
 {
@@ -43,9 +41,9 @@ class ScheduledFreePayment
             ->setDefault('bankDebitDay', null)->setAllowedTypes('bankDebitDay', ['string', 'null'])
             ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
             ->setDefault('periodicity', null)->setAllowedTypes('periodicity', ['string', 'null'])
-            ->setDefault('repartition', null)->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function(Options $options, $values): array {
+            ->setDefault('repartition', null)->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values): array {
                 $result = [];
-                foreach ($values as $value){
+                foreach ($values as $value) {
                     $result[] = Repartition::createFromArray($value);
                 }
             });
@@ -53,6 +51,7 @@ class ScheduledFreePayment
 
     /**
      * @param array $data
+     *
      * @return ScheduledFreePayment
      */
     public static function createFromArray(array $data)
@@ -71,6 +70,7 @@ class ScheduledFreePayment
 
     /**
      * @param array $repartition
+     *
      * @return ScheduledFreePayment
      */
     public function setRepartition(array $repartition): self
@@ -88,6 +88,7 @@ class ScheduledFreePayment
 
     /**
      * @param string $periodicity
+     *
      * @return ScheduledFreePayment
      */
     public function setPeriodicity(string $periodicity): self
@@ -105,6 +106,7 @@ class ScheduledFreePayment
 
     /**
      * @param string $amount
+     *
      * @return ScheduledFreePayment
      */
     public function setAmount(string $amount): self
@@ -124,6 +126,7 @@ class ScheduledFreePayment
 
     /**
      * @param string $bankDebitDay
+     *
      * @return ScheduledFreePayment
      */
     public function setBankDebitDay(string $bankDebitDay): self
@@ -140,5 +143,4 @@ class ScheduledFreePayment
     {
         return $this->bankDebitDay;
     }
-
 }

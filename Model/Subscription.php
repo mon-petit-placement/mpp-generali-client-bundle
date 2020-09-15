@@ -1,13 +1,12 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class Subscription
+ * Class Subscription.
  */
 class Subscription
 {
@@ -61,16 +60,16 @@ class Subscription
     public static function configureData(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('subscriber', null)->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function(Options $options, $value){
+            ->setDefault('subscriber', null)->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
                 return Subscriber::createFromArray($value);
             })
-            ->setDefault('customerFolder', null)->setAllowedTypes('customerFolder', ['array', 'null'])->setNormalizer('customerFolder', function(Options $options, $value){
+            ->setDefault('customerFolder', null)->setAllowedTypes('customerFolder', ['array', 'null'])->setNormalizer('customerFolder', function (Options $options, $value) {
                 return CustomerFolder::createFromArray($value);
             })
-            ->setDefault('settlement', null)->setAllowedTypes('settlement', ['array', 'null'])->setNormalizer('settlement', function(Options $options, $value){
+            ->setDefault('settlement', null)->setAllowedTypes('settlement', ['array', 'null'])->setNormalizer('settlement', function (Options $options, $value) {
                 return Settlement::createFromArray($value);
             })
-            ->setDefault('intitialPayment', null)->setAllowedTypes('initialPayment', ['array', 'null'])->setNormalizer('initialPayment', function(Options $options, $value){
+            ->setDefault('intitialPayment', null)->setAllowedTypes('initialPayment', ['array', 'null'])->setNormalizer('initialPayment', function (Options $options, $value) {
                 return InitialPayment::createFromArray($value);
             })
             ->setDefault('paymentType', null)->setAllowedTypes('paymentType', ['string', 'null'])
@@ -82,7 +81,7 @@ class Subscription
     }
 
     /**
-     * @param array $value 
+     * @param array $value
      */
     public static function createFromArray(array $value)
     {
@@ -114,6 +113,7 @@ class Subscription
 
     /**
      * @param Subscriber $subscriber
+     *
      * @return Subscription
      */
     public function setSubscriber(Subscriber $subscriber): self
@@ -131,6 +131,7 @@ class Subscription
 
     /**
      * @param CustomerFolder $customerFolder
+     *
      * @return Subscription
      */
     public function setCustomerFolder(CustomerFolder $customerFolder): self
@@ -148,6 +149,7 @@ class Subscription
 
     /**
      * @param Settlement $settlement
+     *
      * @return Subscription
      */
     public function setSettlement(Settlement $settlement): self
@@ -165,6 +167,7 @@ class Subscription
 
     /**
      * @param InitialPayment $initialPayment
+     *
      * @return Subscription
      */
     public function setInitialPayment(InitialPayment $initialPayment): self
@@ -182,6 +185,7 @@ class Subscription
 
     /**
      * @param string $paymentType
+     *
      * @return Subscription
      */
     public function setPaymentType(string $paymentType): self
@@ -199,6 +203,7 @@ class Subscription
 
     /**
      * @param string $fiscality
+     *
      * @return Subscription
      */
     public function setFiscality(string $fiscality): self
@@ -216,6 +221,7 @@ class Subscription
 
     /**
      * @param string $deathBeneficiaryClauseCode
+     *
      * @return Subscription
      */
     public function setDeathBeneficiaryClauseCode(string $deathBeneficiaryClauseCode): self
@@ -233,6 +239,7 @@ class Subscription
 
     /**
      * @param string $deathBeneficiaryClauseText
+     *
      * @return Subscription
      */
     public function setDeathBeneficiaryClauseText(string $deathBeneficiaryClauseText): self
@@ -250,6 +257,7 @@ class Subscription
 
     /**
      * @param string $gestionMode
+     *
      * @return Subscription
      */
     public function setGestionMode(string $gestionMode): self

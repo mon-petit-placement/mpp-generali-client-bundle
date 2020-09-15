@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AssetOrigin
+ * Class AssetOrigin.
  */
 class AssetOrigin
 {
@@ -33,6 +32,7 @@ class AssetOrigin
 
     /**
      * @param array $value
+     *
      * @return AssetOrigin
      */
     public static function createFromArray(array $value)
@@ -41,7 +41,7 @@ class AssetOrigin
         self::configureData($resolver);
 
         $resolvedValue = $resolver->resolve($value);
-        
+
         return (new self())
             ->setPrecision($resolvedValue['precision'])
             ->setCodeOrigin($resolvedValue['codeOrigin'])
@@ -58,6 +58,7 @@ class AssetOrigin
 
     /**
      * @param string $codeOrigin
+     *
      * @return AssetOrigin
      */
     public function setCodeOrigin(string $codeOrigin): self
@@ -75,6 +76,7 @@ class AssetOrigin
 
     /**
      * @param string $precision
+     *
      * @return AssetOrigin
      */
     public function setPrecision(string $precision): self

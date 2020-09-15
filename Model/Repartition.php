@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Repartition
+ * Class Repartition.
  */
 class Repartition
 {
@@ -27,13 +26,11 @@ class Repartition
             ->setDefault('amount', null)->setAllowedTypes('amount', ['string', 'null'])
             ->setDefault('fundsCode', null)->setAllowedTypes('fundsCode', ['string', 'null'])
         ;
-
-
     }
-
 
     /**
      * @param array $data
+     *
      * @return mixed
      */
     public static function createFromArray(array $data)
@@ -58,6 +55,7 @@ class Repartition
 
     /**
      * @param string $fundsCode
+     *
      * @return Repartition
      */
     public function setFundsCode(string $fundsCode): self
@@ -77,6 +75,7 @@ class Repartition
 
     /**
      * @param float $amount
+     *
      * @return Repartition
      */
     public function setAmount(float $amount): self

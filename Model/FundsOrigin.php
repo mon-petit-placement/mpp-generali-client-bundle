@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
-
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -43,6 +41,7 @@ class FundsOrigin
 
     /**
      * @param array $data
+     *
      * @return FundsOrigin
      */
     public static function createFromArray(array $data)
@@ -70,6 +69,7 @@ class FundsOrigin
 
     /**
      * @param string $codeOrigin
+     *
      * @return FundsOrigin
      */
     public function setCodeOrigin(string $codeOrigin): self
@@ -87,6 +87,7 @@ class FundsOrigin
 
     /**
      * @param float $amount
+     *
      * @return FundsOrigin
      */
     public function setAmount(float $amount): self
@@ -106,6 +107,7 @@ class FundsOrigin
 
     /**
      * @param string $date
+     *
      * @return $this
      */
     public function setDate(string $date)
@@ -117,6 +119,7 @@ class FundsOrigin
 
     /**
      * @param string $precision
+     *
      * @return FundsOrigin
      */
     public function setPrecision(string $precision): self
