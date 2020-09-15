@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 use \Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Mpp\GeneraliClientBundle\OptionsResolver\ContexteResolver;
-use Mpp\GeneraliClientBundle\Model\Subscription;
+use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,8 +44,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
      */
     public function getAvailableFunds(string $product, array $parameters)
     {
-        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
+        if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
 
         $resolver = new OptionsResolver();
@@ -65,9 +65,9 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolvedParameters = $resolver->resolve($parameters);
         $path =  sprintf(
             '/epart/v2.0/transaction/%s/donnees',
-            Subscription::PRODUCTS_MAP[$product]
+            SubscriptionConstant::PRODUCTS_MAP[$product]
         );
-        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER) {
+        if ($product === SubscriptionConstant::PRODUCT_PARTIAL_SURRENDER) {
             $path = '/epart/v1.0/donnees/rachatpartiel/all';
         }
         $contents = [];
@@ -104,24 +104,24 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolver = new OptionsResolver();
 
         switch ($product) {
-            case Subscription::PRODUCT_SUBSCRIPTION:
+            case SubscriptionConstant::PRODUCT_SUBSCRIPTION:
                 $this->configureSubscriptionParameters($resolver);
                 break;
-            case Subscription::PRODUCT_FREE_PAYMENT:
+            case SubscriptionConstant::PRODUCT_FREE_PAYMENT:
                 $this->configureFreePaymentParameters($resolver);
                 break;
-            case Subscription::PRODUCT_SCHEDULED_FREE_PAYMENT:
+            case SubscriptionConstant::PRODUCT_SCHEDULED_FREE_PAYMENT:
                 $this->configureScheduledFreePaymentParameters($resolver);
                 break;
-            case Subscription::PRODUCT_ARBITRATION:
+            case SubscriptionConstant::PRODUCT_ARBITRATION:
                 $this->configureArbitrationParameters($resolver);
                 break;
-            case Subscription::PRODUCT_PARTIAL_SURRENDER:
+            case SubscriptionConstant::PRODUCT_PARTIAL_SURRENDER:
                 $this->configurePartialSurrender($resolver);
                 break;
         }
 
-        return $this->runStep(Subscription::STEP_INITIATE, $product, $resolver->resolve($parameters));
+        return $this->runStep(SubscriptionConstant::STEP_INITIATE, $product, $resolver->resolve($parameters));
     }
 
     /**
@@ -145,7 +145,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             return $resolver->resolve($value);
         });
 
-        return $this->runStep(Subscription::STEP_CHECK, $product, $resolver->resolve($parameters));
+        return $this->runStep(SubscriptionConstant::STEP_CHECK, $product, $resolver->resolve($parameters));
     }
 
     /**
@@ -158,7 +158,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
     {
         $resolvedParameters = $this->resolveConfirm($parameters);
 
-        return $this->runStep(Subscription::STEP_CONFIRM, $product, $resolvedParameters);
+        return $this->runStep(SubscriptionConstant::STEP_CONFIRM, $product, $resolvedParameters);
     }
 
     /**
@@ -210,7 +210,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
                 return $resolver->resolve($value);
             });
         $resolvedParameters = $resolver->resolve($parameters);
-        return $this->runStep(Subscription::STEP_FINALIZE, $product, $resolvedParameters);
+        return $this->runStep(SubscriptionConstant::STEP_FINALIZE, $product, $resolvedParameters);
     }
 
     /**
@@ -229,7 +229,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolvedParameters = $resolver->resolve($parameters);
 
         return $this->runSpecificStep(
-            Subscription::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND,
+            SubscriptionConstant::STEP_SCHEDULED_FREE_PAYMENT_SUSPEND,
             $resolvedParameters,
             $resolvedParameters['contexte']['numContrat']
         );
@@ -245,7 +245,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
     {
         dump($parameters);
 
-        $path = '/epart/v1.0/transaction/'.Subscription::STEP_SCHEDULED_FREE_PAYMENT_MAP[$step];
+        $path = '/epart/v1.0/transaction/'.SubscriptionConstant::STEP_SCHEDULED_FREE_PAYMENT_MAP[$step];
 
         if ($contractCode) {
             $path .= '/' . $contractCode;
@@ -269,7 +269,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolvedParameters = $resolver->resolve($parameters);
 
         return $this->runSpecificStep(
-            Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
+            SubscriptionConstant::STEP_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
             $resolvedParameters,
             $resolvedParameters['contexte']['numContrat']
         );
@@ -327,7 +327,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolvedParameters = $resolver->resolve($parameters);
 
         return $this->runSpecificStep(
-            Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
+            SubscriptionConstant::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
             $resolvedParameters,
             $resolvedParameters['contexte']['numContrat']
         );
@@ -343,7 +343,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolvedParameters = $this->resolveConfirm($parameters);
 
         return $this->runSpecificStep(
-            Subscription::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
+            SubscriptionConstant::STEP_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
             $resolvedParameters
         );
     }
@@ -357,22 +357,22 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
      */
     private function runStep(string $step, string $product, array $parameters)
     {
-        if (!isset(Subscription::STEPS_MAP[$step])) {
-            throw new \UnexpectedValueException('Step must be part of these: ' . implode(", ", Subscription::AVAILABLE_STEPS));
+        if (!isset(SubscriptionConstant::STEPS_MAP[$step])) {
+            throw new \UnexpectedValueException('Step must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_STEPS));
         }
-        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
+        if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
-        $path = sprintf('/epart/v2.0/transaction/%s/%s', Subscription::PRODUCTS_MAP[$product], Subscription::STEPS_MAP[$step]);
+        $path = sprintf('/epart/v2.0/transaction/%s/%s', SubscriptionConstant::PRODUCTS_MAP[$product], SubscriptionConstant::STEPS_MAP[$step]);
 
-        if ($product === Subscription::PRODUCT_PARTIAL_SURRENDER) {
+        if ($product === SubscriptionConstant::PRODUCT_PARTIAL_SURRENDER) {
             $path = sprintf(
                 '/epart/v1.0/transaction/%s/%s',
-                Subscription::PRODUCTS_MAP[$product],
-                Subscription::STEPS_MAP[$step],
+                SubscriptionConstant::PRODUCTS_MAP[$product],
+                SubscriptionConstant::STEPS_MAP[$step],
             );
 
-            if ($step === Subscription::STEP_INITIATE) {
+            if ($step === SubscriptionConstant::STEP_INITIATE) {
                 $path .= '/'.$parameters['contexte']['numContrat'];
             }
         }
@@ -425,8 +425,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
      */
     public function sendFile(string $product, string $path, string $idTransaction, string $fileName, array $document)
     {
-        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
+        if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
 
         $file = new UploadedFile($path.$fileName, $fileName);
@@ -474,8 +474,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
      */
     public function checkFiles(string $product, string $idTransaction)
     {
-        if (!isset(Subscription::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", Subscription::AVAILABLE_PRODUCTS));
+        if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
         $contents = [];
 
@@ -484,7 +484,7 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
                 sprintf(
                     '/epart/v1.0/transaction/piecesAFournir/list/%s/%s',
                     $idTransaction,
-                    strtoupper(Subscription::PRODUCTS_FILES_MAP[$product])
+                    strtoupper(SubscriptionConstant::PRODUCTS_FILES_MAP[$product])
                 )
             );
             $this->logger->info(sprintf(
@@ -619,8 +619,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             ->setDefined('adresse4LieuDitBP')->setAllowedTypes('adresse4LieuDitBP', ['string'])
             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
             ->setDefined('commune')->setAllowedTypes('commune', ['string'])
-            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
-                return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
+            ->setDefined('codePays')->setAllowedValues('codePays', SubscriptionConstant::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
+                return SubscriptionConstant::FISCALITY_COUNTRY_MAP[$value]['code'];
             })
             ->setDefined('nePasNormaliser')->setAllowedTypes('nePasNormaliser', ['bool'])
         ;
@@ -639,8 +639,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             ->setDefined('originesFonds')->setAllowedTypes('originesFonds', ['array'])->setNormalizer('originesFonds', function (Options $options, $values) {
                 return $this->resolveOriginesFonds($values);
             })
-            ->setDefined('typeReglementVersementPonctuel')->setAllowedValues('typeReglementVersementPonctuel', Subscription::AVAILABLE_PAYMENT_METHOD)->setNormalizer('typeReglementVersementPonctuel', function (Options $options, $value) {
-                return Subscription::PAYMENT_METHOD_MAP[$value];
+            ->setDefined('typeReglementVersementPonctuel')->setAllowedValues('typeReglementVersementPonctuel', SubscriptionConstant::AVAILABLE_PAYMENT_METHOD)->setNormalizer('typeReglementVersementPonctuel', function (Options $options, $value) {
+                return SubscriptionConstant::PAYMENT_METHOD_MAP[$value];
             })
             ->setDefined('ibanContractant')->setAllowedTypes('ibanContractant', ['array'])->setNormalizer('ibanContractant', function (Options $options, $value) {
                 return $this->resolveIbanContractant($value);
@@ -675,8 +675,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
 
         $resolver
             ->setDefined('denouement')->setAllowedTypes('denouement', ['string']) //Subscription::TYPESDENOUEMENT[$this->faker->numberBetween(0, count(Subscription::TYPESDENOUEMENT) - 1)]['code'],
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_BENEFICIARY_CLAUSES)->setNormalizer('code', function (Options $options, $value) {
-                return Subscription::BENEFICIARY_CLAUSES_MAP[$value]['code'];
+            ->setDefined('code')->setAllowedValues('code', SubscriptionConstant::AVAILABLE_BENEFICIARY_CLAUSES)->setNormalizer('code', function (Options $options, $value) {
+                return SubscriptionConstant::BENEFICIARY_CLAUSES_MAP[$value]['code'];
             })
             ->setDefined('texteLibre')->setAllowedTypes('texteLibre', ['string'])
         ;
@@ -744,8 +744,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
 
                 return $resolvedValue;
             })
-            ->setRequired('jourPrelevement')->setAllowedValues('jourPrelevement', Subscription::AVAILABLE_BANK_DEBIT)->setNormalizer('jourPrelevement', function (Options $options, $value) {
-                return Subscription::BANK_DEBIT_MAP[$value];
+            ->setRequired('jourPrelevement')->setAllowedValues('jourPrelevement', SubscriptionConstant::AVAILABLE_BANK_DEBIT)->setNormalizer('jourPrelevement', function (Options $options, $value) {
+                return SubscriptionConstant::BANK_DEBIT_MAP[$value];
             })
             ->setRequired('vlpMontant')->setAllowedTypes('vlpMontant', ['array'])->setNormalizer('vlpMontant', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
@@ -832,8 +832,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
                         $resolver = new OptionsResolver();
 
                         $resolver
-                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function (Options $options, $value) {
-                                return Subscription::IDENTITY_DOC_MAP[$value]['code'];
+                            ->setDefined('codePieceIdentite')->setAllowedValues('codePieceIdentite', SubscriptionConstant::AVAILABLE_IDENTITY_DOC)->setNormalizer('codePieceIdentite', function (Options $options, $value) {
+                                return SubscriptionConstant::IDENTITY_DOC_MAP[$value]['code'];
                             })
                             ->setDefined('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function (Options $options, $value) {
                                 return $value->format('Y-m-d');
@@ -879,11 +879,11 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolver = new OptionsResolver();
 
         $resolver
-            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('codeTrancheRevenu', function (Options $options, $value) {
-                return Subscription::INCOME_BRACKETS_MAP[$value]['code'];
+            ->setRequired('codeTrancheRevenu')->setAllowedValues('codeTrancheRevenu', SubscriptionConstant::AVAILABLE_INCOME_BRACKETS)->setNormalizer('codeTrancheRevenu', function (Options $options, $value) {
+                return SubscriptionConstant::INCOME_BRACKETS_MAP[$value]['code'];
             })
-            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('codeTranchePatrimoine', function (Options $options, $value) {
-                return Subscription::PERSONAL_ASSETS_MAP[$value]['code'];
+            ->setRequired('codeTranchePatrimoine')->setAllowedValues('codeTranchePatrimoine', SubscriptionConstant::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('codeTranchePatrimoine', function (Options $options, $value) {
+                return SubscriptionConstant::PERSONAL_ASSETS_MAP[$value]['code'];
             })
             ->setRequired('montantRevenu')->setAllowedTypes('montantRevenu', ['int'])
             ->setRequired('montantPatrimoine')->setAllowedTypes('montantPatrimoine', ['int'])
@@ -907,8 +907,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolver = new OptionsResolver();
         $resolvedValue = [];
         $resolver
-            ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_ORIGIN)->setNormalizer('code', function (Options $options, $value) {
-                return Subscription::HERITAGE_ORIGIN_MAP[$value]['code'];
+            ->setRequired('code')->setAllowedValues('code', SubscriptionConstant::AVAILABLE_HERITAGE_ORIGIN)->setNormalizer('code', function (Options $options, $value) {
+                return SubscriptionConstant::HERITAGE_ORIGIN_MAP[$value]['code'];
             })
             ->setRequired('precision')->setAllowedTypes('precision', ['string'])
         ;
@@ -928,8 +928,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolver = new OptionsResolver();
         $resolvedValue = [];
         $resolver
-            ->setRequired('code')->setAllowedValues('code', Subscription::AVAILABLE_HERITAGE_DISTRIBUTION)->setNormalizer('code', function (Options $options, $value) {
-                return Subscription::HERITAGE_DISTRIBUTION_MAP[$value]['code'];
+            ->setRequired('code')->setAllowedValues('code', SubscriptionConstant::AVAILABLE_HERITAGE_DISTRIBUTION)->setNormalizer('code', function (Options $options, $value) {
+                return SubscriptionConstant::HERITAGE_DISTRIBUTION_MAP[$value]['code'];
             })
             ->setRequired('pourcentage')->setAllowedTypes('pourcentage', ['int', 'double', 'float'])
             ->setRequired('precision')->setAllowedTypes('precision', ['string'])
@@ -952,8 +952,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             ->setRequired('noms')->setAllowedTypes('noms', ['array'])->setNormalizer('noms', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', Subscription::AVAILABLE_CIVILITY)->setNormalizer('codeCivilite', function (Options $options, $value) {
-                        return Subscription::CIVILITY_MAP[$value]['code'];
+                    ->setRequired('codeCivilite')->setAllowedValues('codeCivilite', SubscriptionConstant::AVAILABLE_CIVILITY)->setNormalizer('codeCivilite', function (Options $options, $value) {
+                        return SubscriptionConstant::CIVILITY_MAP[$value]['code'];
                     })
                     ->setRequired('prenom')->setAllowedTypes('prenom', ['string'])
                     ->setRequired('nom')->setAllowedTypes('nom', ['string'])
@@ -965,8 +965,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             ->setRequired('residenceFiscale')->setAllowedTypes('residenceFiscale', ['array'])->setNormalizer('residenceFiscale', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
-                        return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
+                    ->setRequired('codePays')->setAllowedValues('codePays', SubscriptionConstant::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
+                        return SubscriptionConstant::FISCALITY_COUNTRY_MAP[$value]['code'];
                     })
                 ;
 
@@ -979,8 +979,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('lieuNaissance')->setAllowedTypes('lieuNaissance', ['string'])
-                    ->setRequired('paysNaissance')->setAllowedValues('paysNaissance', Subscription::AVAILABLE_COUNTRY)->setNormalizer('paysNaissance', function (Options $options, $value) {
-                        return Subscription::COUNTRY_MAP[$value]['code'];
+                    ->setRequired('paysNaissance')->setAllowedValues('paysNaissance', SubscriptionConstant::AVAILABLE_COUNTRY)->setNormalizer('paysNaissance', function (Options $options, $value) {
+                        return SubscriptionConstant::COUNTRY_MAP[$value]['code'];
                     })
                     ->setDefined('codeDepartementNaissance')->setAllowedTypes('codeDepartementNaissance', ['string'])
                     ->setDefined('codeInseeCommuneNaissance')->setAllowedTypes('codeInseeCommuneNaissance', ['int'])
@@ -1005,8 +1005,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
                             ->setDefined('adresse3LibelleVoie')->setAllowedTypes('adresse3LibelleVoie', ['string'])
                             ->setDefined('codePostal')->setAllowedTypes('codePostal', ['int'])
                             ->setDefined('commune')->setAllowedTypes('commune', ['string'])
-                            ->setDefined('codePays')->setAllowedValues('codePays', Subscription::AVAILABLE_ADDRESS_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
-                                return Subscription::ADDRESS_COUNTRY_MAP[$value]['code'];
+                            ->setDefined('codePays')->setAllowedValues('codePays', SubscriptionConstant::AVAILABLE_ADDRESS_COUNTRY)->setNormalizer('codePays', function (Options $options, $value) {
+                                return SubscriptionConstant::ADDRESS_COUNTRY_MAP[$value]['code'];
                             })
                             ->setDefined('nePasNormaliser')->setAllowedTypes('nePasNormaliser', ['bool'])
                         ;
@@ -1055,8 +1055,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             ->setDefined('pieceIdentite')->setAllowedTypes('pieceIdentite', ['array'])->setNormalizer('pieceIdentite', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', Subscription::AVAILABLE_IDENTITY_DOC_2)->setNormalizer('codePieceIdentite', function (Options $options, $value) {
-                        return Subscription::IDENTITY_DOC_2_MAP[$value];
+                    ->setRequired('codePieceIdentite')->setAllowedValues('codePieceIdentite', SubscriptionConstant::AVAILABLE_IDENTITY_DOC_2)->setNormalizer('codePieceIdentite', function (Options $options, $value) {
+                        return SubscriptionConstant::IDENTITY_DOC_2_MAP[$value];
                     })
                     ->setRequired('dateValidite')->setAllowedTypes('dateValidite', ['\DateTime'])->setNormalizer('dateValidite', function (Options $options, $value) {
                         return $value->format('Y-m-d');
@@ -1065,8 +1065,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value) {
-                return Subscription::LEGAL_CAPACITY_MAP[$value]['code'];
+            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', SubscriptionConstant::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value) {
+                return SubscriptionConstant::LEGAL_CAPACITY_MAP[$value]['code'];
             })
         ;
 
@@ -1139,8 +1139,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
             ->setDefined('nom')->setAllowedTypes('nom', ['string'])
             ->setDefined('prenom')->setAllowedTypes('prenom', ['string'])
             ->setDefined('nationalite')->setAllowedTypes('nationalite', ['string'])
-            ->setDefined('residenceFiscale')->setAllowedValues('residenceFiscale', Subscription::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('residenceFiscale', function (Options $options, $value) {
-                return Subscription::FISCALITY_COUNTRY_MAP[$value]['code'];
+            ->setDefined('residenceFiscale')->setAllowedValues('residenceFiscale', SubscriptionConstant::AVAILABLE_FISCALITY_COUNTRY)->setNormalizer('residenceFiscale', function (Options $options, $value) {
+                return SubscriptionConstant::FISCALITY_COUNTRY_MAP[$value]['code'];
             })
             ->setDefined('complement')->setAllowedTypes('complement', ['array'])->setNormalizer('complement', function (Options $options, $value) {
                 return $this->resolveComplement($value);
@@ -1168,8 +1168,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
 
                 return $resolver->resolve($value);
             })
-            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', Subscription::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value) {
-                return Subscription::LEGAL_CAPACITY_MAP[$value]['code'];
+            ->setDefined('capaciteJuridique')->setAllowedValues('capaciteJuridique', SubscriptionConstant::AVAILABLE_LEGAL_CAPACITY)->setNormalizer('capaciteJuridique', function (Options $options, $value) {
+                return SubscriptionConstant::LEGAL_CAPACITY_MAP[$value]['code'];
             })
         ;
 
@@ -1236,12 +1236,12 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
         $resolvedValues = [];
 
         $resolver
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_FUNDS_ORIGIN)->setNormalizer('code', function (Options $options, $value) {
-                return Subscription::FUNDS_ORIGIN_MAP[$value]['code'];
+            ->setDefined('code')->setAllowedValues('code', SubscriptionConstant::AVAILABLE_FUNDS_ORIGIN)->setNormalizer('code', function (Options $options, $value) {
+                return SubscriptionConstant::FUNDS_ORIGIN_MAP[$value]['code'];
             })
             ->setDefined('codesDetail')->setAllowedTypes('codesDetail', ['array'])->setNormalizer('codesDetail', function (Options $options, $values) {
                 foreach ($values as $value) {
-                    $resolvedValues[] = Subscription::FUNDS_ORIGIN_INCOME_MAP[$value]['code'];
+                    $resolvedValues[] = SubscriptionConstant::FUNDS_ORIGIN_INCOME_MAP[$value]['code'];
                 }
 
                 return $resolvedValues;
@@ -1267,26 +1267,26 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', Subscription::AVAILABLE_FAMILY_SITUATION)->setNormalizer('situationFamiliale', function (Options $options, $value) {
-                return Subscription::FAMILY_SITUATION_MAP[$value]['code'];
+            ->setRequired('situationFamiliale')->setAllowedValues('situationFamiliale', SubscriptionConstant::AVAILABLE_FAMILY_SITUATION)->setNormalizer('situationFamiliale', function (Options $options, $value) {
+                return SubscriptionConstant::FAMILY_SITUATION_MAP[$value]['code'];
             })
-            ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('situationProfessionnelle', function (Options $options, $value) {
-                return Subscription::PROFESSIONAL_SITUATION_MAP[$value]['code'];
+            ->setRequired('situationProfessionnelle')->setAllowedValues('situationProfessionnelle', SubscriptionConstant::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('situationProfessionnelle', function (Options $options, $value) {
+                return SubscriptionConstant::PROFESSIONAL_SITUATION_MAP[$value]['code'];
             })
-            ->setDefined('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', Subscription::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('regimeMatrimonial', function (Options $options, $value) {
-                return Subscription::MATRIMONIAL_REGIME_MAP[$value]['code'];
+            ->setDefined('regimeMatrimonial')->setAllowedValues('regimeMatrimonial', SubscriptionConstant::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('regimeMatrimonial', function (Options $options, $value) {
+                return SubscriptionConstant::MATRIMONIAL_REGIME_MAP[$value]['code'];
             })
-            ->setDefined('csp')->setAllowedValues('csp', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value) {
-                return Subscription::CSPS_CODE_MAP[$value]['code'];
+            ->setDefined('csp')->setAllowedValues('csp', SubscriptionConstant::AVAILABLE_CSPS_CODE)->setNormalizer('csp', function (Options $options, $value) {
+                return SubscriptionConstant::CSPS_CODE_MAP[$value]['code'];
             })
             ->setRequired('profession')->setAllowedTypes('profession', ['string'])
-            ->setDefined('codeNaf')->setAllowedValues('codeNaf', Subscription::AVAILABLE_NAF_CODE)->setNormalizer('codeNaf', function (Options $options, $value) {
-                return Subscription::NAF_CODE_MAP[$value]['code'];
+            ->setDefined('codeNaf')->setAllowedValues('codeNaf', SubscriptionConstant::AVAILABLE_NAF_CODE)->setNormalizer('codeNaf', function (Options $options, $value) {
+                return SubscriptionConstant::NAF_CODE_MAP[$value]['code'];
             })
             ->setDefined('siret')->setAllowedTypes('siret', ['int'])
             ->setDefined('nomEmployeur')->setAllowedTypes('nomEmployeur', ['string'])
-            ->setDefined('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', Subscription::AVAILABLE_CSPS_CODE)->setNormalizer('cspDerniereProfession', function (Options $options, $value) {
-                return Subscription::CSPS_CODE_MAP[$value]['code'];
+            ->setDefined('cspDerniereProfession')->setAllowedValues('cspDerniereProfession', SubscriptionConstant::AVAILABLE_CSPS_CODE)->setNormalizer('cspDerniereProfession', function (Options $options, $value) {
+                return SubscriptionConstant::CSPS_CODE_MAP[$value]['code'];
             })
             ->setDefined('dateDebutInactivite')->setAllowedTypes('dateDebutInactivite', ['\Datetime'])->setNormalizer('dateDebutInactivite', function (Options $options, $value) {
                 return $value->format('Y-m-d');
@@ -1407,8 +1407,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('code', function (Options $options, $value) {
-                return Subscription::PERSONAL_ASSETS_MAP[$value]['code'];
+            ->setDefined('code')->setAllowedValues('code', SubscriptionConstant::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('code', function (Options $options, $value) {
+                return SubscriptionConstant::PERSONAL_ASSETS_MAP[$value]['code'];
             })
             ->setDefined('montant')->setAllowedTypes('montant', ['int'])
         ;
@@ -1424,8 +1424,8 @@ class GeneraliHttpClient implements GeneraliHttpClientInterface
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setDefined('code')->setAllowedValues('code', Subscription::AVAILABLE_INCOME_BRACKETS)->setNormalizer('code', function (Options $options, $value) {
-                return Subscription::INCOME_BRACKETS_MAP[$value]['code'];
+            ->setDefined('code')->setAllowedValues('code', SubscriptionConstant::AVAILABLE_INCOME_BRACKETS)->setNormalizer('code', function (Options $options, $value) {
+                return SubscriptionConstant::INCOME_BRACKETS_MAP[$value]['code'];
             })
             ->setDefined('montant')->setAllowedTypes('montant', ['int'])
         ;

@@ -6,7 +6,7 @@ namespace Mpp\GeneraliClientBundle\PdfGenerator;
 
 use App\Tests\Behat\GeneraliBundle\DataGenerator\SubscriptionDataGenerator;
 use Exception;
-use Mpp\GeneraliClientBundle\Model\Subscription;
+use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\Options;
@@ -59,8 +59,8 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
             ->setRequired('resp')->setAllowedTypes('resp', ['array'])->setNormalizer('resp', function(Options $options, $value){
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('civility')->setAllowedValues('civility', Subscription::AVAILABLE_CIVILITY)->setNormalizer('civility', function (Options $options, $value) {
-                        return Subscription::CIVILITY_MAP[$value]['code'];
+                    ->setRequired('civility')->setAllowedValues('civility', SubscriptionConstant::AVAILABLE_CIVILITY)->setNormalizer('civility', function (Options $options, $value) {
+                        return SubscriptionConstant::CIVILITY_MAP[$value]['code'];
                     })
                     ->setRequired('lastname')->setAllowedTypes('lastname', ['string'])
                     ->setRequired('firstname')->setAllowedTypes('firstname', ['string'])
@@ -74,27 +74,27 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                     })
                     ->setRequired('birthZipcode')->setAllowedTypes('birthZipcode', ['integer'])
                     ->setRequired('birthCity')->setAllowedTypes('birthCity', ['string'])
-                    ->setRequired('birthCountry')->setAllowedValues('birthCountry', Subscription::AVAILABLE_COUNTRY)->setNormalizer('birthCountry', function (Options $options, $value) {
-                        return Subscription::COUNTRY_MAP[$value]['code'];
+                    ->setRequired('birthCountry')->setAllowedValues('birthCountry', SubscriptionConstant::AVAILABLE_COUNTRY)->setNormalizer('birthCountry', function (Options $options, $value) {
+                        return SubscriptionConstant::COUNTRY_MAP[$value]['code'];
                     })
                     ->setRequired('nationality')->setAllowedTypes('nationality', ['string'])
-                    ->setRequired('taxCountry')->setAllowedValues('taxCountry', Subscription::AVAILABLE_COUNTRY)->setNormalizer('taxCountry', function (Options $options, $value) {
-                        return Subscription::COUNTRY_MAP[$value]['code'];
+                    ->setRequired('taxCountry')->setAllowedValues('taxCountry', SubscriptionConstant::AVAILABLE_COUNTRY)->setNormalizer('taxCountry', function (Options $options, $value) {
+                        return SubscriptionConstant::COUNTRY_MAP[$value]['code'];
                     })
                     ->setRequired('phoneNumber')->setAllowedTypes('phoneNumber', ['string'])
                     ->setRequired('email')->setAllowedTypes('email', ['string'])
-                    ->setDefined('identityDocumentType')->setAllowedValues('identityDocumentType', Subscription::AVAILABLE_IDENTITY_DOC)->setNormalizer('identityDocumentType', function (Options $options, $value) {
-                        return Subscription::IDENTITY_DOC_MAP[$value]['code'];
+                    ->setDefined('identityDocumentType')->setAllowedValues('identityDocumentType', SubscriptionConstant::AVAILABLE_IDENTITY_DOC)->setNormalizer('identityDocumentType', function (Options $options, $value) {
+                        return SubscriptionConstant::IDENTITY_DOC_MAP[$value]['code'];
                     })
-                    ->setRequired('maritalStatus')->setAllowedValues('maritalStatus', Subscription::AVAILABLE_FAMILY_SITUATION)->setNormalizer('maritalStatus', function (Options $options, $value) {
-                        return Subscription::FAMILY_SITUATION_MAP[$value]['code'];
+                    ->setRequired('maritalStatus')->setAllowedValues('maritalStatus', SubscriptionConstant::AVAILABLE_FAMILY_SITUATION)->setNormalizer('maritalStatus', function (Options $options, $value) {
+                        return SubscriptionConstant::FAMILY_SITUATION_MAP[$value]['code'];
                     })
-                    ->setDefined('matrimonialRegime')->setAllowedValues('matrimonialRegime', Subscription::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('matrimonialRegime', function (Options $options, $value) {
-                        return Subscription::MATRIMONIAL_REGIME_MAP[$value]['code'];
+                    ->setDefined('matrimonialRegime')->setAllowedValues('matrimonialRegime', SubscriptionConstant::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('matrimonialRegime', function (Options $options, $value) {
+                        return SubscriptionConstant::MATRIMONIAL_REGIME_MAP[$value]['code'];
                     })
                     ->setRequired('nbChildren')->setAllowedTypes('nbChildren', ['integer'])
-                    ->setRequired('professionalStatus')->setAllowedValues('professionalStatus', Subscription::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('professionalStatus', function (Options $options, $value) {
-                        return Subscription::PROFESSIONAL_SITUATION_MAP[$value]['code'];
+                    ->setRequired('professionalStatus')->setAllowedValues('professionalStatus', SubscriptionConstant::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('professionalStatus', function (Options $options, $value) {
+                        return SubscriptionConstant::PROFESSIONAL_SITUATION_MAP[$value]['code'];
                     })
                     ->setRequired('socioprofessionalCategory')->setAllowedTypes('socioprofessionalCategory', ['string'])
                     ->setRequired('activityArea')->setAllowedTypes('activityArea', ['string'])
@@ -105,8 +105,8 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('incomeCategory')->setAllowedTypes('incomeCategory', ['string'])
-                    ->setRequired('patrimonyCategory')->setAllowedValues('patrimonyCategory', Subscription::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('patrimonyCategory', function (Options $options, $value) {
-                        return Subscription::PERSONAL_ASSETS_MAP[$value]['code'];
+                    ->setRequired('patrimonyCategory')->setAllowedValues('patrimonyCategory', SubscriptionConstant::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('patrimonyCategory', function (Options $options, $value) {
+                        return SubscriptionConstant::PERSONAL_ASSETS_MAP[$value]['code'];
                     })
                     ->setRequired('percentFinancialInstruments')->setAllowedTypes('percentFinancialInstruments', ['string'])
                     ->setRequired('percentSavings')->setAllowedTypes('percentSavings', ['string'])

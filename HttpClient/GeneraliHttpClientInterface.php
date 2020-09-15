@@ -4,7 +4,7 @@
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use Mpp\GeneraliClientBundle\Model\Context;
-use Mpp\GeneraliClientBundle\Model\Subscription;
+use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
 
 /**
@@ -42,12 +42,12 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/souscription/confirmer
      *
      * @param Context $context
-     * @param Subscription $subscription
+     * @param SubscriptionConstant $subscription
      * @param string $comment
      * @param bool $dematerialization
      * @return SubscriptionResponse
      */
-    public function createSubscription(Context $context, Subscription $subscription, string $comment, bool $dematerialization): SubscriptionResponse;
+    public function createSubscription(Context $context, SubscriptionConstant $subscription, string $comment, bool $dematerialization): SubscriptionResponse;
 
     /**
      *  Finalize a Subscription with a token Status

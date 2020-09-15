@@ -28,37 +28,37 @@ class Context
     /**
      * @var string
      */
-    private $status;
+    protected $status;
 
     /**
      * @var string
      */
-    private $providerCode;
+    protected $providerCode;
 
     /**
      * @var string
      */
-    private $subscriptionCode;
+    protected $subscriptionCode;
 
     /**
      * @var string
      */
-    private $idTransaction;
+    protected $idTransaction;
 
     /**
      * @var
      */
-    private $contractNumber;
+    protected $contractNumber;
 
     /**
      * @var string
      */
-    private $user;
+    protected $user;
 
     /**
      * @var array
      */
-    private $expectedItems;
+    protected $expectedItems;
 
     /**
      * Context constructor.

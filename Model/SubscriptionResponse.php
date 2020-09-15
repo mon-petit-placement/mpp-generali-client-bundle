@@ -10,27 +10,27 @@ class SubscriptionResponse
     /**
      * @var string
      */
-    private $status;
+    protected $status;
 
     /**
      * @var string
      */
-    private $idTransaction;
+    protected $idTransaction;
 
     /**
      * @var array
      */
-    private $messages;
+    protected $messages;
 
     /**
      * @var array
      */
-    private $donnees;
+    protected $donnees;
 
     /**
      * @var array
      */
-    private $requiredDocuments;
+    protected $requiredDocuments;
 
     /**
      * SubscriptionResponse constructor.

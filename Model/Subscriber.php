@@ -11,197 +11,197 @@ class Subscriber
     /**
      * @var string
      */
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var string
      */
-    private $birthName;
+    protected $birthName;
 
     /**
      * @var string
      */
-    private $firstName;
+    protected $firstName;
 
     /**
      * @var string
      */
-    private $civility;
+    protected $civility;
 
     /**
      * @var string
      */
-    private $taxCountry;
+    protected $taxCountry;
 
     /**
      * @var string
      */
-    private $nationality;
+    protected $nationality;
 
     /**
      * @var string
      */
-    private $birthDate;
+    protected $birthDate;
 
     /**
      * @var string
      */
-    private $birthPlace;
+    protected $birthPlace;
 
     /**
      * @var string
      */
-    private $birthCountry;
+    protected $birthCountry;
 
     /**
      * @var string
      */
-    private $birthPostalCode;
+    protected $birthPostalCode;
 
     /**
      * @var string
      */
-    private $birthDepartmentCode;
+    protected $birthDepartmentCode;
 
     /**
      * @var string
      */
-    private $birthInseeCode;
+    protected $birthInseeCode;
 
     /**
      * @var bool
      */
-    private $ppeStateIndicator;
+    protected $ppeStateIndicator;
 
     /**
      * @var bool
      */
-    private $ppeFamilyStateIndicator;
+    protected $ppeFamilyStateIndicator;
 
     /**
      * @var bool
      */
-    private $usaCitizen;
+    protected $usaCitizen;
 
     /**
      * @var bool
      */
-    private $usaResident;
+    protected $usaResident;
 
     /**
      * @var string
      */
-    private $legalCapacity;
+    protected $legalCapacity;
 
     /**
      * @var string
      */
-    private $familialSituation;
+    protected $familialSituation;
 
     /**
      * @var string
      */
-    private $professionalSituation;
+    protected $professionalSituation;
 
     /**
      * @var string
      */
-    private $matrimonialRegime;
+    protected $matrimonialRegime;
 
     /**
      * @var string
      */
-    private $cspCode;
+    protected $cspCode;
 
     /**
      * @var string
      */
-    private $profession;
+    protected $profession;
 
     /**
      * @var string
      */
-    private $nafCode;
+    protected $nafCode;
 
     /**
      * @var string
      */
-    private $siretNumber;
+    protected $siretNumber;
 
     /**
      * @var string
      */
-    private $employerName;
+    protected $employerName;
 
     /**
      * @var string
      */
-    private $cspCodeLastProfession;
+    protected $cspCodeLastProfession;
 
     /**
      * @var string
      */
-    private $startDateInactivity;
+    protected $startDateInactivity;
 
     /**
      * @var string
      */
-    private $phoneNumber;
+    protected $phoneNumber;
 
     /**
      * @var string
      */
-    private $cellPhoneNumber;
+    protected $cellPhoneNumber;
 
     /**
      * @var string
      */
-    private $email;
+    protected $email;
 
     /**
      * @var string
      */
-    private $identityDocCode;
+    protected $identityDocCode;
 
     /**
      * @var string
      */
-    private $identityDocValidityDate;
+    protected $identityDocValidityDate;
 
     /**
      * @var string
      */
-    private $addressPostalCode;
+    protected $addressPostalCode;
 
     /**
      * @var string
      */
-    private $addressCity;
+    protected $addressCity;
 
     /**
      * @var string
      */
-    private $addressCountryCode;
+    protected $addressCountryCode;
 
     /**
      * @var string
      */
-    private $addressStreetName;
+    protected $addressStreetName;
 
     /**
      * @var string
      */
-    private $addressDropOffPoint;
+    protected $addressDropOffPoint;
 
     /**
      * @var string
      */
-    private $addressGeographicPoint;
+    protected $addressGeographicPoint;
 
     /**
      * @var string
      */
-    private $addressPostBox;
+    protected $addressPostBox;
 
     /**
      * @return array
@@ -272,6 +272,76 @@ class Subscriber
             ],
             'capaciteJuridique' => $this->legalCapacity,
         ];
+    }
+
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public static function configureData(OptionsResolver $resolver)
+    {
+        $resolver
+            ->setDefault('firstname', null)->setAllowedTypes('firstname', ['string', 'null'])
+            ->setDefault('lastname', null)->setAllowedTypes('lastname', ['string', 'null'])
+            ->setDefault('organization', null)->setAllowedTypes('organization', ['string', 'null'])
+            ->setDefault('emailAddress', null)->setAllowedTypes('emailAddress', ['string', 'null'])
+            ->setDefault('phoneNum', null)->setAllowedTypes('phoneNum', ['string', 'null'])
+            ->setDefault('profile', null)->setAllowedTypes('profile', ['string', 'null'])
+            ->setDefault('language', null)->setAllowedTypes('language', ['string', 'null'])
+            ->setDefault('role', 'signer')->setAllowedValues('role', ['signer', 'observer'])
+            ->setDefault('birthDate', null)->setAllowedTypes('birthDate', ['DateTime', 'null'])->setNormalizer('birthDate', function (Options $options, $value): ?\Laminas\XmlRpc\Value\DateTime {
+                if (null === $value) {
+                    return null;
+                }
+
+                return new \Laminas\XmlRpc\Value\DateTime($value);
+            })
+            ->setDefault('universignId', null)->setAllowedTypes('universignId', ['string', 'null'])
+            ->setDefault('successRedirection', null)->setAllowedTypes('successRedirection', ['array', 'null'])
+            ->setDefault('cancelRedirection', null)->setAllowedTypes('cancelRedirection', ['array', 'null'])
+            ->setDefault('failRedirection', null)->setAllowedTypes('failRedirection', ['array', 'null'])
+            ->setDefault('validationSessionId', null)->setAllowedTypes('validationSessionId', ['string', 'null'])
+            ->setDefault('idDocuments', null)->setAllowedTypes('idDocuments', ['array', 'null'])
+            ->setDefault('certificateType', null)->setAllowedTypes('certificateType', ['string', 'null'])
+            ->setDefault('redirectPolicy', 'dashboard')->setAllowedValues('redirectPolicy', ['dashboard', 'quick'])
+            ->setDefault('redirectWait', 5)->setAllowedTypes('redirectWait', ['int'])
+            ->setDefault('autoSendAgreements', null)->setAllowedTypes('autoSendAgreements', ['bool', 'null'])
+            ->setDefault('invitationMessage', null)->setAllowedTypes('invitationMessage', ['string', 'null'])
+        ;
+    }
+
+    /**
+     * @param array $data
+     * @return Subscriber
+     */
+    public static function createFromArray(array $data): self
+    {
+        $resolver = new OptionsResolver();
+        self::configureData($resolver);
+        $resolvedData = $resolver->resolve($data);
+
+        return (new self())
+            ->setFirstname($resolvedData['firstname'])
+            ->setLastname($resolvedData['lastname'])
+            ->setOrganization($resolvedData['organization'])
+            ->setProfile($resolvedData['profile'])
+            ->setEmailAddress($resolvedData['emailAddress'])
+            ->setPhoneNum($resolvedData['phoneNum'])
+            ->setLanguage($resolvedData['language'])
+            ->setRole($resolvedData['role'])
+            ->setBirthDate($resolvedData['birthDate'])
+            ->setUniversignId($resolvedData['universignId'])
+            ->setSuccessRedirection($resolvedData['successRedirection'])
+            ->setCancelRedirection($resolvedData['cancelRedirection'])
+            ->setFailRedirection($resolvedData['failRedirection'])
+            ->setCertificateType($resolvedData['certificateType'])
+            ->setIdDocuments($resolvedData['idDocuments'])
+            ->setValidationSessionId($resolvedData['validationSessionId'])
+            ->setRedirectPolicy($resolvedData['redirectPolicy'])
+            ->setRedirectWait($resolvedData['redirectWait'])
+            ->setAutoSendAgreements($resolvedData['autoSendAgreements'])
+            ->setInvitationMessage($resolvedData['invitationMessage'])
+            ;
     }
 
     /**

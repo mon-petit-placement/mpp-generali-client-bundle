@@ -108,32 +108,68 @@ You will get the reference of your contract for this product:
         }
     }
 }
-
+````
 
 Then build your $subscription with the follwoing structure:
 
 ````php
-    $subscriber = new Subscriber();
-    $subscriber
-        ->setNoms('toto')
-        ->setResidenceFiscale(...)
-        ...
-        ;
-    $customerFolder = new CustomerFolder();
-    $customerFolder
-        ->setSituationPatrimoniale(...)
-    ;
-    $payment = new Payment();
-    $payment
-        ->setOriginFunds(...)
-        ->setAmount()
-    ;
-    $subscription = new Subscription();
-    $subscription
-        ->setSubscriber($subscriber)
-        ->setCustomerFolder($customerFolder)
-        ->setAmout($amount)
-    ;
+    $subscription = Subscription::createFromArray([
+        'refExterne' => $faker->numberBetween(999, 99999999),
+        'refExterne2' => $faker->numberBetween(999, 99999999),
+        'subscriber' => [
+            'lastName' => 'toto',
+            'birthName' => 'toto',
+            'firstName' => 'toto',
+            'civility' => 'toto',
+            'taxCountry' => 'toto',
+            'nationality' => 'toto',
+            'birthDate' => 'new \DateTime::createFromFormat('Y-m-d', '2000-01-01'),',
+            'birthPlace' => 'toto',
+            'birthCountry' => 'toto',
+            'birthPostalCode' => 'toto',
+            'birthDepartmentCode' => 'toto',
+            'birthInseeCode' => 'toto',
+            'ppeStateIndicator' => 'toto',
+            'ppeFamilyStateIndicator' => 'toto',
+            'usaCitizen' => false,
+            'usaResident' => false,
+            'legalCapacity' => 'toto',
+            'familialSituation' => 'toto',
+            'professionalSituation' => 'toto',
+            'matrimonialRegime' => 'toto',
+            'cspCode' => 'toto',
+            'profession' => 'toto',
+            'nafCode' => 'toto',
+            'siretNumber' => 'toto',
+            'employerName' => 'toto',
+            'cspCodeLastProfession' => 'toto',
+            'startDateInactivity' => 'new \DateTime::createFromFormat('Y-m-d', '2000-01-01'),',
+            'phoneNumber' => 'toto',
+            'cellPhoneNumber' => 'toto',
+            'email' => 'toto',
+            'identityDocCode' => 'toto',
+            'identityDocValidityDate' => 'new \DateTime::createFromFormat('Y-m-d', '2030-01-01'),',
+            'addressPostalCode' => 'toto',
+            'addressCity' => 'toto',
+            'addressCountryCode' => 'toto',
+            'addressStreetName' => 'toto',
+            'addressDropOffPoint' => 'toto',
+            'addressGeographicPoint' => 'toto',
+            'addressPostBox' => 'toto',
+        ],
+        'customerFolder' => [
+        ],
+        'settlement' => [
+        ],
+        'initialPayment'=> [
+        ],
+        'paymentType'=> [
+        ],
+        'fiscality' => ,
+        'deathBeneficiaryClauseCode' => ,
+        'gestionMode' => ,
+     ]
+            
 ````
 Create a subscription with the following command
 ```

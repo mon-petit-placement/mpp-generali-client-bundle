@@ -9,7 +9,7 @@ class TransactionResponse
     /**
      * @var string
      */
-    private $donnnees;
+    protected $donnnees;
 
     /**
      * TransactionResponse constructor.
