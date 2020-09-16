@@ -18,34 +18,6 @@ class Repartition
     protected $amount;
 
     /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['string', 'null'])
-            ->setDefault('fundsCode', null)->setAllowedTypes('fundsCode', ['string', 'null'])
-        ;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return mixed
-     */
-    public static function createFromArray(array $data)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-        $resolvedData = $resolver->resolve($data);
-
-        return (new self())
-            ->setAmount($resolvedData['amount'])
-            ->setFundsCode($resolvedData['fundsCode'])
-        ;
-    }
-
-    /**
      * @return string
      */
     public function getFundsCode(): string

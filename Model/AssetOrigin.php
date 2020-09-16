@@ -20,35 +20,6 @@ class AssetOrigin
     protected $precision;
 
     /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('codeOrigin', null)->setAllowedTypes('codeOrigin', ['string', 'null'])
-            ->setDefault('precision', null)->setAllowedTypes('precision', ['string', 'null'])
-        ;
-    }
-
-    /**
-     * @param array $value
-     *
-     * @return AssetOrigin
-     */
-    public static function createFromArray(array $value)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-
-        $resolvedValue = $resolver->resolve($value);
-
-        return (new self())
-            ->setPrecision($resolvedValue['precision'])
-            ->setCodeOrigin($resolvedValue['codeOrigin'])
-            ;
-    }
-
-    /**
      * @return string
      */
     public function getCodeOrigin(): string

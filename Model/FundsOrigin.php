@@ -4,6 +4,9 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class FundsOrigin
+ */
 class FundsOrigin
 {
     /**
@@ -17,7 +20,7 @@ class FundsOrigin
     protected $amount;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     protected $date;
 
@@ -25,39 +28,6 @@ class FundsOrigin
      * @var string
      */
     protected $precision;
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('codeOrigin', null)->setAllowedTypes('codeOrigin', ['string', 'null'])
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('date', null)->setAllowedTypes('date', ['string', 'null'])
-            ->setDefault('precision', null)->setAllowedTypes('precision', ['string', 'null'])
-        ;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return FundsOrigin
-     */
-    public static function createFromArray(array $data)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-
-        $resovedValues = $resolver->resolve($data);
-
-        return (new self())
-            ->setPrecision($resovedValues['precision'])
-            ->setAmount($resovedValues['amount'])
-            ->setdate($resovedValues['date'])
-            ->setCodeOrigin($resovedValues['codeOrigin'])
-            ;
-    }
 
     /**
      * @return string
@@ -98,19 +68,19 @@ class FundsOrigin
     }
 
     /**
-     * @return string
+     * @return \DateTime
      */
-    public function getDate(): string
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
 
     /**
-     * @param string $date
+     * @param \DateTime $date
      *
      * @return $this
      */
-    public function setDate(string $date)
+    public function setDate(\DateTime $date)
     {
         $this->date = $date;
 

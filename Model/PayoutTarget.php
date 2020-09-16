@@ -20,35 +20,6 @@ class PayoutTarget
     protected $precision;
 
     /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('targetCode', null)->setAllowedTypes('targetCode', ['string', 'null'])
-            ->setDefault('precision', null)->setAllowedTypes('precision', ['string', 'null'])
-        ;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public static function createFromArray(array $data): array
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-
-        $resolvedValues = $resolver->resolve($data);
-
-        return (new self())
-            ->setPrecision($resolvedValues['precision'])
-            ->setTargetCode($resolvedValues['targetCode'])
-            ;
-    }
-
-    /**
      * @return string
      */
     public function getTargetCode(): string

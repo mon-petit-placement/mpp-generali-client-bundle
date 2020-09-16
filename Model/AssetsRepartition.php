@@ -4,6 +4,9 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class AssetsRepartition
+ */
 class AssetsRepartition
 {
     /**
@@ -21,36 +24,6 @@ class AssetsRepartition
      */
     protected $precision;
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('codeRepartition', null)->setAllowedTypes('codeRepartition', ['string', 'null'])
-            ->setDefault('percentRepartition', null)->setAllowedTypes('percentRepartition', ['float', 'null'])
-            ->setDefault('precision', null)->setAllowedTypes('precision', ['string', 'null'])
-        ;
-    }
-
-    /**
-     * @param array $value
-     *
-     * @return AssetsRepartition
-     */
-    public static function createFromArray(array $value)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-
-        $resolvedValues = $resolver->resolve($value);
-
-        return (new self())
-            ->setPercentRepartition($resolvedValues['percentRepartition'])
-            ->setPrecision($resolvedValues['precision'])
-            ->setCodeRepartition($resolvedValues['codeRepartition'])
-            ;
-    }
 
     /**
      * @return string

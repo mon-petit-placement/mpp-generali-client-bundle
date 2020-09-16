@@ -18,38 +18,6 @@ class InitialPayment
     protected $repartition;
 
     /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
-                $resolvedValues = [];
-
-                foreach ($values as $value) {
-                    $resolvedValues[] = Repartition::createFromArray($value);
-                }
-
-                return $resolvedValues;
-            })
-        ;
-    }
-
-    public static function createFromArray(array $data)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-
-        $resolvedValues = $resolver->resolve($data);
-
-        return (new self())
-            ->setAmount($resolvedValues['amount'])
-            ->setRepartition($resolvedValues['repartition'])
-            ;
-    }
-
-    /**
      * @return float
      */
     public function getAmount(): float

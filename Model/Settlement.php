@@ -43,49 +43,6 @@ class Settlement
     protected $fundsOrigin;
 
     /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureData(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('paymentType', null)->setAllowedTypes('paymentType', ['string', 'null'])
-            ->setDefault('bankName', null)->setAllowedTypes('bankName', ['string', 'null'])
-            ->setDefault('accountOwner', null)->setAllowedTypes('accountOwner', ['string', 'null'])
-            ->setDefault('accountIban', null)->setAllowedTypes('accountIban', ['string', 'null'])
-            ->setDefault('accountBic', null)->setAllowedTypes('accountBic', ['string', 'null'])
-            ->setDefault('debitAuthorization', true)->setAllowedTypes('debitAuthorization', ['bool', 'null'])
-            ->setDefault('fundsOrigin', [])->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values) {
-                $resolvedValues = [];
-                foreach ($values as $value) {
-                    $resolvedValues[] = FundsOrigin::createFromArray($value);
-                }
-
-                return $resolvedValues;
-            })
-        ;
-    }
-
-    /**
-     * @param array $value
-     */
-    public static function createFromArray(array $value)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-
-        $resovedValues = $resolver->resolve($value);
-
-        return (new self())
-            ->setPaymentType($resovedValues['paymentType'])
-            ->setBankName($resovedValues['bankName'])
-            ->setAccountOwner($resovedValues['accountOwner'])
-            ->setAccountBic($resovedValues['accountBic'])
-            ->setAccountIban($resovedValues['accountIban'])
-            ->setFundsOrigin($resovedValues['fundsOrigin'])
-            ;
-    }
-
-    /**
      * @return string
      */
     public function getPaymentType(): string

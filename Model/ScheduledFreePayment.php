@@ -33,42 +33,6 @@ class ScheduledFreePayment
     }
 
     /**
-     * @param OptionsResolver $resolver
-     */
-    public static function configureDate(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setDefault('bankDebitDay', null)->setAllowedTypes('bankDebitDay', ['string', 'null'])
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('periodicity', null)->setAllowedTypes('periodicity', ['string', 'null'])
-            ->setDefault('repartition', null)->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values): array {
-                $result = [];
-                foreach ($values as $value) {
-                    $result[] = Repartition::createFromArray($value);
-                }
-            });
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return ScheduledFreePayment
-     */
-    public static function createFromArray(array $data)
-    {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-        $resolvedData = $resolver->resolve($data);
-
-        return (new self())
-            ->setBankDebitDay($resolvedData['bankDebitDay'])
-            ->setAmount($resolvedData['amount'])
-            ->setPeriodicity($resolvedData['periodicity'])
-            ->setRepartition($resolvedData['repartition'])
-            ;
-    }
-
-    /**
      * @param array $repartition
      *
      * @return ScheduledFreePayment
