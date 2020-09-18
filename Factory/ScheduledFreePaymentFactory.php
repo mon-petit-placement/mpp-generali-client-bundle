@@ -1,65 +1,63 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\Repartition;
 use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Class ScheduledFreePaymentFactory
  */
-class ScheduledFreePaymentFactory
+class ScheduledFreePaymentFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * @var RepartitionFactory
      */
-    private $httpClient;
+    private $repartitionFactory;
 
     /**
+     * ScheduledFreePaymentFactory constructor.
      * @param GeneraliHttpClientInterface $httpClient
+     * @param RepartitionFactory $repartitionFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    public function __construct(GeneraliHttpClientInterface $httpClient, RepartitionFactory $repartitionFactory)
     {
-        $this->httpClient = $httpClient;
+        parent::__construct($httpClient);
+        $this->repartitionFactory = $repartitionFactory;
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $resolver
-            ->setDefault('bankDebitDay', null)->setAllowedTypes('bankDebitDay', ['string', 'null'])
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('periodicity', null)->setAllowedTypes('periodicity', ['string', 'null'])
-            ->setDefault('repartition', null)->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values): array {
-                $result = [];
+            ->setRequired('bankDebitDay')->setAllowedTypes('bankDebitDay', ['string'])
+            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
+            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values, $contractNumber): array {
+                $resolvedValues = [];
                 foreach ($values as $value) {
-                    $result[] = RepartitionFactory::create($value);
+                    $resolvedValues[] = $this->repartitionFactory->create($value, $contractNumber);
                 }
+
+                return $resolvedValues;
             });
     }
 
     /**
-     * @param array $data
-     *
-     * @return ScheduledFreePayment
+     * {@inheritDoc}
      */
-    public function create(array $data)
+    public function doCreate(array $resolvedData, $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-
-        $resolvedData = $resolver->resolve($data);
-
         return (new ScheduledFreePayment())
             ->setBankDebitDay($resolvedData['bankDebitDay'])
             ->setAmount($resolvedData['amount'])
             ->setPeriodicity($resolvedData['periodicity'])
             ->setRepartition($resolvedData['repartition'])
-            ;
+        ;
     }
-
 }

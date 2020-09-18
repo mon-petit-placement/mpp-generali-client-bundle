@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Class GeneraliHttpClient
  * @package Mpp\GeneraliClientBundle\HttpClient
  */
-class GeneraliHttpClient implements GeneraliHttpClientInterface
+class GeneraliHttpClient
 {
     /** @var Client */
     private $httpClient;

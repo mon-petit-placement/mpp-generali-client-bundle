@@ -2,6 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
+use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
@@ -33,7 +34,7 @@ interface GeneraliHttpClientInterface
      *
      * @return array
      */
-    public function getSubscriptionInformations(string $contractNumber, array $expectedItems = []): array;
+    public function retrieveTransactionSubscriptionData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
      * Create a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.

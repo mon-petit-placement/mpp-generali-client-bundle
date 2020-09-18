@@ -6,41 +6,45 @@ namespace Mpp\GeneraliClientBundle\Factory;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\FundsOrigin;
 use Mpp\GeneraliClientBundle\Model\Settlement;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Class SettlementFactory
  */
-class SettlementFactory
+class SettlementFactory extends AbstractFactory
 {
-    /**
-     * @var GeneraliHttpClientInterface
+      /**
+     * @var FundsOriginFactory
      */
-    private $httpClient;
+    private $fundsOriginFactory;
 
     /**
      * @param GeneraliHttpClientInterface $httpClient
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    public function __construct(GeneraliHttpClientInterface $httpClient, FundsOriginFactory $fundsOriginFactory)
     {
-        $this->httpClient = $httpClient;
+        parent::__construct($httpClient);
+        $this->fundsOriginFactory = $fundsOriginFactory;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
+     * @param string $contractNumber
      */
-    public function configureData(OptionsResolver $resolver)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $resolver
-            ->setDefault('paymentType', null)->setAllowedTypes('paymentType', ['string', 'null'])
-            ->setDefault('bankName', null)->setAllowedTypes('bankName', ['string', 'null'])
-            ->setDefault('accountOwner', null)->setAllowedTypes('accountOwner', ['string', 'null'])
-            ->setDefault('accountIban', null)->setAllowedTypes('accountIban', ['string', 'null'])
-            ->setDefault('accountBic', null)->setAllowedTypes('accountBic', ['string', 'null'])
-            ->setDefault('debitAuthorization', true)->setAllowedTypes('debitAuthorization', ['bool', 'null'])
-            ->setDefault('fundsOrigin', [])->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values) {
+            ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
+            ->setDefined('bankName')->setAllowedTypes('bankName', ['string'])
+            ->setRequired('accountOwner')->setAllowedTypes('accountOwner', ['string'])
+            ->setRequired('accountIban')->setAllowedTypes('accountIban', ['string'])
+            ->setRequired('accountBic')->setAllowedTypes('accountBic', ['string'])
+            ->setRequired('debitAuthorization', true)->setAllowedTypes('debitAuthorization', ['bool'])
+            ->setRequired('fundsOrigin', [])->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values, $contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = FundsOriginFactory::create($value);
+                    $resolvedValues[] = $this->fundsOriginFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;
@@ -49,22 +53,17 @@ class SettlementFactory
     }
 
     /**
-     * @param array $value
+     * {@inheritDoc}
      */
-    public function create(array $value)
+    public function doCreate(array $resolvedData, $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-
-        $resovedValues = $resolver->resolve($value);
-
         return (new Settlement())
-            ->setPaymentType($resovedValues['paymentType'])
-            ->setBankName($resovedValues['bankName'])
-            ->setAccountOwner($resovedValues['accountOwner'])
-            ->setAccountBic($resovedValues['accountBic'])
-            ->setAccountIban($resovedValues['accountIban'])
-            ->setFundsOrigin($resovedValues['fundsOrigin'])
-            ;
+            ->setPaymentType($resolvedData['paymentType'])
+            ->setBankName($resolvedData['bankName'])
+            ->setAccountOwner($resolvedData['accountOwner'])
+            ->setAccountBic($resolvedData['accountBic'])
+            ->setAccountIban($resolvedData['accountIban'])
+            ->setFundsOrigin($resolvedData['fundsOrigin'])
+        ;
     }
 }

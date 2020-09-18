@@ -2,89 +2,84 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Subscriber;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Class SubscriberFactory
  */
-class SubscriberFactory
+class SubscriberFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * {@inheritDoc}
      */
-    private $httpClient;
-
-    /**
-     * @param GeneraliHttpClientInterface $httpClient
-     */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
-        $this->httpClient = $httpClient;
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureData(OptionsResolver $resolver)
-    {
-        $availableCodeProfessionnalSituation = $this->httpClient->availableCodeProfessionnalSituations($contractNumber);
-        $availableCodeFamilialSituation = $this->httpClient->availableCodeFamilialSituations($contractNumber);
-
+        $availableCodeProfessionnalSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATIONS, $contractNumber);
+        $availableCodeFamilialSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATIONS, $contractNumber);
+        $availableCodeNaf = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NAF_CODES, $contractNumber);
+        $availableCspCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CSPS_CODES, $contractNumber);
+        $availableTaxCountry = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_TAX_COUNTRIES, $contractNumber);
+        $availableMatrimonialRegime = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIMES, $contractNumber);
+        $availableLegalCapacity = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_LEGAL_CAPACITIES, $contractNumber);
+        $availableNationalities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NATIONALITIES, $contractNumber);
+        $availableIdentityDocCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_IDENTITY_DOCS, $contractNumber);
+        $availableBirthCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_BIRTH_COUNTRIES, $contractNumber);
+        $availableAddressCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRIES, $contractNumber);
+        $availableCivilities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CIVILITIES, $contractNumber);
+        
         $resolver
-            ->setDefault('lastName', null)->setAllowedTypes('lastName', ['string', 'null'])
-            ->setDefault('birthName', null)->setAllowedTypes('birthName', ['string', 'null'])
-            ->setDefault('firstName', null)->setAllowedTypes('firstName', ['string', 'null'])
-            ->setDefault('civility', null)->setAllowedTypes('civility', ['string', 'null'])
-            ->setDefault('taxCountry', null)->setAllowedTypes('taxCountry', ['string', 'null'])
-            ->setDefault('nationality', null)->setAllowedTypes('nationality', ['string', 'null'])
-            ->setDefault('birthDate', null)->setAllowedTypes('birthDate', ['\DateTime', 'null'])
-            ->setDefault('birthPlace', null)->setAllowedTypes('birthPlace', ['string', 'null'])
-            ->setDefault('birthCountry', null)->setAllowedTypes('birthCountry', ['string', 'null'])
-            ->setDefault('birthPostalCode', null)->setAllowedTypes('birthPostalCode', ['string', 'null'])
-            ->setDefault('birthDepartmentCode', null)->setAllowedTypes('birthDepartmentCode', ['string', 'null'])
-            ->setDefault('birthInseeCode', null)->setAllowedTypes('birthInseeCode', ['string', 'null'])
+            ->setRequired('lastName')->setAllowedTypes('lastName', ['string', 'null'])
+            ->setDefined('birthName')->setAllowedTypes('birthName', ['string', 'null'])
+            ->setRequired('firstName')->setAllowedTypes('firstName', ['string', 'null'])
+            ->setRequired('civility')->setAllowedTypes('civility', ['string', 'null'])->setAllowedValues('civility', $availableCivilities)
+            ->setRequired('taxCountry')->setAllowedTypes('taxCountry', ['string', 'null'])->setAllowedValues('taxCountry', $availableTaxCountry)
+            ->setRequired('nationality')->setAllowedTypes('nationality', ['string', 'null'])->setAllowedValues('nationality', $availableNationalities)
+            ->setRequired('birthDate')->setAllowedTypes('birthDate', ['\DateTime', 'null'])
+            ->setRequired('birthPlace')->setAllowedTypes('birthPlace', ['string', 'null'])
+            ->setRequired('birthCountry')->setAllowedTypes('birthCountry', ['string', 'null'])->setAllowedValues('birthCountry', $availableBirthCountries)
+            ->setDefined('birthPostalCode')->setAllowedTypes('birthPostalCode', ['string', 'null'])
+            ->setDefined('birthDepartmentCode')->setAllowedTypes('birthDepartmentCode', ['string', 'null'])
+            ->setDefined('birthInseeCode')->setAllowedTypes('birthInseeCode', ['string', 'null'])
             ->setDefault('ppeStateIndicator', false)->setAllowedTypes('ppeStateIndicator', ['bool', 'null'])
             ->setDefault('ppeFamilyStateIndicator', false)->setAllowedTypes('ppeFamilyStateIndicator', ['bool', 'null'])
             ->setDefault('usaCitizen', false)->setAllowedTypes('usaCitizen', ['bool', 'null'])
             ->setDefault('usaResident', false)->setAllowedTypes('usaResident', ['bool', 'null'])
-            ->setDefault('legalCapacity', null)->setAllowedTypes('legalCapacity', ['string', 'null'])
-            ->setDefault('familialSituation', null)->setAllowedTypes('familialSituation', ['string', 'null'])->setAllowedValues('familialSituation', $availableCodeFamilialSituation)
-            ->setDefault('professionalSituation', null)->setAllowedTypes('professionalSituation', ['string', 'null'])->setAllowedValues('professionalSituation', $availableCodeProfessionnalSituation)
-            ->setDefault('matrimonialRegime', null)->setAllowedTypes('matrimonialRegime', ['string', 'null'])
-            ->setDefault('cspCode', null)->setAllowedTypes('cspCode', ['string', 'null'])
-            ->setDefault('profession', null)->setAllowedTypes('profession', ['string', 'null'])
-            ->setDefault('nafCode', null)->setAllowedTypes('nafCode', ['string', 'null'])
-            ->setDefault('siretNumber', null)->setAllowedTypes('siretNumber', ['string', 'null'])
-            ->setDefault('employerName', null)->setAllowedTypes('employerName', ['string', 'null'])
-            ->setDefault('cspCodeLastProfession', null)->setAllowedTypes('cspCodeLastProfession', ['string', 'null'])
-            ->setDefault('startDateInactivity', null)->setAllowedTypes('startDateInactivity', ['\DateTime', 'null'])
-            ->setDefault('phoneNumber', null)->setAllowedTypes('phoneNumber', ['string', 'null'])
-            ->setDefault('cellPhoneNumber', null)->setAllowedTypes('cellPhoneNumber', ['string', 'null'])
-            ->setDefault('email', null)->setAllowedTypes('email', ['string', 'null'])
-            ->setDefault('identityDocCode', null)->setAllowedTypes('identityDocCode', ['string', 'null'])
-            ->setDefault('identityDocValidityDate', null)->setAllowedTypes('identityDocValidityDate', ['\DateTime', 'null'])
-            ->setDefault('addressPostalCode', null)->setAllowedTypes('addressPostalCode', ['string', 'null'])
-            ->setDefault('addressCity', null)->setAllowedTypes('addressCity', ['string', 'null'])
-            ->setDefault('addressCountryCode', null)->setAllowedTypes('addressCountryCode', ['string', 'null'])
-            ->setDefault('addressStreetName', null)->setAllowedTypes('addressStreetName', ['string', 'null'])
-            ->setDefault('addressDropOffPoint', null)->setAllowedTypes('addressDropOffPoint', ['string', 'null'])
-            ->setDefault('addressGeographicPoint', null)->setAllowedTypes('addressGeographicPoint', ['string', 'null'])
-            ->setDefault('addressPostBox', null)->setAllowedTypes('addressPostBox', ['string', 'null'])
+            ->setRequired('legalCapacity')->setAllowedTypes('legalCapacity', ['string', 'null'])->setAllowedValues('legalCapacity', $availableLegalCapacity)
+            ->setRequired('familialSituation')->setAllowedTypes('familialSituation', ['string', 'null'])->setAllowedValues('familialSituation', $availableCodeFamilialSituation)
+            ->setRequired('professionalSituation')->setAllowedTypes('professionalSituation', ['string', 'null'])->setAllowedValues('professionalSituation', $availableCodeProfessionnalSituation)
+            ->setDefined('matrimonialRegime')->setAllowedTypes('matrimonialRegime', ['string', 'null'])->setAllowedValues('matrimonialRegime', $availableMatrimonialRegime)
+            ->setDefined('cspCode')->setAllowedTypes('cspCode', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
+            ->setRequired('profession')->setAllowedTypes('profession', ['string', 'null'])
+            ->setDefined('nafCode')->setAllowedTypes('nafCode', ['string', 'null'])->setAllowedValues('nafCode', $availableCodeNaf)
+            ->setDefined('siretNumber')->setAllowedTypes('siretNumber', ['string', 'null'])
+            ->setDefined('employerName')->setAllowedTypes('employerName', ['string', 'null'])
+            ->setDefined('cspCodeLastProfession')->setAllowedTypes('cspCodeLastProfession', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
+            ->setDefined('startDateInactivity')->setAllowedTypes('startDateInactivity', ['\DateTime', 'null'])
+            ->setRequired('phoneNumber')->setAllowedTypes('phoneNumber', ['string', 'null'])
+            ->setDefined('cellPhoneNumber')->setAllowedTypes('cellPhoneNumber', ['string', 'null'])
+            ->setRequired('email')->setAllowedTypes('email', ['string', 'null'])
+            ->setRequired('identityDocCode')->setAllowedTypes('identityDocCode', ['string', 'null'])->setAllowedValues('identityDocCode', $availableIdentityDocCode)
+            ->setRequired('identityDocValidityDate')->setAllowedTypes('identityDocValidityDate', ['\DateTime', 'null'])
+            ->setDefined('addressPostalCode')->setAllowedTypes('addressPostalCode', ['string', 'null'])
+            ->setDefined('addressCity')->setAllowedTypes('addressCity', ['string', 'null'])
+            ->setRequired('addressCountryCode')->setAllowedTypes('addressCountryCode', ['string', 'null'])->setAllowedValues('addressCountryCode', $availableAddressCountries)
+            ->setDefined('addressStreetName')->setAllowedTypes('addressStreetName', ['string', 'null'])
+            ->setDefined('addressDropOffPoint')->setAllowedTypes('addressDropOffPoint', ['string', 'null'])
+            ->setDefined('addressGeographicPoint')->setAllowedTypes('addressGeographicPoint', ['string', 'null'])
+            ->setDefined('addressPostBox')->setAllowedTypes('addressPostBox', ['string', 'null'])
         ;
     }
 
     /**
-     * @param array $data
-     *
-     * @return Subscriber
+     * {@inheritDoc}
      */
-    public function create(array $data): self
+    public function doCreate(array $resolvedData, $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        self::configureData($resolver);
-        $resolvedData = $resolver->resolve($data);
-
         return (new Subscriber())
             ->setLastName($resolvedData['lastName'])
             ->setFirstName($resolvedData['firstName'])
@@ -101,7 +96,7 @@ class SubscriberFactory
             ->setPpeFamilyStateIndicator($resolvedData['ppeFamilyStateIndicator'])
             ->setUsaCitizen($resolvedData['usaCitizen'])
             ->setUsaResident($resolvedData['usaResident'])
-            ->setLegalLecay($resolvedData['legalLegacy'])
+            ->setLegalCapacity($resolvedData['legalCapacity'])
             ->setFamilialSituation($resolvedData['familialSituation'])
             ->setProfessionalSituation($resolvedData['professionalSituation'])
             ->setMatrimonialRegime($resolvedData['matrimonialRegime'])
@@ -120,10 +115,10 @@ class SubscriberFactory
             ->setAddressPostalCode($resolvedData['addressPostalCode'])
             ->setAddressCity($resolvedData['addressCity'])
             ->setAddressCountryCode($resolvedData['addressCountryCode'])
-            ->setAddressStreetName($resolvedData['addressStreeName'])
+            ->setAddressStreetName($resolvedData['addressStreetName'])
             ->setAddressDropOffPoint($resolvedData['addressDropOffPoint'])
             ->setAddressGeographicPoint($resolvedData['addressGeographicPoint'])
             ->setAddressPostbox($resolvedData['addressPostBox'])
-            ;
+        ;
     }
 }

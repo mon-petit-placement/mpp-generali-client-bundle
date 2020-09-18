@@ -5,50 +5,33 @@ namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\Repartition;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Class RepartitionFactory
  */
-class RepartitionFactory
+class RepartitionFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * {@inheritDoc}
      */
-    private $httpClient;
-
-    /**
-     * @param GeneraliHttpClientInterface $httpClient
-     */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
-    {
-        $this->httpClient = $httpClient;
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureData(OptionsResolver $resolver)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $resolver
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['string', 'null'])
-            ->setDefault('fundsCode', null)->setAllowedTypes('fundsCode', ['string', 'null'])
+            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setDefined('fundsCode')->setAllowedTypes('fundsCode', ['string'])
         ;
     }
 
     /**
-     * @param array $data
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function create(array $data)
+    public function doCreate(array $resolvedData, $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-        $resolvedData = $resolver->resolve($data);
-
         return (new Repartition())
             ->setAmount($resolvedData['amount'])
             ->setFundsCode($resolvedData['fundsCode'])
-            ;
+        ;
     }
 }

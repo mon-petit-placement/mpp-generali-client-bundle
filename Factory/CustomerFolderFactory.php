@@ -2,62 +2,81 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\AssetOrigin;
+use Mpp\GeneraliClientBundle\Model\AssetsOrigin;
 use Mpp\GeneraliClientBundle\Model\AssetsRepartition;
+use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\CustomerFolder;
 use Mpp\GeneraliClientBundle\Model\PayoutTarget;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CustomerFolderFactory
  */
-class CustomerFolderFactory
+class CustomerFolderFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * @var PayoutTargetFactory
      */
-    private $httpClient;
+    private $payoutTargetFactory;
 
     /**
-     * @param GeneraliHttpClientInterface $httpClient
+     * @var AssetsOriginFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    private $assetsOriginFactory;
+
+    /**
+     * @var AssetsRepartitionFactory
+     */
+    private $assetRepartitionFactory;
+
+    /**
+     * CustomerFolderFactory constructor.
+     * @param GeneraliHttpClientInterface $httpClient
+     * @param PayoutTargetFactory $payoutTargetFactory
+     * @param AssetsOriginFactory $assetOriginFactory
+     * @param AssetsRepartitionFactory $assetRepartitionFactory
+     */
+    public function __construct(GeneraliHttpClientInterface $httpClient, PayoutTargetFactory $payoutTargetFactory, AssetsOriginFactory $assetsOriginFactory, AssetsRepartitionFactory $assetRepartitionFactory)
     {
-        $this->httpClient = $httpClient;
+        parent::__construct($httpClient);
+        $this->payoutTargetFactory = $payoutTargetFactory;
+        $this->assetsOriginFactory = $assetsOriginFactory;
+        $this->assetRepartitionFactory = $assetRepartitionFactory;
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $resolver
-            ->setDefault('incomeAmount', null)->setAllowedTypes('incomeAmount', ['float', 'null'])
-            ->setDefault('incomeCode', null)->setAllowedTypes('incomeCode', ['string', 'null'])
-            ->setDefault('assetAmount', null)->setAllowedTypes('assetAmount', ['float', 'null'])
-            ->setDefault('assetCode', null)->setAllowedTypes('assetCode', ['string', 'null'])
-            ->setDefault('frenchOriginPayment', null)->setAllowedTypes('frenchOriginPayment', ['bool', 'null'])
-            ->setDefault('thirdPartyPayment', null)->setAllowedTypes('thirdPartyPayment', ['bool', 'null'])
-            ->setDefault('payoutTargets', [])->setAllowedTypes('payoutTargets', ['array', 'null'])->setNormalizer('payoutTargets', function (Options $options, $values) {
+            ->setRequired('incomeAmount')->setAllowedTypes('incomeAmount', ['float'])
+            ->setRequired('assetAmount')->setAllowedTypes('assetAmount', ['float'])
+            ->setDefault('frenchOriginPayment', true)->setAllowedTypes('frenchOriginPayment', ['bool'])
+            ->setDefault('thirdPartyPayment', false)->setAllowedTypes('thirdPartyPayment', ['bool'])
+            ->setRequired('payoutTargets')->setAllowedTypes('payoutTargets', ['array'])->setNormalizer('payoutTargets', function (Options $options, $values, $contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = PayoutTargetFactory::create($value);
+                    $resolvedValues[] = $this->payoutTargetFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefault('assetsOrigin', [])->setAllowedTypes('assetsOrigin', ['array', 'null'])->setNormalizer('assetsOrigin', function (Options $options, $values) {
+            ->setDefined('assetsOrigin')->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values, $contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = AssetOriginFactory::create($value);
+                    $resolvedValues[] = $this->assetOriginFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefault('assetsRepartition', [])->setAllowedTypes('assetsRepartition', ['array', 'null'])->setNormalizer('assetsRepartition', function (Options $options, $values) {
+            ->setDefined('assetsRepartition')->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values, $contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = AssetsRepartitionFactory::create($value);
+                    $resolvedValues[] = $this->assetRepartitionFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;
@@ -66,27 +85,23 @@ class CustomerFolderFactory
     }
 
     /**
-     * @param array $data
-     *
-     * @return CustomerFolder
+     * {@inheritDoc}
      */
-    public function create(array $data)
+    public function doCreate(array $resolvedData, string $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-
-        $resovledValues = $resolver->resolve($data);
+        $incomeCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_INCOME_SLICES, $contractNumber, $resolvedData['incomeAmount']);
+        $assetCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_ASSET_SLICES, $contractNumber, $resolvedData['assetAmount']);
 
         return (new CustomerFolder())
-            ->setAssetAmount($resovledValues['assetAmount'])
-            ->setAssetCode($resovledValues['assetCode'])
-            ->setIncomeAmount($resovledValues['incomeAmount'])
-            ->setIncomeCode($resovledValues['incomeCode'])
-            ->setFrenchOriginPayment($resovledValues['frenchOriginPayment'])
-            ->setThirdPartyPayment($resovledValues['thirdPartyPayment'])
-            ->setPayoutTargets($resovledValues['payoutTargets'])
-            ->setAssetsOrigin($resovledValues['assetsOrigin'])
-            ->setAssetsRepartition($resovledValues['assetsRepartition'])
-            ;
+            ->setAssetAmount($resolvedData['assetAmount'])
+            ->setAssetCode($assetCode)
+            ->setIncomeAmount($resolvedData['incomeAmount'])
+            ->setIncomeCode($incomeCode)
+            ->setFrenchOriginPayment($resolvedData['frenchOriginPayment'])
+            ->setThirdPartyPayment($resolvedData['thirdPartyPayment'])
+            ->setPayoutTargets($resolvedData['payoutTargets'])
+            ->setAssetsOrigin($resolvedData['assetsOrigin'])
+            ->setAssetsRepartition($resolvedData['assetsRepartition'])
+        ;
     }
 }

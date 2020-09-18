@@ -7,20 +7,23 @@ namespace Mpp\GeneraliClientBundle\Model;
  */
 class Context
 {
+    const EXPECTED_ITEM_REFERENTIEL = 'referentiel';
+    const EXPECTED_ITEM_BENEFICIARY_CLAUSE = 'clausesBenefs';
+//    const EXPECTED_ITEM_REFERENTIEL = 'garantiesPrevoyance';
+//    const EXPECTED_ITEM_REFERENTIEL = 'modesReglementAutorises';
+//    const EXPECTED_ITEM_REFERENTIEL = 'modesGestion';
+//    const EXPECTED_ITEM_REFERENTIEL = 'infoProduit';
+//    const EXPECTED_ITEM_REFERENTIEL = 'fiscalites';
+//    const EXPECTED_ITEM_REFERENTIEL = 'typesDuree';
+//    const EXPECTED_ITEM_REFERENTIEL = 'typesDenouement';
+//    const EXPECTED_ITEM_REFERENTIEL = 'combinaisonsPossiblesSouscription';
+//    const EXPECTED_ITEM_REFERENTIEL = 'paramVersementInitial';
+//    const EXPECTED_ITEM_REFERENTIEL = 'paramVersementLibreProgramme';
+//    const EXPECTED_ITEM_REFERENTIEL = 'paramRachatPartielProgramme';
+
     const AVAILABLE_EXPECTED_ITEMS = [
-        'clausesBenefs',
-        'garantiesPrevoyance',
-        'modesReglementAutorises',
-        'modesGestion',
-        'infoProduit',
-        'fiscalites',
-        'typesDuree',
-        'typesDenouement',
-        'combinaisonsPossiblesSouscription',
-        'paramVersementInitial',
-        'paramVersementLibreProgramme',
-        'paramRachatPartielProgramme',
-        'referentiel',
+        self::EXPECTED_ITEM_REFERENTIEL,
+        self::EXPECTED_ITEM_BENEFICIARY_CLAUSE,
     ];
 
     /**
@@ -63,19 +66,9 @@ class Context
      *
      * @param array $expectedItems
      */
-    public function __construct(array $expectedItems = [])
+    public function __construct()
     {
         $this->user = 'CLIENT';
-
-        $items = [];
-        foreach ($expectedItems as $expectedItem) {
-            if (in_array($expectedItem, self::AVAILABLE_EXPECTED_ITEMS, true)) {
-                $items[] = $expectedItem;
-            }
-        }
-        if (!empty($items)) {
-            $this->setExpectedItems($items);
-        }
     }
 
     /**
@@ -90,16 +83,19 @@ class Context
             'elementsAttendus' => $this->expectedItems,
             'codeApporteur' => $this->providerCode,
             'status' => $this->status,
-            'subscriptionCode' => $this->subscriptionCode,
+            'codeSouscription' => $this->subscriptionCode,
         ];
     }
 
     /**
      * @param string $status
+     * @return Context
      */
-    public function setStatus(string $status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -120,18 +116,24 @@ class Context
 
     /**
      * @param string $providerCode
+     * @return Context
      */
-    public function setProviderCode(string $providerCode): void
+    public function setProviderCode(string $providerCode): self
     {
         $this->providerCode = $providerCode;
+
+        return $this;
     }
 
     /**
      * @param string $subscriptionCode
+     * @return Context
      */
-    public function setSubscriptionCode(string $subscriptionCode): void
+    public function setSubscriptionCode(string $subscriptionCode): self
     {
         $this->subscriptionCode = $subscriptionCode;
+
+        return $this;
     }
 
     /**
@@ -144,10 +146,13 @@ class Context
 
     /**
      * @param $expectedItems
+     * @return Context
      */
-    public function setExpectedItems($expectedItems): void
+    public function setExpectedItems($expectedItems): self
     {
         $this->expectedItems = $expectedItems;
+
+        return $this;
     }
 
     /**
@@ -168,10 +173,13 @@ class Context
 
     /**
      * @param string $idTransaction
+     * @return Context
      */
-    public function setIdTransaction(string $idTransaction): void
+    public function setIdTransaction(string $idTransaction): self
     {
         $this->idTransaction = $idTransaction;
+
+        return $this;
     }
 
     /**
@@ -184,10 +192,13 @@ class Context
 
     /**
      * @param string $contractNumber
+     * @return Context
      */
-    public function setContractNumber(string $contractNumber): void
+    public function setContractNumber(string $contractNumber): self
     {
         $this->contractNumber = $contractNumber;
+
+        return $this;
     }
 
     /**
@@ -200,9 +211,12 @@ class Context
 
     /**
      * @param string $user
+     * @return Context
      */
-    public function setUser(string $user): void
+    public function setUser(string $user): self
     {
         $this->user = $user;
+
+        return $this;
     }
 }

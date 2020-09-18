@@ -11,8 +11,8 @@ The use cases covered by the API are as follows:
 
 ####Steps
 - Create an object subscription depending on your subscriber, the funds he will invest, his familial funds, their origins etc...
-- Then build a context wich follow your request with the needed tokens, access code
-- Create a subscription with these 2 variables
+- Then build a context wich will follow your request with the needed tokens, access code
+- Create a generaliSubscription with these 2 variables
 - Then get the needed Files to send, and carry on sending them
 - Generate a mandate debit, with the [pdfGenerator](../pdf_generation.md) and send it also to Generali
 - And finalize the subscription
@@ -113,7 +113,7 @@ You will get the reference of your contract for this product:
 Then build your $subscription with the follwoing structure:
 
 ````php
-    $subscription = Subscription::createFromArray([
+    $subscription = Subscription::create([
         'refExterne' => $faker->numberBetween(999, 99999999),
         'refExterne2' => $faker->numberBetween(999, 99999999),
         'subscriber' => [

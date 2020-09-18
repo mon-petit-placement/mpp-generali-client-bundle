@@ -45,6 +45,8 @@ class FundsOrigin
     public function setCodeOrigin(string $codeOrigin): self
     {
         $this->codeOrigin = $codeOrigin;
+
+        return $this;
     }
 
     /**

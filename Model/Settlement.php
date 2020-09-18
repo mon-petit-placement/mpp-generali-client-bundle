@@ -43,6 +43,29 @@ class Settlement
     protected $fundsOrigin;
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $data = [
+            'typeReglementVersementPonctuel' => $this->paymentType,
+            'ibanContractant' => [
+                'nomBanque' => $this->bankName,
+                'titulaire' => $this->accountOwner,
+                'iban' => $this->accountIban,
+                'bic' => $this->accountBic,
+                'autorisationPrelevement' => $this->debitAuthorization,
+            ],
+        ];
+
+        foreach ($this->getFundsOrigin() as $fundOrigin) {
+            $data['originesFonds'][] = $fundOrigin->toArray();
+        }
+
+        return $data;
+    }
+
+    /**
      * @return string
      */
     public function getPaymentType(): string

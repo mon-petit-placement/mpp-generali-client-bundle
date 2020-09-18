@@ -5,7 +5,7 @@ namespace Mpp\GeneraliClientBundle\Model;
 /**
  * Class SubscriptionResponse.
  */
-class SubscriptionResponse
+class SubscriptionResponse extends BaseResponse
 {
     /**
      * @var string
@@ -20,16 +20,6 @@ class SubscriptionResponse
     /**
      * @var array
      */
-    protected $messages;
-
-    /**
-     * @var array
-     */
-    protected $donnees;
-
-    /**
-     * @var array
-     */
     protected $requiredDocuments;
 
     /**
@@ -37,8 +27,7 @@ class SubscriptionResponse
      */
     public function __construct()
     {
-        $this->messages = [];
-        $this->donnees = [];
+        parent::__construct();
         $this->requiredDocuments = [];
     }
 
@@ -58,9 +47,11 @@ class SubscriptionResponse
     /**
      * @param string $idTransaction
      */
-    public function setIdTransaction(string $idTransaction)
+    public function setIdTransaction(string $idTransaction): self
     {
         $this->idTransaction = $idTransaction;
+
+        return $this;
     }
 
     /**
@@ -79,35 +70,5 @@ class SubscriptionResponse
         return $this->status;
     }
 
-    /**
-     * @return array
-     */
-    public function getMessages(): array
-    {
-        return $this->messages;
-    }
 
-    /**
-     * @param array $messages
-     */
-    public function setMessages(array $messages)
-    {
-        $this->messages = $messages;
-    }
-
-    /**
-     * @param string $donnees
-     */
-    public function setDonnees(string $donnees)
-    {
-        $this->donnees = $donnees;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDonnees()
-    {
-        return $this->donnees;
-    }
 }

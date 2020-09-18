@@ -3,72 +3,96 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Model\Subscriber;
+use Mpp\GeneraliClientBundle\Model\Subscription;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class SubscriptionFactory
  */
-class SubscriptionFactory
+class SubscriptionFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * @var SubscriberFactory
      */
-    private $httpClient;
+    private $subscriberFactory;
 
     /**
-     * @param GeneraliHttpClientInterface $httpClient
+     * @var CustomerFolderFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    private $customerFolderFactory;
+
+    /**
+     * @var SettlementFactory
+     */
+    private $settlementFactory;
+
+    /**
+     * @var InitialPaymentFactory
+     */
+    private $initialPaymentFactory;
+
+    /**
+     * SubscriptionFactory constructor.
+     * @param GeneraliHttpClientInterface $httpClient
+     * @param SubscriberFactory $subscriberFactory
+     * @param CustomerFolderFactory $customerFolderFactory
+     * @param SettlementFactory $settlementFactory
+     * @param InitialPaymentFactory $initialPaymentFactory
+     */
+    public function __construct(GeneraliHttpClientInterface $httpClient, SubscriberFactory $subscriberFactory, CustomerFolderFactory $customerFolderFactory, SettlementFactory $settlementFactory, InitialPaymentFactory $initialPaymentFactory)
     {
-        $this->httpClient = $httpClient;
+        parent::__construct($httpClient);
+        $this->subscriberFactory = $subscriberFactory;
+        $this->customerFolderFactory = $customerFolderFactory;
+        $this->settlementFactory = $settlementFactory;
+        $this->initialPaymentFactory = $initialPaymentFactory;
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver)
+    public function configureData(OptionsResolver $resolver, $contractNumber): void
     {
         $resolver
-            ->setDefault('subscriber', null)->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
-                return SubscriberFactory::create($value);
+            ->setRequired('externalReference1')->setAllowedTypes('externalReference1', ['string'])
+            ->setDefined('externalReference2')->setAllowedTypes('externalReference2', ['string'])
+            ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value, $contractNumber) {
+                return $this->subscriberFactory->create($value, $contractNumber);
             })
-            ->setDefault('customerFolder', null)->setAllowedTypes('customerFolder', ['array', 'null'])->setNormalizer('customerFolder', function (Options $options, $value) {
-                return CustomerFolderFactory::create($value);
+            ->setRequired('customerFolder')->setAllowedTypes('customerFolder', ['array'])->setNormalizer('customerFolder', function (Options $options, $value, $contractNumber) {
+                return $this->customerFolderFactory->create($value, $contractNumber);
             })
-            ->setDefault('settlement', null)->setAllowedTypes('settlement', ['array', 'null'])->setNormalizer('settlement', function (Options $options, $value) {
-                return SettlementFactory::create($value);
+            ->setRequired('settlement')->setAllowedTypes('settlement', ['array'])->setNormalizer('settlement', function (Options $options, $value, $contractNumber) {
+                return $this->settlementFactory->create($value, $contractNumber);
             })
-            ->setDefault('intitialPayment', null)->setAllowedTypes('initialPayment', ['array', 'null'])->setNormalizer('initialPayment', function (Options $options, $value) {
-                return InitialPaymentFactory::create($value);
+            ->setRequired('initialPayment')->setAllowedTypes('initialPayment', ['array'])->setNormalizer('initialPayment', function (Options $options, $value, $contractNumber) {
+                return $this->initialPaymentFactory->create($value, $contractNumber);
             })
-            ->setDefault('paymentType', null)->setAllowedTypes('paymentType', ['string', 'null'])
-            ->setDefault('fiscality', null)->setAllowedTypes('fiscality', ['string', 'null'])
-            ->setDefault('deathBeneficiaryClauseCode', null)->setAllowedTypes('deathBeneficiaryClauseCode', ['string', 'null'])
-            ->setDefault('deathBeneficiaryClauseText', null)->setAllowedTypes('deathBeneficiaryClauseText', ['string', 'null'])
-            ->setDefault('gestionMode', null)->setAllowedTypes('gestionMode', ['string', 'null'])
+            ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
+            ->setRequired('fiscality')->setAllowedTypes('fiscality', ['string'])
+            ->setDefined('deathBeneficiaryClauseCode')->setAllowedTypes('deathBeneficiaryClauseCode', ['string'])
+            ->setDefined('deathBeneficiaryClauseText')->setAllowedTypes('deathBeneficiaryClauseText', ['string'])
+            ->setRequired('gestionMode')->setAllowedTypes('gestionMode', ['string'])
         ;
     }
 
     /**
-     * @param array $value
-     * @return Subscription
+     * {@inheritDoc}
      */
-    public function create(array $value)
+    public function doCreate(array $resolvedData, string $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-
-        $resolvedValues = $resolver->resolve($value);
-
         return (new Subscription())
-            ->setSubscriber($resolvedValues['subscriber'])
-            ->setCustomerFolder($resolvedValues['customerFolder'])
-            ->setSettlement($resolvedValues['settlement'])
-            ->setInitialPayment($resolvedValues['initialPayment'])
-            ->setPaymentType($resolvedValues['paymentType'])
-            ->setFiscality($resolvedValues['fiscality'])
-            ->setDeathBeneficiaryClauseCode($resolvedValues['deathBeneficiaryClauseCode'])
-            ->setDeathBeneficiaryClauseText($resolvedValues['deathBeneficiaryClauseText'])
-            ->setGestionMode($resolvedValues['gestionMode'])
-            ;
+            ->setSubscriber($resolvedData['subscriber'])
+            ->setCustomerFolder($resolvedData['customerFolder'])
+            ->setSettlement($resolvedData['settlement'])
+            ->setInitialPayment($resolvedData['initialPayment'])
+            ->setPaymentType($resolvedData['paymentType'])
+            ->setFiscality($resolvedData['fiscality'])
+            ->setDeathBeneficiaryClauseCode($resolvedData['deathBeneficiaryClauseCode'])
+            ->setDeathBeneficiaryClauseText($resolvedData['deathBeneficiaryClauseText'])
+            ->setGestionMode($resolvedData['gestionMode'])
+        ;
     }
 }

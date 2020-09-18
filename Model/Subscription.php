@@ -11,6 +11,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Subscription
 {
     /**
+     * @var string
+     */
+    protected $externalReference1;
+
+    /**
+     * @var string
+     */
+    protected $externalReference2;
+
+    /**
      * @var Subscriber
      */
     protected $subscriber;
@@ -54,6 +64,42 @@ class Subscription
      */
     protected $gestionMode;
 
+    /**
+     * @return string
+     */
+    public function getExternalReference1(): string
+    {
+        return $this->externalReference1;
+    }
+
+    /**
+     * @param string $externalReference1
+     * @return Subscription
+     */
+    public function setExternalReference1(string $externalReference1): self
+    {
+        $this->externalReference1 = $externalReference1;
+
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getExternalReference2(): string
+    {
+        return $this->externalReference2;
+    }
+
+    /**
+     * @param string $externalReference2
+     * @return Subscription
+     */
+    public function setExternalReference2(string $externalReference2): self
+    {
+        $this->externalReference2 = $externalReference2;
+
+        return $this;
+    }
 
     /**
      * @return Subscriber

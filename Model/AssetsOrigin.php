@@ -5,9 +5,9 @@ namespace Mpp\GeneraliClientBundle\Model;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AssetOrigin.
+ * Class AssetsOrigin.
  */
-class AssetOrigin
+class AssetsOrigin
 {
     /**
      * @var string
@@ -30,11 +30,13 @@ class AssetOrigin
     /**
      * @param string $codeOrigin
      *
-     * @return AssetOrigin
+     * @return self
      */
     public function setCodeOrigin(string $codeOrigin): self
     {
         $this->codeOrigin = $codeOrigin;
+
+        return $this;
     }
 
     /**
@@ -48,7 +50,7 @@ class AssetOrigin
     /**
      * @param string $precision
      *
-     * @return AssetOrigin
+     * @return self
      */
     public function setPrecision(string $precision): self
     {

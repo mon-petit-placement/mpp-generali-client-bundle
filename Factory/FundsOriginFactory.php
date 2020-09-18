@@ -2,58 +2,43 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
+use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\FundsOrigin;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class FundsOriginFactory
  */
-class FundsOriginFactory
+class FundsOriginFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * {@inheritDoc}
      */
-    private $httpClient;
-
-    /**
-     * @param GeneraliHttpClientInterface $httpClient
-     */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
-        $this->httpClient = $httpClient;
-    }
+        $allowedCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber);
 
-    /**
-     * @param array $parameters
-     * @return FundsOrigin
-     */
-    public function create(array $parameters): FundsOrigin
-    {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-
-        $resovedParameters = $resolver->resolve($parameters);
-
-        return (new FundsOrigin())
-            ->setPrecision($resovedParameters['precision'])
-            ->setAmount($resovedParameters['amount'])
-            ->setDate($resovedParameters['date'])
-            ->setCodeOrigin($resovedParameters['codeOrigin'])
-        ;
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureData(OptionsResolver $resolver)
-    {
-        $codeOriginAllowedValues = $this->httpClient->getSubscriptionInformations();
         $resolver
-            ->setDefault('codeOrigin', null)->setAllowedTypes('codeOrigin', ['string', 'null'])->setAllowedValues('codeOrigin', $codeOriginAllowedValues)
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('date', null)->setAllowedTypes('date', ['\DateTime', 'null'])
-            ->setDefault('precision', null)->setAllowedTypes('precision', ['string', 'null'])
+            ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $allowedCodeOrigin)
+            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setDefined('date')->setAllowedTypes('date', ['\DateTime'])
+            ->setDefined('precision')->setAllowedTypes('precision', ['string'])
         ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function doCreate(array $resolvedData, string $contractNumber)
+    {
+        return (new FundsOrigin())
+            ->setPrecision($resolvedData['precision'])
+            ->setAmount($resolvedData['amount'])
+            ->setDate($resolvedData['date'])
+            ->setCodeOrigin($resolvedData['codeOrigin'])
+        ;
+    }
 }

@@ -36,11 +36,13 @@ class AssetsRepartition
     /**
      * @param string $codeRepartition
      *
-     * @return AssetsRepartition
+     * @return self
      */
     public function setCodeRepartition(string $codeRepartition): self
     {
         $this->codeRepartition = $codeRepartition;
+
+        return $this;
     }
 
     /**
@@ -66,11 +68,13 @@ class AssetsRepartition
     /**
      * @param string $percentRepartition
      *
-     * @return AssetsRepartition
+     * @return self
      */
     public function setPercentRepartition(string $percentRepartition): self
     {
         $this->percentRepartition = $percentRepartition;
+
+        return $this;
     }
 
     /**

@@ -66,21 +66,25 @@ class CustomerFolder
     /**
      * @param string $incomeAmount
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setIncomeAmount(string $incomeAmount): self
     {
         $this->incomeAmount = $incomeAmount;
+
+        return $this;
     }
 
     /**
      * @param string $incomeCode
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setIncomeCode(string $incomeCode): self
     {
         $this->incomeCode = $incomeCode;
+
+        return $this;
     }
 
     /**
@@ -102,11 +106,13 @@ class CustomerFolder
     /**
      * @param string $heritageAmount
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setAssetAmount(string $assetAmount): self
     {
         $this->assetAmount = $assetAmount;
+
+        return $this;
     }
 
     /**
@@ -165,6 +171,8 @@ class CustomerFolder
     public function setThirdPartyPayment(string $thirdPartyPayment): self
     {
         $this->thirdPartyPayment = $thirdPartyPayment;
+
+        return $this;
     }
 
     /**
@@ -183,6 +191,8 @@ class CustomerFolder
     public function setPayoutTargets(array $payoutTargets): self
     {
         $this->payoutTargets = $payoutTargets;
+
+        return $this;
     }
 
     /**
@@ -201,6 +211,8 @@ class CustomerFolder
     public function setAssetsRepartition(array $assetsRepartition): self
     {
         $this->assetsRepartition = $assetsRepartition;
+
+        return $this;
     }
 
     /**
@@ -219,5 +231,7 @@ class CustomerFolder
     public function setAssetsOrigin(array $assetsorigin): self
     {
         $this->assetsOrigin = $assetsorigin;
+
+        return $this;
     }
 }

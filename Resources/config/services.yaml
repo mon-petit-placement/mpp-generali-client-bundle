@@ -10,7 +10,7 @@ services:
         arguments:
           - '@eight_points_guzzle.client.mpp_generali'
           - '@logger'
-          - '%mpp_generali_client.app_code%'
+          - '%mpp_generali_client.intermediary_code%'
           - '%mpp_generali_client.subscription_code%'
 
     Mpp\GeneraliClientBundle\PdfGenerator\GeneraliPdfGenerator:
@@ -20,3 +20,70 @@ services:
           - '@logger'
           - '@eight_points_guzzle.client.wkhtmltopdf'
           - '%generali_debit_mandate_export_path%'
+
+    Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface: '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientV2'
+
+    Mpp\GeneraliClientBundle\Factory\FundsOriginFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\RepartitionFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\ScheduledFreePaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\SubscriberFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\PayoutTargetFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\AssetsOriginFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\AssetsRepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\AssetsOriginFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\AssetsRepartitionFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\PayoutTargetFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\SettlementFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\FundsOriginFactory'
+
+    Mpp\GeneraliClientBundle\Factory\InitialPaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\SubscriptionFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\SubscriberFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\SettlementFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\InitialPaymentFactory'

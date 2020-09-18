@@ -578,11 +578,11 @@ class Subscriber
     }
 
     /**
-     * @param string $legalLegacy
+     * @param string $legalCapacity
      */
-    public function setLegalLecay(string $legalLegacy): self
+    public function setLegalCapacity(string $legalCapacity): self
     {
-        $this->legalCapacity = $legalLegacy;
+        $this->legalCapacity = $legalCapacity;
 
         return $this;
     }

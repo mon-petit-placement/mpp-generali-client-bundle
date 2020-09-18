@@ -5,37 +5,41 @@ namespace Mpp\GeneraliClientBundle\Factory;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\InitialPayment;
 use Mpp\GeneraliClientBundle\Model\Repartition;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class InitialPaymentFactory
  */
-class InitialPaymentFactory
+class InitialPaymentFactory extends AbstractFactory
 {
     /**
-     * @var GeneraliHttpClientInterface
+     * @var RepartitionFactory
      */
-    private $httpClient;
+    private $repartitionFactory;
 
     /**
+     * InitialPaymentFactory constructor.
      * @param GeneraliHttpClientInterface $httpClient
+     * @param RepartitionFactory $repartitionFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient)
+    public function __construct(GeneraliHttpClientInterface $httpClient, RepartitionFactory $repartitionFactory)
     {
-        $this->httpClient = $httpClient;
+        parent::__construct($httpClient);
+        $this->repartitionFactory = $repartitionFactory;
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver)
+    public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $resolver
-            ->setDefault('amount', null)->setAllowedTypes('amount', ['float', 'null'])
-            ->setDefault('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
+            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setRequired('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values, $contractNumber) {
                 $resolvedValues = [];
-
                 foreach ($values as $value) {
-                    $resolvedValues[] = RepartitionFactory::create($value);
+                    $resolvedValues[] = $this->repartitionFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;
@@ -44,19 +48,13 @@ class InitialPaymentFactory
     }
 
     /**
-     * @param array $data
-     * @return InitialPayment
+     * {@inheritDoc}
      */
-    public function create(array $data)
+    public function doCreate(array $resolvedData, $contractNumber)
     {
-        $resolver = new OptionsResolver();
-        $this->configureData($resolver);
-
-        $resolvedValues = $resolver->resolve($data);
-
         return (new InitialPayment())
-            ->setAmount($resolvedValues['amount'])
-            ->setRepartition($resolvedValues['repartition'])
-            ;
+            ->setAmount($resolvedData['amount'])
+            ->setRepartition($resolvedData['repartition'])
+        ;
     }
 }

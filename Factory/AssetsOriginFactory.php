@@ -4,26 +4,25 @@ namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Model\AssetsOrigin;
 use Mpp\GeneraliClientBundle\Model\Context;
-use Mpp\GeneraliClientBundle\Model\PayoutTarget;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PayoutTargetFactory
+ * Class AssetsOriginFactory
  */
-class PayoutTargetFactory extends AbstractFactory
+class AssetsOriginFactory extends AbstractFactory
 {
     /**
      * {@inheritDoc}
      */
     public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
-        $targetCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGETS, $contractNumber);
+        $availableOriginCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_ORIGINS, $contractNumber);
 
         $resolver
-            ->setRequired('targetCode')->setAllowedTypes('targetCode', ['string'])->setAllowedValues('targetCode', $targetCode)
-            ->setDefined('precision')->setAllowedTypes('precision', ['string'])
+            ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $availableOriginCode)
+            ->setRequired('precision')->setAllowedTypes('precision', ['string'])
         ;
     }
 
@@ -32,9 +31,9 @@ class PayoutTargetFactory extends AbstractFactory
      */
     public function doCreate(array $resolvedData, string $contractNumber)
     {
-        return (new PayoutTarget())
+        return (new AssetsOrigin())
             ->setPrecision($resolvedData['precision'])
-            ->setTargetCode($resolvedData['targetCode'])
+            ->setCodeOrigin($resolvedData['codeOrigin'])
         ;
     }
 }
