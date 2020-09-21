@@ -18,6 +18,30 @@ class InitialPayment
     protected $repartition;
 
     /**
+     * @return array
+     */
+    public function repartitionToarray(): array
+    {
+        $repartitions = [];
+        foreach($this->repartition as $repartition) {
+            $repartitions[] = $repartition->toArray();
+        }
+
+        return $repartitions;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'montant' => $this->getAmount(),
+            'repartition' => $this->repartitionToarray()
+        ];
+    }
+
+    /**
      * @return float
      */
     public function getAmount(): float
@@ -46,12 +70,14 @@ class InitialPayment
     }
 
     /**
-     * @param string $repartition
+     * @param array $repartition
      *
-     * @return InitialPayment
+     * @return self
      */
-    public function setRepartition(string $repartition): self
+    public function setRepartition(array $repartition): self
     {
         $this->repartition = $repartition;
+
+        return $this;
     }
 }

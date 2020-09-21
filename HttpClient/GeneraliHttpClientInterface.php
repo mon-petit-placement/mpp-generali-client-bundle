@@ -4,8 +4,10 @@ namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Context;
+use Mpp\GeneraliClientBundle\Model\Subscription;
 use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
+use Mpp\GeneraliClientBundle\Model\TransactionOrder;
 
 /**
  * Interface GeneraliHttpClientInterface.
@@ -44,24 +46,25 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/souscription/confirmer
      *
      * @param Context              $context
-     * @param SubscriptionConstant $subscription
+     * @param Subscription         $subscription
      * @param string               $comment
      * @param bool                 $dematerialization
      *
      * @return SubscriptionResponse
      */
-    public function createSubscription(Context $context, SubscriptionConstant $subscription, string $comment, bool $dematerialization): SubscriptionResponse;
+    public function createSubscription(Context $context, Subscription $subscription, string $comment = null, bool $dematerialization = true): SubscriptionResponse;
 
     /**
-     *  Finalize a Subscription with a token Status.
+     * Finalize a Subscription with a token Status.
      *
      * path: /epart/v2.0/transaction/souscription/finaliser
      *
      * @param Context $context
+     * @param array $filesToSend
      *
      * @return TransactionOrder
      */
-    public function finalizeSubscription(Context $context): TransactionOrder;
+    public function finalizeSubscription(Context $context, array $filesToSend): TransactionOrder;
 
     /**
      * Retrieve free payment informations with contractNumber & expectedItems.

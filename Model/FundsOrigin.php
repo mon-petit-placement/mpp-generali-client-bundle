@@ -30,6 +30,19 @@ class FundsOrigin
     protected $precision;
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'codeOrigin' => $this->getCodeOrigin(),
+            'montant' => $this->getAmount(),
+            'precision' => $this->getPrecision(),
+            'date' => $this->getDate()->format('Y-m-d')
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getCodeOrigin(): string

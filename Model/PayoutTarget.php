@@ -20,6 +20,17 @@ class PayoutTarget
     protected $precision;
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'codeObjectif' => $this->getTargetCode(),
+            'precision' => $this->getPrecision(),
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getTargetCode(): string

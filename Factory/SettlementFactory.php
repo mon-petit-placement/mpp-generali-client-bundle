@@ -40,8 +40,8 @@ class SettlementFactory extends AbstractFactory
             ->setRequired('accountOwner')->setAllowedTypes('accountOwner', ['string'])
             ->setRequired('accountIban')->setAllowedTypes('accountIban', ['string'])
             ->setRequired('accountBic')->setAllowedTypes('accountBic', ['string'])
-            ->setRequired('debitAuthorization', true)->setAllowedTypes('debitAuthorization', ['bool'])
-            ->setRequired('fundsOrigin', [])->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values, $contractNumber) {
+            ->setRequired('debitAuthorization')->setAllowedTypes('debitAuthorization', ['bool'])
+            ->setRequired('fundsOrigin')->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values) use ($contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
                     $resolvedValues[] = $this->fundsOriginFactory->create($value, $contractNumber);
@@ -58,6 +58,7 @@ class SettlementFactory extends AbstractFactory
     public function doCreate(array $resolvedData, $contractNumber)
     {
         return (new Settlement())
+            ->setDebitAuthorization($resolvedData['debitAuthorization'])
             ->setPaymentType($resolvedData['paymentType'])
             ->setBankName($resolvedData['bankName'])
             ->setAccountOwner($resolvedData['accountOwner'])

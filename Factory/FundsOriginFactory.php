@@ -2,6 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
+use Laminas\Validator\Date;
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\FundsOrigin;
@@ -24,7 +25,13 @@ class FundsOriginFactory extends AbstractFactory
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $allowedCodeOrigin)
             ->setRequired('amount')->setAllowedTypes('amount', ['float'])
-            ->setDefined('date')->setAllowedTypes('date', ['\DateTime'])
+            ->setDefined('date')->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function(Options $options, $value) {
+                if ($value instanceof \DateTime) {
+                    return $value;
+                }
+
+                return \DateTime::createFromFormat('d/m/Y', $value);
+            })
             ->setDefined('precision')->setAllowedTypes('precision', ['string'])
         ;
     }

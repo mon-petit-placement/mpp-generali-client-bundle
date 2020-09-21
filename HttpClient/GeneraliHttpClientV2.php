@@ -5,17 +5,38 @@ namespace Mpp\GeneraliClientBundle\HttpClient;
 use Faker\Provider\Base;
 use GuzzleHttp\Client;
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
+use Mpp\GeneraliClientBundle\Model\TransactionOrder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Mpp\GeneraliClientBundle\Model\Context;
-use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
+use Mpp\GeneraliClientBundle\Model\Subscription;
 
 /**
  * Class GeneraliHttpClientV2
  */
 class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 {
+    const TRANSACTION_SUBSCRIPTION_INITIATE = '/epart/v2.0/transaction/souscription/initier';
+    const TRANSACTION_SUBSCRIPTION_CHECK = '/epart/v2.0/transaction/souscription/verifier';
+    const TRANSACTION_SUBSCRIPTION_CONFIRM = '/epart/v2.0/transaction/souscription/confirmer';
+    const TRANSACTION_SUBSCRIPTION_FINALIZE = '/epart/v2.0/transaction/souscription/finaliser';
+
+    const TRANSACTION_FREE_PAYMENT_INITIATE = '/epart/v2.0/transaction/versementLibre/initier';
+    const TRANSACTION_FREE_PAYMENT_CHECK = '/epart/v2.0/transaction/versementLibre/initier';
+    const TRANSACTION_FREE_PAYMENT_CONFIRM = '/epart/v2.0/transaction/versementLibre/confirmer';
+    const TRANSACTION_FREE_PAYMENT_FINALIZE = '/epart/v2.0/transaction/versementLibre/finaliser';
+
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_INITIATE = '/epart/v2.0/transaction/versementsLibresProgrammes/initier';
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK = '/epart/v2.0/transaction/versementsLibresProgrammes/initier';
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM = '/epart/v2.0/transaction/versementsLibresProgrammes/confirmer';
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE = '/epart/v2.0/transaction/versementsLibresProgrammes/finaliser';
+
+    const TRANSACTION_ARBITRATION_INITIATE = '/epart/v2.0/transaction/arbitrage/initier';
+    const TRANSACTION_ARBITRATION_CHECK = '/epart/v2.0/transaction/arbitrage/initier';
+    const TRANSACTION_ARBITRATION_CONFIRM = '/epart/v2.0/transaction/arbitrage/confirmer';
+    const TRANSACTION_ARBITRATION_FINALIZE = '/epart/v2.0/transaction/arbitrage/finaliser';
+
     /**
      * @var Client
      */
@@ -114,29 +135,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param strinc $contractNumber
-     * @return array
-     */
-    public function availableCodeProfessionnalSituations(string $contractNumber): array
-    {
-        $dataRepository = $this->retrieveTransactionSubscriptionData($contractNumber, [self::EXPECTED_ITEM_REFERENTIEL]);
-
-        $availableSituations = [];
-
-        foreach ($dataRepository['situationsProfessionnelles'] as $prossionalSituation) {
-            $availableSituations[] = $prossionalSituation['code'];
-        }
-
-        return $availableSituations;
-    }
-
-    /**
      * @param array $parameters
      * @param array $expectedItems
      *
      * @return Context
      */
-    private function buildContext(array $parameters, array $expectedItems = []): Context
+    private function buildContext(array $parameters = [], array $expectedItems = []): Context
     {
         $context = new Context();
         $context
@@ -149,22 +153,194 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * Create a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.
-     *
-     * path: /epart/v2.0/transaction/souscription/initier
-     * path: /epart/v2.0/transaction/souscription/verifier
-     * path: /epart/v2.0/transaction/souscription/confirmer
-     *
-     * @param Context              $context
-     * @param SubscriptionConstant $subscription
-     * @param string               $comment
-     * @param bool                 $dematerialization
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function createSubscription(Context $context, SubscriptionConstant $subscription, string $comment, bool $dematerialization): SubscriptionResponse
+    public function createSubscription(Context $context, Subscription $subscription, string $comment = null, bool $dematerialization = true): SubscriptionResponse
     {
-        return [];
+        $response = $this->initiateSubscription($context, $subscription, $comment, $dematerialization);
+
+        if ($response->getStatus()) {
+            throw new \RuntimeException('The Initiation of the Subscription has failed');
+        }
+
+        $this->checkSubscription($context);
+
+        return $this->confirmSubscription($context, $response);
+    }
+
+    /**
+     * @param Context $context
+     * @param Subscription $subscription
+     * @param string $comment
+     * @param bool $dematerialization
+     * @return SubscriptionResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function initiateSubscription(
+        Context $context,
+        Subscription $subscription,
+        string $comment,
+        bool $dematerialization
+    ): SubscriptionResponse {
+
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_INITIATE, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToInitiate(),
+                    'souscription' => $subscription->toArray(),
+                    'commentaire' => $comment,
+                    'dematerialisationCourriers' => $dematerialization,
+                ]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setStatus($decodedRawResponse['donnees']['statut']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.createSubscription.initiate %s ] SUCCESS',
+                self::TRANSACTION_SUBSCRIPTION_INITIATE
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.createSubscription.initiate %s ] ERROR: %s',
+                self::TRANSACTION_SUBSCRIPTION_INITIATE,
+                $e->getMessage()
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param Context $context
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkSubscription(Context $context, $response)
+    {
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CHECK, [
+                'body' => json_encode(['contexte' => $context->arrayToCheck()]),
+            ]);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.createSubscription.check %s ] SUCCESS',
+                self::TRANSACTION_SUBSCRIPTION_CHECK
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.createSubscription.check %s ] ERROR: %s',
+                self::TRANSACTION_SUBSCRIPTION_CHECK,
+                $e->getMessage()
+            ));
+        }
+    }
+
+    /**
+     * @param Context $context
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function confirmSubscription(Context $context, SubscriptionResponse $response)
+    {
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CONFIRM, [
+                'body' => json_encode(['contexte' => $context->arrayToConfirm()]),
+           ]);
+           $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+           $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.createSubscription.confirm %s ] SUCCESS',
+                self::TRANSACTION_SUBSCRIPTION_CONFIRM
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.createSubscription.confirm %s ] ERROR: %s',
+                self::TRANSACTION_SUBSCRIPTION_CONFIRM,
+                $e->getMessage()
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param string $path
+     * @param string $idTransaction
+     * @param string $fileName
+     * @param array $document
+     * @return array|mixed
+     */
+    public function sendFile(string $path, string $idTransaction, string $fileName, array $document)
+    {
+        $file = new UploadedFile($path.$fileName, $fileName);
+        $url = sprintf('/epart/v1.0/transaction/fournirPiece/%s/%s', $idTransaction, $document['idPieceAFournir']);
+        $contents = [];
+
+        try {
+            $response = $this->httpClient->post(
+                $url,
+                [
+                    'multipart' => [
+                        [
+                            'name'     => $document['libelle'],
+                            'contents' => $file,
+                            'filename' => $fileName,
+                        ]
+                    ]
+                ]
+            );
+            $contents = json_decode($response->getBody()->getContents(), true);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.sendFile %s on %s] SUCCESS',
+                $fileName,
+                $url
+            ));
+
+        } catch (Exception $exception) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.sendFile %s on %s] ERROR: %s',
+                $fileName,
+                $url,
+                $exception->getMessage()
+            ));
+        }
+
+        return $contents;
+    }
+
+    /**
+     * @param SubscriptionResponse $response
+     * @param string $idTransaction
+     * @return SubscriptionResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function listSubscriptionFiles(SubscriptionResponse $response, string $idTransaction): SubscriptionResponse
+    {
+        $path = sprintf(
+            '/epart/v1.0/transaction/piecesAFournir/list/%s/souscription',
+            $idTransaction
+        );
+
+        try {
+            $response = $this->httpClient->get($path);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.listSubscriptionFiles on path %s] SUCCESS',
+                $path
+            ));
+            $contents = json_decode($response->getBody()->getContents(), true);
+            $response->setRequiredDocuments($contents['donnees']['piecesAFournir']);
+        } catch (Exception $exception) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.listSubscriptionFiles on path %s] ERROR: %s',
+                $path,
+                $exception->getMessage()
+            ));
+        }
+
+        return $contents;
     }
 
     /**
@@ -173,12 +349,32 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/souscription/finaliser
      *
      * @param Context $context
+     * @param SubscriptionResponse $response
      *
      * @return TransactionOrder
      */
-    public function finalizeSubscription(Context $context): TransactionOrder
+    public function finalizeSubscription(Context $context, SubscriptionResponse $response, array $filesToSend): SubscriptionResponse
     {
-        return [];
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_FINALIZE, [
+                'body' => json_encode(['contexte' => $context->arrayToFinalize()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.finalizeSubscription %s ] SUCCESS',
+                self::TRANSACTION_SUBSCRIPTION_FINALIZE
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.finalizeSubscription %s ] ERROR: %s',
+                self::TRANSACTION_SUBSCRIPTION_FINALIZE,
+                $e->getMessage()
+            ));
+        }
+
+        return $response;
     }
 
     /**
@@ -537,38 +733,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @return TransactionOrder
      */
     public function finalizeArbitration(array $expectedItems, array $arbitration): TransactionOrder
-    {
-        return [];
-    }
-
-    /**
-     * Send File needed, after confirm Request, for the subscription and Free Payment.
-     *
-     *  path: '/epart/v1.0/transaction/fournirPiece/{idTransaction}/{idPieceAFournir}
-     *
-     * @param string $idTransaction
-     * @param string $idPieceAFournir
-     * @param string $path
-     * @param string $fileName
-     *
-     * @return array
-     */
-    public function sendFile(string $idTransaction, string $idPieceAFournir, string $path, string $fileName): array
-    {
-        return [];
-    }
-
-    /**
-     * List all the files sent, and the file to send for a subscription or a Free Payment.
-     *
-     * /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/{product}
-     *
-     * @param string $idTransaction
-     * @param string $product
-     *
-     * @return array
-     */
-    public function listFile(string $idTransaction, string $product): array
     {
         return [];
     }

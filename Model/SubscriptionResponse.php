@@ -5,7 +5,7 @@ namespace Mpp\GeneraliClientBundle\Model;
 /**
  * Class SubscriptionResponse.
  */
-class SubscriptionResponse extends BaseResponse
+class SubscriptionResponse
 {
     /**
      * @var string
@@ -18,6 +18,11 @@ class SubscriptionResponse extends BaseResponse
     protected $idTransaction;
 
     /**
+     * @var string
+     */
+    protected $orderTransaction;
+
+    /**
      * @var array
      */
     protected $requiredDocuments;
@@ -27,10 +32,24 @@ class SubscriptionResponse extends BaseResponse
      */
     public function __construct()
     {
-        parent::__construct();
         $this->requiredDocuments = [];
+        $this->status = null;
     }
 
+    /**
+     * @param array $requiredDocuments
+     * @return self
+     */
+    public function setRequiredDocuments(array $requiredDocuments): self
+    {
+        $this->requiredDocuments = $requiredDocuments;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
     public function getRequiredDocuments()
     {
         return $this->requiredDocuments;
@@ -46,6 +65,7 @@ class SubscriptionResponse extends BaseResponse
 
     /**
      * @param string $idTransaction
+     * @return self
      */
     public function setIdTransaction(string $idTransaction): self
     {
@@ -56,10 +76,13 @@ class SubscriptionResponse extends BaseResponse
 
     /**
      * @param string $status
+     * @return SubscriptionResponse
      */
-    public function setStatus(string $status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -70,5 +93,22 @@ class SubscriptionResponse extends BaseResponse
         return $this->status;
     }
 
+    /**
+     * @return string
+     */
+    public function getOrderTransaction(): string
+    {
+        return $this->orderTransaction;
+    }
 
+    /**
+     * @param string $orderTransaction
+     * @return self
+     */
+    public function setOrderTransaction(string $orderTransaction): self
+    {
+        $this->orderTransaction = $orderTransaction;
+
+        return $this;
+    }
 }

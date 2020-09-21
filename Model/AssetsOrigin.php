@@ -20,6 +20,16 @@ class AssetsOrigin
     protected $precision;
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'code' => $this->getCodeOrigin(),
+            'precision' => $this->getPrecision(),
+        ];
+    }
+    /**
      * @return string
      */
     public function getCodeOrigin(): string

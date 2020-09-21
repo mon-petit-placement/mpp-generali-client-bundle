@@ -56,6 +56,67 @@ class CustomerFolder
     protected $assetsRepartition;
 
     /**
+     * @return array
+     */
+    public function payoutTargetsToArray(): array
+    {
+        $payoutTargets = [];
+        foreach ($this->getPayoutTarget() as $payoutTarget) {
+            $payoutTargets[] = $payoutTarget->toArray();
+        }
+
+        return $payoutTargets;
+    }
+
+    /**
+     * @return array
+     */
+    public function assetsOriginToArray(): array
+    {
+        $assetsOrigins = [];
+        foreach($this->getAssetsOrigin() as $assetsOrigin) {
+            $assetsOrigins[] = $assetsOrigin->toArray();
+        }
+
+        return $assetsOrigins;
+    }
+
+    /**
+     * @return array
+     */
+    public function assetsRepartitionToArray(): array
+    {
+        $assetsRepartitions = [];
+        foreach($this->getAssetsRepartition() as $assetRepartition) {
+            $assetsRepartitions[] = $assetRepartition->toArray();
+        }
+
+        return $assetsRepartitions;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return  [
+            'situationPatrimoniale' => [
+                'codeTrancheRevenu' => $this->getIncomeCode(),
+                'codeTranchePatrimoine' => $this->getAssetCode(),
+                'originePatrimoniale' => $this->assetsOriginToArray(),
+                'repartitionPatrimoniale' => $this->assetsRepartitionToArray(),
+                'montantRevenu' => $this->getIncomeAmount(),
+                'montantPatrimoine' => $this->getAssetAmount(),
+            ],
+            'objectifsVersement' => $this->payoutTargetsToArray(),
+            'originePaiement' => [
+                'moyenPaiementFrancais' => $this->getFrenchOriginPayment(),
+                'paiementParTiersPayeur' => $this->getThirdPartyPayment(),
+            ],
+        ];
+    }
+
+    /**
      * @return float
      */
     public function getIncomeAmount(): float
@@ -164,11 +225,11 @@ class CustomerFolder
     }
 
     /**
-     * @param string $thirdPartyPayment
+     * @param bool $thirdPartyPayment
      *
-     * @return CustomerFolder
+     * @return self
      */
-    public function setThirdPartyPayment(string $thirdPartyPayment): self
+    public function setThirdPartyPayment(bool $thirdPartyPayment): self
     {
         $this->thirdPartyPayment = $thirdPartyPayment;
 
@@ -186,7 +247,7 @@ class CustomerFolder
     /**
      * @param array $payoutTargets
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setPayoutTargets(array $payoutTargets): self
     {
@@ -206,7 +267,7 @@ class CustomerFolder
     /**
      * @param array $assetsRepartition
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setAssetsRepartition(array $assetsRepartition): self
     {
@@ -226,7 +287,7 @@ class CustomerFolder
     /**
      * @param array $assetsorigin
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setAssetsOrigin(array $assetsorigin): self
     {

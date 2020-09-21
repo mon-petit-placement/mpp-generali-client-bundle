@@ -482,9 +482,8 @@ class GeneraliHttpClient
         try {
             $response = $this->httpClient->get(
                 sprintf(
-                    '/epart/v1.0/transaction/piecesAFournir/list/%s/%s',
+                    '/epart/v1.0/transaction/piecesAFournir/list/%s/souscription',
                     $idTransaction,
-                    strtoupper(SubscriptionConstant::PRODUCTS_FILES_MAP[$product])
                 )
             );
             $this->logger->info(sprintf(

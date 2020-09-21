@@ -45,24 +45,33 @@ class Settlement
     /**
      * @return array
      */
-    public function toArray(): array
+    public function fundsOriginToArray(): array
     {
-        $data = [
-            'typeReglementVersementPonctuel' => $this->paymentType,
-            'ibanContractant' => [
-                'nomBanque' => $this->bankName,
-                'titulaire' => $this->accountOwner,
-                'iban' => $this->accountIban,
-                'bic' => $this->accountBic,
-                'autorisationPrelevement' => $this->debitAuthorization,
-            ],
-        ];
+        $fundsOrigins = [];
 
-        foreach ($this->getFundsOrigin() as $fundOrigin) {
-            $data['originesFonds'][] = $fundOrigin->toArray();
+        foreach ($this->fundsOrigin as $fundsOrigin) {
+            $fundsOrigins[] = $fundsOrigin->toArray();
         }
 
-        return $data;
+        return $fundsOrigins;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'typeReglementVersementPonctuel' => $this->getPaymentType(),
+            'originesFonds' => $this->fundsOriginToArray(),
+            'ibanContractant' => [
+                'nomBanque' => $this->getBankName(),
+                'titulaire' => $this->getAccountOwner(),
+                'iban' => $this->getAccountIban(),
+                'bic' => $this->getAccountBic(),
+                'autorisationPrelevement' => $this->getDebitAuthorization(),
+            ],
+        ];
     }
 
     /**
@@ -81,6 +90,8 @@ class Settlement
     public function setPaymentType(string $paymentType): self
     {
         $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -114,11 +125,13 @@ class Settlement
     /**
      * @param string $accountOwner
      *
-     * @return Settlement
+     * @return self
      */
     public function setAccountOwner(string $accountOwner): self
     {
         $this->accountOwner = $accountOwner;
+
+        return $this;
     }
 
     /**
@@ -132,7 +145,7 @@ class Settlement
     /**
      * @param string $accountIban
      *
-     * @return Settlement
+     * @return self
      */
     public function setAccountIban(string $accountIban): self
     {
@@ -144,11 +157,13 @@ class Settlement
     /**
      * @param string $accountBic
      *
-     * @return Settlement
+     * @return self
      */
     public function setAccountBic(string $accountBic): self
     {
         $this->accountBic = $accountBic;
+
+        return $this;
     }
 
     /**
@@ -160,9 +175,9 @@ class Settlement
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getDebitAuthorization(): string
+    public function getDebitAuthorization(): bool
     {
         return $this->debitAuthorization;
     }
@@ -170,19 +185,21 @@ class Settlement
     /**
      * @param bool $debitAuthorization
      *
-     * @return Settlement
+     * @return self
      */
     public function setDebitAuthorization(bool $debitAuthorization): self
     {
         $this->debitAuthorization = $debitAuthorization;
+
+        return $this;
     }
 
     /**
-     * @param string $fundsOrigin
+     * @param array $fundsOrigin
      *
-     * @return Settlement
+     * @return self
      */
-    public function setFundsOrigin(string $fundsOrigin): self
+    public function setFundsOrigin(array $fundsOrigin): self
     {
         $this->fundsOrigin = $fundsOrigin;
 

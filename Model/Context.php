@@ -74,6 +74,51 @@ class Context
     /**
      * @return array
      */
+    public function arrayToInitiate(): array
+    {
+        return [
+          'codeApporteur' => $this->getProviderCode(),
+          'numContrat' => $this->getContractNumber(),
+          'codeSouscription' => $this->getSubscriptionCode(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function arrayToCheck(): array
+    {
+        return [
+            'statut' => $this->getStatus(),
+            'codeApporteur' => $this->getProviderCode(),
+            'numContrat' => $this->getContractNumber(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function arrayToConfirm(): array
+    {
+        return [
+            'statut' => $this->getStatus(),
+            'numContrat' => $this->getContractNumber()
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function arrayToFinalize(): array
+    {
+        return [
+            'idTransaction' => $this->getIdTransaction()
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [

@@ -36,7 +36,7 @@ class InitialPaymentFactory extends AbstractFactory
     {
         $resolver
             ->setRequired('amount')->setAllowedTypes('amount', ['float'])
-            ->setRequired('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values, $contractNumber) {
+            ->setRequired('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) use ($contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
                     $resolvedValues[] = $this->repartitionFactory->create($value, $contractNumber);

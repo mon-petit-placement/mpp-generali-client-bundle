@@ -209,67 +209,67 @@ class Subscriber
     {
         return [
             'noms' => [
-                'nom' => $this->lastName,
-                'prenom' => $this->lastName,
-                'codeCivilite' => $this->civility,
-                'nomNaissance' => $this->birthName,
+                'nom' => $this->getLastName(),
+                'prenom' => $this->getFirstName(),
+                'codeCivilite' => $this->getCivility(),
+                'nomNaissance' => $this->getBirthName(),
             ],
             'residenceFiscale' => [
-                'codePays' => $this->taxCountry,
+                'codePays' => $this->getTaxCountry(),
             ],
             'naissance' => [
-                'dateNaissance' => $this->birthDate,
-                'lieuNaissance' => $this->birthPlace,
-                'paysNaissance' => $this->birthCountry,
-                'codeDepartementNaissance' => $this->birthDepartmentCode,
-                'codeInseeCommuneNaissance' => $this->birthInseeCode,
-                'codePostal' => $this->birthPostalCode,
+                'dateNaissance' => $this->getBirthDate()->format('Y-m-d'),
+                'lieuNaissance' => $this->getBirthPlace(),
+                'paysNaissance' => $this->getBirthCountry(),
+                'codeDepartementNaissance' => $this->getBirthDepartmentCode(),
+                'codeInseeCommuneNaissance' => $this->getBirthInseeCode(),
+                'codePostal' => $this->getBirthPostalCode(),
             ],
-            'nationalite' => $this->nationality,
+            'nationalite' => $this->getNationality(),
             'complement' => [
-                'situationFamiliale' => $this->familialSituation,
-                'situationProfessionnelle' => $this->professionalSituation,
-                'regimeMatrimonial' => $this->matrimonialRegime,
-                'csp' => $this->cspCode,
-                'profession' => $this->profession,
-                'codeNaf' => $this->nafCode,
-                'siret' => $this->siretNumber,
-                'nomEmployeur' => $this->employerName,
-                'cspDerniereProfession' => $this->cspCodeLastProfession,
-                'dateDebutInactivite' => $this->startDateInactivity,
+                'situationFamiliale' => $this->getFamilialSituation(),
+                'situationProfessionnelle' => $this->getProfessionalSituation(),
+                'regimeMatrimonial' => $this->getMatrimonialRegime(),
+                'csp' => $this->getCspCode(),
+                'profession' => $this->getProfession(),
+                'codeNaf' => $this->getNafCode(),
+                'siret' => $this->getSiretNumber(),
+                'nomEmployeur' => $this->getEmployerName(),
+                'cspDerniereProfession' => $this->getCspCodeLastProfession(),
+                'dateDebutInactivite' => $this->getStartDateInactivity()->format('Y-m-d'),
             ],
             'contact' => [
                 'adressePostale' => [
-                    'adresse1PointRemise' => $this->addressDropOffPoint,
-                    'adresse2PointGeographique' => $this->addressGeographicPoint,
-                    'adresse3LibelleVoie' => $this->addressCountryCode,
-                    'adresse4LieuDitBP' => $this->addressPostBox,
-                    'codePostal' => $this->addressPostalCode,
-                    'commune' => $this->addressCity,
-                    'codePays' => $this->addressCountryCode,
+                    'adresse1PointRemise' => $this->getAddressDropOffPoint(),
+                    'adresse2PointGeographique' => $this->getAddressGeographicPoint(),
+                    'adresse3LibelleVoie' => $this->getAddressCountryCode(),
+                    'adresse4LieuDitBP' => $this->getAddressPostBox(),
+                    'codePostal' => $this->getAddressPostalCode(),
+                    'commune' => $this->getAddressCity(),
+                    'codePays' => $this->getAddressCountryCode(),
                     'nePasNormaliser' => true,
                 ],
-                'telephone' => $this->phoneNumber,
-                'telephonePortable' => $this->cellPhoneNumber,
-                'email' => $this->email,
+                'telephone' => $this->getPhoneNumber(),
+                'telephonePortable' => $this->getCellPhoneNumber(),
+                'email' => $this->getEmail(),
             ],
             'ppe' => [
                 'etatPPE' => [
-                    'indicateur' => $this->ppeStateIndicator,
+                    'indicateur' => $this->getPpeStateIndicator(),
                 ],
                 'etatPPEFamille' => [
-                    'indicateur' => $this->ppeFamilyStateIndicator,
+                    'indicateur' => $this->getPpeFamilyStateIndicator(),
                 ],
             ],
             'fatca' => [
-                'citoyenUSA' => $this->usaCitizen,
-                'residenceUSA' => $this->usaResident,
+                'citoyenUSA' => $this->getUsaCitizen(),
+                'residenceUSA' => $this->getUsaResident(),
             ],
             'pieceIdentite' => [
-                'codePieceIdentite' => $this->identityDocCode,
-                'dateValidite' => $this->identityDocValidityDate,
+                'codePieceIdentite' => $this->getIdentityDocCode(),
+                'dateValidite' => $this->getIdentityDocValidityDate()->format('Y-m-d'),
             ],
-            'capaciteJuridique' => $this->legalCapacity,
+            'capaciteJuridique' => $this->getLegalLegacy(),
         ];
     }
 
@@ -494,10 +494,18 @@ class Subscriber
     }
 
     /**
-     * @param string $ppeStateIndicator
+     * @return string
+     */
+    public function getBirthInseeCode(): ?string
+    {
+        return $this->birthInseeCode;
+    }
+
+    /**
+     * @param bool $ppeStateIndicator
      * @return Subscriber
      */
-    public function setPpeStateIndicator(string $ppeStateIndicator): self
+    public function setPpeStateIndicator(bool $ppeStateIndicator): self
     {
         $this->ppeStateIndicator = $ppeStateIndicator;
 
@@ -505,9 +513,9 @@ class Subscriber
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getPpeStateIndicator(): string
+    public function getPpeStateIndicator(): bool
     {
         return $this->ppeStateIndicator;
     }
@@ -516,7 +524,7 @@ class Subscriber
      * @param string $ppeFamilyStateIndicator
      * @return Subscriber
      */
-    public function setPpeFamilyStateIndicator(string $ppeFamilyStateIndicator): self
+    public function setPpeFamilyStateIndicator(bool $ppeFamilyStateIndicator): self
     {
         $this->ppeFamilyStateIndicator = $ppeFamilyStateIndicator;
 
@@ -524,9 +532,9 @@ class Subscriber
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getPpeFamilyStateIndicator(): string
+    public function getPpeFamilyStateIndicator(): bool
     {
         return $this->ppeFamilyStateIndicator;
     }

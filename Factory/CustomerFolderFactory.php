@@ -30,7 +30,7 @@ class CustomerFolderFactory extends AbstractFactory
     /**
      * @var AssetsRepartitionFactory
      */
-    private $assetRepartitionFactory;
+    private $assetsRepartitionFactory;
 
     /**
      * CustomerFolderFactory constructor.
@@ -44,7 +44,7 @@ class CustomerFolderFactory extends AbstractFactory
         parent::__construct($httpClient);
         $this->payoutTargetFactory = $payoutTargetFactory;
         $this->assetsOriginFactory = $assetsOriginFactory;
-        $this->assetRepartitionFactory = $assetRepartitionFactory;
+        $this->assetsRepartitionFactory = $assetRepartitionFactory;
     }
 
     /**
@@ -57,7 +57,7 @@ class CustomerFolderFactory extends AbstractFactory
             ->setRequired('assetAmount')->setAllowedTypes('assetAmount', ['float'])
             ->setDefault('frenchOriginPayment', true)->setAllowedTypes('frenchOriginPayment', ['bool'])
             ->setDefault('thirdPartyPayment', false)->setAllowedTypes('thirdPartyPayment', ['bool'])
-            ->setRequired('payoutTargets')->setAllowedTypes('payoutTargets', ['array'])->setNormalizer('payoutTargets', function (Options $options, $values, $contractNumber) {
+            ->setRequired('payoutTargets')->setAllowedTypes('payoutTargets', ['array'])->setNormalizer('payoutTargets', function (Options $options, $values) use ($contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
                     $resolvedValues[] = $this->payoutTargetFactory->create($value, $contractNumber);
@@ -65,18 +65,18 @@ class CustomerFolderFactory extends AbstractFactory
 
                 return $resolvedValues;
             })
-            ->setDefined('assetsOrigin')->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values, $contractNumber) {
+            ->setDefined('assetsOrigin')->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values) use ($contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->assetOriginFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->assetsOriginFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefined('assetsRepartition')->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values, $contractNumber) {
+            ->setDefined('assetsRepartition')->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values) use ($contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->assetRepartitionFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->assetsRepartitionFactory->create($value, $contractNumber);
                 }
 
                 return $resolvedValues;

@@ -87,3 +87,4 @@ services:
         - '@Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory'
         - '@Mpp\GeneraliClientBundle\Factory\SettlementFactory'
         - '@Mpp\GeneraliClientBundle\Factory\InitialPaymentFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\ScheduledFreePaymentFactory'

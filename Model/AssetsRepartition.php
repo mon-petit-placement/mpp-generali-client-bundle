@@ -24,6 +24,18 @@ class AssetsRepartition
      */
     protected $precision;
 
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'code' => $this->getCodeReparition(),
+            'pourcentage' => $this->getPercentRepartition(),
+            'precision' => $this->getPrecision(),
+        ];
+    }
+
 
     /**
      * @return string

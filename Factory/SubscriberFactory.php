@@ -39,19 +39,25 @@ class SubscriberFactory extends AbstractFactory
             ->setRequired('civility')->setAllowedTypes('civility', ['string', 'null'])->setAllowedValues('civility', $availableCivilities)
             ->setRequired('taxCountry')->setAllowedTypes('taxCountry', ['string', 'null'])->setAllowedValues('taxCountry', $availableTaxCountry)
             ->setRequired('nationality')->setAllowedTypes('nationality', ['string', 'null'])->setAllowedValues('nationality', $availableNationalities)
-            ->setRequired('birthDate')->setAllowedTypes('birthDate', ['\DateTime', 'null'])
-            ->setRequired('birthPlace')->setAllowedTypes('birthPlace', ['string', 'null'])
-            ->setRequired('birthCountry')->setAllowedTypes('birthCountry', ['string', 'null'])->setAllowedValues('birthCountry', $availableBirthCountries)
-            ->setDefined('birthPostalCode')->setAllowedTypes('birthPostalCode', ['string', 'null'])
-            ->setDefined('birthDepartmentCode')->setAllowedTypes('birthDepartmentCode', ['string', 'null'])
+            ->setRequired('birthDate')->setAllowedTypes('birthDate', ['\DateTime', 'string'])->setNormalizer('birthDate', function(Options $options, $value) {
+                if ($value instanceof \DateTime) {
+                    return $value;
+                }
+
+                return \DateTime::createFromFormat('d/m/Y', $value);
+            })
+            ->setRequired('birthPlace')->setAllowedTypes('birthPlace', ['string'])
+            ->setRequired('birthCountry')->setAllowedTypes('birthCountry', ['string'])->setAllowedValues('birthCountry', $availableBirthCountries)
+            ->setDefined('birthPostalCode')->setAllowedTypes('birthPostalCode', ['string'])
+            ->setDefined('birthDepartmentCode')->setAllowedTypes('birthDepartmentCode', ['string'])
             ->setDefined('birthInseeCode')->setAllowedTypes('birthInseeCode', ['string', 'null'])
-            ->setDefault('ppeStateIndicator', false)->setAllowedTypes('ppeStateIndicator', ['bool', 'null'])
-            ->setDefault('ppeFamilyStateIndicator', false)->setAllowedTypes('ppeFamilyStateIndicator', ['bool', 'null'])
-            ->setDefault('usaCitizen', false)->setAllowedTypes('usaCitizen', ['bool', 'null'])
-            ->setDefault('usaResident', false)->setAllowedTypes('usaResident', ['bool', 'null'])
-            ->setRequired('legalCapacity')->setAllowedTypes('legalCapacity', ['string', 'null'])->setAllowedValues('legalCapacity', $availableLegalCapacity)
-            ->setRequired('familialSituation')->setAllowedTypes('familialSituation', ['string', 'null'])->setAllowedValues('familialSituation', $availableCodeFamilialSituation)
-            ->setRequired('professionalSituation')->setAllowedTypes('professionalSituation', ['string', 'null'])->setAllowedValues('professionalSituation', $availableCodeProfessionnalSituation)
+            ->setDefault('ppeStateIndicator', false)->setAllowedTypes('ppeStateIndicator', ['bool'])
+            ->setDefault('ppeFamilyStateIndicator', false)->setAllowedTypes('ppeFamilyStateIndicator', ['bool'])
+            ->setDefault('usaCitizen', false)->setAllowedTypes('usaCitizen', ['bool'])
+            ->setDefault('usaResident', false)->setAllowedTypes('usaResident', ['bool'])
+            ->setRequired('legalCapacity')->setAllowedTypes('legalCapacity', ['string'])->setAllowedValues('legalCapacity', $availableLegalCapacity)
+            ->setRequired('familialSituation')->setAllowedTypes('familialSituation', ['string'])->setAllowedValues('familialSituation', $availableCodeFamilialSituation)
+            ->setRequired('professionalSituation')->setAllowedTypes('professionalSituation', ['string'])->setAllowedValues('professionalSituation', $availableCodeProfessionnalSituation)
             ->setDefined('matrimonialRegime')->setAllowedTypes('matrimonialRegime', ['string', 'null'])->setAllowedValues('matrimonialRegime', $availableMatrimonialRegime)
             ->setDefined('cspCode')->setAllowedTypes('cspCode', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
             ->setRequired('profession')->setAllowedTypes('profession', ['string', 'null'])
@@ -59,12 +65,24 @@ class SubscriberFactory extends AbstractFactory
             ->setDefined('siretNumber')->setAllowedTypes('siretNumber', ['string', 'null'])
             ->setDefined('employerName')->setAllowedTypes('employerName', ['string', 'null'])
             ->setDefined('cspCodeLastProfession')->setAllowedTypes('cspCodeLastProfession', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
-            ->setDefined('startDateInactivity')->setAllowedTypes('startDateInactivity', ['\DateTime', 'null'])
-            ->setRequired('phoneNumber')->setAllowedTypes('phoneNumber', ['string', 'null'])
+            ->setDefined('startDateInactivity')->setAllowedTypes('startDateInactivity', ['\DateTime', 'string'])->setNormalizer('startDateInactivity', function(Options $options, $value) {
+                if ($value instanceof \DateTime) {
+                    return $value;
+                }
+
+                return \DateTime::createFromFormat('d/m/Y', $value);
+            })
+            ->setRequired('phoneNumber')->setAllowedTypes('phoneNumber', ['string'])
             ->setDefined('cellPhoneNumber')->setAllowedTypes('cellPhoneNumber', ['string', 'null'])
-            ->setRequired('email')->setAllowedTypes('email', ['string', 'null'])
-            ->setRequired('identityDocCode')->setAllowedTypes('identityDocCode', ['string', 'null'])->setAllowedValues('identityDocCode', $availableIdentityDocCode)
-            ->setRequired('identityDocValidityDate')->setAllowedTypes('identityDocValidityDate', ['\DateTime', 'null'])
+            ->setRequired('email')->setAllowedTypes('email', ['string'])
+            ->setRequired('identityDocCode')->setAllowedTypes('identityDocCode', ['string'])->setAllowedValues('identityDocCode', $availableIdentityDocCode)
+            ->setRequired('identityDocValidityDate')->setAllowedTypes('identityDocValidityDate', ['\DateTime', 'string'])->setNormalizer('identityDocValidityDate', function(Options $options, $value) {
+                if ($value instanceof \DateTime) {
+                    return $value;
+                }
+
+                return \DateTime::createFromFormat('d/m/Y', $value);
+            })
             ->setDefined('addressPostalCode')->setAllowedTypes('addressPostalCode', ['string', 'null'])
             ->setDefined('addressCity')->setAllowedTypes('addressCity', ['string', 'null'])
             ->setRequired('addressCountryCode')->setAllowedTypes('addressCountryCode', ['string', 'null'])->setAllowedValues('addressCountryCode', $availableAddressCountries)

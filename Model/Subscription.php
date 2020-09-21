@@ -40,6 +40,11 @@ class Subscription
     protected $initialPayment;
 
     /**
+     * @var ScheduledFreePayment
+     */
+    protected $scheduledFreePayment;
+
+    /**
      * @var string
      */
     protected $paymentType;
@@ -65,6 +70,37 @@ class Subscription
     protected $gestionMode;
 
     /**
+     * @var string
+     */
+    protected $duration;
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'referencesExternes' => [
+                'refExterne' => $this->getExternalReference1(),
+                'refExterne2' => $this->getExternalReference2(),
+            ],
+            'souscripteur' => $this->getSubscriber()->toArray(),
+            'dossierClient' => $this->getCustomerFolder()->toArray(),
+            'versementInitial' => $this->getInitialPayment()->toArray(),
+            'versementsLibresProgrammes' => $this->getScheduledFreePayment()->toArray(),
+            'typePaiement' => $this->getPaymentType(),
+            'duree' => $this->getDuration(),
+            'fiscalite' => $this->getFiscality(),
+            'clauseBeneficiaireDeces' => [
+                'code' => $this->getDeathBeneficiaryClauseCode(),
+                'texteLibre' => $this->getDeathBeneficiaryClauseText(),
+            ],
+            'modeGestion' => $this->getGestionMode(),
+            'reglement' => $this->getSettlement()->toArray()
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getExternalReference1(): string
@@ -85,7 +121,7 @@ class Subscription
     /**
      * @return string
      */
-    public function getExternalReference2(): string
+    public function getExternalReference2(): ?string
     {
         return $this->externalReference2;
     }
@@ -112,11 +148,13 @@ class Subscription
     /**
      * @param Subscriber $subscriber
      *
-     * @return Subscription
+     * @return self
      */
     public function setSubscriber(Subscriber $subscriber): self
     {
         $this->subscriber = $subscriber;
+
+        return $this;
     }
 
     /**
@@ -130,11 +168,13 @@ class Subscription
     /**
      * @param CustomerFolder $customerFolder
      *
-     * @return Subscription
+     * @return self
      */
     public function setCustomerFolder(CustomerFolder $customerFolder): self
     {
         $this->customerFolder = $customerFolder;
+
+        return $this;
     }
 
     /**
@@ -148,11 +188,13 @@ class Subscription
     /**
      * @param Settlement $settlement
      *
-     * @return Subscription
+     * @return self
      */
     public function setSettlement(Settlement $settlement): self
     {
         $this->settlement = $settlement;
+
+        return $this;
     }
 
     /**
@@ -166,11 +208,13 @@ class Subscription
     /**
      * @param InitialPayment $initialPayment
      *
-     * @return Subscription
+     * @return self
      */
     public function setInitialPayment(InitialPayment $initialPayment): self
     {
         $this->initialPayment = $initialPayment;
+
+        return $this;
     }
 
     /**
@@ -184,11 +228,13 @@ class Subscription
     /**
      * @param string $paymentType
      *
-     * @return Subscription
+     * @return self
      */
     public function setPaymentType(string $paymentType): self
     {
         $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -202,11 +248,13 @@ class Subscription
     /**
      * @param string $fiscality
      *
-     * @return Subscription
+     * @return self
      */
     public function setFiscality(string $fiscality): self
     {
         $this->fiscality = $fiscality;
+
+        return $this;
     }
 
     /**
@@ -220,11 +268,13 @@ class Subscription
     /**
      * @param string $deathBeneficiaryClauseCode
      *
-     * @return Subscription
+     * @return self
      */
     public function setDeathBeneficiaryClauseCode(string $deathBeneficiaryClauseCode): self
     {
         $this->deathBeneficiaryClauseCode = $deathBeneficiaryClauseCode;
+
+        return $this;
     }
 
     /**
@@ -238,11 +288,13 @@ class Subscription
     /**
      * @param string $deathBeneficiaryClauseText
      *
-     * @return Subscription
+     * @return self
      */
     public function setDeathBeneficiaryClauseText(string $deathBeneficiaryClauseText): self
     {
         $this->deathBeneficiaryClauseText = $deathBeneficiaryClauseText;
+
+        return $this;
     }
 
     /**
@@ -261,5 +313,45 @@ class Subscription
     public function setGestionMode(string $gestionMode): self
     {
         $this->gestionMode = $gestionMode;
+
+        return $this;
+    }
+
+    /**
+     * @return ScheduledFreePayment
+     */
+    public function getScheduledFreePayment(): ScheduledFreePayment
+    {
+        return $this->scheduledFreePayment;
+    }
+
+    /**
+     * @param ScheduledFreePayment $scheduledFreePayment
+     * @return Subscription
+     */
+    public function setScheduledFreePayment(ScheduledFreePayment $scheduledFreePayment): self
+    {
+        $this->scheduledFreePayment = $scheduledFreePayment;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDuration(): string
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param string $duration
+     * @return self
+     */
+    public function setDuration(string $duration): self
+    {
+        $this->duration = $duration;
+
+        return $this;
     }
 }

@@ -18,6 +18,17 @@ class Repartition
     protected $amount;
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+          'codeFonds' => $this->getFundsCode(),
+          'montant' => $this->getAmount(),
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getFundsCode(): string

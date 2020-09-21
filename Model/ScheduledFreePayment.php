@@ -2,6 +2,9 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+/**
+ * Class ScheduledFreePayment
+ */
 class ScheduledFreePayment
 {
     /**
@@ -25,6 +28,34 @@ class ScheduledFreePayment
     protected $repartition;
 
     /**
+     * @return array
+     */
+    public function repartitionToarray(): array
+    {
+        $repartitions = [];
+        foreach($this->repartition as $repartition) {
+            $repartitions[] = $repartition->toArray();
+        }
+
+        return $repartitions;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'repartition' => $this->repartitionToarray(),
+            'jourPrelevement' => $this->getBankDebitDay(),
+            'vlpMontant' => [
+                'montant' => $this->getAmount(),
+                'periodicite' => $this->getPeriodicity(),
+            ]
+        ];
+    }
+
+    /**
      * ScheduledFreePayment constructor.
      */
     public function __construct()
@@ -35,11 +66,13 @@ class ScheduledFreePayment
     /**
      * @param array $repartition
      *
-     * @return ScheduledFreePayment
+     * @return self
      */
     public function setRepartition(array $repartition): self
     {
         $this->repartition = $repartition;
+
+        return $this;
     }
 
     /**
@@ -58,6 +91,8 @@ class ScheduledFreePayment
     public function setPeriodicity(string $periodicity): self
     {
         $this->periodicity = $periodicity;
+
+        return $this;
     }
 
     /**
@@ -71,7 +106,7 @@ class ScheduledFreePayment
     /**
      * @param string $amount
      *
-     * @return ScheduledFreePayment
+     * @return self
      */
     public function setAmount(string $amount): self
     {
@@ -91,7 +126,7 @@ class ScheduledFreePayment
     /**
      * @param string $bankDebitDay
      *
-     * @return ScheduledFreePayment
+     * @return self
      */
     public function setBankDebitDay(string $bankDebitDay): self
     {
