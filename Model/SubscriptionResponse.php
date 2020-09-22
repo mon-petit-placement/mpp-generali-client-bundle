@@ -20,10 +20,15 @@ class SubscriptionResponse
     /**
      * @var string
      */
+    protected $message;
+
+    /**
+     * @var string
+     */
     protected $orderTransaction;
 
     /**
-     * @var array
+     * @var array<Document>
      */
     protected $requiredDocuments;
 
@@ -37,7 +42,18 @@ class SubscriptionResponse
     }
 
     /**
-     * @param array $requiredDocuments
+     * @param Document $document
+     * @return SubscriptionResponse
+     */
+    public function addRequiredDocument(Document $document): self
+    {
+        $this->requiredDocuments[] = $document;
+
+        return $this;
+    }
+
+    /**
+     * @param array<Document> $requiredDocuments
      * @return self
      */
     public function setRequiredDocuments(array $requiredDocuments): self
@@ -48,9 +64,9 @@ class SubscriptionResponse
     }
 
     /**
-     * @return array
+     * @return array<Document>
      */
-    public function getRequiredDocuments()
+    public function getRequiredDocuments(): array
     {
         return $this->requiredDocuments;
     }
@@ -70,6 +86,25 @@ class SubscriptionResponse
     public function setIdTransaction(string $idTransaction): self
     {
         $this->idTransaction = $idTransaction;
+
+        return $this;
+    }
+
+    /***
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     * @return self
+     */
+    public function setMessage(string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

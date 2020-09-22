@@ -70,15 +70,33 @@ class Subscription
     protected $gestionMode;
 
     /**
-     * @var string
+     * @var int
      */
     protected $duration;
+
+    /**
+     * @var string
+     */
+    protected $durationType;
+
+    public function durationToArray(): array
+    {
+        $duration = [
+            'typeDuree' => $this->getDurationType()
+        ];
+        if (null !== $this->getDuration()) {
+            $duration['duree'] = $this->getDuration();
+        }
+
+        return $duration;
+    }
 
     /**
      * @return array
      */
     public function toArray(): array
     {
+
         return [
             'referencesExternes' => [
                 'refExterne' => $this->getExternalReference1(),
@@ -89,13 +107,15 @@ class Subscription
             'versementInitial' => $this->getInitialPayment()->toArray(),
             'versementsLibresProgrammes' => $this->getScheduledFreePayment()->toArray(),
             'typePaiement' => $this->getPaymentType(),
-            'duree' => $this->getDuration(),
+            'duree' => $this->durationToArray(),
             'fiscalite' => $this->getFiscality(),
             'clauseBeneficiaireDeces' => [
                 'code' => $this->getDeathBeneficiaryClauseCode(),
                 'texteLibre' => $this->getDeathBeneficiaryClauseText(),
             ],
-            'modeGestion' => $this->getGestionMode(),
+            'modeGestion' => [
+                'codeModeGestion' => $this->getGestionMode(),
+            ],
             'reglement' => $this->getSettlement()->toArray()
         ];
     }
@@ -337,20 +357,39 @@ class Subscription
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDuration(): string
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
     /**
-     * @param string $duration
+     * @param int $duration
      * @return self
      */
-    public function setDuration(string $duration): self
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDurationType(): string
+    {
+        return $this->durationType;
+    }
+
+    /**
+     * @param string $durationType
+     * @return Subscription
+     */
+    public function setDurationType(string $durationType): self
+    {
+        $this->durationType = $durationType;
 
         return $this;
     }

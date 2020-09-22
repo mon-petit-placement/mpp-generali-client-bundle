@@ -8,7 +8,7 @@ namespace Mpp\GeneraliClientBundle\Model;
 class ScheduledFreePayment
 {
     /**
-     * @var string
+     * @var int
      */
     protected $bankDebitDay;
 
@@ -124,11 +124,11 @@ class ScheduledFreePayment
     }
 
     /**
-     * @param string $bankDebitDay
+     * @param int $bankDebitDay
      *
      * @return self
      */
-    public function setBankDebitDay(string $bankDebitDay): self
+    public function setBankDebitDay(int $bankDebitDay): self
     {
         $this->bankDebitDay = $bankDebitDay;
 
@@ -136,9 +136,9 @@ class ScheduledFreePayment
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getBankDebitDay(): string
+    public function getBankDebitDay(): int
     {
         return $this->bankDebitDay;
     }

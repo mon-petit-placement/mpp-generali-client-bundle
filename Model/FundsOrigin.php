@@ -30,16 +30,26 @@ class FundsOrigin
     protected $precision;
 
     /**
+     * @var string
+     */
+    protected $detail;
+
+    /**
      * @return array
      */
     public function toArray(): array
     {
-        return [
-            'codeOrigin' => $this->getCodeOrigin(),
+        $result = [
+            'code' => $this->getCodeOrigin(),
             'montant' => $this->getAmount(),
             'precision' => $this->getPrecision(),
             'date' => $this->getDate()->format('Y-m-d')
         ];
+        if(null !== $this->getDetail()){
+            $result['codesDetail'][] = $this->getDetail();
+        }
+
+        return $result;
     }
 
     /**
@@ -105,7 +115,7 @@ class FundsOrigin
     /**
      * @param string $precision
      *
-     * @return FundsOrigin
+     * @return self
      */
     public function setPrecision(string $precision): self
     {
@@ -120,5 +130,24 @@ class FundsOrigin
     public function getPrecision(): string
     {
         return $this->precision;
+    }
+
+    /**
+     * @param string $detail
+     * @return self
+     */
+    public function setDetail(string $detail): self
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetail(): ?string
+    {
+        return $this->detail;
     }
 }

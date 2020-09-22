@@ -123,7 +123,7 @@ class Subscriber
     protected $nafCode;
 
     /**
-     * @var string
+     * @var int
      */
     protected $siretNumber;
 
@@ -710,10 +710,10 @@ class Subscriber
     }
 
     /**
-     * @param string $siretNumber
+     * @param int $siretNumber
      * @return Subscriber
      */
-    public function setSiretNumber(string $siretNumber): self
+    public function setSiretNumber(int $siretNumber): self
     {
         $this->siretNumber = $siretNumber;
 
@@ -721,9 +721,9 @@ class Subscriber
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSiretNumber(): string
+    public function getSiretNumber(): int
     {
         return $this->siretNumber;
     }

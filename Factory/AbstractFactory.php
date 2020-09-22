@@ -41,9 +41,21 @@ abstract class AbstractFactory implements FactoryInterface
      */
     protected function getReferentialCodes(string $referentialKey, string $contractNumber): array
     {
-        return ReferentialHandler::extractCodes(
+        return ReferentialHandler::extractReferentialCodes(
             $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
             $referentialKey
+        );
+    }
+    /**
+     * @param string $referentialKey
+     * @return array
+     */
+    protected function getSubReferentialCode(string $referentialKey, string $contractNumber, string $subReferentialKey): array
+    {
+        return ReferentialHandler::extractSubReferentialCodes(
+            $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $referentialKey,
+            $subReferentialKey
         );
     }
 
@@ -59,6 +71,19 @@ abstract class AbstractFactory implements FactoryInterface
             $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
             $referentialKey,
             $searchedAmount
+        );
+    }
+
+    /**
+     * @param string $contractNumber
+     * @param string $expectedItem
+     * @return array
+     */
+    protected function getExpectedItemCodes(string $contractNumber, string $expectedItem): array
+    {
+        return ReferentialHandler::extractExpectedItemsCode(
+            $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [$expectedItem])->getDonnees(),
+            $expectedItem
         );
     }
 

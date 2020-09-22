@@ -2,7 +2,9 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Subscriber;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 use Symfony\Component\OptionsResolver\Options;
@@ -67,6 +69,8 @@ class SubscriptionFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver, $contractNumber): void
     {
+        $beneficiaryClauseCodes = $this->getExpectedItemCodes($contractNumber, Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
+
         $resolver
             ->setRequired('externalReference1')->setAllowedTypes('externalReference1', ['string'])
             ->setDefined('externalReference2')->setAllowedTypes('externalReference2', ['string'])
@@ -87,10 +91,11 @@ class SubscriptionFactory extends AbstractFactory
             })
             ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
             ->setRequired('fiscality')->setAllowedTypes('fiscality', ['string'])
-            ->setDefined('deathBeneficiaryClauseCode')->setAllowedTypes('deathBeneficiaryClauseCode', ['string'])
+            ->setDefined('deathBeneficiaryClauseCode')->setAllowedValues('deathBeneficiaryClauseCode', $beneficiaryClauseCodes)
             ->setDefined('deathBeneficiaryClauseText')->setAllowedTypes('deathBeneficiaryClauseText', ['string'])
             ->setRequired('gestionMode')->setAllowedTypes('gestionMode', ['string'])
-            ->setRequired('duration')->setAllowedTypes('duration', ['string'])
+            ->setRequired('durationType')->setAllowedTypes('durationType', ['string'])
+            ->setDefined('duration')->setAllowedTypes('duration', ['int'])
         ;
     }
 
@@ -99,7 +104,7 @@ class SubscriptionFactory extends AbstractFactory
      */
     public function doCreate(array $resolvedData, string $contractNumber)
     {
-        return (new Subscription())
+        $subscription = (new Subscription())
             ->setExternalReference1($resolvedData['externalReference1'])
             ->setExternalReference2($resolvedData['externalReference2'])
             ->setSubscriber($resolvedData['subscriber'])
@@ -112,7 +117,12 @@ class SubscriptionFactory extends AbstractFactory
             ->setDeathBeneficiaryClauseCode($resolvedData['deathBeneficiaryClauseCode'])
             ->setDeathBeneficiaryClauseText($resolvedData['deathBeneficiaryClauseText'])
             ->setGestionMode($resolvedData['gestionMode'])
-            ->setDuration($resolvedData['duration'])
+            ->setDurationType($resolvedData['durationType'])
         ;
+        if (isset($resolvedData['duration'])) {
+            $subscription->setDuration($resolvedData['duration']);
+        }
+
+        return $subscription;
     }
 }

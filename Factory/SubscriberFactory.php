@@ -62,7 +62,7 @@ class SubscriberFactory extends AbstractFactory
             ->setDefined('cspCode')->setAllowedTypes('cspCode', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
             ->setRequired('profession')->setAllowedTypes('profession', ['string', 'null'])
             ->setDefined('nafCode')->setAllowedTypes('nafCode', ['string', 'null'])->setAllowedValues('nafCode', $availableCodeNaf)
-            ->setDefined('siretNumber')->setAllowedTypes('siretNumber', ['string', 'null'])
+            ->setDefined('siretNumber')->setAllowedTypes('siretNumber', ['int', 'null'])
             ->setDefined('employerName')->setAllowedTypes('employerName', ['string', 'null'])
             ->setDefined('cspCodeLastProfession')->setAllowedTypes('cspCodeLastProfession', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
             ->setDefined('startDateInactivity')->setAllowedTypes('startDateInactivity', ['\DateTime', 'string'])->setNormalizer('startDateInactivity', function(Options $options, $value) {

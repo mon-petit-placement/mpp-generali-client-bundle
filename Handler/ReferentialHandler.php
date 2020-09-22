@@ -67,9 +67,41 @@ class ReferentialHandler
      * @param string $referentialKey
      * @return array
      */
-    public static function extractCodes(array $data, string $referentialKey): array
+    public static function extractReferentialCodes(array $data, string $referentialKey): array
     {
         $extractedData = self::getReferentialKeyData($data, $referentialKey);
+
+        return array_map(function($value) {
+            return $value['code'];
+        }, $extractedData);
+    }
+    /**
+     * @param array $data
+     * @param string $referentialKey
+     * @return array
+     */
+    public static function extractSubReferentialCodes(array $data, string $referentialKey, string $subReferentialKey): array
+    {
+        $extractedData = self::getReferentialKeyData($data, $referentialKey);
+
+        foreach($extractedData as $data) {
+            if (isset($data[$subReferentialKey])) {
+                return array_map(function($value) {
+                    return $value['code'];
+                }, $data[$subReferentialKey]);
+            }
+        }
+        throw new \UnexpectedValueException(sprintf('The data does not contains %s field ', $subReferentialKey));
+    }
+
+    /**
+     * @param array $data
+     * @param string $expectedItem
+     * @return array
+     */
+    public static function extractExpectedItemsCode(array $data, string $expectedItem): array
+    {
+        $extractedData = self::getExpectedItemsKeyData($data, $expectedItem);
 
         return array_map(function($value) {
             return $value['code'];
@@ -123,9 +155,22 @@ class ReferentialHandler
         }
 
         if (!isset($data[Context::EXPECTED_ITEM_REFERENTIEL][$referentialKey])) {
-            throw new \UnexpectedValueException(sprintf('The given referential does not contains %s key ', $referentialKey));
+            throw new \UnexpectedValueException(sprintf('The given referential does not contains %s key ', Context::EXPECTED_ITEM_REFERENTIEL));
         }
 
         return $data[Context::EXPECTED_ITEM_REFERENTIEL][$referentialKey];
+    }
+    /**
+     * @param array $data
+     * @param string $referentialKey
+     * @return mixed
+     */
+    private static function getExpectedItemsKeyData(array $data, string $expectedItem): array
+    {
+        if (!isset($data[$expectedItem])) {
+            throw new \UnexpectedValueException(sprintf('The data does not contains %s field ', $expectedItem));
+        }
+
+        return $data[$expectedItem];
     }
 }

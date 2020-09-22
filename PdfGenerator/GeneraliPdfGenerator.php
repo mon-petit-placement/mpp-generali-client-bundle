@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mpp\GeneraliClientBundle\PdfGenerator;
 
+use Mpp\GeneraliClientBundle\Model\Document;
+use Mpp\GeneraliClientBundle\Model\Subscription;
 use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\Options;
@@ -56,9 +58,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
             ->setRequired('resp')->setAllowedTypes('resp', ['array'])->setNormalizer('resp', function (Options $options, $value) {
                 $resolver = new OptionsResolver();
                 $resolver
-                    ->setRequired('civility')->setAllowedValues('civility', SubscriptionConstant::AVAILABLE_CIVILITY)->setNormalizer('civility', function (Options $options, $value) {
-                        return SubscriptionConstant::CIVILITY_MAP[$value]['code'];
-                    })
+                    ->setRequired('civility')->setAllowedTypes('civility', ['string'])
                     ->setRequired('lastname')->setAllowedTypes('lastname', ['string'])
                     ->setRequired('firstname')->setAllowedTypes('firstname', ['string'])
                     ->setRequired('birthname')->setAllowedTypes('birthname', ['string'])
@@ -71,28 +71,16 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                     })
                     ->setRequired('birthZipcode')->setAllowedTypes('birthZipcode', ['integer'])
                     ->setRequired('birthCity')->setAllowedTypes('birthCity', ['string'])
-                    ->setRequired('birthCountry')->setAllowedValues('birthCountry', SubscriptionConstant::AVAILABLE_COUNTRY)->setNormalizer('birthCountry', function (Options $options, $value) {
-                        return SubscriptionConstant::COUNTRY_MAP[$value]['code'];
-                    })
+                    ->setRequired('birthCountry')->setAllowedTypes('birthCountry', ['string'])
                     ->setRequired('nationality')->setAllowedTypes('nationality', ['string'])
-                    ->setRequired('taxCountry')->setAllowedValues('taxCountry', SubscriptionConstant::AVAILABLE_COUNTRY)->setNormalizer('taxCountry', function (Options $options, $value) {
-                        return SubscriptionConstant::COUNTRY_MAP[$value]['code'];
-                    })
+                    ->setRequired('taxCountry')->setAllowedTypes('taxCountry', ['string'])
                     ->setRequired('phoneNumber')->setAllowedTypes('phoneNumber', ['string'])
                     ->setRequired('email')->setAllowedTypes('email', ['string'])
-                    ->setDefined('identityDocumentType')->setAllowedValues('identityDocumentType', SubscriptionConstant::AVAILABLE_IDENTITY_DOC)->setNormalizer('identityDocumentType', function (Options $options, $value) {
-                        return SubscriptionConstant::IDENTITY_DOC_MAP[$value]['code'];
-                    })
-                    ->setRequired('maritalStatus')->setAllowedValues('maritalStatus', SubscriptionConstant::AVAILABLE_FAMILY_SITUATION)->setNormalizer('maritalStatus', function (Options $options, $value) {
-                        return SubscriptionConstant::FAMILY_SITUATION_MAP[$value]['code'];
-                    })
-                    ->setDefined('matrimonialRegime')->setAllowedValues('matrimonialRegime', SubscriptionConstant::AVAILABLE_MATRIMONIAL_REGIME)->setNormalizer('matrimonialRegime', function (Options $options, $value) {
-                        return SubscriptionConstant::MATRIMONIAL_REGIME_MAP[$value]['code'];
-                    })
+                    ->setDefined('identityDocumentType')->setAllowedTypes('identityDocumentType', ['string'])
+                    ->setRequired('maritalStatus')->setAllowedTypes('maritalStatus', ['string'])
+                    ->setDefined('matrimonialRegime')->setAllowedTypes('matrimonialRegime',['string'])
                     ->setRequired('nbChildren')->setAllowedTypes('nbChildren', ['integer'])
-                    ->setRequired('professionalStatus')->setAllowedValues('professionalStatus', SubscriptionConstant::AVAILABLE_PROFESSIONAL_SITUATION)->setNormalizer('professionalStatus', function (Options $options, $value) {
-                        return SubscriptionConstant::PROFESSIONAL_SITUATION_MAP[$value]['code'];
-                    })
+                    ->setRequired('professionalStatus')->setAllowedtypes('professionalStatus', ['string'])
                     ->setRequired('socioprofessionalCategory')->setAllowedTypes('socioprofessionalCategory', ['string'])
                     ->setRequired('activityArea')->setAllowedTypes('activityArea', ['string'])
                     ->setRequired('employer')->setAllowedTypes('employer', ['string'])
@@ -102,9 +90,7 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
                         return $value->format('Y-m-d');
                     })
                     ->setRequired('incomeCategory')->setAllowedTypes('incomeCategory', ['string'])
-                    ->setRequired('patrimonyCategory')->setAllowedValues('patrimonyCategory', SubscriptionConstant::AVAILABLE_PERSONAL_ASSETS)->setNormalizer('patrimonyCategory', function (Options $options, $value) {
-                        return SubscriptionConstant::PERSONAL_ASSETS_MAP[$value]['code'];
-                    })
+                    ->setRequired('patrimonyCategory')->setAllowedTypes('patrimonyCategory', ['string'])
                     ->setRequired('percentFinancialInstruments')->setAllowedTypes('percentFinancialInstruments', ['string'])
                     ->setRequired('percentSavings')->setAllowedTypes('percentSavings', ['string'])
                     ->setRequired('percentCapitalizationContracts')->setAllowedTypes('percentCapitalizationContracts', ['string'])
@@ -189,17 +175,18 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
 
     /**
      * @param string $template
-     * @param array  $parameters
+     * @param Subscription  $subscription
      *
-     * @return string
+     * @return Document
      *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function generateFile(string $template, array $parameters): string
+    public function generateFile(string $template, array $parameters): Document
     {
         $resolvedParameters = $this->resolveFileParameters($parameters);
+
         $html = $this->twig->render($template, $resolvedParameters);
         $this->logger->info('[Generali - pdfGenerator.renderHtml] SUCCESS');
 
@@ -214,12 +201,123 @@ class GeneraliPdfGenerator implements GeneraliPdfGeneratorInterface
         $filename = hash('sha1', json_encode($resolvedParameters)).'.pdf';
 
         file_put_contents(
-            $this->exportPathFile.$filename,
+            $this->getExportPathFile().$filename,
             $result->getBody()->getContents()
         );
 
         $this->logger->info('[Generali - pdfGenerator.exportPdf] SUCCESS');
 
-        return $filename;
+        return (new Document())
+            ->setFilename($filename)
+            ->setFilePath($this->getExportPathFile())
+            ->setTitle('Debit mandate');
+    }
+
+    /**
+     * @param Subscription $subscription
+     * @return array
+     * @throws \Exception
+     */
+    public function subscriptionToFileMapper(Subscription $subscription): array
+    {
+        $response = [];
+
+        $subscriber = $subscription->getSubscriber();
+        $folder = $subscription->getCustomerFolder();
+        $settlement = $subscription->getSettlement();
+
+        $response['resp'] = [
+            'civility'=> $subscriber->getCivility(),
+            'lastname'=> $subscriber->getLastName(),
+            'firstname'=> $subscriber->getFirstName(),
+            'birthname'=> $subscriber->getBirthName(),
+            'address'=> $subscriber->getAddressPostBox() .' '.$subscriber->getAddressStreetName(),
+            'zipcode'=> $subscriber->getAddressPostalCode(),
+            'city'=> $subscriber->getAddressCity(),
+            'country'=> $subscriber->getAddressCountryCode(),
+            'birthdate'=> $subscriber->getBirthDate(),
+            'birthZipcode'=> $subscriber->getBirthPostalCode(),
+            'birthCity'=> $subscriber->getBirthInseeCode(),
+            'birthCountry'=> $subscriber->getBirthCountry(),
+            'nationality'=> $subscriber->getNationality(),
+            'taxCountry'=> $subscriber->getTaxCountry(),
+            'phoneNumber'=> $subscriber->getPhoneNumber(),
+            'email'=> $subscriber->getEmail(),
+            'identityDocumentType'=> $subscriber->getIdentityDocCode(),
+            'maritalStatus'=> $subscriber->getFamilialSituation(),
+            'matrimonialRegime'=> $subscriber->getMatrimonialRegime(),
+            'nbChildren'=> 000000000, //TODO
+            'professionalStatus'=> $subscriber->getProfessionalSituation(),
+            'socioprofessionalCategory'=> $subscriber->getCspCode(),
+            'activityArea'=> 'toto',
+            'employer'=> $subscriber->getEmployerName(),
+            'siretNumber'=> $subscriber->getSiretNumber(),
+            'job'=> $subscriber->getProfession(),
+            'activityEndDate'=> $subscriber->getStartDateInactivity(),
+            'incomeCategory'=> $folder->getIncomeCode(),
+            'patrimonyCategory'=> $folder->getAssetCode(),
+            'percentEstate'=> 'toto',
+            'percentFinancialInstruments'=> 'toto',
+            'percentSavings'=> 'toto',
+            'percentCapitalizationContracts'=> 'toto',
+            'percentOthers'=> 'toto',
+            'patrimonyOrigins'=> 'toto',
+            'goals'=> 'toto',
+            'durationCategory'=> $subscription->getDurationType(),
+            'beneficiaryClause'=> $subscription->getDeathBeneficiaryClauseCode(),
+            'initialInvestment'=> 'toto',
+            'todayDate'=> new \DateTime('now'),
+            'contractId'=> 'toto', //TODO idTransaction ?
+            'establishmentCode'=> 'toto',
+            'counter'=> 'toto',
+            'accountNumber'=> 'toto',
+            'ribKey'=> 'toto',
+            'iban'=> $settlement->getAccountIban(),
+            'bic'=> $settlement->getAccountBic(),
+            'monthlyInvestment'=> 'toto',
+        ];
+
+        $funds_origin = [];
+
+        foreach ($settlement->getFundsOrigin() as $fundOrigin) {
+            $funds_origin[] = [
+                'label' => $fundOrigin->getCode(),
+                'date' => $fundOrigin->getDate(),
+                'amount' => $fundOrigin->getAmount(),
+            ];
+        }
+        $response['resp']['fundsOrigins'] = $funds_origin;
+
+        $response['otherTaxCountry'] = 'toto';
+        $response['taxCountry'] = 'toto';
+        $response['nif'] = 'toto';
+        $response['taxAddress'] = 'toto';
+        $response['noDematerialization'] = 'toto';
+
+        $response['resp']['initialRepartition'] = [
+            [
+                'name'=> 'toto',
+                'isin'=> 'toto',
+                'percent'=> 'toto',
+            ], [
+                'name'=> 'toto',
+                'isin'=> 'toto',
+                'percent'=> 'toto',
+            ]
+        ];
+
+        $response['resp']['monthlyRepartition'] = [
+            [
+                'name'=> 'toto',
+                'isin'=> 'toto',
+                'percent'=> 'toto',
+            ],[
+                'name'=> 'toto',
+                'isin'=> 'toto',
+                'percent'=> 'toto',
+            ]
+        ];
+
+        return $response;
     }
 }

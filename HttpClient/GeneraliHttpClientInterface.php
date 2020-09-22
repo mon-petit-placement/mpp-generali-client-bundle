@@ -4,6 +4,7 @@ namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Context;
+use Mpp\GeneraliClientBundle\Model\Document;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
@@ -39,6 +40,15 @@ interface GeneraliHttpClientInterface
     public function retrieveTransactionSubscriptionData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
+     * Create a Context with providerCode, SubscriptionCode
+     *
+     * @param array $parameters
+     * @param array $expectedItems
+     * @return Context
+     */
+    public function buildContext(array $parameters = [], array $expectedItems = []): Context;
+
+    /**
      * Create a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.
      *
      * path: /epart/v2.0/transaction/souscription/initier
@@ -52,19 +62,82 @@ interface GeneraliHttpClientInterface
      *
      * @return SubscriptionResponse
      */
-    public function createSubscription(Context $context, Subscription $subscription, string $comment = null, bool $dematerialization = true): SubscriptionResponse;
+    public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): SubscriptionResponse;
 
     /**
-     * Finalize a Subscription with a token Status.
+     * Initiate a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.
      *
-     * path: /epart/v2.0/transaction/souscription/finaliser
+     * path: /epart/v2.0/transaction/souscription/initier
+     *
+     * @param Context              $context
+     * @param Subscription         $subscription
+     * @param string               $comment
+     * @param bool                 $dematerialization
+     *
+     * @return SubscriptionResponse
+     */
+    public function initiateSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): SubscriptionResponse;
+
+    /**
+     * Check a Subscription with a Context, a SubscriptionResponse
+     *
+     * path: /epart/v2.0/transaction/souscription/verifier
+     *
+     * @param Context              $context
+     * @param SubscriptionResponse $response
+     *
+     * @return SubscriptionResponse
+     */
+    public function checkSubscription(Context $context, SubscriptionResponse $response): SubscriptionResponse;
+
+    /**
+     * Confirm a Subscription with a Context, a SubscriptionResponse, and get the required documents to send
+     *
+     * path: /epart/v2.0/transaction/souscription/confirmer
+     *
+     * @param Context              $context
+     * @param SubscriptionResponse $response
+     *
+     * @return SubscriptionResponse
+     */
+    public function confirmSubscription(Context $context, SubscriptionResponse $response): SubscriptionResponse;
+
+    /**
+     * Send a document to the API Generali with a SubscriptionResponse, and get the required documents to send
+     *
+     * path: /epart/v1.0/transaction/fournirPiece/{idTransaction}/{idDocument}
+     *
+     * @param Context              $context
+     * @param SubscriptionResponse $response
+     *
+     * @return SubscriptionResponse
+     */
+    public function sendSubscriptionFile(SubscriptionResponse $response, string $idTransaction, Document $document): SubscriptionResponse;
+
+    /**
+     * list all the files the customer need to send for the subscription with a SubscriptionResponse, and the idTransaction
+     *
+     * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/souscription
+     *
+     * @param Context              $context
+     * @param SubscriptionResponse $response
+     *
+     * @return SubscriptionResponse
+     */
+    public function listSubscriptionFiles(SubscriptionResponse $response, string $idTransaction): SubscriptionResponse;
+
+    /**
+     * Finalize a Subscription with a Context, a SubscriptionResponse, the list of Document to send
+     *
+     * path: /epart/v2.0/transaction/souscription/finalisser
      *
      * @param Context $context
-     * @param array $filesToSend
+     * @param SubscriptionResponse $response
+     * @param array<Document> $documents
      *
      * @return TransactionOrder
      */
-    public function finalizeSubscription(Context $context, array $filesToSend): TransactionOrder;
+    public function finalizeSubscription(Context $context, SubscriptionResponse $response, array $documents): SubscriptionResponse;
 
     /**
      * Retrieve free payment informations with contractNumber & expectedItems.
@@ -353,30 +426,4 @@ interface GeneraliHttpClientInterface
      * @return TransactionOrder
      */
     public function finalizeArbitration(array $expectedItems, array $arbitration): TransactionOrder;
-
-    /**
-     * Send File needed, after confirm Request, for the subscription and Free Payment.
-     *
-     *  path: '/epart/v1.0/transaction/fournirPiece/{idTransaction}/{idPieceAFournir}
-     *
-     * @param string $idTransaction
-     * @param string $idPieceAFournir
-     * @param string $path
-     * @param string $fileName
-     *
-     * @return array
-     */
-    public function sendFile(string $idTransaction, string $idPieceAFournir, string $path, string $fileName): array;
-
-    /**
-     * List all the files sent, and the file to send for a subscription or a Free Payment.
-     *
-     * /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/{product}
-     *
-     * @param string $idTransaction
-     * @param string $product
-     *
-     * @return array
-     */
-    public function listFile(string $idTransaction, string $product): array;
 }

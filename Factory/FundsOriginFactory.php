@@ -21,10 +21,12 @@ class FundsOriginFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $allowedCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber);
+        $allowedDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber, 'detail');
 
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $allowedCodeOrigin)
-            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setDefined('detail')->setAllowedTypes('detail', ['string'])->setAllowedValues('detail', $allowedDetailCode)
+            ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
             ->setDefined('date')->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function(Options $options, $value) {
                 if ($value instanceof \DateTime) {
                     return $value;
@@ -45,6 +47,7 @@ class FundsOriginFactory extends AbstractFactory
             ->setPrecision($resolvedData['precision'])
             ->setAmount($resolvedData['amount'])
             ->setDate($resolvedData['date'])
+            ->setDetail($resolvedData['detail'])
             ->setCodeOrigin($resolvedData['codeOrigin'])
         ;
     }

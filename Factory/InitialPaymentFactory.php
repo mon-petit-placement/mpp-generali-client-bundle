@@ -35,7 +35,7 @@ class InitialPaymentFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver, string $contractNumber): void
     {
         $resolver
-            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
             ->setRequired('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) use ($contractNumber) {
                 $resolvedValues = [];
                 foreach ($values as $value) {

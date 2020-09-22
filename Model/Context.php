@@ -9,21 +9,32 @@ class Context
 {
     const EXPECTED_ITEM_REFERENTIEL = 'referentiel';
     const EXPECTED_ITEM_BENEFICIARY_CLAUSE = 'clausesBenefs';
-//    const EXPECTED_ITEM_REFERENTIEL = 'garantiesPrevoyance';
-//    const EXPECTED_ITEM_REFERENTIEL = 'modesReglementAutorises';
-//    const EXPECTED_ITEM_REFERENTIEL = 'modesGestion';
-//    const EXPECTED_ITEM_REFERENTIEL = 'infoProduit';
-//    const EXPECTED_ITEM_REFERENTIEL = 'fiscalites';
-//    const EXPECTED_ITEM_REFERENTIEL = 'typesDuree';
-//    const EXPECTED_ITEM_REFERENTIEL = 'typesDenouement';
-//    const EXPECTED_ITEM_REFERENTIEL = 'combinaisonsPossiblesSouscription';
-//    const EXPECTED_ITEM_REFERENTIEL = 'paramVersementInitial';
-//    const EXPECTED_ITEM_REFERENTIEL = 'paramVersementLibreProgramme';
-//    const EXPECTED_ITEM_REFERENTIEL = 'paramRachatPartielProgramme';
+    const EXPECTED_ITEM_PROVIDENT_GUARANTEES = 'garantiesPrevoyance';
+    const EXPECTED_ITEM_PAYMENT_MODES = 'modesReglementAutorises';
+    const EXPECTED_ITEM_GESTION_MODE = 'modesGestion';
+    const EXPECTED_ITEM_PRODUCT_INFO = 'infoProduit';
+    const EXPECTED_ITEM_FISCALITY = 'fiscalites';
+    const EXPECTED_ITEM_DURATION_TYPE = 'typesDuree';
+    const EXPECTED_ITEM_DENOUEMENT_TYPE = 'typesDenouement';
+    const EXPECTED_ITEM_POSSIBLE_COMBINAISONS = 'combinaisonsPossiblesSouscription';
+    const EXPECTED_ITEM_FREE_PAYMENT_PARAMETERS = 'paramVersementInitial';
+    const EXPECTED_ITEM_SCHEDULED_FREE_PAYMENT_PARAMETERS = 'paramVersementLibreProgramme';
+    const EXPECTED_ITEM_PARTIAL_SURRENDER_PARAMETERS = 'paramRachatPartielProgramme';
 
     const AVAILABLE_EXPECTED_ITEMS = [
         self::EXPECTED_ITEM_REFERENTIEL,
         self::EXPECTED_ITEM_BENEFICIARY_CLAUSE,
+        self::EXPECTED_ITEM_PROVIDENT_GUARANTEES,
+        self::EXPECTED_ITEM_PAYMENT_MODES,
+        self::EXPECTED_ITEM_GESTION_MODE,
+        self::EXPECTED_ITEM_PRODUCT_INFO,
+        self::EXPECTED_ITEM_FISCALITY,
+        self::EXPECTED_ITEM_DURATION_TYPE,
+        self::EXPECTED_ITEM_DENOUEMENT_TYPE,
+        self::EXPECTED_ITEM_POSSIBLE_COMBINAISONS,
+        self::EXPECTED_ITEM_FREE_PAYMENT_PARAMETERS,
+        self::EXPECTED_ITEM_SCHEDULED_FREE_PAYMENT_PARAMETERS,
+        self::EXPECTED_ITEM_PARTIAL_SURRENDER_PARAMETERS,
     ];
 
     /**
@@ -78,7 +89,6 @@ class Context
     {
         return [
           'codeApporteur' => $this->getProviderCode(),
-          'numContrat' => $this->getContractNumber(),
           'codeSouscription' => $this->getSubscriptionCode(),
         ];
     }
@@ -146,7 +156,7 @@ class Context
     /**
      * @return string
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -154,7 +164,7 @@ class Context
     /**
      * @return string
      */
-    public function getProviderCode(): string
+    public function getProviderCode(): ?string
     {
         return $this->providerCode;
     }
@@ -184,7 +194,7 @@ class Context
     /**
      * @return string
      */
-    public function getSubscriptionCode(): string
+    public function getSubscriptionCode(): ?string
     {
         return $this->subscriptionCode;
     }
@@ -230,7 +240,7 @@ class Context
     /**
      * @return string
      */
-    public function getContractNumber(): string
+    public function getContractNumber(): ?string
     {
         return $this->contractNumber;
     }
@@ -249,7 +259,7 @@ class Context
     /**
      * @return string
      */
-    public function getUser(): string
+    public function getUser(): ?string
     {
         return $this->user;
     }
