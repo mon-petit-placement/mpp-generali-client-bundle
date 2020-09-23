@@ -32,7 +32,22 @@ class Document
      */
     private $required;
 
+    /**
+     * @var bool
+     */
+    private $alreadySent;
 
+    /**
+     * Document constructor.
+     */
+    public function __construct()
+    {
+        $this->alreadySent = false;
+    }
+
+    /**
+     * @return string
+     */
     public function getIdDocument(): string
     {
         return $this->idDocument;
@@ -40,7 +55,7 @@ class Document
 
     /**
      * @param string $idDocument
-     * @return Document
+     * @return self
      */
     public function setIdDocument(string $idDocument): self
     {
@@ -121,6 +136,25 @@ class Document
     public function setRequired(bool $required): self
     {
         $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAlreadySent(): bool
+    {
+        return $this->alreadySent;
+    }
+
+    /**
+     * @param bool $alreadySent
+     * @return self
+     */
+    public function setAlreadySent(bool $alreadySent): self
+    {
+        $this->alreadySent = $alreadySent;
 
         return $this;
     }

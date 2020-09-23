@@ -158,7 +158,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param Context $context
+     * @param Subscription $subscription
+     * @param bool $dematerialization
+     * @param string|null $comment
+     * @return SubscriptionResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): SubscriptionResponse
     {
@@ -227,16 +232,17 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      * @param Context $context
+     * @return SubscriptionResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function checkSubscription(Context $context, SubscriptionResponse $response): SubscriptionResponse
+    public function checkSubscription(Context $context): SubscriptionResponse
     {
+        $response= new SubscriptionResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CHECK, [
                 'body' => json_encode(['contexte' => $context->arrayToCheck()]),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
-            dump($decodedRawResponse);
 
             $this->logger->info(sprintf(
                 '[Generali - httpClient.createSubscription.check %s ] SUCCESS',
@@ -257,11 +263,13 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      * @param Context $context
-     * @return mixed
+     * @return SubscriptionResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function confirmSubscription(Context $context, SubscriptionResponse $response): SubscriptionResponse
+    public function confirmSubscription(Context $context): SubscriptionResponse
     {
+        $response = new SubscriptionResponse();
+
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CONFIRM, [
                 'body' => json_encode([
@@ -275,7 +283,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             ]);
 
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
-            dump($decodedRawResponse);
             $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
 
             $this->logger->info(sprintf(
@@ -301,10 +308,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param string $idTransaction
      * @param string $fileName
      * @param Document $documents
-     * @return array|mixed
+     * @return SubscriptionResponse
      */
-    public function sendSubscriptionFile(SubscriptionResponse $response, string $idTransaction, Document $document): SubscriptionResponse
+    public function sendSubscriptionFile(string $idTransaction, Document $document): SubscriptionResponse
     {
+        $response = new SubscriptionResponse();
+
         $fileName = $document->getFilename();
 
         $file = new UploadedFile($document->getFilePath().$fileName, $fileName);
@@ -346,17 +355,18 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param SubscriptionResponse $response
      * @param string $idTransaction
      * @return SubscriptionResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function listSubscriptionFiles(SubscriptionResponse $response, string $idTransaction): SubscriptionResponse
+    public function listSubscriptionFiles(string $idTransaction): SubscriptionResponse
     {
         $path = sprintf(
             '/epart/v1.0/transaction/piecesAFournir/list/%s/souscription',
             $idTransaction
         );
+
+        $response = new SubscriptionResponse();
 
         try {
             $response = $this->httpClient->get($path);
@@ -365,10 +375,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $path
             ));
             $contents = json_decode($response->getBody()->getContents(), true);
-            $response
-                ->setRequiredDocuments([])
-                ->setMessage(null)
-            ;
 
             foreach ($contents['donnees']['piecesAFournir'] as $docToGive) {
                 $document = (new Document())
@@ -396,13 +402,14 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *  Finalize a Subscription with a token Status.
      **
      * @param Context $context
-     * @param SubscriptionResponse $response
      * @param array<Document> $documents
      *
      * @return TransactionOrder
      */
-    public function finalizeSubscription(Context $context, SubscriptionResponse $response, array $documents): SubscriptionResponse
+    public function finalizeSubscription(Context $context, array $documents): SubscriptionResponse
     {
+        $response = new SubscriptionResponse();
+
         foreach ($documents as $document) {
             $response = $this->sendSubscriptionFile($response, $context->getIdTransaction(), $document);
             if (!empty($response->getMessage())) {
@@ -471,9 +478,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $freePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function checkFreePayment(array $expectedItems, array $freePayment): array
+    public function checkFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
     {
         return [];
     }
@@ -486,9 +493,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $freePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function confirmFreePayment(array $expectedItems, array $freePayment): array
+    public function confirmFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
     {
         return [];
     }
@@ -501,9 +508,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $freePayment
      *
-     * @return TransactionOrder
+     * @return SubscriptionResponse
      */
-    public function finalizeFreePayment(array $expectedItems, array $freePayment): TransactionOrder
+    public function finalizeFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
     {
         return [];
     }
@@ -545,9 +552,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $scheduledFreePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function checkScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array
+    public function checkScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
@@ -560,9 +567,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $scheduledFreePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function confirmScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array
+    public function confirmScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
@@ -575,9 +582,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $scheduledFreePayment
      *
-     * @return TransactionOrder
+     * @return SubscriptionResponse
      */
-    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): TransactionOrder
+    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
@@ -590,9 +597,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $scheduledFreePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function suspendScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array
+    public function suspendScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
@@ -620,9 +627,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $scheduledFreePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function checkEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array
+    public function checkEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
@@ -635,9 +642,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $scheduledFreePayment
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function confirmEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): array
+    public function confirmEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
@@ -679,9 +686,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $partialSurrender
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function checkPartialSurrender(array $expectedItems, array $partialSurrender): array
+    public function checkPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
     {
         return [];
     }
@@ -694,9 +701,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $partialSurrender
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function confirmPartialSurrender(array $expectedItems, array $partialSurrender): array
+    public function confirmPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
     {
         return [];
     }
@@ -709,9 +716,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $partialSurrender
      *
-     * @return TransactionOrder
+     * @return SubscriptionResponse
      */
-    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): TransactionOrder
+    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
     {
         return [];
     }
@@ -735,12 +742,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/initier
      *
-     * @param array $expectedItems
-     * @param array $arbitration
+     * @param Context $context
+     * @param Arbitration $arbitration
      *
      * @return SubscriptionResponse
      */
-    public function initiateArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
+    public function initiateArbitration(Context $context, Arbitration $arbitration): SubscriptionResponse
     {
         return [];
     }
@@ -753,9 +760,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $arbitration
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function checkArbitration(array $expectedItems, array $arbitration): array
+    public function checkArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
     {
         return [];
     }
@@ -768,9 +775,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $arbitration
      *
-     * @return array
+     * @return SubscriptionResponse
      */
-    public function confirmArbitration(array $expectedItems, array $arbitration): array
+    public function confirmArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
     {
         return [];
     }
@@ -783,9 +790,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      * @param array $expectedItems
      * @param array $arbitration
      *
-     * @return TransactionOrder
+     * @return SubscriptionResponse
      */
-    public function finalizeArbitration(array $expectedItems, array $arbitration): TransactionOrder
+    public function finalizeArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
     {
         return [];
     }

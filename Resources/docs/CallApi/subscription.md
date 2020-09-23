@@ -1,7 +1,8 @@
-How to use Subscription with Generali:
--------------
-####To initiate your service:
+# Generali Subscription
 
+## How to create a Subscription ?
+
+To easily handle Generali API calls, the bundle provides a httpClient service. Here is an example on how to retrieve this service in your Symfony Application using Dependancy Injection:
 ```php
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
  
@@ -16,185 +17,205 @@ public function __construct(GeneraliHttpClientInterface $httpClient)
 {
     $this->httpClient = $httpClient;
 }
-
-...
-
 ````
 
-First you have to build an object $context wich will contain your subscription's code, your intermediary code given by your .env.local
+First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
 ````php
 $context = $this->httpClient->buildContext();
 ````
 
-Then you build your $subscription using the subsriptionFactory with the following structure:
-
+Then you build your $subscription using the SubsriptionFactory with the following structure:
 ````php
-    $amount_1 = 5000;
-            $amount_2 = 500;
-            $subscription = $this->subscriptionFactory->create([
-                    'externalReference1' => 'toto',
-                    'externalReference2' => 'toto',
-                    'paymentType' => 'PRELEVEMENT',
-                    'fiscality' => 'ASSURANCE_VIE',
-                    'deathBeneficiaryClauseCode' => 'clause.A',
-                    'deathBeneficiaryClauseText' => 'toto',
-                    'gestionMode' => 'param.70017002.LIBRE.Gestionlibre0',
-                    'durationType' => 'VIE_ENTIERE',
-                    'subscriber' => [
-                        'lastName' => 'toto',
-                        'firstName' => 'toto',
-                        'birthName' => 'toto',
-                        'familialSituation' => '5',
-                        'professionalSituation' => 'SAL',
-                        'civility' => 'MONSIEUR',
-                        'taxCountry' => 'XXXXXFRANCE',
-                        'nationality' => 'XXXXXFRANCE',
-                        'birthDate' => \DateTime::createFromFormat('Y-m-d', '1980-01-01'),
-                        'birthPlace' => 'toto',
-                        'birthCountry' => 'XXXXXFRANCE',
-                        'birthPostalCode' => '65454',
-                        'birthDepartmentCode' => '01',
-                        'legalCapacity' => '0',
-                        'matrimonialRegime' => '3',
-                        'cspCode' => '63',
-                        'profession' => 'toto',
-                        'nafCode' => '14',
-                        'siretNumber' => 00000000000000,
-                        'employerName' => 'MON PETIT PLACEMENT',
-                        'cspCodeLastProfession' => '32',
-                        'startDateInactivity' => \DateTime::createFromFormat('Y-m-d', '2000-01-01'),
-                        'phoneNumber' => '0303030303',
-                        'cellPhoneNumber' => '0606060606',
-                        'email' => 'toto',
-                        'identityDocCode' => 'FE21',
-                        'identityDocValidityDate' => \DateTime::createFromFormat('Y-m-d', '2030-01-01'),
-                        'addressPostalCode' => '65454',
-                        'addressCity' => 'toto',
-                        'addressCountryCode' => 'XXXXXFRANCE',
-                        'addressStreetName' => 'toto',
-                        'addressDropOffPoint' => 'toto',
-                        'addressGeographicPoint' => 'toto',
-                        'addressPostBox' => 'toto',
-                    ],
-                    'customerFolder' => [
-                        'assetAmount' => 65400.25,
-                        'incomeAmount' => 6540.25,
-                        'payoutTargets' => [
-                            [
-                                'targetCode' => '1',
-                                'precision' => 'toto',
-                            ]
-                        ],
-                        'assetsOrigin' => [
-                            [
-                                'codeOrigin' => '1',
-                                'precision' => 'toto',
-                            ],
-                            [
-                                'codeOrigin' => '2',
-                                'precision' => 'toto',
-                            ]
-                        ],
-                        'assetsRepartition' => [
-                            [
-                                'codeRepartition' => '1',
-                                'percentRepartition' => 0.5,
-                                'precision' => 'toto'
-                            ], [
-                                'codeRepartition' => '3',
-                                'percentRepartition' => 0.5,
-                                'precision' => 'toto'
-                            ]
-                        ]
-                    ],
-                    'settlement'=> [
-                        'paymentType' => 'toto',
-                        'bankName' => 'toto',
-                        'accountOwner' => 'toto',
-                        'accountIban' => 'FR0000000000000000000000000',
-                        'accountBic' => 'toto',
-                        'debitAuthorization' => true,
-                        'fundsOrigin' => [
-                            [
-                                'codeOrigin' => '1',
-                                'detail' => '2',
-                                'amount' => $amount_1 + 12 * $amount_2,
-                                'date' => \DateTime::createFromFormat('Y-m-d', '2020-01-01'),
-                                'precision' => 'toto',
-                            ]
-                        ],
-                    ],
-                    'initialPayment'=> [
-                        'amount' => $amount_1,
-                        'repartition'=> [
-                            [
-                                'amount' => $amount_1,
-                                'fundsCode' => 'TECHNIPC',
-                            ]
-                        ]
-                    ],
-                    'scheduledFreePayment' => [
-                        'bankDebitDay' => 10,
-                        'amount' => $amount_2,
-                        'periodicity' => 'MENSUELLE',
-                        'repartition' => [
-                            [
-                                'amount' => $amount_2,
-                                'fundsCode' => 'TECHNIPC',
-                            ],
-                        ]
-                    ]
-                ], $this->contractNumber);
-    
- 
-            
+$amount_1 = 5000;
+$amount_2 = 500;
+
+$subscription = $this->subscriptionFactory->create([
+    'externalReference1' => 'toto',
+    'externalReference2' => 'toto',
+    'paymentType' => 'PRELEVEMENT',
+    'fiscality' => 'ASSURANCE_VIE',
+    'deathBeneficiaryClauseCode' => 'clause.A',
+    'deathBeneficiaryClauseText' => 'toto',
+    'gestionMode' => 'param.70017002.LIBRE.Gestionlibre0',
+    'durationType' => 'VIE_ENTIERE',
+    'subscriber' => [
+        'lastName' => 'toto',
+        'firstName' => 'toto',
+        'birthName' => 'toto',
+        'familialSituation' => '5',
+        'professionalSituation' => 'SAL',
+        'civility' => 'MONSIEUR',
+        'taxCountry' => 'XXXXXFRANCE',
+        'nationality' => 'XXXXXFRANCE',
+        'birthDate' => \DateTime::createFromFormat('Y-m-d', '1980-01-01'),
+        'birthPlace' => 'toto',
+        'birthCountry' => 'XXXXXFRANCE',
+        'birthPostalCode' => '65454',
+        'birthDepartmentCode' => '01',
+        'legalCapacity' => '0',
+        'matrimonialRegime' => '3',
+        'cspCode' => '63',
+        'profession' => 'toto',
+        'nafCode' => '14',
+        'siretNumber' => 00000000000000,
+        'employerName' => 'MON PETIT PLACEMENT',
+        'cspCodeLastProfession' => '32',
+        'startDateInactivity' => \DateTime::createFromFormat('Y-m-d', '2000-01-01'),
+        'phoneNumber' => '0303030303',
+        'cellPhoneNumber' => '0606060606',
+        'email' => 'toto',
+        'identityDocCode' => 'FE21',
+        'identityDocValidityDate' => \DateTime::createFromFormat('Y-m-d', '2030-01-01'),
+        'addressPostalCode' => '65454',
+        'addressCity' => 'toto',
+        'addressCountryCode' => 'XXXXXFRANCE',
+        'addressStreetName' => 'toto',
+        'addressDropOffPoint' => 'toto',
+        'addressGeographicPoint' => 'toto',
+        'addressPostBox' => 'toto',
+    ],
+    'customerFolder' => [
+        'assetAmount' => 65400.25,
+        'incomeAmount' => 6540.25,
+        'payoutTargets' => [
+            [
+                'targetCode' => '1',
+                'precision' => 'toto',
+            ]
+        ],
+        'assetsOrigin' => [
+            [
+                'codeOrigin' => '1',
+                'precision' => 'toto',
+            ],
+            [
+                'codeOrigin' => '2',
+                'precision' => 'toto',
+            ]
+        ],
+        'assetsRepartition' => [
+            [
+                'codeRepartition' => '1',
+                'percentRepartition' => 0.5,
+                'precision' => 'toto'
+            ], [
+                'codeRepartition' => '3',
+                'percentRepartition' => 0.5,
+                'precision' => 'toto'
+            ]
+        ]
+    ],
+    'settlement'=> [
+        'paymentType' => 'toto',
+        'bankName' => 'toto',
+        'accountOwner' => 'toto',
+        'accountIban' => 'FR0000000000000000000000000',
+        'accountBic' => 'toto',
+        'debitAuthorization' => true,
+        'fundsOrigin' => [
+            [
+                'codeOrigin' => '1',
+                'detail' => '2',
+                'amount' => $amount_1 + 12 * $amount_2,
+                'date' => \DateTime::createFromFormat('Y-m-d', '2020-01-01'),
+                'precision' => 'toto',
+            ]
+        ],
+    ],
+    'initialPayment'=> [
+        'amount' => $amount_1,
+        'repartition'=> [
+            [
+                'amount' => $amount_1,
+                'fundsCode' => 'TECHNIPC',
+            ]
+        ]
+    ],
+    'scheduledFreePayment' => [
+        'bankDebitDay' => 10,
+        'amount' => $amount_2,
+        'periodicity' => 'MENSUELLE',
+        'repartition' => [
+            [
+                'amount' => $amount_2,
+                'fundsCode' => 'TECHNIPC',
+            ],
+        ]
+    ]
+]);
 ````
 
-For some attribute, you will need specific code that you will get by asking the ReferentialHandler like this:
-###Example
-``` php
-$allowedCodeOrigin = $this->subscriptionFactory->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber);
-$allowedDetailCode = $this->subscriptionFactory->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber, 'detail');
+
+Once your subscription is build, you can add a comment and tell if you want to dematerialize or not the process.
+And then you can send it to Generali:
 ```
-Once your subscription is build, you can send it to Generali
+$subscriptionResponse = $this->httpClient->createSubscription(
+    $context, 
+    $subscription, 
+    $comment, 
+    $dematerialization
+);
 ```
-    $subscriptionResponse = $this->httpClient->createSubscription(
-        $context, 
-        $subscription, 
-        $comment, 
-        $dematerialization
-    );
-    
-    ...
-    
-    /**
-     * array<Document>
-     */
-    $requiredDocuments = $subscriptionResponse->getRequiredDocuments();    
-}
+You will get a SubscriptionResponse which contains the information returned by the API, like this: 
+````php
+[
+    'status' => '5f0cc70b2547d642f44ede2c8d232cca',
+    'idTransaction' => '5f0cc70b2547d',
+    'message' => [],
+    'orderTransaction' => null,
+    'expectedDocuments' => [...]
+]
 ````
-#The Document will have this structure:
+At the end of this step, you have to save the idTransaction in your database, in the case you can't finalize at the moment, or your users stop their registration.
+You Will access the idTransaction by:
+````php
+$idTransaction = $suscriptionResponse->getIdTransaction();
+````
+
+You will also have access to the list of expected documents, that you will need to send to Generali by doing:
+````php
+/**
+ * array<Document>
+ */
+$expectedDocuments = $subscriptionResponse->getExpectedDocuments();
+````
+The Document will have this structure:
 ```php
 [
    'idDocument' => '654d4f564f54df',
    'title' => 'Carte identité',
    'filename' => null,
    'filePath' => null,
+   'alreadySent' = > false,
    'required' => true
 ]
 ````
-You must at least complete the filename / filePath for all required Documents, before sending it to Generali.
+If you want to access to the list of the documents expected for a subscription, you can still access them until the subscription is finalized:
+```php
+$expectedDocuments = $this->httpClient->listSubscriptionFiles($idTransaction);
+```
 
-###How to generate Debit Mandate ?
-Just send your $subscription object to the [PdfGenerator](../pdf_generation.md), it will build the array you need for it.
-And then add it to the array of Documents
-````
-$parameters = $this->pdfGenerator->subscriptionToFileMapper($subscription);
+## How to finalize a Subscription ?
 
-$documents[] = $this->pdfGenerator->generateFile($template, $parameters);
-````
-And then finalize the subscription by sending the context, the response you had until here, and the array of Documents
+To finalize a subscription, you have to send all the required documents and the idTransaction.
 
-````php
-$this->httpClient->finalizeSubscription($context, $response, $documents);
-````
+First create your document, and add it to an array $documents
+```php
+$document = (new Document())
+    ->setFilename($yourFilename)
+    ->setfilePath($yourFilePath)
+    ->setIdDocument($idDocument)
+    ->setTitle($title)
+ ;
+ $documents[] = $document;
+```
+
+Build a context and affect the idTransaction to it:
+```php
+$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
+```
+And then call the subscription's finalization
+```
+`$subscriptionResponse = $this->httpClient->finalizeSubscription($context, $documents);
+```
+you will get in return a numberOrderTransaction, that you have to save

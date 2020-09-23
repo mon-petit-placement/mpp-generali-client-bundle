@@ -13,15 +13,6 @@ services:
           - '%mpp_generali_client.intermediary_code%'
           - '%mpp_generali_client.subscription_code%'
 
-    Mpp\GeneraliClientBundle\PdfGenerator\GeneraliPdfGenerator:
-        public: true
-        arguments:
-          - '@Mpp\GeneraliClientBundle\Factory\PdfParameterFactory'
-          - '@twig'
-          - '@logger'
-          - '@eight_points_guzzle.client.wkhtmltopdf'
-          - '%generali_debit_mandate_export_path%'
-
     Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface: '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientV2'
 
     Mpp\GeneraliClientBundle\Factory\FundsOriginFactory:
@@ -35,6 +26,12 @@ services:
         - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
 
     Mpp\GeneraliClientBundle\Factory\ScheduledFreePaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+        -
+    Mpp\GeneraliClientBundle\Factory\ArbitrationFactory:
       public: true
       arguments:
         - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
