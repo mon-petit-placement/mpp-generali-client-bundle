@@ -16,7 +16,7 @@ class RepartitionFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
@@ -27,7 +27,7 @@ class RepartitionFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new Repartition())
             ->setAmount($resolvedData['amount'])

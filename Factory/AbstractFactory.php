@@ -39,21 +39,23 @@ abstract class AbstractFactory implements FactoryInterface
      * @param string $referentialKey
      * @return array
      */
-    protected function getReferentialCodes(string $referentialKey, string $contractNumber): array
+    protected function getReferentialCodes(string $referentialKey): array
     {
         return ReferentialHandler::extractReferentialCodes(
-            $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $this->getHttpClient()->retrieveTransactionSubscriptionData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
             $referentialKey
         );
     }
+
     /**
      * @param string $referentialKey
+     * @param string $subReferentialKey
      * @return array
      */
-    protected function getSubReferentialCode(string $referentialKey, string $contractNumber, string $subReferentialKey): array
+    protected function getSubReferentialCode(string $referentialKey, string $subReferentialKey): array
     {
         return ReferentialHandler::extractSubReferentialCodes(
-            $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $this->getHttpClient()->retrieveTransactionSubscriptionData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
             $referentialKey,
             $subReferentialKey
         );
@@ -61,28 +63,26 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * @param string $referentialKey
-     * @param string $contractNumber
      * @param float $searchedAmount
      * @return string|null
      */
-    protected function guessReferentialCode(string $referentialKey, string $contractNumber, float $searchedAmount): ?string
+    protected function guessReferentialCode(string $referentialKey, float $searchedAmount): ?string
     {
         return ReferentialHandler::guessCodeByAmount(
-            $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $this->getHttpClient()->retrieveTransactionSubscriptionData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
             $referentialKey,
             $searchedAmount
         );
     }
 
     /**
-     * @param string $contractNumber
      * @param string $expectedItem
      * @return array
      */
-    protected function getExpectedItemCodes(string $contractNumber, string $expectedItem): array
+    protected function getExpectedItemCodes(string $expectedItem): array
     {
         return ReferentialHandler::extractExpectedItemsCode(
-            $this->getHttpClient()->retrieveTransactionSubscriptionData($contractNumber, [$expectedItem])->getDonnees(),
+            $this->getHttpClient()->retrieveTransactionSubscriptionData([$expectedItem])->getDonnees(),
             $expectedItem
         );
     }
@@ -90,26 +90,24 @@ abstract class AbstractFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function create(array $parameters, string $contractNumber)
+    public function create(array $parameters)
     {
         $resolver = new OptionsResolver();
-        $this->configureData($resolver, $contractNumber);
+        $this->configureData($resolver);
 
         $resolvedData = $resolver->resolve($parameters);
 
-        return $this->doCreate($resolvedData, $contractNumber);
+        return $this->doCreate($resolvedData);
     }
 
     /**
      * @param OptionsResolver $resolver
-     * @param string $contractNumber
      */
-    abstract public function configureData(OptionsResolver $resolver, string $contractNumber): void;
+    abstract public function configureData(OptionsResolver $resolver): void;
 
     /**
      * @param array $resolvedData
-     * @param string $contractNumber
      * @return mixed
      */
-    abstract public function doCreate(array $resolvedData, string $contractNumber);
+    abstract public function doCreate(array $resolvedData);
 }

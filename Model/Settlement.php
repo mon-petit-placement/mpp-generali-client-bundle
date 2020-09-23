@@ -38,9 +38,17 @@ class Settlement
     protected $debitAuthorization;
 
     /**
-     * @var array
+     * @var array<FundsOrigin>
      */
     protected $fundsOrigin;
+
+    /**
+     * Settlement constructor.
+     */
+    public function __construct()
+    {
+        $this->fundsOrigin = [];
+    }
 
     /**
      * @return array
@@ -207,9 +215,9 @@ class Settlement
     }
 
     /**
-     * @return string
+     * @return array<FundsOrigin>
      */
-    public function getFundsOrigin(): string
+    public function getFundsOrigin(): array
     {
         return $this->fundsOrigin;
     }

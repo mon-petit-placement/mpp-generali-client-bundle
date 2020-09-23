@@ -18,10 +18,10 @@ class FundsOriginFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
-        $allowedCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber);
-        $allowedDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, $contractNumber, 'detail');
+        $allowedCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS);
+        $allowedDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, 'detail');
 
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $allowedCodeOrigin)
@@ -41,14 +41,23 @@ class FundsOriginFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, string $contractNumber)
+    public function doCreate(array $resolvedData)
     {
-        return (new FundsOrigin())
-            ->setPrecision($resolvedData['precision'])
+        $fundsOrigin = (new FundsOrigin())
             ->setAmount($resolvedData['amount'])
-            ->setDate($resolvedData['date'])
-            ->setDetail($resolvedData['detail'])
             ->setCodeOrigin($resolvedData['codeOrigin'])
         ;
+        if (isset($resolvedData['detail'])) {
+            $fundsOrigin->setDetail($resolvedData['detail']);
+        }
+        if (isset($resolvedData['date'])) {
+            $fundsOrigin->setDate($resolvedData['date']);
+        }
+
+        if (isset($resolvedData['precision'])) {
+            $fundsOrigin->setPrecision($resolvedData['precision']);
+        }
+
+        return $fundsOrigin;
     }
 }

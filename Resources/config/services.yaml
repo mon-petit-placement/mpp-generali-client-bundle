@@ -16,6 +16,7 @@ services:
     Mpp\GeneraliClientBundle\PdfGenerator\GeneraliPdfGenerator:
         public: true
         arguments:
+          - '@Mpp\GeneraliClientBundle\Factory\PdfParameterFactory'
           - '@twig'
           - '@logger'
           - '@eight_points_guzzle.client.wkhtmltopdf'
@@ -61,6 +62,9 @@ services:
       public: true
       arguments:
         - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\PdfParameterFactory:
+      public: true
 
     Mpp\GeneraliClientBundle\Factory\PayoutTargetFactory:
       public: true

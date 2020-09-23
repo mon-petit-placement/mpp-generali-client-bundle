@@ -17,20 +17,20 @@ class SubscriberFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
-        $availableCodeProfessionnalSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATIONS, $contractNumber);
-        $availableCodeFamilialSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATIONS, $contractNumber);
-        $availableCodeNaf = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NAF_CODES, $contractNumber);
-        $availableCspCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CSPS_CODES, $contractNumber);
-        $availableTaxCountry = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_TAX_COUNTRIES, $contractNumber);
-        $availableMatrimonialRegime = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIMES, $contractNumber);
-        $availableLegalCapacity = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_LEGAL_CAPACITIES, $contractNumber);
-        $availableNationalities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NATIONALITIES, $contractNumber);
-        $availableIdentityDocCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_IDENTITY_DOCS, $contractNumber);
-        $availableBirthCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_BIRTH_COUNTRIES, $contractNumber);
-        $availableAddressCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRIES, $contractNumber);
-        $availableCivilities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CIVILITIES, $contractNumber);
+        $availableCodeProfessionnalSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATIONS);
+        $availableCodeFamilialSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATIONS);
+        $availableCodeNaf = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NAF_CODES);
+        $availableCspCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CSPS_CODES);
+        $availableTaxCountry = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_TAX_COUNTRIES);
+        $availableMatrimonialRegime = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIMES);
+        $availableLegalCapacity = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_LEGAL_CAPACITIES);
+        $availableNationalities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NATIONALITIES);
+        $availableIdentityDocCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_IDENTITY_DOCS);
+        $availableBirthCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_BIRTH_COUNTRIES);
+        $availableAddressCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRIES);
+        $availableCivilities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CIVILITIES);
         
         $resolver
             ->setRequired('lastName')->setAllowedTypes('lastName', ['string', 'null'])
@@ -96,7 +96,7 @@ class SubscriberFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new Subscriber())
             ->setLastName($resolvedData['lastName'])

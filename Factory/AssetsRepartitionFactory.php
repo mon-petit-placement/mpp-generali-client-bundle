@@ -16,9 +16,9 @@ class AssetsRepartitionFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
-        $availableCodeRepartition = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_REPARTITIONS, $contractNumber);
+        $availableCodeRepartition = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_REPARTITIONS);
 
         $resolver
             ->setRequired('codeRepartition')->setAllowedTypes('codeRepartition', ['string'])->setAllowedValues('codeRepartition', $availableCodeRepartition)
@@ -30,7 +30,7 @@ class AssetsRepartitionFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new AssetsRepartition())
             ->setPercentRepartition($resolvedData['percentRepartition'])

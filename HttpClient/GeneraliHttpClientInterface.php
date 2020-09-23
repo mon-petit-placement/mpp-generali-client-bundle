@@ -32,12 +32,11 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/subscription/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function retrieveTransactionSubscriptionData(string $contractNumber, array $expectedItems = []): BaseResponse;
+    public function retrieveTransactionSubscriptionData(array $expectedItems = []): BaseResponse;
 
     /**
      * Create a Context with providerCode, SubscriptionCode
@@ -140,16 +139,15 @@ interface GeneraliHttpClientInterface
     public function finalizeSubscription(Context $context, SubscriptionResponse $response, array $documents): SubscriptionResponse;
 
     /**
-     * Retrieve free payment informations with contractNumber & expectedItems.
+     * Retrieve free payment informations with expectedItems.
      *
      * path: /epart/v2.0/transaction/versementLibre/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getFreePaymentInformations(string $contractNumber, array $expectedItems = []): array;
+    public function getFreePaymentInformations(array $expectedItems = []): array;
 
     /**
      *  Initiate Data to create a free payment.
@@ -204,12 +202,11 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getScheduledFreePaymentInformations(string $contractNumber, array $expectedItems = []): array;
+    public function getScheduledFreePaymentInformations(array $expectedItems = []): array;
 
     /**
      *  Initiate Data to create a Scheduled Free Payment.
@@ -312,12 +309,11 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/donnees/rachatpartiel/all
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getPartialSurrenderInformations(string $contractNumber, array $expectedItems = []): array;
+    public function getPartialSurrenderInformations(array $expectedItems = []): array;
 
     /**
      *  Initiate Data to create a Partial Surrender.
@@ -372,12 +368,11 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getArbitrationInformations(string $contractNumber, array $expectedItems = []): array;
+    public function getArbitrationInformations(array $expectedItems = []): array;
 
     /**
      *  Initiate Data to create a Arbitration.

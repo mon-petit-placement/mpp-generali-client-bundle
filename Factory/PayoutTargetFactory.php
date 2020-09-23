@@ -17,9 +17,9 @@ class PayoutTargetFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
-        $targetCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGETS, $contractNumber);
+        $targetCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGETS);
 
         $resolver
             ->setRequired('targetCode')->setAllowedTypes('targetCode', ['string'])->setAllowedValues('targetCode', $targetCode)
@@ -30,7 +30,7 @@ class PayoutTargetFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, string $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new PayoutTarget())
             ->setPrecision($resolvedData['precision'])

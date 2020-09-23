@@ -32,14 +32,14 @@ class InitialPaymentFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
-            ->setRequired('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) use ($contractNumber) {
+            ->setRequired('repartition', [])->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->repartitionFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->repartitionFactory->create($value);
                 }
 
                 return $resolvedValues;
@@ -50,7 +50,7 @@ class InitialPaymentFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new InitialPayment())
             ->setAmount($resolvedData['amount'])

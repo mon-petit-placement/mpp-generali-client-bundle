@@ -10,8 +10,7 @@ interface FactoryInterface
 {
     /**
      * @param array $data
-     * @param string $contractNumber
      * @return mixed
      */
-    public function create(array $data, string $contractNumber);
+    public function create(array $data);
 }

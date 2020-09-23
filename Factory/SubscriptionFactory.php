@@ -67,27 +67,27 @@ class SubscriptionFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
-        $beneficiaryClauseCodes = $this->getExpectedItemCodes($contractNumber, Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
+        $beneficiaryClauseCodes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
 
         $resolver
             ->setRequired('externalReference1')->setAllowedTypes('externalReference1', ['string'])
             ->setDefined('externalReference2')->setAllowedTypes('externalReference2', ['string'])
-            ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) use ($contractNumber) {
-                return $this->subscriberFactory->create($value, $contractNumber);
+            ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
+                return $this->subscriberFactory->create($value);
             })
-            ->setRequired('customerFolder')->setAllowedTypes('customerFolder', ['array'])->setNormalizer('customerFolder', function (Options $options, $value) use ($contractNumber) {
-                return $this->customerFolderFactory->create($value, $contractNumber);
+            ->setRequired('customerFolder')->setAllowedTypes('customerFolder', ['array'])->setNormalizer('customerFolder', function (Options $options, $value) {
+                return $this->customerFolderFactory->create($value);
             })
-            ->setRequired('settlement')->setAllowedTypes('settlement', ['array'])->setNormalizer('settlement', function (Options $options, $value) use ($contractNumber) {
-                return $this->settlementFactory->create($value, $contractNumber);
+            ->setRequired('settlement')->setAllowedTypes('settlement', ['array'])->setNormalizer('settlement', function (Options $options, $value) {
+                return $this->settlementFactory->create($value);
             })
-            ->setRequired('scheduledFreePayment')->setAllowedTypes('scheduledFreePayment', ['array'])->setNormalizer('scheduledFreePayment', function (Options $options, $value) use ($contractNumber) {
-                return $this->scheduledFreePaymentFactory->create($value, $contractNumber);
+            ->setRequired('scheduledFreePayment')->setAllowedTypes('scheduledFreePayment', ['array'])->setNormalizer('scheduledFreePayment', function (Options $options, $value) {
+                return $this->scheduledFreePaymentFactory->create($value);
             })
-            ->setRequired('initialPayment')->setAllowedTypes('initialPayment', ['array'])->setNormalizer('initialPayment', function (Options $options, $value) use ($contractNumber) {
-                return $this->initialPaymentFactory->create($value, $contractNumber);
+            ->setRequired('initialPayment')->setAllowedTypes('initialPayment', ['array'])->setNormalizer('initialPayment', function (Options $options, $value) {
+                return $this->initialPaymentFactory->create($value);
             })
             ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
             ->setRequired('fiscality')->setAllowedTypes('fiscality', ['string'])
@@ -102,7 +102,7 @@ class SubscriptionFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, string $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         $subscription = (new Subscription())
             ->setExternalReference1($resolvedData['externalReference1'])

@@ -32,16 +32,16 @@ class ScheduledFreePaymentFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('bankDebitDay')->setAllowedTypes('bankDebitDay', ['int'])
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
             ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
-            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values) use ($contractNumber): array {
+            ->setRequired('repartition')->setAllowedTypes('repartition', ['array'])->setNormalizer('repartition', function (Options $options, $values): array {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->repartitionFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->repartitionFactory->create($value);
                 }
 
                 return $resolvedValues;
@@ -51,7 +51,7 @@ class ScheduledFreePaymentFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new ScheduledFreePayment())
             ->setBankDebitDay($resolvedData['bankDebitDay'])

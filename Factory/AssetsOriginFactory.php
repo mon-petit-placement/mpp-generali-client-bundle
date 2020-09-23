@@ -16,9 +16,9 @@ class AssetsOriginFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
-        $availableOriginCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_ORIGINS, $contractNumber);
+        $availableOriginCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_ORIGINS);
 
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $availableOriginCode)
@@ -29,7 +29,7 @@ class AssetsOriginFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, string $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new AssetsOrigin())
             ->setPrecision($resolvedData['precision'])

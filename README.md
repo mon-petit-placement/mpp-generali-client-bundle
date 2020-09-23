@@ -66,14 +66,18 @@ mpp_generali_client:
     subscription_code: '%env(GENERALI_SUBSCRIPTION_CODE)%'
 ```
 
-Documentation:
+How to use:
 --------------
+First you will have to create a [Subscription](./Resources/docs/CallApi/subscription.md), where you will send all the needed information on your customer and the subscription asked.
+Then you will get a contractNumber which will be used to create:
+- [Free Payment](./Resources/docs/CallApi/free_payment.md)
+- [Scheduled Free Payment](./Resources/docs/CallApi/scheduled_free_payment.md)
+- [Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
+- [Arbitration](./Resources/docs/CallApi/arbitration.md)
 
-Here is resources to use this bundle: 
+How you will get the Contract Number ?
+--------------
+- On development environment: you will have to contact your Generali Partner & he will give you
+- On pre-production and on production environment: you will have to parse some csv files, where you will get your contractNumber by searching for your internalReference1 and/or internalReference2 that you have given during your subscription creation
 
- * [How to call Generali API to create a Subscription](./Resources/docs/CallApi/subscription.md)
- * [How to call Generali API to create a Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
- * [How to call Generali API to create a Arbitration](./Resources/docs/CallApi/arbitration.md)
- * [How to call Generali API to create a Free Payment](./Resources/docs/CallApi/free_payment.md)
- * [How to call Generali API to create a Scheduled Free Payment](./Resources/docs/CallApi/scheduled_free_payment.md)
- * [How to generate the Debit Mandate for Generali API](./Resources/docs/pdf_generation.md)
+Once you have it, you can create and follow many FreePayment, ScheduledFreePayment, Arbitration, PartialSurrender

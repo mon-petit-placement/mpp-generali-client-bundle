@@ -30,9 +30,8 @@ class SettlementFactory extends AbstractFactory
 
     /**
      * @param OptionsResolver $resolver
-     * @param string $contractNumber
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
@@ -41,10 +40,10 @@ class SettlementFactory extends AbstractFactory
             ->setRequired('accountIban')->setAllowedTypes('accountIban', ['string'])
             ->setRequired('accountBic')->setAllowedTypes('accountBic', ['string'])
             ->setRequired('debitAuthorization')->setAllowedTypes('debitAuthorization', ['bool'])
-            ->setRequired('fundsOrigin')->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values) use ($contractNumber) {
+            ->setRequired('fundsOrigin')->setAllowedTypes('fundsOrigin', ['array'])->setNormalizer('fundsOrigin', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->fundsOriginFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->fundsOriginFactory->create($value);
                 }
 
                 return $resolvedValues;
@@ -55,7 +54,7 @@ class SettlementFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, $contractNumber)
+    public function doCreate(array $resolvedData)
     {
         return (new Settlement())
             ->setDebitAuthorization($resolvedData['debitAuthorization'])

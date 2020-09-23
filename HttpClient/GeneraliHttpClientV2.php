@@ -105,7 +105,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function retrieveTransactionSubscriptionData(string $contractNumber, array $exepectedItems = []): BaseResponse
+    public function retrieveTransactionSubscriptionData(array $exepectedItems = []): BaseResponse
     {
         $path = '/epart/v2.0/transaction/souscription/donnees';
         $context = $this->buildContext([], $exepectedItems)->toArray();
@@ -221,6 +221,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $this->logger->error($errorMessage);
             $response->setMessage($errorMessage);
         }
+
         return $response;
     }
 
@@ -438,12 +439,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementLibre/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getFreePaymentInformations(string $contractNumber, array $expectedItems = []): array
+    public function getFreePaymentInformations(array $expectedItems = []): array
     {
         return [];
     }
@@ -513,12 +513,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getScheduledFreePaymentInformations(string $contractNumber, array $expectedItems = []): array
+    public function getScheduledFreePaymentInformations(array $expectedItems = []): array
     {
         return [];
     }
@@ -648,12 +647,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/donnees/rachatpartiel/all
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getPartialSurrenderInformations(string $contractNumber, array $expectedItems = []): array
+    public function getPartialSurrenderInformations(array $expectedItems = []): array
     {
         return [];
     }
@@ -723,12 +721,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/donnee
      *
-     * @param string $contractNumber
      * @param array  $expectedItems
      *
      * @return array
      */
-    public function getArbitrationInformations(string $contractNumber, array $expectedItems = []): array
+    public function getArbitrationInformations(array $expectedItems = []): array
     {
 
     }

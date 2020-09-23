@@ -50,33 +50,33 @@ class CustomerFolderFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function configureData(OptionsResolver $resolver, string $contractNumber): void
+    public function configureData(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('incomeAmount')->setAllowedTypes('incomeAmount', ['float'])
             ->setRequired('assetAmount')->setAllowedTypes('assetAmount', ['float'])
             ->setDefault('frenchOriginPayment', true)->setAllowedTypes('frenchOriginPayment', ['bool'])
             ->setDefault('thirdPartyPayment', false)->setAllowedTypes('thirdPartyPayment', ['bool'])
-            ->setRequired('payoutTargets')->setAllowedTypes('payoutTargets', ['array'])->setNormalizer('payoutTargets', function (Options $options, $values) use ($contractNumber) {
+            ->setRequired('payoutTargets')->setAllowedTypes('payoutTargets', ['array'])->setNormalizer('payoutTargets', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->payoutTargetFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->payoutTargetFactory->create($value);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefined('assetsOrigin')->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values) use ($contractNumber) {
+            ->setDefined('assetsOrigin')->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->assetsOriginFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->assetsOriginFactory->create($value);
                 }
 
                 return $resolvedValues;
             })
-            ->setDefined('assetsRepartition')->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values) use ($contractNumber) {
+            ->setDefined('assetsRepartition')->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
-                    $resolvedValues[] = $this->assetsRepartitionFactory->create($value, $contractNumber);
+                    $resolvedValues[] = $this->assetsRepartitionFactory->create($value);
                 }
 
                 return $resolvedValues;
@@ -87,10 +87,10 @@ class CustomerFolderFactory extends AbstractFactory
     /**
      * {@inheritDoc}
      */
-    public function doCreate(array $resolvedData, string $contractNumber)
+    public function doCreate(array $resolvedData)
     {
-        $incomeCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_INCOME_SLICES, $contractNumber, $resolvedData['incomeAmount']);
-        $assetCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_ASSET_SLICES, $contractNumber, $resolvedData['assetAmount']);
+        $incomeCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_INCOME_SLICES, $resolvedData['incomeAmount']);
+        $assetCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_ASSET_SLICES, $resolvedData['assetAmount']);
 
         return (new CustomerFolder())
             ->setAssetAmount($resolvedData['assetAmount'])
