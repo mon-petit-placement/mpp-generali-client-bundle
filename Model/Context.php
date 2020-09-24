@@ -112,7 +112,7 @@ class Context
     {
         return [
             'statut' => $this->getStatus(),
-            'numContrat' => $this->getContractNumber()
+            'numContrat' => $this->getContractNumber(),
         ];
     }
 
@@ -122,7 +122,7 @@ class Context
     public function arrayToFinalize(): array
     {
         return [
-            'idTransaction' => $this->getIdTransaction()
+            'idTransaction' => $this->getIdTransaction(),
         ];
     }
 
@@ -144,6 +144,7 @@ class Context
 
     /**
      * @param string $status
+     *
      * @return Context
      */
     public function setStatus(string $status): self
@@ -171,6 +172,7 @@ class Context
 
     /**
      * @param string $providerCode
+     *
      * @return Context
      */
     public function setProviderCode(string $providerCode): self
@@ -182,6 +184,7 @@ class Context
 
     /**
      * @param string $subscriptionCode
+     *
      * @return Context
      */
     public function setSubscriptionCode(string $subscriptionCode): self
@@ -201,6 +204,7 @@ class Context
 
     /**
      * @param $expectedItems
+     *
      * @return Context
      */
     public function setExpectedItems($expectedItems): self
@@ -228,6 +232,7 @@ class Context
 
     /**
      * @param string $idTransaction
+     *
      * @return Context
      */
     public function setIdTransaction(string $idTransaction): self
@@ -247,6 +252,7 @@ class Context
 
     /**
      * @param string $contractNumber
+     *
      * @return Context
      */
     public function setContractNumber(string $contractNumber): self
@@ -266,6 +272,7 @@ class Context
 
     /**
      * @param string $user
+     *
      * @return Context
      */
     public function setUser(string $user): self

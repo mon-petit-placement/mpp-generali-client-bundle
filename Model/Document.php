@@ -3,39 +3,39 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Document
+ * Class Document.
  */
 class Document
 {
     /**
      * @var string
      */
-    private $idDocument;
+    protected $idDocument;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      */
-    private $filename;
+    protected $filename;
 
     /**
      * @var string
      */
-    private $filePath;
+    protected $filePath;
 
     /**
      * @var bool
      */
-    private $required;
+    protected $required;
 
     /**
      * @var bool
      */
-    private $alreadySent;
+    protected $alreadySent;
 
     /**
      * Document constructor.
@@ -55,6 +55,7 @@ class Document
 
     /**
      * @param string $idDocument
+     *
      * @return self
      */
     public function setIdDocument(string $idDocument): self
@@ -74,6 +75,7 @@ class Document
 
     /**
      * @param string $title
+     *
      * @return self
      */
     public function setTitle(string $title): self
@@ -93,6 +95,7 @@ class Document
 
     /**
      * @param string $filename
+     *
      * @return self
      */
     public function setFilename(string $filename): self
@@ -112,6 +115,7 @@ class Document
 
     /**
      * @param string $filePath
+     *
      * @return self
      */
     public function setFilePath(string $filePath): self
@@ -131,6 +135,7 @@ class Document
 
     /**
      * @param bool $required
+     *
      * @return self
      */
     public function setRequired(bool $required): self
@@ -150,6 +155,7 @@ class Document
 
     /**
      * @param bool $alreadySent
+     *
      * @return self
      */
     public function setAlreadySent(bool $alreadySent): self
@@ -158,5 +164,4 @@ class Document
 
         return $this;
     }
-
 }

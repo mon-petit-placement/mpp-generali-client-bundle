@@ -2,11 +2,10 @@
 
 namespace Mpp\GeneraliClientBundle\Handler;
 
-use http\Exception\UnexpectedValueException;
 use Mpp\GeneraliClientBundle\Model\Context;
 
 /**
- * Class ReferentialHandler
+ * Class ReferentialHandler.
  */
 class ReferentialHandler
 {
@@ -55,7 +54,7 @@ class ReferentialHandler
        self::REFERENTIAL_NATIONALITIES,
        self::REFERENTIAL_VOUCHERS,
        self::REFERENTIAL_BIRTH_COUNTRIES,
-       self::REFERENTIAL_ADDRESS_COUNTRIES ,
+       self::REFERENTIAL_ADDRESS_COUNTRIES,
        self::REFERENTIAL_CSRS_OCDE_COUNTRIES,
        self::REFERENTIAL_CIVILITIES,
        self::REFERENTIAL_IDENTITY_DOCS,
@@ -63,30 +62,33 @@ class ReferentialHandler
     ];
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $referentialKey
+     *
      * @return array
      */
     public static function extractReferentialCodes(array $data, string $referentialKey): array
     {
         $extractedData = self::getReferentialKeyData($data, $referentialKey);
 
-        return array_map(function($value) {
+        return array_map(function ($value) {
             return $value['code'];
         }, $extractedData);
     }
+
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $referentialKey
+     *
      * @return array
      */
     public static function extractSubReferentialCodes(array $data, string $referentialKey, string $subReferentialKey): array
     {
         $extractedData = self::getReferentialKeyData($data, $referentialKey);
 
-        foreach($extractedData as $data) {
+        foreach ($extractedData as $data) {
             if (isset($data[$subReferentialKey])) {
-                return array_map(function($value) {
+                return array_map(function ($value) {
                     return $value['code'];
                 }, $data[$subReferentialKey]);
             }
@@ -95,43 +97,46 @@ class ReferentialHandler
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $expectedItem
+     *
      * @return array
      */
     public static function extractExpectedItemsCode(array $data, string $expectedItem): array
     {
         $extractedData = self::getExpectedItemsKeyData($data, $expectedItem);
 
-        return array_map(function($value) {
+        return array_map(function ($value) {
             return $value['code'];
         }, $extractedData);
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $referentialKey
-     * @param float $searchedAmount
+     * @param float  $searchedAmount
+     *
      * @return string|null
      */
     public static function guessCodeByAmount(array $data, string $referentialKey, float $searchedAmount): ?string
     {
-       $extractedData = self::getReferentialKeyData($data, $referentialKey);
+        $extractedData = self::getReferentialKeyData($data, $referentialKey);
 
-       foreach ($extractedData as $sliceData) {
-           $minValue = isset($sliceData['trancheMin']) ? $sliceData['trancheMin'] : 0;
-           $maxValue = isset($sliceData['trancheMax']) ? $sliceData['trancheMax'] : 999999999;
+        foreach ($extractedData as $sliceData) {
+            $minValue = isset($sliceData['trancheMin']) ? $sliceData['trancheMin'] : 0;
+            $maxValue = isset($sliceData['trancheMax']) ? $sliceData['trancheMax'] : 999999999;
 
-           if ($minValue <= $searchedAmount && $searchedAmount <= $maxValue) {
-               return $sliceData['code'];
-           }
-       }
+            if ($minValue <= $searchedAmount && $searchedAmount <= $maxValue) {
+                return $sliceData['code'];
+            }
+        }
 
-       return null;
+        return null;
     }
 
     /**
      * @param string $referentialKey
+     *
      * @return bool
      */
     public static function isValidReferentialKey(string $referentialKey): bool
@@ -140,13 +145,14 @@ class ReferentialHandler
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $referentialKey
+     *
      * @return mixed
      */
     private static function getReferentialKeyData(array $data, string $referentialKey): array
     {
-        if (!self::isValidReferentialKey($referentialKey)){
+        if (!self::isValidReferentialKey($referentialKey)) {
             throw new \UnexpectedValueException(sprintf('The given referential key %s is not available', $referentialKey));
         }
 
@@ -160,9 +166,11 @@ class ReferentialHandler
 
         return $data[Context::EXPECTED_ITEM_REFERENTIEL][$referentialKey];
     }
+
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $referentialKey
+     *
      * @return mixed
      */
     private static function getExpectedItemsKeyData(array $data, string $expectedItem): array

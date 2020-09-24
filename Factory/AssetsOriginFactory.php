@@ -3,18 +3,16 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\AssetsOrigin;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AssetsOriginFactory
+ * Class AssetsOriginFactory.
  */
 class AssetsOriginFactory extends AbstractFactory
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -27,7 +25,7 @@ class AssetsOriginFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

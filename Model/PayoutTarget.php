@@ -2,8 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
  * Class PayoutTarget.
  */

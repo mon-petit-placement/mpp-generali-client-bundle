@@ -3,14 +3,16 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
+use Mpp\GeneraliClientBundle\Model\Context;
+use Mpp\GeneraliClientBundle\Model\FreePayment;
+use Mpp\GeneraliClientBundle\Model\Subscriber;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ScheduledFreePaymentFactory.
+ * Class FreePaymentFactory.
  */
-class ScheduledFreePaymentFactory extends AbstractFactory
+class FreePaymentFactory extends AbstractFactory
 {
     /**
      * @var SubscriberFactory
@@ -60,6 +62,8 @@ class ScheduledFreePaymentFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
+        $beneficiaryClauseCodes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
+
         $resolver
             ->setRequired('customerFolder')->setAllowedTypes('customerFolder', ['array'])->setNormalizer('customerFolder', function (Options $options, $value) {
                 return $this->customerFolderFactory->create($value);
@@ -76,7 +80,7 @@ class ScheduledFreePaymentFactory extends AbstractFactory
                 return $this->settlementFactory->create($value);
             })
             ->setRequired('amount')->setAllowedTypes('amount', ['float'])
-            ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
+            ->setRequired('externalOperationNumber')->setAllowedTypes('externalOperationNumber', ['string'])
             ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
                 return $this->subscriberFactory->create($value);
             })
@@ -88,13 +92,13 @@ class ScheduledFreePaymentFactory extends AbstractFactory
      */
     public function doCreate(array $resolvedData)
     {
-        return (new ScheduledFreePayment())
+        return (new FreePayment())
             ->setCustomerFolder($resolvedData['customerFolder'])
             ->setRepartitions($resolvedData['repartitions'])
             ->setSettlement($resolvedData['settlement'])
             ->setSubscriber($resolvedData['subscriber'])
             ->setAmount($resolvedData['amount'])
-            ->setPeriodicity($resolvedData['periodicity'])
+            ->setExternalOperationNumber($resolvedData['externalOperationNumber'])
         ;
     }
 }

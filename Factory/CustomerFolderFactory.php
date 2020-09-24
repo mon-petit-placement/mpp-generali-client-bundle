@@ -6,14 +6,12 @@ use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\AssetsOrigin;
 use Mpp\GeneraliClientBundle\Model\AssetsRepartition;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\CustomerFolder;
-use Mpp\GeneraliClientBundle\Model\PayoutTarget;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class CustomerFolderFactory
+ * Class CustomerFolderFactory.
  */
 class CustomerFolderFactory extends AbstractFactory
 {
@@ -34,10 +32,11 @@ class CustomerFolderFactory extends AbstractFactory
 
     /**
      * CustomerFolderFactory constructor.
+     *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param PayoutTargetFactory $payoutTargetFactory
-     * @param AssetsOriginFactory $assetOriginFactory
-     * @param AssetsRepartitionFactory $assetRepartitionFactory
+     * @param PayoutTargetFactory         $payoutTargetFactory
+     * @param AssetsOriginFactory         $assetOriginFactory
+     * @param AssetsRepartitionFactory    $assetRepartitionFactory
      */
     public function __construct(GeneraliHttpClientInterface $httpClient, PayoutTargetFactory $payoutTargetFactory, AssetsOriginFactory $assetsOriginFactory, AssetsRepartitionFactory $assetRepartitionFactory)
     {
@@ -48,7 +47,7 @@ class CustomerFolderFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -85,7 +84,7 @@ class CustomerFolderFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

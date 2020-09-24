@@ -2,9 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class InitialPayment
 {
     /**
@@ -13,17 +10,17 @@ class InitialPayment
     protected $amount;
 
     /**
-     * @var array
+     * @var array<Repartition>
      */
-    protected $repartition;
+    protected $repartitions;
 
     /**
      * @return array
      */
-    public function repartitionToarray(): array
+    public function repartitionsToArray(): array
     {
         $repartitions = [];
-        foreach($this->repartition as $repartition) {
+        foreach ($this->repartitions as $repartition) {
             $repartitions[] = $repartition->toArray();
         }
 
@@ -37,7 +34,7 @@ class InitialPayment
     {
         return [
             'montant' => $this->getAmount(),
-            'repartition' => $this->repartitionToarray()
+            'repartition' => $this->repartitionsToArray(),
         ];
     }
 
@@ -64,19 +61,19 @@ class InitialPayment
     /**
      * @return array
      */
-    public function getRepartition(): array
+    public function getRepartitions(): array
     {
-        return $this->repartition;
+        return $this->repartitions;
     }
 
     /**
-     * @param array $repartition
+     * @param array $repartitions
      *
      * @return self
      */
-    public function setRepartition(array $repartition): self
+    public function setRepartitions(array $repartitions): self
     {
-        $this->repartition = $repartition;
+        $this->repartitions = $repartitions;
 
         return $this;
     }

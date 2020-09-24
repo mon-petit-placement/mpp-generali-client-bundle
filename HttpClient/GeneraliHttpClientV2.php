@@ -2,20 +2,17 @@
 
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
-use App\Entity\Documents;
-use Faker\Provider\Base;
 use GuzzleHttp\Client;
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Document;
 use Mpp\GeneraliClientBundle\Model\TransactionOrder;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 
 /**
- * Class GeneraliHttpClientV2
+ * Class GeneraliHttpClientV2.
  */
 class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 {
@@ -158,11 +155,13 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param Context $context
+     * @param Context      $context
      * @param Subscription $subscription
-     * @param bool $dematerialization
-     * @param string|null $comment
+     * @param bool         $dematerialization
+     * @param string|null  $comment
+     *
      * @return SubscriptionResponse
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): SubscriptionResponse
@@ -179,11 +178,13 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param Context $context
+     * @param Context      $context
      * @param Subscription $subscription
-     * @param string $comment
-     * @param bool $dematerialization
+     * @param string       $comment
+     * @param bool         $dematerialization
+     *
      * @return SubscriptionResponse
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function initiateSubscription(
@@ -192,7 +193,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         bool $dematerialization = true,
         string $comment = null
     ): SubscriptionResponse {
-
         $response = new SubscriptionResponse();
         dump(json_encode([
             'contexte' => $context->arrayToInitiate(),
@@ -232,12 +232,14 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      * @param Context $context
+     *
      * @return SubscriptionResponse
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function checkSubscription(Context $context): SubscriptionResponse
     {
-        $response= new SubscriptionResponse();
+        $response = new SubscriptionResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CHECK, [
                 'body' => json_encode(['contexte' => $context->arrayToCheck()]),
@@ -263,7 +265,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      * @param Context $context
+     *
      * @return SubscriptionResponse
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function confirmSubscription(Context $context): SubscriptionResponse
@@ -277,9 +281,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                     'options' => [
                         'genererUnBulletin' => true,
                         'envoyerUnMailClient' => true,
-                        'cloturerLeDossier' => true
-                    ]
-                ])
+                        'cloturerLeDossier' => true,
+                    ],
+                ]),
             ]);
 
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
@@ -304,10 +308,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param string $path
-     * @param string $idTransaction
-     * @param string $fileName
+     * @param string   $path
+     * @param string   $idTransaction
+     * @param string   $fileName
      * @param Document $documents
+     *
      * @return SubscriptionResponse
      */
     public function sendSubscriptionFile(string $idTransaction, Document $document): SubscriptionResponse
@@ -325,11 +330,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 [
                     'multipart' => [
                         [
-                            'name'     => $document->getTitle(),
+                            'name' => $document->getTitle(),
                             'contents' => $file,
                             'filename' => $fileName,
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
             $contents = json_decode($response->getBody()->getContents(), true);
@@ -339,7 +344,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $fileName,
                 $url
             ));
-
         } catch (Exception $exception) {
             $errorMessage = sprintf(
                 '[Generali - httpClient.sendFile %s on %s] ERROR: %s',
@@ -356,7 +360,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      * @param string $idTransaction
+     *
      * @return SubscriptionResponse
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function listSubscriptionFiles(string $idTransaction): SubscriptionResponse
@@ -380,11 +386,10 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $document = (new Document())
                     ->setIdDocument($docToGive['idPieceAFournir'])
                     ->setTitle($docToGive['libelle'])
-                    ->setRequired((bool)$docToGive['nombreMin'])
+                    ->setRequired((bool) $docToGive['nombreMin'])
                 ;
                 $response->addRequiredDocument($document);
             }
-
         } catch (Exception $exception) {
             $errorMessage = sprintf(
                 '[Generali - httpClient.listSubscriptionFiles on path %s] ERROR: %s',
@@ -400,8 +405,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
     /**
      *  Finalize a Subscription with a token Status.
-     **
-     * @param Context $context
+     **.
+     *
+     * @param Context         $context
      * @param array<Document> $documents
      *
      * @return TransactionOrder
@@ -446,7 +452,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementLibre/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -520,7 +526,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -654,7 +660,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/donnees/rachatpartiel/all
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -728,13 +734,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
     public function getArbitrationInformations(array $expectedItems = []): array
     {
-
     }
 
     /**
@@ -742,7 +747,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/initier
      *
-     * @param Context $context
+     * @param Context     $context
      * @param Arbitration $arbitration
      *
      * @return SubscriptionResponse

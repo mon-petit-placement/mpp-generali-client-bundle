@@ -269,13 +269,13 @@ class Subscriber
                 'codePieceIdentite' => $this->getIdentityDocCode(),
                 'dateValidite' => $this->getIdentityDocValidityDate()->format('Y-m-d'),
             ],
-            'capaciteJuridique' => $this->getLegalLegacy(),
+            'capaciteJuridique' => $this->getLegalCapacity(),
         ];
     }
 
-
     /**
      * @param string $lastName
+     *
      * @return Subscriber
      */
     public function setLastName(string $lastName): self
@@ -303,6 +303,7 @@ class Subscriber
 
     /**
      * @param string $firstName
+     *
      * @return Subscriber
      */
     public function setFirstName(string $firstName): self
@@ -314,6 +315,7 @@ class Subscriber
 
     /**
      * @param string $birthName
+     *
      * @return Subscriber
      */
     public function setBirthName(string $birthName): self
@@ -341,6 +343,7 @@ class Subscriber
 
     /**
      * @param string $civility
+     *
      * @return Subscriber
      */
     public function setCivility(string $civility): self
@@ -360,6 +363,7 @@ class Subscriber
 
     /**
      * @param string $taxCountry
+     *
      * @return Subscriber
      */
     public function setTaxCountry(string $taxCountry): self
@@ -379,6 +383,7 @@ class Subscriber
 
     /**
      * @param string $nationality
+     *
      * @return Subscriber
      */
     public function setNationality(string $nationality): self
@@ -398,6 +403,7 @@ class Subscriber
 
     /**
      * @param \DateTime $birthDate
+     *
      * @return Subscriber
      */
     public function setBirthDate(\DateTime $birthDate): self
@@ -417,6 +423,7 @@ class Subscriber
 
     /**
      * @param string $birthPlace
+     *
      * @return Subscriber
      */
     public function setBirthPlace(string $birthPlace): self
@@ -436,6 +443,7 @@ class Subscriber
 
     /**
      * @param string $birthCountry
+     *
      * @return Subscriber
      */
     public function setBirthCountry(string $birthCountry): self
@@ -455,6 +463,7 @@ class Subscriber
 
     /**
      * @param string $birthPostalCode
+     *
      * @return Subscriber
      */
     public function setBirthPostalCode(string $birthPostalCode): self
@@ -474,6 +483,7 @@ class Subscriber
 
     /**
      * @param string $birthDepartmentCode
+     *
      * @return Subscriber
      */
     public function setBirthDepartmentCode(string $birthDepartmentCode): self
@@ -503,6 +513,7 @@ class Subscriber
 
     /**
      * @param bool $ppeStateIndicator
+     *
      * @return Subscriber
      */
     public function setPpeStateIndicator(bool $ppeStateIndicator): self
@@ -522,6 +533,7 @@ class Subscriber
 
     /**
      * @param string $ppeFamilyStateIndicator
+     *
      * @return Subscriber
      */
     public function setPpeFamilyStateIndicator(bool $ppeFamilyStateIndicator): self
@@ -541,6 +553,7 @@ class Subscriber
 
     /**
      * @param bool $usaCitizen
+     *
      * @return Subscriber
      */
     public function setUsaCitizen(bool $usaCitizen): self
@@ -568,6 +581,7 @@ class Subscriber
 
     /**
      * @param bool $usaResident
+     *
      * @return Subscriber
      */
     public function setUsaResident(bool $usaResident): self
@@ -580,7 +594,7 @@ class Subscriber
     /**
      * @return string
      */
-    public function getLegalLegacy(): string
+    public function getLegalCapacity(): string
     {
         return $this->legalCapacity;
     }
@@ -605,6 +619,7 @@ class Subscriber
 
     /**
      * @param string $familialSituation
+     *
      * @return Subscriber
      */
     public function setFamilialSituation(string $familialSituation): self
@@ -624,6 +639,7 @@ class Subscriber
 
     /**
      * @param string $professionalSituation
+     *
      * @return Subscriber
      */
     public function setProfessionalSituation(string $professionalSituation): self
@@ -643,6 +659,7 @@ class Subscriber
 
     /**
      * @param string $matrimonialRegime
+     *
      * @return Subscriber
      */
     public function setMatrimonialRegime(string $matrimonialRegime): self
@@ -662,6 +679,7 @@ class Subscriber
 
     /**
      * @param string $cspCode
+     *
      * @return Subscriber
      */
     public function setCspcode(string $cspCode): self
@@ -681,6 +699,7 @@ class Subscriber
 
     /**
      * @param string $profession
+     *
      * @return Subscriber
      */
     public function setProfession(string $profession): self
@@ -700,6 +719,7 @@ class Subscriber
 
     /**
      * @param string $nafCode
+     *
      * @return Subscriber
      */
     public function setNafCode(string $nafCode): self
@@ -711,6 +731,7 @@ class Subscriber
 
     /**
      * @param int $siretNumber
+     *
      * @return Subscriber
      */
     public function setSiretNumber(int $siretNumber): self
@@ -738,6 +759,7 @@ class Subscriber
 
     /**
      * @param string $employerName
+     *
      * @return Subscriber
      */
     public function setEmployerName(string $employerName): self
@@ -757,6 +779,7 @@ class Subscriber
 
     /**
      * @param string $cspCodeLastProfession
+     *
      * @return Subscriber
      */
     public function setCspCodeLastProfession(string $cspCodeLastProfession): self
@@ -774,10 +797,11 @@ class Subscriber
        return $this->startDateInactivity;
    }
 
-    /**
-     * @param \DateTime $startDateInactivity
-     * @return Subscriber
-     */
+   /**
+    * @param \DateTime $startDateInactivity
+    *
+    * @return Subscriber
+    */
    public function setStartDateInactivity(\DateTime $startDateInactivity): self
    {
        $this->startDateInactivity = $startDateInactivity;
@@ -787,6 +811,7 @@ class Subscriber
 
     /**
      * @param string $phoneNumber
+     *
      * @return Subscriber
      */
     public function setPhoneNumber(string $phoneNumber): self
@@ -814,6 +839,7 @@ class Subscriber
 
     /**
      * @param string $cellPhoneNumber
+     *
      * @return Subscriber
      */
     public function setCellPhoneNumber(string $cellPhoneNumber): self
@@ -833,6 +859,7 @@ class Subscriber
 
     /**
      * @param string $email
+     *
      * @return Subscriber
      */
     public function setEmail(string $email): self
@@ -852,6 +879,7 @@ class Subscriber
 
     /**
      * @param string $identityDocCode
+     *
      * @return Subscriber
      */
     public function setIdentityDocCode(string $identityDocCode): self
@@ -871,6 +899,7 @@ class Subscriber
 
     /**
      * @param \DateTime $identityDocValidityDate
+     *
      * @return Subscriber
      */
     public function setIdentityDocValidityDate(\DateTime $identityDocValidityDate): self
@@ -890,6 +919,7 @@ class Subscriber
 
     /**
      * @param string $addressPostalCode
+     *
      * @return Subscriber
      */
     public function setAddressPostalCode(string $addressPostalCode): self
@@ -909,6 +939,7 @@ class Subscriber
 
     /**
      * @param string $addressCity
+     *
      * @return Subscriber
      */
     public function setAddressCity(string $addressCity): self
@@ -928,6 +959,7 @@ class Subscriber
 
     /**
      * @param string $addressCountryCode
+     *
      * @return Subscriber
      */
     public function setAddressCountryCode(string $addressCountryCode): self
@@ -947,6 +979,7 @@ class Subscriber
 
     /**
      * @param string $addressStreeName
+     *
      * @return Subscriber
      */
     public function setAddressStreetName(string $addressStreeName): self
@@ -964,10 +997,11 @@ class Subscriber
        return $this->addressDropOffPoint;
    }
 
-    /**
-     * @param string $addressDropOffPoint
-     * @return Subscriber
-     */
+   /**
+    * @param string $addressDropOffPoint
+    *
+    * @return Subscriber
+    */
    public function setAddressDropOffPoint(string $addressDropOffPoint): self
    {
        $this->addressDropOffPoint = $addressDropOffPoint;
@@ -983,10 +1017,11 @@ class Subscriber
        return $this->addressGeographicPoint;
    }
 
-    /**
-     * @param string $addressGeographicPoint
-     * @return Subscriber
-     */
+   /**
+    * @param string $addressGeographicPoint
+    *
+    * @return Subscriber
+    */
    public function setAddressGeographicPoint(string $addressGeographicPoint): self
    {
        $this->addressGeographicPoint = $addressGeographicPoint;
@@ -1002,10 +1037,11 @@ class Subscriber
        return $this->addressPostBox;
    }
 
-    /**
-     * @param string $addressPostBox
-     * @return Subscriber
-     */
+   /**
+    * @param string $addressPostBox
+    *
+    * @return Subscriber
+    */
    public function setAddressPostbox(string $addressPostBox): self
    {
        $this->addressPostBox = $addressPostBox;

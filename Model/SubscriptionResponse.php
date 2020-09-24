@@ -43,6 +43,7 @@ class SubscriptionResponse
 
     /**
      * @param Document $document
+     *
      * @return SubscriptionResponse
      */
     public function addRequiredDocument(Document $document): self
@@ -54,6 +55,7 @@ class SubscriptionResponse
 
     /**
      * @param array<Document> $requiredDocuments
+     *
      * @return self
      */
     public function setRequiredDocuments(array $requiredDocuments): self
@@ -81,6 +83,7 @@ class SubscriptionResponse
 
     /**
      * @param string $idTransaction
+     *
      * @return self
      */
     public function setIdTransaction(string $idTransaction): self
@@ -100,6 +103,7 @@ class SubscriptionResponse
 
     /**
      * @param string $message
+     *
      * @return self
      */
     public function setMessage(string $message): self
@@ -111,6 +115,7 @@ class SubscriptionResponse
 
     /**
      * @param string $status
+     *
      * @return SubscriptionResponse
      */
     public function setStatus(string $status): self
@@ -138,6 +143,7 @@ class SubscriptionResponse
 
     /**
      * @param string $orderTransaction
+     *
      * @return self
      */
     public function setOrderTransaction(string $orderTransaction): self

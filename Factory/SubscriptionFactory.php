@@ -2,7 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Subscriber;
@@ -11,7 +10,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SubscriptionFactory
+ * Class SubscriptionFactory.
  */
 class SubscriptionFactory extends AbstractFactory
 {
@@ -36,17 +35,18 @@ class SubscriptionFactory extends AbstractFactory
     private $initialPaymentFactory;
 
     /**
-     * @var ScheduledFreePaymentFactory
+     * @var InitialScheduledFreePaymentFactory
      */
-    private $scheduledFreePayment;
+    private $initialScheduledFreePaymentFactory;
 
     /**
      * SubscriptionFactory constructor.
+     *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param SubscriberFactory $subscriberFactory
-     * @param CustomerFolderFactory $customerFolderFactory
-     * @param SettlementFactory $settlementFactory
-     * @param InitialPaymentFactory $initialPaymentFactory
+     * @param SubscriberFactory           $subscriberFactory
+     * @param CustomerFolderFactory       $customerFolderFactory
+     * @param SettlementFactory           $settlementFactory
+     * @param InitialPaymentFactory       $initialPaymentFactory
      */
     public function __construct(
         GeneraliHttpClientInterface $httpClient,
@@ -54,18 +54,18 @@ class SubscriptionFactory extends AbstractFactory
         CustomerFolderFactory $customerFolderFactory,
         SettlementFactory $settlementFactory,
         InitialPaymentFactory $initialPaymentFactory,
-        ScheduledFreePaymentFactory $scheduledFreePaymentFactory
+        InitialScheduledFreePaymentFactory $initialScheduledFreePaymentFactory
     ) {
         parent::__construct($httpClient);
         $this->subscriberFactory = $subscriberFactory;
         $this->customerFolderFactory = $customerFolderFactory;
         $this->settlementFactory = $settlementFactory;
-        $this->scheduledFreePaymentFactory = $scheduledFreePaymentFactory;
         $this->initialPaymentFactory = $initialPaymentFactory;
+        $this->initialScheduledFreePaymentFactory = $initialScheduledFreePaymentFactory;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -83,8 +83,8 @@ class SubscriptionFactory extends AbstractFactory
             ->setRequired('settlement')->setAllowedTypes('settlement', ['array'])->setNormalizer('settlement', function (Options $options, $value) {
                 return $this->settlementFactory->create($value);
             })
-            ->setRequired('scheduledFreePayment')->setAllowedTypes('scheduledFreePayment', ['array'])->setNormalizer('scheduledFreePayment', function (Options $options, $value) {
-                return $this->scheduledFreePaymentFactory->create($value);
+            ->setRequired('initialScheduledFreePayment')->setAllowedTypes('initialScheduledFreePayment', ['array'])->setNormalizer('initialScheduledFreePayment', function (Options $options, $value) {
+                return $this->initialScheduledFreePaymentFactory->create($value);
             })
             ->setRequired('initialPayment')->setAllowedTypes('initialPayment', ['array'])->setNormalizer('initialPayment', function (Options $options, $value) {
                 return $this->initialPaymentFactory->create($value);
@@ -100,7 +100,7 @@ class SubscriptionFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {
@@ -111,7 +111,7 @@ class SubscriptionFactory extends AbstractFactory
             ->setCustomerFolder($resolvedData['customerFolder'])
             ->setSettlement($resolvedData['settlement'])
             ->setInitialPayment($resolvedData['initialPayment'])
-            ->setScheduledFreePayment($resolvedData['scheduledFreePayment'])
+            ->setInitialScheduledFreePayment($resolvedData['initialScheduledFreePayment'])
             ->setPaymentType($resolvedData['paymentType'])
             ->setFiscality($resolvedData['fiscality'])
             ->setDeathBeneficiaryClauseCode($resolvedData['deathBeneficiaryClauseCode'])

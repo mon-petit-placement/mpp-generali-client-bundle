@@ -3,34 +3,34 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Arbitration
+ * Class Arbitration.
  */
 class Arbitration
 {
     /**
      * @var string
      */
-    private $externalNumberOperation;
+    protected $externalNumberOperation;
 
     /**
      * @var bool
      */
-    private $mandateTransmissionOrder;
+    protected $mandateTransmissionOrder;
 
     /**
      * @var bool
      */
-    private $mandateArbitration;
+    protected $mandateArbitration;
 
     /**
      * @var array<Repartition>
      */
-    private $divestedFunds;
+    protected $divestedFunds;
 
     /**
      * @var array<Repartition>
      */
-    private $investedFunds;
+    protected $investedFunds;
 
     /**
      * @return string
@@ -42,6 +42,7 @@ class Arbitration
 
     /**
      * @param string $externalNumberOperation
+     *
      * @return self
      */
     public function setExternalNumberOperation(string $externalNumberOperation): self
@@ -61,6 +62,7 @@ class Arbitration
 
     /**
      * @param bool $mandateTransmissionOrder
+     *
      * @return self
      */
     public function setMandateTransmissionOrder(bool $mandateTransmissionOrder): self
@@ -80,6 +82,7 @@ class Arbitration
 
     /**
      * @param bool $mandateArbitration
+     *
      * @return Arbitration
      */
     public function setMandateArbitration(bool $mandateArbitration): self
@@ -99,6 +102,7 @@ class Arbitration
 
     /**
      * @param array $divestedFunds
+     *
      * @return self
      */
     public function setDivestedFunds(array $divestedFunds): self
@@ -110,6 +114,7 @@ class Arbitration
 
     /**
      * @param array $investedFunds
+     *
      * @return array
      */
     public function getInvestedFunds(array $investedFunds): array
@@ -119,6 +124,7 @@ class Arbitration
 
     /**
      * @param array $investedFunds
+     *
      * @return self
      */
     public function setInvestedFunds(array $investedFunds): self
@@ -131,12 +137,12 @@ class Arbitration
     /**
      * @return array
      */
-    public function arrayToInvestedFunds(): array
+    public function investedFundsToArray(): array
     {
         $investedFunds = [];
         foreach ($this->investedFunds as $investedFund) {
             $investedFunds[] = [
-                'fondsInvesti' => $investedFund->toArray()
+                'fondsInvesti' => $investedFund->toArray(),
             ];
         }
 
@@ -146,12 +152,12 @@ class Arbitration
     /**
      * @return array
      */
-    public function arrayToDisvestedFunds(): array
+    public function divestedFundsToArray(): array
     {
         $disvestedFunds = [];
         foreach ($this->divestedFunds as $divestedFund) {
             $disvestedFunds[] = [
-                'fondsDesinvesti' =>$divestedFund->toArray()
+                'fondsDesinvesti' => $divestedFund->toArray(),
             ];
         }
 
@@ -167,11 +173,8 @@ class Arbitration
             'numOperationExterne' => $faker->numberBetween(0, 999999),
             'mandatTransmissionOrdre' => false,
             'mandatArbitrage' => false,
-            'fondsInvestis' => $this->arrayToInvestedFunds(),
-            'fondsDesinvestis' => $this->arrayToDisvestedFunds()
+            'fondsInvestis' => $this->investedFundsToArray(),
+            'fondsDesinvestis' => $this->divestedFundsToArray(),
         ];
     }
-
-
-
 }

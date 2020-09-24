@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Model;
 
 class BaseResponse
@@ -34,6 +33,7 @@ class BaseResponse
 
     /**
      * @param array $messages
+     *
      * @return self
      */
     public function setMessages(array $messages): self
@@ -53,6 +53,7 @@ class BaseResponse
 
     /**
      * @param array $donnees
+     *
      * @return self
      */
     public function setDonnees(array $donnees): self

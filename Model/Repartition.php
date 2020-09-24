@@ -18,6 +18,19 @@ class Repartition
     protected $amount;
 
     /**
+     * @var bool
+     */
+    protected $totalSurrender;
+
+    /**
+     * Repartition constructor.
+     */
+    public function __construct()
+    {
+        $this->totalSurrender = false;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
@@ -59,11 +72,31 @@ class Repartition
     /**
      * @param float $amount
      *
-     * @return Repartition
+     * @return self
      */
     public function setAmount(float $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTotalSurrender(): ?bool
+    {
+        return $this->totalSurrender;
+    }
+
+    /**
+     * @param bool $totalSurrender
+     *
+     * @return self
+     */
+    public function setTotalSurrender(?bool $totalSurrender): self
+    {
+        $this->totalSurrender = $totalSurrender;
 
         return $this;
     }

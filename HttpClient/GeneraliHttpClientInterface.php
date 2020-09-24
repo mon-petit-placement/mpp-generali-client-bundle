@@ -6,9 +6,7 @@ use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Document;
 use Mpp\GeneraliClientBundle\Model\Subscription;
-use Mpp\GeneraliClientBundle\Model\SubscriptionConstant;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
-use Mpp\GeneraliClientBundle\Model\TransactionOrder;
 
 /**
  * Interface GeneraliHttpClientInterface.
@@ -32,17 +30,18 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/subscription/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
     public function retrieveTransactionSubscriptionData(array $expectedItems = []): BaseResponse;
 
     /**
-     * Create a Context with providerCode, SubscriptionCode
+     * Create a Context with providerCode, SubscriptionCode.
      *
      * @param array $parameters
      * @param array $expectedItems
+     *
      * @return Context
      */
     public function buildContext(array $parameters = [], array $expectedItems = []): Context;
@@ -54,10 +53,10 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/souscription/verifier
      * path: /epart/v2.0/transaction/souscription/confirmer
      *
-     * @param Context              $context
-     * @param Subscription         $subscription
-     * @param string               $comment
-     * @param bool                 $dematerialization
+     * @param Context      $context
+     * @param Subscription $subscription
+     * @param string       $comment
+     * @param bool         $dematerialization
      *
      * @return SubscriptionResponse
      */
@@ -68,67 +67,67 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/souscription/initier
      *
-     * @param Context              $context
-     * @param Subscription         $subscription
-     * @param string               $comment
-     * @param bool                 $dematerialization
+     * @param Context      $context
+     * @param Subscription $subscription
+     * @param string       $comment
+     * @param bool         $dematerialization
      *
      * @return SubscriptionResponse
      */
     public function initiateSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): SubscriptionResponse;
 
     /**
-     * Check a Subscription with a Context
+     * Check a Subscription with a Context.
      *
      * path: /epart/v2.0/transaction/souscription/verifier
      *
-     * @param Context              $context
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
     public function checkSubscription(Context $context): SubscriptionResponse;
 
     /**
-     * Confirm a Subscription with a Context, a SubscriptionResponse, and get the required documents to send
+     * Confirm a Subscription with a Context, a SubscriptionResponse, and get the required documents to send.
      *
      * path: /epart/v2.0/transaction/souscription/confirmer
      *
-     * @param Context              $context
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
     public function confirmSubscription(Context $context): SubscriptionResponse;
 
     /**
-     * Send a document to the API Generali with a SubscriptionResponse, and get the required documents to send
+     * Send a document to the API Generali with a SubscriptionResponse, and get the required documents to send.
      *
      * path: /epart/v1.0/transaction/fournirPiece/{idTransaction}/{idDocument}
      *
-     * @param Context              $context
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
     public function sendSubscriptionFile(string $idTransaction, Document $document): SubscriptionResponse;
 
     /**
-     * list all the files the customer need to send for the subscription with a SubscriptionResponse, and the idTransaction
+     * list all the files the customer need to send for the subscription with a SubscriptionResponse, and the idTransaction.
      *
      * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/souscription
      *
-     * @param Context              $context
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
     public function listSubscriptionFiles(string $idTransaction): SubscriptionResponse;
 
     /**
-     * Finalize a Subscription with a Context, a SubscriptionResponse, the list of Document to send
+     * Finalize a Subscription with a Context, a SubscriptionResponse, the list of Document to send.
      *
      * path: /epart/v2.0/transaction/souscription/finalisser
      *
-     * @param Context $context
+     * @param Context              $context
      * @param SubscriptionResponse $response
-     * @param array<Document> $documents
+     * @param array<Document>      $documents
      *
      * @return SubscriptionResponse
      */
@@ -139,7 +138,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementLibre/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -198,7 +197,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -305,7 +304,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/donnees/rachatpartiel/all
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -364,7 +363,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/donnee
      *
-     * @param array  $expectedItems
+     * @param array $expectedItems
      *
      * @return array
      */
@@ -375,7 +374,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/initier
      *
-     * @param Context $context
+     * @param Context     $context
      * @param Arbitration $arbitration
      *
      * @return SubscriptionResponse

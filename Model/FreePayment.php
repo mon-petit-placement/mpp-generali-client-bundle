@@ -3,10 +3,25 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class ScheduledFreePayment.
+ * Class FreePayment.
  */
-class ScheduledFreePayment
+class FreePayment
 {
+    /**
+     * @var CustomerFolder
+     */
+    protected $customerFolder;
+
+    /**
+     * @var array<Repartition>
+     */
+    protected $repartitions;
+
+    /**
+     * @var Settlement
+     */
+    protected $settlement;
+
     /**
      * @var float
      */
@@ -15,22 +30,7 @@ class ScheduledFreePayment
     /**
      * @var string
      */
-    protected $periodicty;
-
-    /**
-     * @var Settlement
-     */
-    protected $settlement;
-
-    /**
-     * @var array<Repartition>
-     */
-    protected $repartitions;
-
-    /**
-     * @var CustomerFolder
-     */
-    protected $customerFolder;
+    protected $externalOperationNumber;
 
     /**
      * @var Subscriber
@@ -38,41 +38,21 @@ class ScheduledFreePayment
     protected $subscriber;
 
     /**
-     * @return float
+     * @return CustomerFolder
      */
-    public function getAmount(): float
+    public function getCustomerFolder(): CustomerFolder
     {
-        return $this->amount;
+        return $this->customerFolder;
     }
 
     /**
-     * @param float $amount
+     * @param CustomerFolder $customerFolder
      *
      * @return self
      */
-    public function setAmount(float $amount): self
+    public function setCustomerFolder(CustomerFolder $customerFolder): self
     {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * @return Settlement
-     */
-    public function getSettlement(): Settlement
-    {
-        return $this->settlement;
-    }
-
-    /**
-     * @param Settlement $settlement
-     *
-     * @return self
-     */
-    public function setSettlement(Settlement $settlement): self
-    {
-        $this->settlement = $settlement;
+        $this->customerFolder = $customerFolder;
 
         return $this;
     }
@@ -98,23 +78,76 @@ class ScheduledFreePayment
     }
 
     /**
-     * @return CustomerFolder
+     * @return string
      */
-    public function getCustomerFolder(): CustomerFolder
+    public function getSettlement(): string
     {
-        return $this->customerFolder;
+        return $this->settlement;
     }
 
     /**
-     * @param CustomerFolder $customerFolder
+     * @param Settlement $settlement
      *
      * @return self
      */
-    public function setCustomerFolder(CustomerFolder $customerFolder): self
+    public function setSettlement(Settlement $settlement): self
     {
-        $this->customerFolder = $customerFolder;
+        $this->settlement = $settlement;
 
         return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param float $amount
+     *
+     * @return self
+     */
+    public function setAmount(float $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalOperationNumber(): string
+    {
+        return $this->externalOperationNumber;
+    }
+
+    /**
+     * @param string $externalOperationNumber
+     *
+     * @return self
+     */
+    public function setExternalOperationNumber(string $externalOperationNumber): self
+    {
+        $this->externalOperationNumber = $externalOperationNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function repartitionsToArray(): array
+    {
+        $repartitions = [];
+        foreach ($this->repartitions as $repartition) {
+            $repartitions[] = $repartition->toArray();
+        }
+
+        return $repartitions;
     }
 
     /**
@@ -133,26 +166,6 @@ class ScheduledFreePayment
     public function setSubscriber(Subscriber $subscriber): self
     {
         $this->subscriber = $subscriber;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPeriodicity(): string
-    {
-        return $this->periodicity;
-    }
-
-    /**
-     * @param string $periodicity
-     *
-     * @return self
-     */
-    public function setPeriodicity(string $periodicity): self
-    {
-        $this->periodicity = $periodicity;
 
         return $this;
     }
@@ -206,10 +219,7 @@ class ScheduledFreePayment
             'repartition' => $this->repartitionsToArray(),
             'reglement' => $this->getSettlement()->toArray(),
             'amount' => $this->getAmount(),
-            'versement' => [
-                'montant' => $this->getAmount(),
-                'periodicite' => $this->getPeriodicity(),
-            ],
+            'numeroOperationExterne' => $this->getExternalOperationNumber(),
         ];
     }
 }

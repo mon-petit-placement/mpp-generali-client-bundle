@@ -4,19 +4,17 @@ namespace Mpp\GeneraliClientBundle\Factory;
 
 use Laminas\Validator\Date;
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\FundsOrigin;
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class FundsOriginFactory
+ * Class FundsOriginFactory.
  */
 class FundsOriginFactory extends AbstractFactory
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -27,7 +25,7 @@ class FundsOriginFactory extends AbstractFactory
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $allowedCodeOrigin)
             ->setDefined('detail')->setAllowedTypes('detail', ['string'])->setAllowedValues('detail', $allowedDetailCode)
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
-            ->setDefined('date')->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function(Options $options, $value) {
+            ->setDefined('date')->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function (Options $options, $value) {
                 if ($value instanceof \DateTime) {
                     return $value;
                 }
@@ -39,7 +37,7 @@ class FundsOriginFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

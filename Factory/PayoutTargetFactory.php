@@ -3,19 +3,16 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\PayoutTarget;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PayoutTargetFactory
+ * Class PayoutTargetFactory.
  */
 class PayoutTargetFactory extends AbstractFactory
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -28,7 +25,7 @@ class PayoutTargetFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

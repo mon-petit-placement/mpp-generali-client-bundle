@@ -2,16 +2,13 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\Arbitration;
-use Mpp\GeneraliClientBundle\Model\AssetsOrigin;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ArbitrationFactory
+ * Class ArbitrationFactory.
  */
 class ArbitrationFactory extends AbstractFactory
 {
@@ -22,8 +19,9 @@ class ArbitrationFactory extends AbstractFactory
 
     /**
      * ArbitrationFactory constructor.
+     *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param RepartitionFactory $repartitionFactory
+     * @param RepartitionFactory          $repartitionFactory
      */
     public function __construct(GeneraliHttpClientInterface $httpClient, RepartitionFactory $repartitionFactory)
     {
@@ -32,7 +30,7 @@ class ArbitrationFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -40,7 +38,7 @@ class ArbitrationFactory extends AbstractFactory
             ->setRequired('externalNumberOperation')->setAllowedTypes('externalNumberOperation', ['int'])
             ->setDefault('mandateTransmissionOrder', false)->setAllowedTypes('mandateTransmissionOrder', ['bool'])
             ->setDefault('mandateArbitration', false)->setAllowedTypes('mandateArbitration', ['bool'])
-            ->setRequired('divestedFunds')->setAllowedTypes('divestedFunds', ['array'])->setNormalizer('divestedFunds', function(Options $options, $values) : array {
+            ->setRequired('divestedFunds')->setAllowedTypes('divestedFunds', ['array'])->setNormalizer('divestedFunds', function (Options $options, $values): array {
                 $resolvedData = [];
                 foreach ($values as $value) {
                     $resolvedData[] = $this->repartitionFactory->create($value);
@@ -48,7 +46,7 @@ class ArbitrationFactory extends AbstractFactory
 
                 return $resolvedData;
             })
-            ->setRequired('investedFunds')->setAllowedTypes('investedFunds', ['array'])->setNormalizer('investedFunds', function(Options $options, $values): array {
+            ->setRequired('investedFunds')->setAllowedTypes('investedFunds', ['array'])->setNormalizer('investedFunds', function (Options $options, $values): array {
                 $resolvedData = [];
                 foreach ($values as $value) {
                     $resolvedData[] = $this->repartitionFactory->create($value);
@@ -60,7 +58,7 @@ class ArbitrationFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

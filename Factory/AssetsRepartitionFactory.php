@@ -3,18 +3,16 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
 use Mpp\GeneraliClientBundle\Model\AssetsRepartition;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AssetsRepartitionFactory
+ * Class AssetsRepartitionFactory.
  */
 class AssetsRepartitionFactory extends AbstractFactory
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -28,7 +26,7 @@ class AssetsRepartitionFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

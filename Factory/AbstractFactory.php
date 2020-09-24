@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
@@ -9,7 +8,7 @@ use Mpp\GeneraliClientBundle\Model\Context;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SettlementFactory
+ * Class SettlementFactory.
  */
 abstract class AbstractFactory implements FactoryInterface
 {
@@ -20,6 +19,7 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * AbstractFactory constructor.
+     *
      * @param GeneraliHttpClientInterface $httpClient
      */
     public function __construct(GeneraliHttpClientInterface $httpClient)
@@ -37,6 +37,7 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * @param string $referentialKey
+     *
      * @return array
      */
     protected function getReferentialCodes(string $referentialKey): array
@@ -50,6 +51,7 @@ abstract class AbstractFactory implements FactoryInterface
     /**
      * @param string $referentialKey
      * @param string $subReferentialKey
+     *
      * @return array
      */
     protected function getSubReferentialCode(string $referentialKey, string $subReferentialKey): array
@@ -63,7 +65,8 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * @param string $referentialKey
-     * @param float $searchedAmount
+     * @param float  $searchedAmount
+     *
      * @return string|null
      */
     protected function guessReferentialCode(string $referentialKey, float $searchedAmount): ?string
@@ -77,6 +80,7 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * @param string $expectedItem
+     *
      * @return array
      */
     protected function getExpectedItemCodes(string $expectedItem): array
@@ -88,13 +92,12 @@ abstract class AbstractFactory implements FactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $parameters)
     {
         $resolver = new OptionsResolver();
         $this->configureData($resolver);
-
         $resolvedData = $resolver->resolve($parameters);
 
         return $this->doCreate($resolvedData);
@@ -107,6 +110,7 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * @param array $resolvedData
+     *
      * @return mixed
      */
     abstract public function doCreate(array $resolvedData);

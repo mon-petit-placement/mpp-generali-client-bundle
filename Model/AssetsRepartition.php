@@ -2,10 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
- * Class AssetsRepartition
+ * Class AssetsRepartition.
  */
 class AssetsRepartition
 {
@@ -35,7 +33,6 @@ class AssetsRepartition
             'precision' => $this->getPrecision(),
         ];
     }
-
 
     /**
      * @return string

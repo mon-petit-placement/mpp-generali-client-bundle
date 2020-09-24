@@ -2,10 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
- * Class FundsOrigin
+ * Class FundsOrigin.
  */
 class FundsOrigin
 {
@@ -43,9 +41,9 @@ class FundsOrigin
             'code' => $this->getCodeOrigin(),
             'montant' => $this->getAmount(),
             'precision' => $this->getPrecision(),
-            'date' => $this->getDate()->format('Y-m-d')
+            'date' => $this->getDate()->format('Y-m-d'),
         ];
-        if(null !== $this->getDetail()){
+        if (null !== $this->getDetail()) {
             $result['codesDetail'][] = $this->getDetail();
         }
 
@@ -134,9 +132,10 @@ class FundsOrigin
 
     /**
      * @param string $detail
+     *
      * @return self
      */
-    public function setDetail(string $detail): self
+    public function setDetail(?string $detail): self
     {
         $this->detail = $detail;
 

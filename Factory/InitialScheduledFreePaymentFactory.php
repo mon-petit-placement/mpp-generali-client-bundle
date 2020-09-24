@@ -3,14 +3,14 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\InitialPayment;
-use Symfony\Component\OptionsResolver\Options;
+use Mpp\GeneraliClientBundle\Model\InitialScheduledFreePayment;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
- * Class InitialPaymentFactory.
+ * Class ScheduledFreePaymentFactory.
  */
-class InitialPaymentFactory extends AbstractFactory
+class InitialScheduledFreePaymentFactory extends AbstractFactory
 {
     /**
      * @var RepartitionFactory
@@ -18,7 +18,7 @@ class InitialPaymentFactory extends AbstractFactory
     private $repartitionFactory;
 
     /**
-     * InitialPaymentFactory constructor.
+     * ScheduledFreePaymentFactory constructor.
      *
      * @param GeneraliHttpClientInterface $httpClient
      * @param RepartitionFactory          $repartitionFactory
@@ -35,16 +35,17 @@ class InitialPaymentFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver): void
     {
         $resolver
+            ->setRequired('bankDebitDay')->setAllowedTypes('bankDebitDay', ['int'])
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
-            ->setRequired('repartitions', [])->setAllowedTypes('repartitions', ['array'])->setNormalizer('repartitions', function (Options $options, $values) {
+            ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
+            ->setRequired('repartitions')->setAllowedTypes('repartitions', ['array'])->setNormalizer('repartitions', function (Options $options, $values): array {
                 $resolvedValues = [];
                 foreach ($values as $value) {
                     $resolvedValues[] = $this->repartitionFactory->create($value);
                 }
 
                 return $resolvedValues;
-            })
-        ;
+            });
     }
 
     /**
@@ -52,8 +53,10 @@ class InitialPaymentFactory extends AbstractFactory
      */
     public function doCreate(array $resolvedData)
     {
-        return (new InitialPayment())
+        return (new InitialScheduledFreePayment())
+            ->setBankDebitDay($resolvedData['bankDebitDay'])
             ->setAmount($resolvedData['amount'])
+            ->setPeriodicity($resolvedData['periodicity'])
             ->setRepartitions($resolvedData['repartitions'])
         ;
     }

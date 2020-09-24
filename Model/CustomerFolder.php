@@ -2,9 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
  * Class CustomerFolder.
  */
@@ -74,7 +71,7 @@ class CustomerFolder
     public function assetsOriginToArray(): array
     {
         $assetsOrigins = [];
-        foreach($this->getAssetsOrigin() as $assetsOrigin) {
+        foreach ($this->getAssetsOrigin() as $assetsOrigin) {
             $assetsOrigins[] = $assetsOrigin->toArray();
         }
 
@@ -87,7 +84,7 @@ class CustomerFolder
     public function assetsRepartitionToArray(): array
     {
         $assetsRepartitions = [];
-        foreach($this->getAssetsRepartition() as $assetRepartition) {
+        foreach ($this->getAssetsRepartition() as $assetRepartition) {
             $assetsRepartitions[] = $assetRepartition->toArray();
         }
 
@@ -207,7 +204,7 @@ class CustomerFolder
     /**
      * @param bool $frenchOriginPayment
      *
-     * @return CustomerFolder
+     * @return self
      */
     public function setFrenchOriginPayment(bool $frenchOriginPayment): self
     {

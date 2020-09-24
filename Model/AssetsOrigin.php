@@ -2,8 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
  * Class AssetsOrigin.
  */
@@ -29,6 +27,7 @@ class AssetsOrigin
             'precision' => $this->getPrecision(),
         ];
     }
+
     /**
      * @return string
      */

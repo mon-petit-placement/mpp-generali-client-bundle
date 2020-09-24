@@ -2,9 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
  * Class Subscription.
  */
@@ -34,15 +31,16 @@ class Subscription
      * @var Settlement
      */
     protected $settlement;
+
     /**
      * @var InitialPayment
      */
     protected $initialPayment;
 
     /**
-     * @var ScheduledFreePayment
+     * @var InitialScheduledFreePayment
      */
-    protected $scheduledFreePayment;
+    protected $initialScheduledFreePayment;
 
     /**
      * @var string
@@ -79,10 +77,13 @@ class Subscription
      */
     protected $durationType;
 
+    /**
+     * @return array
+     */
     public function durationToArray(): array
     {
         $duration = [
-            'typeDuree' => $this->getDurationType()
+            'typeDuree' => $this->getDurationType(),
         ];
         if (null !== $this->getDuration()) {
             $duration['duree'] = $this->getDuration();
@@ -96,7 +97,6 @@ class Subscription
      */
     public function toArray(): array
     {
-
         return [
             'referencesExternes' => [
                 'refExterne' => $this->getExternalReference1(),
@@ -105,7 +105,7 @@ class Subscription
             'souscripteur' => $this->getSubscriber()->toArray(),
             'dossierClient' => $this->getCustomerFolder()->toArray(),
             'versementInitial' => $this->getInitialPayment()->toArray(),
-            'versementsLibresProgrammes' => $this->getScheduledFreePayment()->toArray(),
+            'versementsLibresProgrammes' => $this->getInitialScheduledFreePayment()->toArray(),
             'typePaiement' => $this->getPaymentType(),
             'duree' => $this->durationToArray(),
             'fiscalite' => $this->getFiscality(),
@@ -116,7 +116,7 @@ class Subscription
             'modeGestion' => [
                 'codeModeGestion' => $this->getGestionMode(),
             ],
-            'reglement' => $this->getSettlement()->toArray()
+            'reglement' => $this->getSettlement()->toArray(),
         ];
     }
 
@@ -130,6 +130,7 @@ class Subscription
 
     /**
      * @param string $externalReference1
+     *
      * @return Subscription
      */
     public function setExternalReference1(string $externalReference1): self
@@ -138,6 +139,7 @@ class Subscription
 
         return $this;
     }
+
     /**
      * @return string
      */
@@ -148,6 +150,7 @@ class Subscription
 
     /**
      * @param string $externalReference2
+     *
      * @return Subscription
      */
     public function setExternalReference2(string $externalReference2): self
@@ -338,20 +341,21 @@ class Subscription
     }
 
     /**
-     * @return ScheduledFreePayment
+     * @return InitialScheduledFreePayment
      */
-    public function getScheduledFreePayment(): ScheduledFreePayment
+    public function getInitialScheduledFreePayment(): InitialScheduledFreePayment
     {
-        return $this->scheduledFreePayment;
+        return $this->initialScheduledFreePayment;
     }
 
     /**
-     * @param ScheduledFreePayment $scheduledFreePayment
+     * @param InitialScheduledFreePayment $initialScheduledFreePayment
+     *
      * @return Subscription
      */
-    public function setScheduledFreePayment(ScheduledFreePayment $scheduledFreePayment): self
+    public function setInitialScheduledFreePayment(InitialScheduledFreePayment $initialScheduledFreePayment): self
     {
-        $this->scheduledFreePayment = $scheduledFreePayment;
+        $this->initialScheduledFreePayment = $initialScheduledFreePayment;
 
         return $this;
     }
@@ -366,6 +370,7 @@ class Subscription
 
     /**
      * @param int $duration
+     *
      * @return self
      */
     public function setDuration(int $duration): self
@@ -385,6 +390,7 @@ class Subscription
 
     /**
      * @param string $durationType
+     *
      * @return Subscription
      */
     public function setDurationType(string $durationType): self

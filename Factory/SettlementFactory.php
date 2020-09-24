@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
@@ -10,11 +9,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
- * Class SettlementFactory
+ * Class SettlementFactory.
  */
 class SettlementFactory extends AbstractFactory
 {
-      /**
+    /**
      * @var FundsOriginFactory
      */
     private $fundsOriginFactory;
@@ -52,7 +51,7 @@ class SettlementFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {

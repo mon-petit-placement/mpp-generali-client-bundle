@@ -3,25 +3,15 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
+use Mpp\GeneraliClientBundle\Model\PartialSurrender;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ScheduledFreePaymentFactory.
+ * Class SubscriptionFactory.
  */
-class ScheduledFreePaymentFactory extends AbstractFactory
+class PartialSurrenderFactory extends AbstractFactory
 {
-    /**
-     * @var SubscriberFactory
-     */
-    private $subscriberFactory;
-
-    /**
-     * @var CustomerFolderFactory
-     */
-    private $customerFolderFactory;
-
     /**
      * @var SettlementFactory
      */
@@ -43,14 +33,10 @@ class ScheduledFreePaymentFactory extends AbstractFactory
      */
     public function __construct(
         GeneraliHttpClientInterface $httpClient,
-        SubscriberFactory $subscriberFactory,
-        CustomerFolderFactory $customerFolderFactory,
         SettlementFactory $settlementFactory,
         RepartitionFactory $repartitionFactory
     ) {
         parent::__construct($httpClient);
-        $this->subscriberFactory = $subscriberFactory;
-        $this->customerFolderFactory = $customerFolderFactory;
         $this->settlementFactory = $settlementFactory;
         $this->repartitionFactory = $repartitionFactory;
     }
@@ -61,8 +47,11 @@ class ScheduledFreePaymentFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver): void
     {
         $resolver
-            ->setRequired('customerFolder')->setAllowedTypes('customerFolder', ['array'])->setNormalizer('customerFolder', function (Options $options, $value) {
-                return $this->customerFolderFactory->create($value);
+            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
+            ->setRequired('reasonCode')->setAllowedTypes('reasonCode', ['string'])
+            ->setRequired('proportionalRepartition')->setAllowedTypes('proportionalRepartition', ['bool'])
+            ->setRequired('settlement')->setAllowedTypes('settlement', ['array'])->setNormalizer('settlement', function (Options $options, $value) {
+                return $this->settlementFactory->create($value);
             })
             ->setRequired('repartitions')->setAllowedTypes('repartitions', ['array'])->setNormalizer('repartitions', function (Options $options, $values) {
                 $resolvedValues = [];
@@ -72,14 +61,6 @@ class ScheduledFreePaymentFactory extends AbstractFactory
 
                 return $resolvedValues;
             })
-            ->setRequired('settlement')->setAllowedTypes('settlement', ['array'])->setNormalizer('settlement', function (Options $options, $value) {
-                return $this->settlementFactory->create($value);
-            })
-            ->setRequired('amount')->setAllowedTypes('amount', ['float'])
-            ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
-            ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
-                return $this->subscriberFactory->create($value);
-            })
         ;
     }
 
@@ -88,13 +69,12 @@ class ScheduledFreePaymentFactory extends AbstractFactory
      */
     public function doCreate(array $resolvedData)
     {
-        return (new ScheduledFreePayment())
-            ->setCustomerFolder($resolvedData['customerFolder'])
+        return (new PartialSurrender())
+            ->setAmount($resolvedData['amount'])
+            ->setReasonCode($resolvedData['reasonCode'])
+            ->setProportionalRepartition($resolvedData['proportionalRepartition'])
             ->setRepartitions($resolvedData['repartitions'])
             ->setSettlement($resolvedData['settlement'])
-            ->setSubscriber($resolvedData['subscriber'])
-            ->setAmount($resolvedData['amount'])
-            ->setPeriodicity($resolvedData['periodicity'])
         ;
     }
 }

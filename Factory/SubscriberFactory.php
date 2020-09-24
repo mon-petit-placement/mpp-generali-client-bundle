@@ -3,19 +3,17 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Subscriber;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
- * Class SubscriberFactory
+ * Class SubscriberFactory.
  */
 class SubscriberFactory extends AbstractFactory
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureData(OptionsResolver $resolver): void
     {
@@ -31,7 +29,7 @@ class SubscriberFactory extends AbstractFactory
         $availableBirthCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_BIRTH_COUNTRIES);
         $availableAddressCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRIES);
         $availableCivilities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CIVILITIES);
-        
+
         $resolver
             ->setRequired('lastName')->setAllowedTypes('lastName', ['string', 'null'])
             ->setDefined('birthName')->setAllowedTypes('birthName', ['string', 'null'])
@@ -39,7 +37,7 @@ class SubscriberFactory extends AbstractFactory
             ->setRequired('civility')->setAllowedTypes('civility', ['string', 'null'])->setAllowedValues('civility', $availableCivilities)
             ->setRequired('taxCountry')->setAllowedTypes('taxCountry', ['string', 'null'])->setAllowedValues('taxCountry', $availableTaxCountry)
             ->setRequired('nationality')->setAllowedTypes('nationality', ['string', 'null'])->setAllowedValues('nationality', $availableNationalities)
-            ->setRequired('birthDate')->setAllowedTypes('birthDate', ['\DateTime', 'string'])->setNormalizer('birthDate', function(Options $options, $value) {
+            ->setRequired('birthDate')->setAllowedTypes('birthDate', ['\DateTime', 'string'])->setNormalizer('birthDate', function (Options $options, $value) {
                 if ($value instanceof \DateTime) {
                     return $value;
                 }
@@ -65,7 +63,7 @@ class SubscriberFactory extends AbstractFactory
             ->setDefined('siretNumber')->setAllowedTypes('siretNumber', ['int', 'null'])
             ->setDefined('employerName')->setAllowedTypes('employerName', ['string', 'null'])
             ->setDefined('cspCodeLastProfession')->setAllowedTypes('cspCodeLastProfession', ['string', 'null'])->setAllowedValues('cspCode', $availableCspCode)
-            ->setDefined('startDateInactivity')->setAllowedTypes('startDateInactivity', ['\DateTime', 'string'])->setNormalizer('startDateInactivity', function(Options $options, $value) {
+            ->setDefined('startDateInactivity')->setAllowedTypes('startDateInactivity', ['\DateTime', 'string'])->setNormalizer('startDateInactivity', function (Options $options, $value) {
                 if ($value instanceof \DateTime) {
                     return $value;
                 }
@@ -76,7 +74,7 @@ class SubscriberFactory extends AbstractFactory
             ->setDefined('cellPhoneNumber')->setAllowedTypes('cellPhoneNumber', ['string', 'null'])
             ->setRequired('email')->setAllowedTypes('email', ['string'])
             ->setRequired('identityDocCode')->setAllowedTypes('identityDocCode', ['string'])->setAllowedValues('identityDocCode', $availableIdentityDocCode)
-            ->setRequired('identityDocValidityDate')->setAllowedTypes('identityDocValidityDate', ['\DateTime', 'string'])->setNormalizer('identityDocValidityDate', function(Options $options, $value) {
+            ->setRequired('identityDocValidityDate')->setAllowedTypes('identityDocValidityDate', ['\DateTime', 'string'])->setNormalizer('identityDocValidityDate', function (Options $options, $value) {
                 if ($value instanceof \DateTime) {
                     return $value;
                 }
@@ -94,7 +92,7 @@ class SubscriberFactory extends AbstractFactory
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doCreate(array $resolvedData)
     {
