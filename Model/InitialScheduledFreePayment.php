@@ -104,11 +104,11 @@ class InitialScheduledFreePayment
     }
 
     /**
-     * @param string $amount
+     * @param float $amount
      *
      * @return self
      */
-    public function setAmount(string $amount): self
+    public function setAmount(float $amount): self
     {
         $this->amount = $amount;
 
@@ -116,9 +116,9 @@ class InitialScheduledFreePayment
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getAmount(): string
+    public function getAmount(): float
     {
         return $this->amount;
     }

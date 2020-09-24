@@ -78,9 +78,9 @@ class FreePayment
     }
 
     /**
-     * @return string
+     * @return Settlement
      */
-    public function getSettlement(): string
+    public function getSettlement(): Settlement
     {
         return $this->settlement;
     }

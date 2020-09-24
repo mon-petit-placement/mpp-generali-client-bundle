@@ -170,9 +170,9 @@ class Arbitration
     public function toArray(): array
     {
         return [
-            'numOperationExterne' => $faker->numberBetween(0, 999999),
-            'mandatTransmissionOrdre' => false,
-            'mandatArbitrage' => false,
+            'numOperationExterne' => $this->getExternalNumberOperation(),
+            'mandatTransmissionOrdre' => $this->getMandateTransmissionOrder(),
+            'mandatArbitrage' => $this->getMandateArbitration(),
             'fondsInvestis' => $this->investedFundsToArray(),
             'fondsDesinvestis' => $this->divestedFundsToArray(),
         ];

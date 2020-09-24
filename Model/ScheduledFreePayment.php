@@ -160,6 +160,19 @@ class ScheduledFreePayment
     /**
      * @return array
      */
+    public function repartitionsToArray(): array
+    {
+        $repartitions = [];
+        foreach ($this->repartitions as $repartition) {
+            $repartitions[] = $repartition->toArray();
+        }
+
+        return $repartitions;
+    }
+
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [

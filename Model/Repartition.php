@@ -13,7 +13,7 @@ class Repartition
     protected $fundsCode;
 
     /**
-     * @var string
+     * @var float
      */
     protected $amount;
 
@@ -62,9 +62,9 @@ class Repartition
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getAmount(): string
+    public function getAmount(): float
     {
         return $this->amount;
     }

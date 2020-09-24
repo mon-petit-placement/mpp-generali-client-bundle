@@ -75,11 +75,11 @@ class AssetsRepartition
     }
 
     /**
-     * @param string $percentRepartition
+     * @param float $percentRepartition
      *
      * @return self
      */
-    public function setPercentRepartition(string $percentRepartition): self
+    public function setPercentRepartition(float $percentRepartition): self
     {
         $this->percentRepartition = $percentRepartition;
 
@@ -87,9 +87,9 @@ class AssetsRepartition
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getPercentRepartition(): string
+    public function getPercentRepartition(): float
     {
         return $this->percentRepartition;
     }
