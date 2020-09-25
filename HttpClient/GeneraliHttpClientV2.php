@@ -3,8 +3,12 @@
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use GuzzleHttp\Client;
+use Mpp\GeneraliClientBundle\Model\Arbitration;
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Document;
+use Mpp\GeneraliClientBundle\Model\FreePayment;
+use Mpp\GeneraliClientBundle\Model\PartialSurrender;
+use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
 use Mpp\GeneraliClientBundle\Model\TransactionOrder;
 use Psr\Log\LoggerInterface;
 use Mpp\GeneraliClientBundle\Model\Context;
@@ -134,10 +138,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param array $parameters
-     * @param array $expectedItems
-     *
-     * @return Context
+     * {@inheritdoc}
      */
     public function buildContext(array $parameters = [], array $expectedItems = []): Context
     {
@@ -155,14 +156,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param Context      $context
-     * @param Subscription $subscription
-     * @param bool         $dematerialization
-     * @param string|null  $comment
-     *
-     * @return SubscriptionResponse
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * {@inheritdoc}
      */
     public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): SubscriptionResponse
     {
@@ -172,20 +166,13 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             throw new \RuntimeException('The Initiation of the Subscription has failed');
         }
 
-        $response = $this->checkSubscription($context, $response);
+        $response = $this->checkSubscription($context);
 
-        return $this->confirmSubscription($context, $response);
+        return $this->confirmSubscription($context);
     }
 
     /**
-     * @param Context      $context
-     * @param Subscription $subscription
-     * @param string       $comment
-     * @param bool         $dematerialization
-     *
-     * @return SubscriptionResponse
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * {@inheritdoc}
      */
     public function initiateSubscription(
         Context $context,
@@ -194,6 +181,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         string $comment = null
     ): SubscriptionResponse {
         $response = new SubscriptionResponse();
+
         dump(json_encode([
             'contexte' => $context->arrayToInitiate(),
             'souscription' => $subscription->toArray(),
@@ -224,18 +212,14 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $e->getMessage()
             );
             $this->logger->error($errorMessage);
-            $response->setMessage($errorMessage);
+            $response->setErrorMessage($errorMessage);
         }
 
         return $response;
     }
 
     /**
-     * @param Context $context
-     *
-     * @return SubscriptionResponse
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * {@inheritdoc}
      */
     public function checkSubscription(Context $context): SubscriptionResponse
     {
@@ -264,11 +248,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param Context $context
-     *
-     * @return SubscriptionResponse
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * {@inheritdoc}
      */
     public function confirmSubscription(Context $context): SubscriptionResponse
     {
@@ -308,14 +288,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param string   $path
-     * @param string   $idTransaction
-     * @param string   $fileName
-     * @param Document $documents
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function sendSubscriptionFile(string $idTransaction, Document $document): SubscriptionResponse
+    public function sendFile(string $idTransaction, Document $document): SubscriptionResponse
     {
         $response = new SubscriptionResponse();
 
@@ -359,11 +334,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * @param string $idTransaction
-     *
-     * @return SubscriptionResponse
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * {@inheritdoc}
      */
     public function listSubscriptionFiles(string $idTransaction): SubscriptionResponse
     {
@@ -404,20 +375,14 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     *  Finalize a Subscription with a token Status.
-     **.
-     *
-     * @param Context         $context
-     * @param array<Document> $documents
-     *
-     * @return TransactionOrder
+     * {@inheritdoc}
      */
     public function finalizeSubscription(Context $context, array $documents): SubscriptionResponse
     {
         $response = new SubscriptionResponse();
 
         foreach ($documents as $document) {
-            $response = $this->sendSubscriptionFile($response, $context->getIdTransaction(), $document);
+            $response = $this->sendFile($context->getIdTransaction(), $document);
             if (!empty($response->getMessage())) {
                 return $response;
             }
@@ -448,13 +413,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     * Retrieve free payment informations with contractNumber & expectedItems.
-     *
-     * path: /epart/v2.0/transaction/versementLibre/donnee
-     *
-     * @param array $expectedItems
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getFreePaymentInformations(array $expectedItems = []): array
     {
@@ -462,73 +421,55 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     *  Initiate Data to create a free payment.
-     *
-     * path: /epart/v2.0/transaction/versementLibre/initier
-     *
-     * @param array $expectedItems
-     * @param array $freePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function initiateFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
+    public function createFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse
+    {
+        $response = $this->initiateFreePayment($context, $freePayment);
+
+        if (null === $response->getStatus()) {
+            throw new \RuntimeException('The Initiation of the Subscription has failed');
+        }
+
+        $response = $this->checkSubscription($context);
+
+        return $this->confirmSubscription($context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function initiateFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Check a Free Payment with a token Status.
-     *
-     * path: /epart/v2.0/transaction/versementLibre/verifier
-     *
-     * @param array $expectedItems
-     * @param array $freePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function checkFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
+    public function checkFreePayment(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Confirm a Free Payment with a token Status.
-     *
-     * path: /epart/v2.0/transaction/versementLibre/confirmer
-     *
-     * @param array $expectedItems
-     * @param array $freePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function confirmFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
+    public function confirmFreePayment(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Finalize a Free Payment with a token Status.
-     *
-     * path: /epart/v2.0/transaction/versementLibre/finaliser
-     *
-     * @param array $expectedItems
-     * @param array $freePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function finalizeFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse
+    public function finalizeFreePayment(Context $context, array $documents): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Retrieve scheduled free payment informations with contractNumber & expectedItems.
-     *
-     * path: /epart/v2.0/transaction/versementsLibresProgrammes/donnee
-     *
-     * @param array $expectedItems
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getScheduledFreePaymentInformations(array $expectedItems = []): array
     {
@@ -536,133 +477,71 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     *  Initiate Data to create a Scheduled Free Payment.
-     *
-     * path: /epart/v2.0/transaction/versementsLibresProgrammes/initier
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function initiateScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function initiateScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Check a Scheduled Free Payment with a token Status.
-     *
-     * path: /epart/v2.0/transaction/versementsLibresProgrammes/verifier
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function checkScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function checkScheduledFreePayment(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Confirm a Scheduled Free Payment with a token Status.
-     *
-     * path: /epart/v2.0/transaction/versementsLibresProgrammes/confirmer
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function confirmScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function confirmScheduledFreePayment(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Finalize a Scheduled Free Payment with a token Status.
-     *
-     * path: /epart/v2.0/transaction/versementsLibresProgrammes/finaliser
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function finalizeScheduledFreePayment(Context $context, array $documents): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Suspend a Scheduled Free Payment.
-     *
-     * path: /epart/v1.0/transaction/suspensionVersementsLibresProgrammes
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function suspendScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function suspendScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Intiate a Scheduled Free Payment's edit.
-     *
-     * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/initier
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function initiateEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function initiateEditScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Check a Scheduled Free Payment's edit.
-     *
-     * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/verifier
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function checkEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function checkEditScheduledFreePayment(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Confirm a Scheduled Free Payment's edit.
-     *
-     * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/confirmer
-     *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function confirmEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse
+    public function confirmEditScheduledFreePayment(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Retrieve partial surrender informations with contractNumber & expectedItems.
-     *
-     * path: /epart/v1.0/donnees/rachatpartiel/all
-     *
-     * @param array $expectedItems
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getPartialSurrenderInformations(array $expectedItems = []): array
     {
@@ -670,87 +549,46 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     *  Initiate Data to create a Partial Surrender.
-     *
-     * path: /epart/v2.0/transaction/rachatpartiel/initier
-     *
-     * @param array $expectedItems
-     * @param array $partialSurrender
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function initiatePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
+    public function initiatePartialSurrender(Context $context, PartialSurrender $partialSurrender): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Check a Partial Surrender with a token Status.
-     *
-     * path: /epart/v2.0/transaction/rachatpartiel/verifier
-     *
-     * @param array $expectedItems
-     * @param array $partialSurrender
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function checkPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
+    public function checkPartialSurrender(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Confirm a Partial Surrender with a token Status.
-     *
-     * path: /epart/v2.0/transaction/rachatpartiel/confirmer
-     *
-     * @param array $expectedItems
-     * @param array $partialSurrender
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function confirmPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
+    public function confirmPartialSurrender(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Finalize a Partial Surrender with a token Status.
-     *
-     * path: /epart/v2.0/transaction/rachatpartiel/finaliser
-     *
-     * @param array $expectedItems
-     * @param array $partialSurrender
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse
+    public function finalizePartialSurrender(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     * Retrieve partial surrender informations with contractNumber & expectedItems.
-     *
-     * path: /epart/v2.0/transaction/arbitrage/donnee
-     *
-     * @param array $expectedItems
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getArbitrationInformations(array $expectedItems = []): array
     {
     }
 
     /**
-     *  Initiate Data to create a Arbitration.
-     *
-     * path: /epart/v2.0/transaction/arbitrage/initier
-     *
-     * @param Context     $context
-     * @param Arbitration $arbitration
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
     public function initiateArbitration(Context $context, Arbitration $arbitration): SubscriptionResponse
     {
@@ -758,46 +596,25 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     }
 
     /**
-     *  Check a Arbitration with a token Status.
-     *
-     * path: /epart/v2.0/transaction/arbitrage/verifier
-     *
-     * @param array $expectedItems
-     * @param array $arbitration
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function checkArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
+    public function checkArbitration(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Confirm a Arbitration with a token Status.
-     *
-     * path: /epart/v2.0/transaction/arbitrage/confirmer
-     *
-     * @param array $expectedItems
-     * @param array $arbitration
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function confirmArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
+    public function confirmArbitration(Context $context): SubscriptionResponse
     {
         return [];
     }
 
     /**
-     *  Finalize a Arbitration with a token Status.
-     *
-     * path: /epart/v2.0/transaction/arbitrage/finaliser
-     *
-     * @param array $expectedItems
-     * @param array $arbitration
-     *
-     * @return SubscriptionResponse
+     * {@inheritdoc}
      */
-    public function finalizeArbitration(array $expectedItems, array $arbitration): SubscriptionResponse
+    public function finalizeArbitration(Context $context): SubscriptionResponse
     {
         return [];
     }

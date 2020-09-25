@@ -83,7 +83,7 @@ abstract class AbstractFactory implements FactoryInterface
      *
      * @return array
      */
-    protected function getExpectedItemCodes(string $expectedItem): array
+    public function getExpectedItemCodes(string $expectedItem): array
     {
         return ReferentialHandler::extractExpectedItemsCode(
             $this->getHttpClient()->retrieveTransactionSubscriptionData([$expectedItem])->getDonnees(),

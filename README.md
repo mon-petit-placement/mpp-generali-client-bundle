@@ -51,13 +51,23 @@ GENERALI_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
 ###< mpp/generali-client-bundle ###
 ```
 
-##How to use:
-First you will have to create a [Subscription](./Resources/docs/CallApi/subscription.md), where you will send all the needed information on your customer and the subscription asked.
-Then you will get a contractNumber which will be used to create:
-- [Free Payment](./Resources/docs/CallApi/free_payment.md)
-- [Scheduled Free Payment](./Resources/docs/CallApi/scheduled_free_payment.md)
-- [Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
-- [Arbitration](./Resources/docs/CallApi/arbitration.md)
+#### Handle the Generali API Service
+To easily handle Generali API calls, the bundle provides a httpClient service. Here is an example on how to retrieve this service in your Symfony Application using Dependancy Injection:
+```php
+use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+ 
+ ...
+ 
+/** 
+ * @var GeneraliHttpClientInterface 
+ */
+private $httpClient;
+
+public function __construct(GeneraliHttpClientInterface $httpClient)
+{
+    $this->httpClient = $httpClient;
+}
+````
 
 How you will get the Contract Number ?
 --------------
@@ -65,3 +75,12 @@ How you will get the Contract Number ?
 - On pre-production and on production environment: you will have to parse some csv files given by sftp access. You will find your contractNumber by searching for your internalReference1 and/or internalReference2 that you have given during your subscription creation
 
 Once you have it, you can create and follow many FreePayment, ScheduledFreePayment, Arbitration, PartialSurrender.
+
+
+##How to use ? :
+First you will have to create a [Subscription](./Resources/docs/CallApi/subscription.md), where you will send all the needed information on your customer and the subscription asked.
+Then you will get a contractNumber which will be used to create:
+- [Free Payment](./Resources/docs/CallApi/free_payment.md)
+- [Scheduled Free Payment](./Resources/docs/CallApi/scheduled_free_payment.md)
+- [Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
+- [Arbitration](./Resources/docs/CallApi/arbitration.md)

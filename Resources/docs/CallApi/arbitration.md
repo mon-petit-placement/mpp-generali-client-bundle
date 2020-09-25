@@ -1,20 +1,73 @@
-How to use Arbitration with Generali:
--------------
+# Generali Arbitration
 
-Use this model to get all the constants created for this bundl
-```php
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient;
- 
-/** @var GeneraliHttpClient */
-private $httpClient;
+## How to create a Arbitration ?
 
-public function __construct(GeneraliHttpClient $httpClient)
-{
-    $this->httpClient = $httpClient;
-}
+First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
+````php
+$context = $this->httpClient->buildContext();
+````
+
+Then you build your $subscription using the ArbitrationFactory with the following structure:
+````php
+$arbitration = $this->arbitrationFactory->create([
+    "numOperationExterne" => "654654"
+    "mandatTransmissionOrdre" => false
+    "mandatArbitrage" => false
+    "fondsInvestis" => [
+        [
+            "fondsInvesti" => [
+                "codeFonds" => "toto"
+                "montant" => 654654
+            ]
+        ]
+    ],
+    "fondsDesinvestis" => [
+        [
+            "fondsDesinvesti" => [
+                "codeFonds" => "toto"
+                "montant" => 654654
+            ]
+        ]
+    ]
+]);
+````
+
+Once your arbitration is build, then you can send it to Generali:
 ```
+$arbitrationResponse = $this->httpClient->createArbitration(
+    $context, 
+    $arbitration
+);
+```
+You will get a SubscriptionResponse which contains the information returned by the API, like this: 
+````php
+[
+    'status' => '5f0cc70b2547d642f44ede2c8d232cca',
+    'idTransaction' => '5f0cc70b2547d',
+    'message' => [],
+    'orderTransaction' => null,
+    'expectedDocuments' => []
+]
+````
+At the end of this step, you have to save the idTransaction in your database, in the case you can't finalize at the moment, or your users stop their registration.
+You Will access the idTransaction by:
+````php
+$idTransaction = $suscriptionResponse->getIdTransaction();
+````
 
-In order to create an arbitration, you have to get the available funds you want :
+## How to finalize an Arbitration ?
+
+To finalize a arbitration, you have to send all the idTransaction, build a context and affect the idTransaction to it:
+```php
+$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
+```
+And then call the subscription's finalization
+```
+`$subscriptionResponse = $this->httpClient->finalizeArbitration($context);
+```
+you will get in return a numberOrderTransaction, that you have to save
+
+
 ```php
 public function getFundsAvailableInContract()
 {
@@ -25,44 +78,6 @@ public function getFundsAvailableInContract()
             'numContrat' => $contractCode,
             ],
         ]
-    );
-}
-```
-Then you have to intiate, check, confirm your request
-````php
-public function initiateGeneraliArbitration(): void
-{
-    $initiateResponse = $this->httpClient->initiate(
-        Subscription::PRODUCT_ARBITRATION,
-        $yourParameters
-    );
-    $statusToken = $initiateResponse['statut'];
-}
-
-public function checkGeneraliArbitration(): void
-{
-    $checkResponse = $this->httpClient->check(
-        Subscription::PRODUCT_ARBITRATION,
-        $yourDatasWithStatusToken
-    );
-    $idTransaction = $checkResponse['donnees']['idTransaction'];
-}
-
-public function confirmGeneraliArbitration(): void
-{
-    $confirmResponse = $this->httpClient->confirm(
-        Subscription::PRODUCT_ARBITRATION,
-        $yourDataWithStatusToken
-    );
-}
-````
-And then you finalize your Arbitration
-```php
-public function iFinalizeGeneraliArbitration()
-{
-    $finalizeResponse = $this->httpClient->finalize(
-        Subscription::PRODUCT_ARBITRATION,
-        $yourDatasWithIdTransaction
     );
 }
 ```

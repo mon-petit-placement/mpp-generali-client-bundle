@@ -20,7 +20,7 @@ class SubscriptionResponse
     /**
      * @var string
      */
-    protected $message;
+    protected $errorMessage;
 
     /**
      * @var string
@@ -39,6 +39,7 @@ class SubscriptionResponse
     {
         $this->requiredDocuments = [];
         $this->status = null;
+        $this->errorMessage = null;
     }
 
     /**
@@ -94,21 +95,21 @@ class SubscriptionResponse
     }
 
     /***
-     * @return string
+     * @return string|null
      */
-    public function getMessage(): string
+    public function getErrorMessage(): ?string
     {
-        return $this->message;
+        return $this->errorMessage;
     }
 
     /**
-     * @param string $message
+     * @param string|null $errorMessage
      *
      * @return self
      */
-    public function setMessage(string $message): self
+    public function setErrorMessage(?string $errorMessage): self
     {
-        $this->message = $message;
+        $this->errorMessage = $errorMessage;
 
         return $this;
     }

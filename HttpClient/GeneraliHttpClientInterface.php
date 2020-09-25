@@ -2,9 +2,14 @@
 
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
+use Behat\Behat\Context\Reader\ContextReader;
+use Mpp\GeneraliClientBundle\Model\Arbitration;
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Document;
+use Mpp\GeneraliClientBundle\Model\FreePayment;
+use Mpp\GeneraliClientBundle\Model\PartialSurrender;
+use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
 
@@ -13,6 +18,15 @@ use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
  */
 interface GeneraliHttpClientInterface
 {
+    /**
+     *  Build Context wich contains your subscription's code and your intermediary code defined in the configuration
+     *
+     * @param array $parameters
+     * @param array $expectedItems
+     * @return Context
+     */
+    public function buildContext(array $parameters = [], array $expectedItems = []): Context;
+
     /**
      * Retrieve contract information with contractNumber & expectedItems.
      *
@@ -35,16 +49,6 @@ interface GeneraliHttpClientInterface
      * @return array
      */
     public function retrieveTransactionSubscriptionData(array $expectedItems = []): BaseResponse;
-
-    /**
-     * Create a Context with providerCode, SubscriptionCode.
-     *
-     * @param array $parameters
-     * @param array $expectedItems
-     *
-     * @return Context
-     */
-    public function buildContext(array $parameters = [], array $expectedItems = []): Context;
 
     /**
      * Create a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.
@@ -107,7 +111,7 @@ interface GeneraliHttpClientInterface
      *
      * @return SubscriptionResponse
      */
-    public function sendSubscriptionFile(string $idTransaction, Document $document): SubscriptionResponse;
+    public function sendFile(string $idTransaction, Document $document): SubscriptionResponse;
 
     /**
      * list all the files the customer need to send for the subscription with a SubscriptionResponse, and the idTransaction.
@@ -145,40 +149,52 @@ interface GeneraliHttpClientInterface
     public function getFreePaymentInformations(array $expectedItems = []): array;
 
     /**
+     *  Create a free payment with a Context and the object FreePayment
+     *
+     * path: /epart/v2.0/transaction/versementLibre/initier
+     * path: /epart/v2.0/transaction/versementLibre/verifier
+     * path: /epart/v2.0/transaction/versementLibre/confirmer
+     *
+     * @param Context $context
+     * @param FreePayment $freePayment
+     *
+     * @return SubscriptionResponse
+     */
+    public function createFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse;
+
+    /**
      *  Initiate Data to create a free payment.
      *
      * path: /epart/v2.0/transaction/versementLibre/initier
      *
-     * @param array $expectedItems
-     * @param array $freePayment
+     * @param Context $context
+     * @param FreePayment $freePayment
      *
      * @return SubscriptionResponse
      */
-    public function initiateFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse;
+    public function initiateFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse;
 
     /**
      *  Check a Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementLibre/verifier
      *
-     * @param array $expectedItems
-     * @param array $freePayment
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function checkFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse;
+    public function checkFreePayment(Context $context): SubscriptionResponse;
 
     /**
      *  Confirm a Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementLibre/confirmer
      *
-     * @param array $expectedItems
-     * @param array $freePayment
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function confirmFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse;
+    public function confirmFreePayment(Context $context): SubscriptionResponse;
 
     /**
      *  Finalize a Free Payment with a token Status.
@@ -190,7 +206,7 @@ interface GeneraliHttpClientInterface
      *
      * @return SubscriptionResponse
      */
-    public function finalizeFreePayment(array $expectedItems, array $freePayment): SubscriptionResponse;
+    public function finalizeFreePayment(Context $context, array $documents): SubscriptionResponse;
 
     /**
      * Retrieve scheduled free payment informations with contractNumber & expectedItems.
@@ -208,96 +224,92 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/initier
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
+     * @param ScheduledFreePayment $scheduledFreePayment
      *
      * @return SubscriptionResponse
      */
-    public function initiateScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function initiateScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
 
     /**
      *  Check a Scheduled Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/verifier
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function checkScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function checkScheduledFreePayment(Context $context): SubscriptionResponse;
 
     /**
      *  Confirm a Scheduled Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/confirmer
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function confirmScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function confirmScheduledFreePayment(Context $context): SubscriptionResponse;
 
     /**
      *  Finalize a Scheduled Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/finaliser
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
+     * @param array $documents
      *
      * @return SubscriptionResponse
      */
-    public function finalizeScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function finalizeScheduledFreePayment(Context $context, array $documents): SubscriptionResponse;
 
     /**
      * Suspend a Scheduled Free Payment.
      *
      * path: /epart/v1.0/transaction/suspensionVersementsLibresProgrammes
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
+     * @param ScheduledFreePayment $scheduledFreePayment
      *
      * @return SubscriptionResponse
      */
-    public function suspendScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function suspendScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
 
     /**
      * Intiate a Scheduled Free Payment's edit.
      *
      * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/initier
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
+     * @param ScheduledFreePayment $scheduledFreePayment
      *
      * @return SubscriptionResponse
      */
-    public function initiateEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function initiateEditScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
 
     /**
      * Check a Scheduled Free Payment's edit.
      *
      * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/verifier
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function checkEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function checkEditScheduledFreePayment(Context $context): SubscriptionResponse;
 
     /**
      * Confirm a Scheduled Free Payment's edit.
      *
      * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/confirmer
      *
-     * @param array $expectedItems
-     * @param array $scheduledFreePayment
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function confirmEditScheduledFreePayment(array $expectedItems, array $scheduledFreePayment): SubscriptionResponse;
+    public function confirmEditScheduledFreePayment(Context $context): SubscriptionResponse;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems.
@@ -315,48 +327,45 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/rachatpartiel/initier
      *
-     * @param array $expectedItems
-     * @param array $partialSurrender
+     * @param Context $context
+     * @param PartialSurrender $partialSurrender
      *
      * @return SubscriptionResponse
      */
-    public function initiatePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function initiatePartialSurrender(Context $context, PartialSurrender $partialSurrender): SubscriptionResponse;
 
     /**
      *  Check a Partial Surrender with a token Status.
      *
      * path: /epart/v2.0/transaction/rachatpartiel/verifier
      *
-     * @param array $expectedItems
-     * @param array $partialSurrender
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function checkPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function checkPartialSurrender(Context $context): SubscriptionResponse;
 
     /**
      *  Confirm a Partial Surrender with a token Status.
      *
      * path: /epart/v2.0/transaction/rachatpartiel/confirmer
      *
-     * @param array $expectedItems
-     * @param array $partialSurrender
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function confirmPartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function confirmPartialSurrender(Context $context): SubscriptionResponse;
 
     /**
      *  Finalize a Partial Surrender with a token Status.
      *
      * path: /epart/v2.0/transaction/rachatpartiel/finaliser
      *
-     * @param array $expectedItems
-     * @param array $partialSurrender
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function finalizePartialSurrender(array $expectedItems, array $partialSurrender): SubscriptionResponse;
+    public function finalizePartialSurrender(Context $context): SubscriptionResponse;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems.
@@ -386,12 +395,11 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/verifier
      *
-     * @param array $expectedItems
-     * @param array $arbitration
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function checkArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
+    public function checkArbitration(Context $context): SubscriptionResponse;
 
     /**
      *  Confirm a Arbitration with a token Status.
@@ -403,17 +411,16 @@ interface GeneraliHttpClientInterface
      *
      * @return SubscriptionResponse
      */
-    public function confirmArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
+    public function confirmArbitration(Context $context): SubscriptionResponse;
 
     /**
      *  Finalize a Arbitration with a token Status.
      *
      * path: /epart/v2.0/transaction/arbitrage/finaliser
      *
-     * @param array $expectedItems
-     * @param array $arbitration
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */
-    public function finalizeArbitration(array $expectedItems, array $arbitration): SubscriptionResponse;
+    public function finalizeArbitration(Context $context): SubscriptionResponse;
 }

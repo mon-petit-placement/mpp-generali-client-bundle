@@ -2,22 +2,6 @@
 
 ## How to create a Subscription ?
 
-To easily handle Generali API calls, the bundle provides a httpClient service. Here is an example on how to retrieve this service in your Symfony Application using Dependancy Injection:
-```php
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
- 
- ...
- 
-/** 
- * @var GeneraliHttpClientInterface 
- */
-private $httpClient;
-
-public function __construct(GeneraliHttpClientInterface $httpClient)
-{
-    $this->httpClient = $httpClient;
-}
-````
 
 First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
 ````php
@@ -166,13 +150,13 @@ You will get a SubscriptionResponse which contains the information returned by t
     'expectedDocuments' => [...]
 ]
 ````
-At the end of this step, you have to save the idTransaction in your database, in the case you can't finalize at the moment, or your users stop their registration.
-You Will access the idTransaction by:
+At the end of this step, you have to keep the idTransaction. In the case you can't finalize at the moment, or your users stop their registration.
+You will access the idTransaction by:
 ````php
 $idTransaction = $suscriptionResponse->getIdTransaction();
 ````
 
-You will also have access to the list of expected documents, that you will need to send to Generali by doing:
+You will also have access to expected documents' list, that you will need to send to Generali, by doing:
 ````php
 /**
  * array<Document>
@@ -190,7 +174,7 @@ The Document will have this structure:
    'required' => true
 ]
 ````
-If you want to access to the list of the documents expected for a subscription, you can still access them until the subscription is finalized:
+If you want to access to the documents expected list for a subscription, you can still access them until the subscription is finalized:
 ```php
 $expectedDocuments = $this->httpClient->listSubscriptionFiles($idTransaction);
 ```
@@ -206,16 +190,19 @@ $document = (new Document())
     ->setfilePath($yourFilePath)
     ->setIdDocument($idDocument)
     ->setTitle($title)
- ;
- $documents[] = $document;
+;
+$documents[] = $document;
 ```
 
-Build a context and affect the idTransaction to it:
+Build a context and assign the idTransaction to it:
 ```php
 $context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
 ```
 And then call the subscription's finalization
 ```
-`$subscriptionResponse = $this->httpClient->finalizeSubscription($context, $documents);
+$subscriptionResponse = $this->httpClient->finalizeSubscription($context, $documents);
 ```
 you will get in return a numberOrderTransaction, that you have to save
+
+TODO expliquer le numero de contrat, ftp, generali export csv recuperer ftp sur serveur pour export
+etape suivante

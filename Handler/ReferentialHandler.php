@@ -178,7 +178,20 @@ class ReferentialHandler
         if (!isset($data[$expectedItem])) {
             throw new \UnexpectedValueException(sprintf('The data does not contains %s field ', $expectedItem));
         }
-
         return $data[$expectedItem];
+    }
+    /**
+     * @param array  $data
+     * @param string $referentialKey
+     *
+     * @return array
+     */
+    public static function formatReferentialValues(array $data, string $referentialKey): array
+    {
+        $extractedData = self::getReferentialKeyData($data, $referentialKey);
+
+        return array_map(function ($value) {
+            return [$value['code'] => $value['libelle']];
+        }, $extractedData);
     }
 }
