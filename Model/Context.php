@@ -129,6 +129,16 @@ class Context
     /**
      * @return array
      */
+    public function arrayToSuspend(): array
+    {
+        return [
+            'codeApporteur' => $this->getProviderCode(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [

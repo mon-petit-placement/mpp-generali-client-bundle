@@ -1742,7 +1742,7 @@ class SubscriptionConstant
             'libelle' => 'Fiche de paie ou Avis d\'imposition sur le revenu ou Déclaration ISF ou Relevé de',
         ], [
             'code' => 'PJ10',
-            'libelle' => '"Lettre de licenciement ou Indemnité de départ volontaire ou Solde de tout compt',
+            'libelle' => 'Lettre de licenciement ou Indemnité de départ volontaire ou Solde de tout compt',
         ], [
             'code' => 'PJ11',
             'libelle' => 'Quittances de loyer',
@@ -1895,12 +1895,12 @@ class SubscriptionConstant
             'libelle' => 'Extrait du Journal Officiel OU justificatif d\'immatriculation à l\'INSEE (pour le',
         ], [
             'code' => 'PJ70',
-            'libelle' => 'Questionnaire d\'auto-certification "FATCA / CRS PERSONNE MORALE"',
+            'libelle' => 'Questionnaire d\'auto-certification \'FATCA / CRS PERSONNE MORALE',
         ], ['code' => 'PJ71',
             'libelle' => 'Le cas échéant le Formulaire W8-BEN-E (FATCA] PERSONNE MORALE',
         ], [
             'code' => 'PJ74',
-            'libelle' => 'Questionnaire d\'auto-certification "FATCA / CRS PERSONNE PHYSIQUE" par bénéficia',
+            'libelle' => 'Questionnaire d\'auto-certification \'FATCA / CRS PERSONNE PHYSIQUE\' par bénéficia',
         ], [
             'code' => 'PJ75',
             'libelle' => 'Le cas échéant le FORMULAIRE W9 (RESIDENT OU CITOYEN DES ETATS UNIS D\'AMERIQUE]',

@@ -204,5 +204,7 @@ $subscriptionResponse = $this->httpClient->finalizeSubscription($context, $docum
 ```
 you will get in return a numberOrderTransaction, that you have to save
 
-TODO expliquer le numero de contrat, ftp, generali export csv recuperer ftp sur serveur pour export
-etape suivante
+#### When will you get your ContractNumber ?
+Once the subscription is sent, Generali will generate a csv file every night that you will have to parse.
+The next days, you will have to connect to the ftp they gave you.
+You will find the line where you have a created a subscription by searching your external Reference 1 and/or 2 that you have set in your Subscription object.

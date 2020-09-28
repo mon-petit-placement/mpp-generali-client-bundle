@@ -45,7 +45,7 @@ class GeneraliHttpClient
     public function getAvailableFunds(string $product, array $parameters)
     {
         if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(', ', SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
 
         $resolver = new OptionsResolver();
@@ -358,10 +358,10 @@ class GeneraliHttpClient
     private function runStep(string $step, string $product, array $parameters)
     {
         if (!isset(SubscriptionConstant::STEPS_MAP[$step])) {
-            throw new \UnexpectedValueException('Step must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_STEPS));
+            throw new \UnexpectedValueException('Step must be part of these: ' . implode(', ', SubscriptionConstant::AVAILABLE_STEPS));
         }
         if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(', ', SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
         $path = sprintf('/epart/v2.0/transaction/%s/%s', SubscriptionConstant::PRODUCTS_MAP[$product], SubscriptionConstant::STEPS_MAP[$step]);
 
@@ -426,7 +426,7 @@ class GeneraliHttpClient
     public function sendFile(string $product, string $path, string $idTransaction, string $fileName, array $document)
     {
         if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(', ', SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
 
         $file = new UploadedFile($path.$fileName, $fileName);
@@ -475,7 +475,7 @@ class GeneraliHttpClient
     public function checkFiles(string $product, string $idTransaction)
     {
         if (!isset(SubscriptionConstant::PRODUCTS_MAP[$product])) {
-            throw new \UnexpectedValueException('Product must be part of these: ' . implode(", ", SubscriptionConstant::AVAILABLE_PRODUCTS));
+            throw new \UnexpectedValueException('Product must be part of these: ' . implode(', ', SubscriptionConstant::AVAILABLE_PRODUCTS));
         }
         $contents = [];
 

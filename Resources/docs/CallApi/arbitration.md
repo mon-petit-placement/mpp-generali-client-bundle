@@ -10,22 +10,22 @@ $context = $this->httpClient->buildContext();
 Then you build your $subscription using the ArbitrationFactory with the following structure:
 ````php
 $arbitration = $this->arbitrationFactory->create([
-    "numOperationExterne" => "654654"
-    "mandatTransmissionOrdre" => false
-    "mandatArbitrage" => false
-    "fondsInvestis" => [
+    'numOperationExterne' => '654654'
+    'mandatTransmissionOrdre' => false
+    'mandatArbitrage' => false
+    'fondsInvestis' => [
         [
-            "fondsInvesti" => [
-                "codeFonds" => "toto"
-                "montant" => 654654
+            'fondsInvesti' => [
+                'codeFonds' => 'toto'
+                'montant' => 654654
             ]
         ]
     ],
-    "fondsDesinvestis" => [
+    'fondsDesinvestis' => [
         [
-            "fondsDesinvesti" => [
-                "codeFonds" => "toto"
-                "montant" => 654654
+            'fondsDesinvesti' => [
+                'codeFonds' => 'toto'
+                'montant' => 654654
             ]
         ]
     ]
@@ -63,7 +63,7 @@ $context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
 ```
 And then call the subscription's finalization
 ```
-`$subscriptionResponse = $this->httpClient->finalizeArbitration($context);
+$response = $this->httpClient->finalizeArbitration($context);
 ```
 you will get in return a numberOrderTransaction, that you have to save
 

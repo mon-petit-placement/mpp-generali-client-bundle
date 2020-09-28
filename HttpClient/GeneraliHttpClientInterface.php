@@ -2,7 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
-use Behat\Behat\Context\Reader\ContextReader;
 use Mpp\GeneraliClientBundle\Model\Arbitration;
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
 use Mpp\GeneraliClientBundle\Model\Context;
@@ -19,10 +18,11 @@ use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
 interface GeneraliHttpClientInterface
 {
     /**
-     *  Build Context wich contains your subscription's code and your intermediary code defined in the configuration
+     *  Build Context wich contains your subscription's code and your intermediary code defined in the configuration.
      *
      * @param array $parameters
      * @param array $expectedItems
+     *
      * @return Context
      */
     public function buildContext(array $parameters = [], array $expectedItems = []): Context;
@@ -46,7 +46,7 @@ interface GeneraliHttpClientInterface
      *
      * @param array $expectedItems
      *
-     * @return array
+     * @return BaseResponse
      */
     public function retrieveTransactionSubscriptionData(array $expectedItems = []): BaseResponse;
 
@@ -107,7 +107,8 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/transaction/fournirPiece/{idTransaction}/{idDocument}
      *
-     * @param Context $context
+     * @param string   $idTransaction
+     * @param Document $document
      *
      * @return SubscriptionResponse
      */
@@ -118,7 +119,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/souscription
      *
-     * @param Context $context
+     * @param string $idTransaction
      *
      * @return SubscriptionResponse
      */
@@ -129,33 +130,33 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/souscription/finalisser
      *
-     * @param Context              $context
-     * @param SubscriptionResponse $response
-     * @param array<Document>      $documents
+     * @param Context         $context
+     * @param array<Document> $documents
      *
      * @return SubscriptionResponse
      */
     public function finalizeSubscription(Context $context, array $documents): SubscriptionResponse;
 
     /**
-     * Retrieve free payment informations with expectedItems.
+     * Retrieve free payment informations with contractNumber and expectedItems.
      *
      * path: /epart/v2.0/transaction/versementLibre/donnee
      *
-     * @param array $expectedItems
+     * @param string $contractNumber
+     * @param array  $expectedItems
      *
      * @return array
      */
-    public function getFreePaymentInformations(array $expectedItems = []): array;
+    public function getFreePaymentInformations(string $contractNumber, array $expectedItems = []): array;
 
     /**
-     *  Create a free payment with a Context and the object FreePayment
+     *  Create a free payment with a Context and the object FreePayment.
      *
      * path: /epart/v2.0/transaction/versementLibre/initier
      * path: /epart/v2.0/transaction/versementLibre/verifier
      * path: /epart/v2.0/transaction/versementLibre/confirmer
      *
-     * @param Context $context
+     * @param Context     $context
      * @param FreePayment $freePayment
      *
      * @return SubscriptionResponse
@@ -167,7 +168,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementLibre/initier
      *
-     * @param Context $context
+     * @param Context     $context
      * @param FreePayment $freePayment
      *
      * @return SubscriptionResponse
@@ -197,12 +198,23 @@ interface GeneraliHttpClientInterface
     public function confirmFreePayment(Context $context): SubscriptionResponse;
 
     /**
+     *  list all the files the customer need to send for the freePayment with a SubscriptionResponse, and the idTransaction.
+     *
+     * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/VERSEMENT_LIBRE
+     *
+     * @param string $idTransaction
+     *
+     * @return SubscriptionResponse
+     */
+    public function listFreePaymentFiles(string $idTransaction): SubscriptionResponse;
+
+    /**
      *  Finalize a Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementLibre/finaliser
      *
-     * @param array $expectedItems
-     * @param array $freePayment
+     * @param Context $context
+     * @param array   $documents
      *
      * @return SubscriptionResponse
      */
@@ -213,18 +225,31 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/donnee
      *
-     * @param array $expectedItems
+     * @param array  $expectedItems
+     * @param string $contractNumber
      *
      * @return array
      */
-    public function getScheduledFreePaymentInformations(array $expectedItems = []): array;
+    public function getScheduledFreePaymentInformations(string $contractNumber, array $expectedItems = []): array;
+
+    /**
+     * path: /epart/v2.0/transaction/versementsLibresProgrammes/initier
+     * path: /epart/v2.0/transaction/versementsLibresProgrammes/verifier
+     * path: /epart/v2.0/transaction/versementsLibresProgrammes/confirmer.
+     *
+     * @param Context              $context
+     * @param ScheduledFreePayment $scheduledFreePayment
+     *
+     * @return SubscriptionResponse
+     */
+    public function createScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
 
     /**
      *  Initiate Data to create a Scheduled Free Payment.
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/initier
      *
-     * @param Context $context
+     * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
      * @return SubscriptionResponse
@@ -259,7 +284,7 @@ interface GeneraliHttpClientInterface
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/finaliser
      *
      * @param Context $context
-     * @param array $documents
+     * @param array   $documents
      *
      * @return SubscriptionResponse
      */
@@ -270,7 +295,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/transaction/suspensionVersementsLibresProgrammes
      *
-     * @param Context $context
+     * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
      * @return SubscriptionResponse
@@ -282,7 +307,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/transaction/modificationVersementsLibresProgrammes/initier
      *
-     * @param Context $context
+     * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
      * @return SubscriptionResponse
@@ -316,18 +341,19 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v1.0/donnees/rachatpartiel/all
      *
-     * @param array $expectedItems
+     * @param array  $expectedItems
+     * @param string $contractNumber
      *
      * @return array
      */
-    public function getPartialSurrenderInformations(array $expectedItems = []): array;
+    public function getPartialSurrenderInformations(string $contractNumber, array $expectedItems = []): array;
 
     /**
      *  Initiate Data to create a Partial Surrender.
      *
      * path: /epart/v2.0/transaction/rachatpartiel/initier
      *
-     * @param Context $context
+     * @param Context          $context
      * @param PartialSurrender $partialSurrender
      *
      * @return SubscriptionResponse
@@ -372,11 +398,12 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/donnee
      *
-     * @param array $expectedItems
+     * @param array  $expectedItems
+     * @param string $contractNumber
      *
      * @return array
      */
-    public function getArbitrationInformations(array $expectedItems = []): array;
+    public function getArbitrationInformations(string $contractNumber, array $expectedItems = []): array;
 
     /**
      *  Initiate Data to create a Arbitration.
@@ -406,8 +433,7 @@ interface GeneraliHttpClientInterface
      *
      * path: /epart/v2.0/transaction/arbitrage/confirmer
      *
-     * @param array $expectedItems
-     * @param array $arbitration
+     * @param Context $context
      *
      * @return SubscriptionResponse
      */

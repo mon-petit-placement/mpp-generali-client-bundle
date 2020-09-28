@@ -178,8 +178,10 @@ class ReferentialHandler
         if (!isset($data[$expectedItem])) {
             throw new \UnexpectedValueException(sprintf('The data does not contains %s field ', $expectedItem));
         }
+
         return $data[$expectedItem];
     }
+
     /**
      * @param array  $data
      * @param string $referentialKey

@@ -9,7 +9,6 @@ use Mpp\GeneraliClientBundle\Model\Document;
 use Mpp\GeneraliClientBundle\Model\FreePayment;
 use Mpp\GeneraliClientBundle\Model\PartialSurrender;
 use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
-use Mpp\GeneraliClientBundle\Model\TransactionOrder;
 use Psr\Log\LoggerInterface;
 use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
@@ -25,20 +24,35 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     const TRANSACTION_SUBSCRIPTION_CONFIRM = '/epart/v2.0/transaction/souscription/confirmer';
     const TRANSACTION_SUBSCRIPTION_FINALIZE = '/epart/v2.0/transaction/souscription/finaliser';
 
+    const TRANSACTION_FREE_PAYMENT_DATA = '/epart/v2.0/transaction/versementLibre/donnees';
     const TRANSACTION_FREE_PAYMENT_INITIATE = '/epart/v2.0/transaction/versementLibre/initier';
     const TRANSACTION_FREE_PAYMENT_CHECK = '/epart/v2.0/transaction/versementLibre/initier';
     const TRANSACTION_FREE_PAYMENT_CONFIRM = '/epart/v2.0/transaction/versementLibre/confirmer';
     const TRANSACTION_FREE_PAYMENT_FINALIZE = '/epart/v2.0/transaction/versementLibre/finaliser';
 
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_DATA = '/epart/v2.0/transaction/versementsLibresProgrammes/donnees';
     const TRANSACTION_SCHEDULED_FREE_PAYMENT_INITIATE = '/epart/v2.0/transaction/versementsLibresProgrammes/initier';
     const TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK = '/epart/v2.0/transaction/versementsLibresProgrammes/initier';
     const TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM = '/epart/v2.0/transaction/versementsLibresProgrammes/confirmer';
     const TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE = '/epart/v2.0/transaction/versementsLibresProgrammes/finaliser';
 
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_SUSPEND = '/epart/v1.0/transaction/suspensionVersementsLibresProgrammes';
+
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE = '/epart/v1.0/transaction/modificationVersementsLibresProgrammes/initier';
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CHECK = '/epart/v1.0/transaction/modificationVersementsLibresProgrammes/verifier';
+    const TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM = '/epart/v1.0/transaction/modificationVersementsLibresProgrammes/confirmer';
+
+    const TRANSACTION_ARBITRATION_DATA = '/epart/v2.0/transaction/arbitrage/donnees';
     const TRANSACTION_ARBITRATION_INITIATE = '/epart/v2.0/transaction/arbitrage/initier';
     const TRANSACTION_ARBITRATION_CHECK = '/epart/v2.0/transaction/arbitrage/initier';
     const TRANSACTION_ARBITRATION_CONFIRM = '/epart/v2.0/transaction/arbitrage/confirmer';
     const TRANSACTION_ARBITRATION_FINALIZE = '/epart/v2.0/transaction/arbitrage/finaliser';
+
+    const TRANSACTION_PARTIAL_SURRENDER_DATA = '/epart/v1.0/donnees/rachatpartiel/all';
+    const TRANSACTION_PARTIAL_SURRENDER_INITIATE = '/epart/v1.0/transaction/rachatpartiel/initier';
+    const TRANSACTION_PARTIAL_SURRENDER_CHECK = '/epart/v1.0/transaction/rachatpartiel/verifier';
+    const TRANSACTION_PARTIAL_SURRENDER_CONFIRM = '/epart/v1.0/transaction/rachatpartiel/confirmer';
+    const TRANSACTION_PARTIAL_SURRENDER_FINALIZE = '/epart/v1.0/transaction/rachatpartiel/finaliser';
 
     /**
      * @var Client
@@ -163,7 +177,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = $this->initiateSubscription($context, $subscription, $dematerialization, $comment);
 
         if (null === $response->getStatus()) {
-            throw new \RuntimeException('The Initiation of the Subscription has failed');
+            throw new \RuntimeException('The Subsriptions\' Initiation has failed');
         }
 
         $response = $this->checkSubscription($context);
@@ -174,20 +188,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function initiateSubscription(
-        Context $context,
-        Subscription $subscription,
-        bool $dematerialization = true,
-        string $comment = null
-    ): SubscriptionResponse {
+    public function initiateSubscription(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): SubscriptionResponse
+    {
         $response = new SubscriptionResponse();
-
-        dump(json_encode([
-            'contexte' => $context->arrayToInitiate(),
-            'souscription' => $subscription->toArray(),
-            'commentaire' => $comment,
-            'dematerialisationCourriers' => $dematerialization,
-        ]));
 
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_INITIATE, [
@@ -270,12 +273,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
 
             $this->logger->info(sprintf(
-                '[Generali - httpClient.createSubscription.confirm %s ] SUCCESS',
+                '[Generali - httpClient.confirmSubscription %s ] SUCCESS',
                 self::TRANSACTION_SUBSCRIPTION_CONFIRM
             ));
         } catch (\Exception $e) {
             $errorMessage = sprintf(
-                '[Generali - httpClient.createSubscription.confirm %s ] ERROR: %s',
+                '[Generali - httpClient.confirmSubscription %s ] ERROR: %s',
                 self::TRANSACTION_SUBSCRIPTION_CONFIRM,
                 $e->getMessage()
             );
@@ -415,8 +418,27 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getFreePaymentInformations(array $expectedItems = []): array
+    public function getFreePaymentInformations(string $contractNumber, array $expectedItems = []): array
     {
+        $path = self::TRANSACTION_FREE_PAYMENT_DATA;
+
+        $response = [];
+        try {
+            $response = $this->httpClient->post($path, [
+                'body' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
+            ]);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.getFreePaymentInformations %s ] SUCCESS',
+                $path
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.getFreePaymentInformations %s ] ERROR: %s',
+                $path,
+                $e->getMessage()
+            ));
+        }
+
         return [];
     }
 
@@ -428,12 +450,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = $this->initiateFreePayment($context, $freePayment);
 
         if (null === $response->getStatus()) {
-            throw new \RuntimeException('The Initiation of the Subscription has failed');
+            throw new \RuntimeException('The FreePayments\' Initiation has failed');
         }
 
-        $response = $this->checkSubscription($context);
+        $response = $this->checkFreePayment($context);
 
-        return $this->confirmSubscription($context);
+        return $this->confirmFreePayment($context);
     }
 
     /**
@@ -441,7 +463,33 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function initiateFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_INITIATE, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToInitiate(),
+                    'versementLibre' => $freePayment->toArray(),
+                ]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setStatus($decodedRawResponse['statut']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.initiateFreePayment.initiate %s ] SUCCESS',
+                self::TRANSACTION_FREE_PAYMENT_INITIATE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.initiateFreePayment.initiate %s ] ERROR: %s',
+                self::TRANSACTION_FREE_PAYMENT_INITIATE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setErrorMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -449,7 +497,28 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function checkFreePayment(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_CHECK, [
+                'body' => json_encode(['contexte' => $context->arrayToCheck()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.checkFreePayment.check %s ] SUCCESS',
+                self::TRANSACTION_FREE_PAYMENT_CHECK
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.checkFreePayment.check %s ] ERROR: %s',
+                self::TRANSACTION_FREE_PAYMENT_CHECK,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -457,7 +526,80 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function confirmFreePayment(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_CONFIRM, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToConfirm(),
+                    'options' => [
+                        'genererUnBulletin' => true,
+                        'envoyerUnMailClient' => true,
+                        'cloturerLeDossier' => true,
+                    ],
+                ]),
+            ]);
+
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.confirmFreePayment %s ] SUCCESS',
+                self::TRANSACTION_FREE_PAYMENT_CONFIRM
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.confirmFreePayment %s ] ERROR: %s',
+                self::TRANSACTION_FREE_PAYMENT_CONFIRM,
+                $e->getMessage()
+            );
+
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listFreePaymentFiles(string $idTransaction): SubscriptionResponse
+    {
+        $path = sprintf(
+            '/epart/v1.0/transaction/piecesAFournir/list/%s/VERSEMENT_LIBRE',
+            $idTransaction
+        );
+
+        $response = new SubscriptionResponse();
+
+        try {
+            $response = $this->httpClient->get($path);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.listFreePaymentFiles on path %s] SUCCESS',
+                $path
+            ));
+            $contents = json_decode($response->getBody()->getContents(), true);
+
+            foreach ($contents['donnees']['piecesAFournir'] as $docToGive) {
+                $document = (new Document())
+                    ->setIdDocument($docToGive['idPieceAFournir'])
+                    ->setTitle($docToGive['libelle'])
+                    ->setRequired((bool) $docToGive['nombreMin'])
+                ;
+                $response->addRequiredDocument($document);
+            }
+        } catch (Exception $exception) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.listFreePaymentFiles on path %s] ERROR: %s',
+                $path,
+                $exception->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -465,15 +607,78 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function finalizeFreePayment(Context $context, array $documents): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        foreach ($documents as $document) {
+            $response = $this->sendFile($context->getIdTransaction(), $document);
+            if (!empty($response->getMessage())) {
+                return $response;
+            }
+        }
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_FINALIZE, [
+                'body' => json_encode(['contexte' => $context->arrayToFinalize()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.finalizeFreePayment %s ] SUCCESS',
+                self::TRANSACTION_FREE_PAYMENT_FINALIZE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.finalizeFreePayment %s ] ERROR: %s',
+                self::TRANSACTION_FREE_PAYMENT_FINALIZE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getScheduledFreePaymentInformations(array $expectedItems = []): array
+    public function getScheduledFreePaymentInformations(string $contractNumber, array $expectedItems = []): array
     {
-        return [];
+        $path = sprintf('%s/%s', self::TRANSACTION_SCHEDULED_FREE_PAYMENT_DATA, $contractNumber);
+
+        $response = [];
+        try {
+            $response = $this->httpClient->get($path);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.getScheduledFreePaymentInformations %s ] SUCCESS',
+                $path
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.getScheduledFreePaymentInformations %s ] ERROR: %s',
+                $path,
+                $e->getMessage()
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
+    {
+        $response = $this->initiateScheduledFreePayment($context, $scheduledFreePayment);
+
+        if (null === $response->getStatus()) {
+            throw new \RuntimeException('The Initiation of the Subscription has failed');
+        }
+
+        $response = $this->checkScheduledFreePayment($context);
+
+        return $this->confirmScheduledFreePayment($context);
     }
 
     /**
@@ -481,7 +686,33 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function initiateScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_INITIATE, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToInitiate(),
+                    'versementsLibresProgrammes' => $scheduledFreePayment->toArray(),
+                ]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setStatus($decodedRawResponse['statut']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.initiateScheduledFreePayment.initiate %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_INITIATE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.initiateScheduledFreePayment.initiate %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_INITIATE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setErrorMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -489,7 +720,28 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function checkScheduledFreePayment(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK, [
+                'body' => json_encode(['contexte' => $context->arrayToCheck()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.checkScheduledFreePayment.check %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.checkScheduledFreePayment.check %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -497,7 +749,39 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function confirmScheduledFreePayment(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToConfirm(),
+                    'options' => [
+                        'genererUnBulletin' => true,
+                        'envoyerUnMailClient' => true,
+                        'cloturerLeDossier' => true,
+                    ],
+                ]),
+            ]);
+
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.confirmScheduledFreePayment.confirm %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.confirmScheduledFreePayment.confirm %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM,
+                $e->getMessage()
+            );
+
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -505,7 +789,37 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function finalizeScheduledFreePayment(Context $context, array $documents): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        foreach ($documents as $document) {
+            $response = $this->sendFile($context->getIdTransaction(), $document);
+            if (!empty($response->getMessage())) {
+                return $response;
+            }
+        }
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE, [
+                'body' => json_encode(['contexte' => $context->arrayToFinalize()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.finalizeFreePayment %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.finalizeFreePayment %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -513,7 +827,32 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function suspendScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
     {
-        return [];
+        $path = sprintf('%s/%s', self::TRANSACTION_SCHEDULED_FREE_PAYMENT_SUSPEND, $context->getContractNumber());
+
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post($path, [
+                'body' => json_encode(['contexte' => $context->arrayToSuspend()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setErrorMessage($decodedRawResponse['messages']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.suspendScheduledFreePayment %s ] SUCCESS',
+                $path
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.finalizeFreePayment %s ] ERROR: %s',
+                $path,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -521,7 +860,33 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function initiateEditScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToInitiate(),
+                    'versementLibre' => $scheduledFreePayment->toArray(),
+                ]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setStatus($decodedRawResponse['statut']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.initiateEditScheduledFreePayment.initiate %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.initiateEditScheduledFreePayment.initiate %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setErrorMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -529,7 +894,28 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function checkEditScheduledFreePayment(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CHECK, [
+                'body' => json_encode(['contexte' => $context->arrayToCheck()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.checkEditScheduledFreePayment.check %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CHECK
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.checkEditScheduledFreePayment.check %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CHECK,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -537,15 +923,82 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function confirmEditScheduledFreePayment(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToConfirm(),
+                    'options' => [
+                        'genererUnBulletin' => true,
+                        'envoyerUnMailClient' => true,
+                        'cloturerLeDossier' => true,
+                    ],
+                ]),
+            ]);
+
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.confirmEditScheduledFreePayment.confirm %s ] SUCCESS',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.confirmEditScheduledFreePayment.confirm %s ] ERROR: %s',
+                self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
+                $e->getMessage()
+            );
+
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPartialSurrenderInformations(array $expectedItems = []): array
+    public function getPartialSurrenderInformations(string $contractNumber, array $expectedItems = []): array
     {
-        return [];
+        $path = self::TRANSACTION_PARTIAL_SURRENDER_DATA;
+
+        $response = [];
+        try {
+            $response = $this->httpClient->post($path, [
+                'body' => $this->buildContext(['contractNumber' => $contractNumber], $exepectedItems),
+            ]);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.getPartialSurrenderInformations %s ] SUCCESS',
+                $path
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.getPartialSurrenderInformations %s ] ERROR: %s',
+                $path,
+                $e->getMessage()
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createPartialSurrender(Context $context, PartialSurrender $partialSurrender): SubscriptionResponse
+    {
+        $response = $this->initiatePartialSurrender($context, $partialSurrender);
+
+        if (null === $response->getStatus()) {
+            throw new \RuntimeException('The Partial Arbitration\' Initiation has failed');
+        }
+
+        $response = $this->checkPartialSurrender($context);
+
+        return $this->confirmPartialSurrender($context);
     }
 
     /**
@@ -553,7 +1006,34 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function initiatePartialSurrender(Context $context, PartialSurrender $partialSurrender): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(
+                sprintf('%s/%s', self::TRANSACTION_PARTIAL_SURRENDER_INITIATE, $context->getContractNumber()), [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToInitiate(),
+                    'versementsLibresProgrammes' => $scheduledFreePayment->toArray(),
+                ]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setStatus($decodedRawResponse['statut']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.initiatePartialSurrender %s ] SUCCESS',
+                self::TRANSACTION_PARTIAL_SURRENDER_INITIATE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.initiatePartialSurrender %s ] ERROR: %s',
+                self::TRANSACTION_PARTIAL_SURRENDER_INITIATE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setErrorMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -561,7 +1041,28 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function checkPartialSurrender(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_CHECK, [
+                'body' => json_encode(['contexte' => $context->arrayToCheck()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.checkPartialSurrender.check %s ] SUCCESS',
+                self::TRANSACTION_PARTIAL_SURRENDER_CHECK
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.checkPartialSurrender.check %s ] ERROR: %s',
+                self::TRANSACTION_PARTIAL_SURRENDER_CHECK,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -569,7 +1070,39 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function confirmPartialSurrender(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_CONFIRM, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToConfirm(),
+                    'options' => [
+                        'genererUnBulletin' => true,
+                        'envoyerUnMailClient' => true,
+                        'cloturerLeDossier' => true,
+                    ],
+                ]),
+            ]);
+
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.confirmPartialSurrender %s ] SUCCESS',
+                self::TRANSACTION_PARTIAL_SURRENDER_CONFIRM
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.confirmPartialSurrender %s ] ERROR: %s',
+                self::TRANSACTION_PARTIAL_SURRENDER_CONFIRM,
+                $e->getMessage()
+            );
+
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -577,14 +1110,73 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function finalizePartialSurrender(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_FINALIZE, [
+                'body' => json_encode(['contexte' => $context->arrayToFinalize()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.finalizePartialSurrender %s ] SUCCESS',
+                self::TRANSACTION_PARTIAL_SURRENDER_FINALIZE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.finalizePartialSurrender %s ] ERROR: %s',
+                self::TRANSACTION_PARTIAL_SURRENDER_FINALIZE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getArbitrationInformations(array $expectedItems = []): array
+    public function getArbitrationInformations(string $contractNumber, array $expectedItems = []): array
     {
+        $path = self::TRANSACTION_ARBITRATION_DATA;
+
+        $response = [];
+        try {
+            $response = $this->httpClient->post($path, [
+                'body' => $this->buildContext(['contractNumber' => $contractNumber], $exepectedItems),
+            ]);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.getPartialSurrenderInformations %s ] SUCCESS',
+                $path
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                '[Generali - httpClient.getPartialSurrenderInformations %s ] ERROR: %s',
+                $path,
+                $e->getMessage()
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createArbitration(Context $context, Arbitration $arbitration): SubscriptionResponse
+    {
+        $response = $this->initiateArbitration($context, $arbitration);
+
+        if (null === $response->getStatus()) {
+            throw new \RuntimeException('The Arbitrations\' Initiation has failed');
+        }
+
+        $response = $this->checkArbitration($context);
+
+        return $this->confirmArbitration($context);
     }
 
     /**
@@ -592,7 +1184,33 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function initiateArbitration(Context $context, Arbitration $arbitration): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_INITIATE, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToInitiate(),
+                    'arbitrage' => $arbitration->toArray(),
+                ]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setStatus($decodedRawResponse['statut']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.initiateArbitration %s ] SUCCESS',
+                self::TRANSACTION_ARBITRATION_INITIATE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.initiateArbitration %s ] ERROR: %s',
+                self::TRANSACTION_ARBITRATION_INITIATE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setErrorMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -600,7 +1218,28 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function checkArbitration(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_CHECK, [
+                'body' => json_encode(['contexte' => $context->arrayToCheck()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.checkArbitration %s ] SUCCESS',
+                self::TRANSACTION_ARBITRATION_CHECK
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.checkArbitration %s ] ERROR: %s',
+                self::TRANSACTION_ARBITRATION_CHECK,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -608,7 +1247,39 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function confirmArbitration(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_CONFIRM, [
+                'body' => json_encode([
+                    'contexte' => $context->arrayToConfirm(),
+                    'options' => [
+                        'genererUnBulletin' => true,
+                        'envoyerUnMailClient' => true,
+                        'cloturerLeDossier' => true,
+                    ],
+                ]),
+            ]);
+
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.confirmArbitration %s ] SUCCESS',
+                self::TRANSACTION_ARBITRATION_CONFIRM
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.confirmArbitration %s ] ERROR: %s',
+                self::TRANSACTION_ARBITRATION_CONFIRM,
+                $e->getMessage()
+            );
+
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 
     /**
@@ -616,6 +1287,29 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function finalizeArbitration(Context $context): SubscriptionResponse
     {
-        return [];
+        $response = new SubscriptionResponse();
+
+        try {
+            $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_FINALIZE, [
+                'body' => json_encode(['contexte' => $context->arrayToFinalize()]),
+            ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
+
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.finalizeArbitration %s ] SUCCESS',
+                self::TRANSACTION_ARBITRATION_FINALIZE
+            ));
+        } catch (\Exception $e) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.finalizeArbitration %s ] ERROR: %s',
+                self::TRANSACTION_ARBITRATION_FINALIZE,
+                $e->getMessage()
+            );
+            $this->logger->error($errorMessage);
+            $response->setMessage($errorMessage);
+        }
+
+        return $response;
     }
 }
