@@ -70,6 +70,7 @@ class SubscriptionFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver): void
     {
         $beneficiaryClauseCodes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
+        $beneficiaryClauseOutcomes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_DENOUEMENT_TYPE);
 
         $resolver
             ->setRequired('externalReference1')->setAllowedTypes('externalReference1', ['string'])
@@ -89,8 +90,9 @@ class SubscriptionFactory extends AbstractFactory
             ->setRequired('initialPayment')->setAllowedTypes('initialPayment', ['array'])->setNormalizer('initialPayment', function (Options $options, $value) {
                 return $this->initialPaymentFactory->create($value);
             })
-            ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
+            ->setRequired('paymentType')->setAllowedValues('paymentType', ['PRELEVEMENT', 'VIREMENT', 'CHEQUE'])
             ->setRequired('fiscality')->setAllowedTypes('fiscality', ['string'])
+            ->setDefined('deathBeneficiaryClauseOutcome')->setAllowedValues('deathBeneficiaryClauseOutcome', $beneficiaryClauseOutcomes)
             ->setDefined('deathBeneficiaryClauseCode')->setAllowedValues('deathBeneficiaryClauseCode', $beneficiaryClauseCodes)
             ->setDefined('deathBeneficiaryClauseText')->setAllowedTypes('deathBeneficiaryClauseText', ['string'])
             ->setRequired('gestionMode')->setAllowedTypes('gestionMode', ['string'])
@@ -116,6 +118,7 @@ class SubscriptionFactory extends AbstractFactory
             ->setFiscality($resolvedData['fiscality'])
             ->setDeathBeneficiaryClauseCode($resolvedData['deathBeneficiaryClauseCode'])
             ->setDeathBeneficiaryClauseText($resolvedData['deathBeneficiaryClauseText'])
+            ->setDeathBeneficiaryClauseOutcome($resolvedData['deathBeneficiaryClauseOutcome'])
             ->setGestionMode($resolvedData['gestionMode'])
             ->setDurationType($resolvedData['durationType'])
         ;

@@ -37,7 +37,7 @@ class InitialScheduledFreePaymentFactory extends AbstractFactory
         $resolver
             ->setRequired('bankDebitDay')->setAllowedTypes('bankDebitDay', ['int'])
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
-            ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
+            ->setDefault('periodicity', 'MENSUELLE')->setAllowedTypes('periodicity', ['string'])
             ->setRequired('repartitions')->setAllowedTypes('repartitions', ['array'])->setNormalizer('repartitions', function (Options $options, $values): array {
                 $resolvedValues = [];
                 foreach ($values as $value) {

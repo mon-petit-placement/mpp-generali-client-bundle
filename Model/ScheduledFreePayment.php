@@ -225,4 +225,18 @@ class ScheduledFreePayment
             ],
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function toEditArray(): array
+    {
+        return [
+            'versement' => [
+                'montant' => $this->getAmount(),
+                'periodicite' => $this->getPeriodicity(),
+            ],
+            'repartition' => $this->repartitionsToArray(),
+        ];
+    }
 }

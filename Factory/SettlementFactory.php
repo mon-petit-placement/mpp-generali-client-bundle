@@ -33,7 +33,7 @@ class SettlementFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver): void
     {
         $resolver
-            ->setRequired('paymentType')->setAllowedTypes('paymentType', ['string'])
+            ->setRequired('paymentType')->setAllowedValues('paymentType', ['PRELEVEMENT', 'VIREMENT', 'CHEQUE'])
             ->setDefined('bankName')->setAllowedTypes('bankName', ['string'])
             ->setRequired('accountOwner')->setAllowedTypes('accountOwner', ['string'])
             ->setRequired('accountIban')->setAllowedTypes('accountIban', ['string'])

@@ -63,6 +63,11 @@ class Context
     protected $contractNumber;
 
     /**
+     * @var
+     */
+    protected $orderTransactionLinkedNumber;
+
+    /**
      * @var string
      */
     protected $user;
@@ -85,11 +90,22 @@ class Context
     /**
      * @return array
      */
-    public function arrayToInitiate(): array
+    public function arrayToInitiateSubsciption(): array
     {
         return [
           'codeApporteur' => $this->getProviderCode(),
           'codeSouscription' => $this->getSubscriptionCode(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function arrayToInitiate(): array
+    {
+        return [
+          'codeApporteur' => $this->getProviderCode(),
+          'numeroOrdreTransactionLiee' => $this->getOrderTransactionLinkedNumber(),
         ];
     }
 
@@ -288,6 +304,26 @@ class Context
     public function setUser(string $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderTransactionLinkedNumber(): string
+    {
+        return $this->orderTransactionLinkedNumber;
+    }
+
+    /**
+     * @param string $orderTransactionLinkedNumber
+     *
+     * @return Context
+     */
+    public function setOrderTransactionLinkedNumber(string $orderTransactionLinkedNumber): self
+    {
+        $this->orderTransactionLinkedNumber = $orderTransactionLinkedNumber;
 
         return $this;
     }

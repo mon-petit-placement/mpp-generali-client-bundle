@@ -100,7 +100,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = [];
         try {
             $response = $this->httpClient->post($path, [
-                'body' => $this->buildContext($exepectedItems),
+                'body' => $this->buildContext(['contractNumber' => $contractNumber], $exepectedItems),
             ]);
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getContractInformations %s ] SUCCESS',
@@ -195,7 +195,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_INITIATE, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToInitiate(),
+                    'contexte' => $context->arrayToInitiateSubscription(),
                     'souscription' => $subscription->toArray(),
                     'commentaire' => $comment,
                     'dematerialisationCourriers' => $dematerialization,
@@ -767,12 +767,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
 
             $this->logger->info(sprintf(
-                '[Generali - httpClient.confirmScheduledFreePayment.confirm %s ] SUCCESS',
+                '[Generali - httpClient.confirmScheduledFreePayment %s ] SUCCESS',
                 self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM
             ));
         } catch (\Exception $e) {
             $errorMessage = sprintf(
-                '[Generali - httpClient.confirmScheduledFreePayment.confirm %s ] ERROR: %s',
+                '[Generali - httpClient.confirmScheduledFreePayment %s ] ERROR: %s',
                 self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CONFIRM,
                 $e->getMessage()
             );
@@ -806,12 +806,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
 
             $this->logger->info(sprintf(
-                '[Generali - httpClient.finalizeFreePayment %s ] SUCCESS',
+                '[Generali - httpClient.finalizeScheduledFreePayment %s ] SUCCESS',
                 self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE
             ));
         } catch (\Exception $e) {
             $errorMessage = sprintf(
-                '[Generali - httpClient.finalizeFreePayment %s ] ERROR: %s',
+                '[Generali - httpClient.finalizeScheduledFreePayment %s ] ERROR: %s',
                 self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE,
                 $e->getMessage()
             );
@@ -844,7 +844,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             ));
         } catch (\Exception $e) {
             $errorMessage = sprintf(
-                '[Generali - httpClient.finalizeFreePayment %s ] ERROR: %s',
+                '[Generali - httpClient.suspendScheduledFreePayment %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
             );
@@ -866,7 +866,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_INITIATE, [
                 'body' => json_encode([
                     'contexte' => $context->arrayToInitiate(),
-                    'versementLibre' => $scheduledFreePayment->toArray(),
+                    'modifVersementLibreProgrammes' => $scheduledFreePayment->toEditArray(),
                 ]),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
@@ -941,12 +941,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
 
             $this->logger->info(sprintf(
-                '[Generali - httpClient.confirmEditScheduledFreePayment.confirm %s ] SUCCESS',
+                '[Generali - httpClient.confirmEditScheduledFreePayment %s ] SUCCESS',
                 self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM
             ));
         } catch (\Exception $e) {
             $errorMessage = sprintf(
-                '[Generali - httpClient.confirmEditScheduledFreePayment.confirm %s ] ERROR: %s',
+                '[Generali - httpClient.confirmEditScheduledFreePayment %s ] ERROR: %s',
                 self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CONFIRM,
                 $e->getMessage()
             );
@@ -968,7 +968,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = [];
         try {
             $response = $this->httpClient->post($path, [
-                'body' => $this->buildContext(['contractNumber' => $contractNumber], $exepectedItems),
+                'body' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
             ]);
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getPartialSurrenderInformations %s ] SUCCESS',
@@ -1013,7 +1013,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 sprintf('%s/%s', self::TRANSACTION_PARTIAL_SURRENDER_INITIATE, $context->getContractNumber()), [
                 'body' => json_encode([
                     'contexte' => $context->arrayToInitiate(),
-                    'versementsLibresProgrammes' => $scheduledFreePayment->toArray(),
+                    'rachatPartiel' => $partialSurrender->toArray(),
                 ]),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
@@ -1146,7 +1146,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = [];
         try {
             $response = $this->httpClient->post($path, [
-                'body' => $this->buildContext(['contractNumber' => $contractNumber], $exepectedItems),
+                'body' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
             ]);
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getPartialSurrenderInformations %s ] SUCCESS',

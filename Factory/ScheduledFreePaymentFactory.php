@@ -76,7 +76,7 @@ class ScheduledFreePaymentFactory extends AbstractFactory
                 return $this->settlementFactory->create($value);
             })
             ->setRequired('amount')->setAllowedTypes('amount', ['float'])
-            ->setRequired('periodicity')->setAllowedTypes('periodicity', ['string'])
+            ->setDefault('periodicity', 'MENSUELLE')->setAllowedTypes('periodicity', ['string'])
             ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
                 return $this->subscriberFactory->create($value);
             })

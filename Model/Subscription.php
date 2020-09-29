@@ -55,6 +55,11 @@ class Subscription
     /**
      * @var string
      */
+    protected $deathBeneficiaryClauseOutcome;
+
+    /**
+     * @var string
+     */
     protected $deathBeneficiaryClauseCode;
 
     /**
@@ -110,6 +115,7 @@ class Subscription
             'duree' => $this->durationToArray(),
             'fiscalite' => $this->getFiscality(),
             'clauseBeneficiaireDeces' => [
+                'denouement' => $this->getDeathBeneficiaryClauseOutcome(),
                 'code' => $this->getDeathBeneficiaryClauseCode(),
                 'texteLibre' => $this->getDeathBeneficiaryClauseText(),
             ],
@@ -296,6 +302,26 @@ class Subscription
     public function setDeathBeneficiaryClauseCode(string $deathBeneficiaryClauseCode): self
     {
         $this->deathBeneficiaryClauseCode = $deathBeneficiaryClauseCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeathBeneficiaryClauseOutcome(): string
+    {
+        return $this->deathBeneficiaryClauseOutcome;
+    }
+
+    /**
+     * @param string $deathBeneficiaryClauseOutcome
+     *
+     * @return self
+     */
+    public function setDeathBeneficiaryClauseOutcome(string $deathBeneficiaryClauseOutcome): self
+    {
+        $this->deathBeneficiaryClauseOutcome = $deathBeneficiaryClauseOutcome;
 
         return $this;
     }

@@ -23,6 +23,11 @@ class Repartition
     protected $totalSurrender;
 
     /**
+     * @var float
+     */
+    protected $percent;
+
+    /**
      * Repartition constructor.
      */
     public function __construct()
@@ -97,6 +102,26 @@ class Repartition
     public function setTotalSurrender(?bool $totalSurrender): self
     {
         $this->totalSurrender = $totalSurrender;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPercent(): float
+    {
+        return $this->percent;
+    }
+
+    /**
+     * @param float $percent
+     *
+     * @return $this
+     */
+    public function setPercent(float $percent)
+    {
+        $this->percent = $percent;
 
         return $this;
     }
