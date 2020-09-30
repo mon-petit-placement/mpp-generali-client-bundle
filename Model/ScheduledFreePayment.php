@@ -15,7 +15,7 @@ class ScheduledFreePayment
     /**
      * @var string
      */
-    protected $periodicty;
+    protected $periodicity;
 
     /**
      * @var Settlement
@@ -163,7 +163,7 @@ class ScheduledFreePayment
     public function repartitionsToArray(): array
     {
         $repartitions = [];
-        foreach ($this->repartitions as $repartition) {
+        foreach ($this->getRepartitions() as $repartition) {
             $repartitions[] = $repartition->toArray();
         }
 

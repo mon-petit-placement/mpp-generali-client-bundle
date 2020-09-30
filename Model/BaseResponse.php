@@ -2,12 +2,15 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+/**
+ * Class BaseResponse.
+ */
 class BaseResponse
 {
     /**
      * @var array
      */
-    protected $messages;
+    protected $errorMessages;
 
     /**
      * @var array
@@ -19,26 +22,26 @@ class BaseResponse
      */
     public function __construct()
     {
-        $this->messages = [];
+        $this->errorMessages = [];
         $this->donnees = [];
     }
 
     /**
      * @return array
      */
-    public function getMessages(): array
+    public function getErrorMessages(): array
     {
-        return $this->messages;
+        return $this->errorMessages;
     }
 
     /**
-     * @param array $messages
+     * @param array $errorMessages
      *
      * @return self
      */
-    public function setMessages(array $messages): self
+    public function setErrorMessages(array $errorMessages): self
     {
-        $this->messages = $messages;
+        $this->errorMessages = $errorMessages;
 
         return $this;
     }
