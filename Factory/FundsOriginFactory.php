@@ -18,12 +18,12 @@ class FundsOriginFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $allowedCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS);
-        $allowedDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, 'detail');
+        $availableCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS);
+        $availableDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS);
 
         $resolver
-            ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $allowedCodeOrigin)
-            ->setDefined('detail')->setAllowedTypes('detail', ['string'])->setAllowedValues('detail', $allowedDetailCode)
+            ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $availableCodeOrigin)
+            ->setDefined('detail')->setAllowedTypes('detail', ['string'])->setAllowedValues('detail', $availableDetailCode)
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
             ->setDefined('date')->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function (Options $options, $value) {
                 if ($value instanceof \DateTime) {

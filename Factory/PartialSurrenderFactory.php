@@ -23,13 +23,11 @@ class PartialSurrenderFactory extends AbstractFactory
     private $repartitionFactory;
 
     /**
-     * SubscriptionFactory constructor.
+     * PartialSurrenderFactory constructor.
      *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param SubscriberFactory           $subscriberFactory
-     * @param CustomerFolderFactory       $customerFolderFactory
      * @param SettlementFactory           $settlementFactory
-     * @param InitialPaymentFactory       $initialPaymentFactory
+     * @param RepartitionFactory          $repartitionFactory
      */
     public function __construct(
         GeneraliHttpClientInterface $httpClient,

@@ -35,7 +35,7 @@ class CustomerFolderFactory extends AbstractFactory
      *
      * @param GeneraliHttpClientInterface $httpClient
      * @param PayoutTargetFactory         $payoutTargetFactory
-     * @param AssetsOriginFactory         $assetOriginFactory
+     * @param AssetsOriginFactory         $assetsOriginFactory
      * @param AssetsRepartitionFactory    $assetRepartitionFactory
      */
     public function __construct(GeneraliHttpClientInterface $httpClient, PayoutTargetFactory $payoutTargetFactory, AssetsOriginFactory $assetsOriginFactory, AssetsRepartitionFactory $assetRepartitionFactory)

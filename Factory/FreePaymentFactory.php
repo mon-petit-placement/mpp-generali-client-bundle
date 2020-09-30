@@ -3,9 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\FreePayment;
-use Mpp\GeneraliClientBundle\Model\Subscriber;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -35,13 +33,13 @@ class FreePaymentFactory extends AbstractFactory
     private $repartitionFactory;
 
     /**
-     * SubscriptionFactory constructor.
+     * FreePaymentFactory constructor.
      *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param SubscriberFactory           $subscriberFactory
-     * @param CustomerFolderFactory       $customerFolderFactory
-     * @param SettlementFactory           $settlementFactory
-     * @param InitialPaymentFactory       $initialPaymentFactory
+     * @param SubscriberFactory $subscriberFactory
+     * @param CustomerFolderFactory $customerFolderFactory
+     * @param SettlementFactory $settlementFactory
+     * @param RepartitionFactory $repartitionFactory
      */
     public function __construct(
         GeneraliHttpClientInterface $httpClient,
@@ -62,8 +60,6 @@ class FreePaymentFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $beneficiaryClauseCodes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
-
         $resolver
             ->setRequired('customerFolder')->setAllowedTypes('customerFolder', ['array'])->setNormalizer('customerFolder', function (Options $options, $value) {
                 return $this->customerFolderFactory->create($value);
