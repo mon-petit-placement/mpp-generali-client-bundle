@@ -35,9 +35,9 @@ interface GeneraliHttpClientInterface
      * @param string $contractNumber
      * @param array  $expectedItems
      *
-     * @return array
+     * @return BaseResponse
      */
-    public function getContractInformations(string $contractNumber, array $expectedItems = []): array;
+    public function retrieveContractData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
      * Retrieve subscription informations with contractNumber & expectedItems.
@@ -64,7 +64,7 @@ interface GeneraliHttpClientInterface
      *
      * @return SubscriptionResponse
      */
-    public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): SubscriptionResponse;
+    public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): SubscriptionResponse;
 
     /**
      * Initiate a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.
@@ -145,9 +145,9 @@ interface GeneraliHttpClientInterface
      * @param string $contractNumber
      * @param array  $expectedItems
      *
-     * @return array
+     * @return BaseResponse
      */
-    public function getFreePaymentInformations(string $contractNumber, array $expectedItems = []): array;
+    public function retrieveTransactionFreePaymentData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
      *  Create a free payment with a Context and the object FreePayment.
@@ -228,9 +228,9 @@ interface GeneraliHttpClientInterface
      * @param array  $expectedItems
      * @param string $contractNumber
      *
-     * @return array
+     * @return BaseResponse
      */
-    public function getScheduledFreePaymentInformations(string $contractNumber, array $expectedItems = []): array;
+    public function retrieveTransactionScheduledFreePaymentData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/initier
@@ -344,9 +344,9 @@ interface GeneraliHttpClientInterface
      * @param array  $expectedItems
      * @param string $contractNumber
      *
-     * @return array
+     * @return BaseResponse
      */
-    public function getPartialSurrenderInformations(string $contractNumber, array $expectedItems = []): array;
+    public function retrieveTransactionPartialSurrenderData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
      *  Initiate Data to create a Partial Surrender.
@@ -401,9 +401,9 @@ interface GeneraliHttpClientInterface
      * @param array  $expectedItems
      * @param string $contractNumber
      *
-     * @return array
+     * @return BaseResponse
      */
-    public function getArbitrationInformations(string $contractNumber, array $expectedItems = []): array;
+    public function retrieveTransactionArbitrationData(string $contractNumber, array $expectedItems = []): BaseResponse;
 
     /**
      *  Initiate Data to create a Arbitration.

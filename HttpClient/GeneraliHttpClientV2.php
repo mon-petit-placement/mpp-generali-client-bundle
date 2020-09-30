@@ -19,6 +19,9 @@ use Mpp\GeneraliClientBundle\Model\Subscription;
  */
 class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 {
+    const TRANSACTION_CONTRACT_DATA = '/epart/v2.0/contrats';
+
+    const TRANSACTION_FSUBSCRIPTION_DATA = '/epart/v2.0/transaction/versementLibre/donnees';
     const TRANSACTION_SUBSCRIPTION_INITIATE = '/epart/v2.0/transaction/souscription/initier';
     const TRANSACTION_SUBSCRIPTION_CHECK = '/epart/v2.0/transaction/souscription/verifier';
     const TRANSACTION_SUBSCRIPTION_CONFIRM = '/epart/v2.0/transaction/souscription/confirmer';
@@ -93,25 +96,33 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getContractInformations(string $contractNumber, array $exepectedItems = []): array
+    public function retrieveContractData(string $contractNumber, array $exepectedItems = []): BaseResponse
     {
-        $path = sprintf('/epart/v2.0/contrats/%s', $contractNumber);
+        $path = sprintf('%s/%s', self::TRANSACTION_CONTRACT_DATA, $contractNumber);
 
-        $response = [];
+        $response = new BaseResponse();
         try {
-            $response = $this->httpClient->post($path, [
-                'body' => $this->buildContext(['contractNumber' => $contractNumber], $exepectedItems),
+            $rawResponse = $this->httpClient->post($path, [
+                'body' => json_encode($this->buildContext(['contractNumber' => $contractNumber], $exepectedItems)),
             ]);
+
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response
+                ->setDonnees($decodedRawResponse['donnees'])
+                ->setErrorMessages($decodedRawResponse['messages'])
+            ;
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getContractInformations %s ] SUCCESS',
                 $path
             ));
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
+            $errorMessage = sprintf(
                 '[Generali - httpClient.getContractInformations %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
-            ));
+            );
+            $response->setErrorMessages($errorMessage);
+            $this->logger->error($errorMessage);
         }
 
         return $response;
@@ -122,18 +133,17 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
      */
     public function retrieveTransactionSubscriptionData(array $exepectedItems = []): BaseResponse
     {
-        $path = '/epart/v2.0/transaction/souscription/donnees';
-        $context = $this->buildContext([], $exepectedItems)->toArray();
+        $path = self::TRANSACTION_FSUBSCRIPTION_DATA;
         $response = new BaseResponse();
 
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode(['contexte' => $context]),
+                'body' => json_encode(['contexte' => $this->buildContext([], $exepectedItems)->toArray()]),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
             $response
                 ->setDonnees($decodedRawResponse['donnees'])
-                ->setMessages($decodedRawResponse['messages'])
+                ->setErrorMessages($decodedRawResponse['messages'])
             ;
 
             $this->logger->info(sprintf(
@@ -141,11 +151,13 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $path
             ));
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
+            $errorMessage = sprintf(
                 '[Generali - httpClient.retrieveTransactionSubscriptionData %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
-            ));
+            );
+            $response->setErrorMessages($errorMessage);
+            $this->logger->error($errorMessage);
         }
 
         return $response;
@@ -418,28 +430,35 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getFreePaymentInformations(string $contractNumber, array $expectedItems = []): array
+    public function retrieveTransactionFreePaymentData(string $contractNumber, array $expectedItems = []): BaseResponse
     {
         $path = self::TRANSACTION_FREE_PAYMENT_DATA;
 
-        $response = [];
+        $response = new BaseResponse();
         try {
-            $response = $this->httpClient->post($path, [
+            $rawResponse = $this->httpClient->post($path, [
                 'body' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
             ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response
+                ->setDonnees($decodedRawResponse['donnees'])
+                ->setErrorMessages($decodedRawResponse['messages'])
+            ;
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getFreePaymentInformations %s ] SUCCESS',
                 $path
             ));
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
+            $errorMessage = sprintf(
                 '[Generali - httpClient.getFreePaymentInformations %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
-            ));
+            );
+            $response->setErrorMessages($errorMessage);
+            $this->logger->error($errorMessage);
         }
 
-        return [];
+        return $response;
     }
 
     /**
@@ -643,23 +662,30 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getScheduledFreePaymentInformations(string $contractNumber, array $expectedItems = []): array
+    public function retrieveTransactionScheduledFreePaymentData(string $contractNumber, array $expectedItems = []): BaseResponse
     {
         $path = sprintf('%s/%s', self::TRANSACTION_SCHEDULED_FREE_PAYMENT_DATA, $contractNumber);
 
-        $response = [];
+        $response = new BaseResponse();
         try {
-            $response = $this->httpClient->get($path);
+            $rawResponse = $this->httpClient->get($path);
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getScheduledFreePaymentInformations %s ] SUCCESS',
                 $path
             ));
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            $response
+                ->setDonnees($decodedRawResponse['donnees'])
+                ->setErrorMessages($decodedRawResponse['messages'])
+            ;
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
+            $errorMessage = sprintf(
                 '[Generali - httpClient.getScheduledFreePaymentInformations %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
-            ));
+            );
+            $this->logger->error($errorMessage);
+            $response->setErrorMessages($errorMessage);
         }
 
         return $response;
@@ -961,25 +987,32 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getPartialSurrenderInformations(string $contractNumber, array $expectedItems = []): array
+    public function retrieveTransactionPartialSurrenderData(string $contractNumber, array $expectedItems = []): BaseResponse
     {
         $path = self::TRANSACTION_PARTIAL_SURRENDER_DATA;
 
-        $response = [];
+        $response = new BaseResponse();
         try {
-            $response = $this->httpClient->post($path, [
+            $rawResponse = $this->httpClient->post($path, [
                 'body' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
             ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents());
+            $response
+                ->setDonnees($decodedRawResponse['donnees'])
+                ->setErrorMessages($decodedRawResponse['messages'])
+            ;
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getPartialSurrenderInformations %s ] SUCCESS',
                 $path
             ));
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
+            $errorMessage = sprintf(
                 '[Generali - httpClient.getPartialSurrenderInformations %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
-            ));
+            );
+            $response->setErrorMessages($errorMessage);
+            $this->logger->error($errorMessage);
         }
 
         return $response;
@@ -1139,25 +1172,32 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getArbitrationInformations(string $contractNumber, array $expectedItems = []): array
+    public function retrieveTransactionArbitrationData(string $contractNumber, array $expectedItems = []): BaseResponse
     {
         $path = self::TRANSACTION_ARBITRATION_DATA;
 
-        $response = [];
+        $response = new BaseResponse();
         try {
-            $response = $this->httpClient->post($path, [
+            $rawResponse = $this->httpClient->post($path, [
                 'body' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
             ]);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents());
+            $response
+                ->setDonnees($decodedRawResponse['donnees'])
+                ->setErrorMessages($decodedRawResponse['messages'])
+            ;
             $this->logger->info(sprintf(
-                '[Generali - httpClient.getPartialSurrenderInformations %s ] SUCCESS',
+                '[Generali - httpClient.retrieveTransactionArbitrationData %s ] SUCCESS',
                 $path
             ));
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
-                '[Generali - httpClient.getPartialSurrenderInformations %s ] ERROR: %s',
+            $errorMessage = sprintf(
+                '[Generali - httpClient.retrieveTransactionArbitrationData %s ] ERROR: %s',
                 $path,
                 $e->getMessage()
-            ));
+            );
+            $response->setErrorMessages($errorMessage);
+            $this->logger->error($errorMessage);
         }
 
         return $response;
@@ -1224,7 +1264,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 'body' => json_encode(['contexte' => $context->arrayToCheck()]),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
-
+            if (isset($decodedRawResponse['messages'])) {
+                $response->setErrorMessage($decodedRawResponse['messages']);
+            }
             $this->logger->info(sprintf(
                 '[Generali - httpClient.checkArbitration %s ] SUCCESS',
                 self::TRANSACTION_ARBITRATION_CHECK
@@ -1236,7 +1278,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $e->getMessage()
             );
             $this->logger->error($errorMessage);
-            $response->setMessage($errorMessage);
+            $response->setErrorMessage($errorMessage);
         }
 
         return $response;
@@ -1262,6 +1304,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             ]);
 
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            if (isset($decodedRawResponse['messages'])) {
+                $response->setErrorMessage($decodedRawResponse['messages']);
+            }
             $response->setIdTransaction($decodedRawResponse['donnees']['idTransaction']);
 
             $this->logger->info(sprintf(
@@ -1276,7 +1321,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             );
 
             $this->logger->error($errorMessage);
-            $response->setMessage($errorMessage);
+            $response->setErrorMessage($errorMessage);
         }
 
         return $response;
@@ -1294,6 +1339,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 'body' => json_encode(['contexte' => $context->arrayToFinalize()]),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true);
+            if (isset($decodedRawResponse['messages'])) {
+                $response->setErrorMessage($decodedRawResponse['messages']);
+            }
             $response->setOrderTransaction($decodedRawResponse['donnees']['orderTransaction']);
 
             $this->logger->info(sprintf(
@@ -1307,7 +1355,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $e->getMessage()
             );
             $this->logger->error($errorMessage);
-            $response->setMessage($errorMessage);
+            $response->setErrorMessage($errorMessage);
         }
 
         return $response;
