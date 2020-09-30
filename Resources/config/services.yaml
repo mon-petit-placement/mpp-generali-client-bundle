@@ -1,10 +1,4 @@
 services:
-    Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClient:
-        public: true
-        arguments:
-          - '@eight_points_guzzle.client.mpp_generali'
-          - '@logger'
-
     Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientV2:
         public: true
         arguments:
