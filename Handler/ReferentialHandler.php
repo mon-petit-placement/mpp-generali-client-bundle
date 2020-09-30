@@ -14,6 +14,7 @@ class ReferentialHandler
     const REFERENTIAL_INCOME_SLICES = 'tranchesRevenu';
     const REFERENTIAL_ASSET_SLICES = 'tranchesPatrimoine';
     const REFERENTIAL_FUND_ORIGINS = 'originesFonds';
+    const REFERENTIAL_FUND_ORIGINS_DETAILS = 'detail';
     const REFERENTIAL_COCONTRACTOR_LINKS = 'liensCoContractant';
     const REFERENTIAL_PPE_FUNCTIONS = 'fonctionsPPE';
     const REFERENTIAL_COCONTRACTOR_LINKS_PPE = 'liensContractantPPE';
@@ -33,6 +34,9 @@ class ReferentialHandler
     const REFERENTIAL_CIVILITIES = 'civilites';
     const REFERENTIAL_IDENTITY_DOCS = 'piecesIdentite';
     const REFERENTIAL_IDENTITY_DOCS_2 = 'secondesPiecesIdentite';
+
+    const REFERENTIAL_INVESTABLE_FUNDS = 'fondsInvestissables';
+    const REFERENTIAL_SAVINGS_REACHS = 'epargneAtteinte';
 
     const AVAILABLE_REFERENTIALS = [
        self::REFERENTIAL_PROFESSIONNAL_SITUATIONS,
