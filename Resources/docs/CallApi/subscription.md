@@ -128,7 +128,7 @@ $subscription = $this->subscriptionFactory->create([
     ]
 ]);
 ````
-
+You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
 
 Once your subscription is build, you can add a comment and tell if you want to dematerialize or not the process.
 And then you can send it to Generali:

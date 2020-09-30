@@ -10,107 +10,108 @@ $context = $this->httpClient->buildContext();
 Then you build your $freePayment using the FreePaymentFactory with the following structure:
 ```php
 $freePayment = $this->freePaymentFactory->create([
-      'externalOperationNumber' => 'dfghjkl'
+      'externalOperationNumber' => 'dfghjkl',
       'customerFolder' => [
-        'assetAmount' => 654.25
-        'incomeAmount' => 654.25
+        'assetAmount' => 654.25,
+        'incomeAmount' => 654.25,
         'payoutTargets' => [
           [
-            'targetCode' => '1'
-            'precision' => 'toto'
+            'targetCode' => '1',
+            'precision' => 'toto',
           ], [
-            'targetCode' => '1'
-            'precision' => 'toto'
+            'targetCode' => '1',
+            'precision' => 'toto',
           ]
-        ]
+        ],
         'assetsOrigin' => [
           [
-            'codeOrigin' => '1'
-            'precision' => 'toto'
+            'codeOrigin' => '1',
+            'precision' => 'toto',
           ], [
-            'codeOrigin' => '2'
-            'precision' => 'toto'
+            'codeOrigin' => '2',
+            'precision' => 'toto',
           ]
-        ]
+        ],
         'assetsRepartition' => [
          [
-            'codeRepartition' => '1'
-            'percentRepartition' => 0.5
-            'precision' => 'toto'
+            'codeRepartition' => '1',
+            'percentRepartition' => 0.5,
+            'precision' => 'toto',
           ], [
-            'codeRepartition' => '1'
-            'percentRepartition' => 0.5
-            'precision' => 'toto'
+            'codeRepartition' => '1',
+            'percentRepartition' => 0.5,
+            'precision' => 'toto',
           ]
         ]
       ]
       'repartitions' => [
        [
-          'amount' => 564.23
-          'fundsCode' => '54'
+          'amount' => 564.23,
+          'fundsCode' => '54',
        ]
       ]
       'settlement' => [
-        'paymentType' => 'toto'
-        'bankName' => 'toto'
-        'accountOwner' => 'toto'
-        'accountIban' => 'toto'
-        'accountBic' => 'toto'
-        'debitAuthorization' => true
+        'paymentType' => 'toto',
+        'bankName' => 'toto',
+        'accountOwner' => 'toto',
+        'accountIban' => 'toto',
+        'accountBic' => 'toto',
+        'debitAuthorization' => true,
         'fundsOrigin' => [
         [
-            'codeOrigin' => '1'
-            'amount' => 654.25
-            'date' => '01/01/2020'
-            'precision' => 'toto'
+            'codeOrigin' => '1',
+            'amount' => 654.25,
+            'date' => '01/01/2020',
+            'precision' => 'toto',
         ], [
-            'codeOrigin' => '1'
-            'amount' => 654.25
-            'date' => '01/01/2020'
-            'precision' => 'toto'
+            'codeOrigin' => '1',
+            'amount' => 654.25,
+            'date' => '01/01/2020',
+            'precision' => 'toto',
           ]
         ]
-      ]
-      'amount' => 564.23
+      ],
+      'amount' => 564.23,
       'subscriber' => [
-        'lastName' => 'toto'
-        'firstName' => 'toto'
-        'birthName' => 'toto'
-        'familialSituation' => '1'
-        'professionalSituation' => 'SAL'
-        'civility' => 'MONSIEUR'
-        'taxCountry' => 'XXXXXFRANCE'
-        'nationality' => '99110AUTRICHE'
-        'birthDate' => '01/01/2020'
-        'birthPlace' => 'toto'
-        'birthCountry' => 'XXXXXFRANCE'
-        'birthPostalCode' => 'toto'
-        'birthDepartmentCode' => 'toto'
-        'legalCapacity' => '4'
-        'matrimonialRegime' => '3'
-        'cspCode' => '32'
-        'profession' => 'toto'
-        'nafCode' => '14'
-        'siretNumber' => 654654654
-        'employerName' => 'toto'
-        'cspCodeLastProfession' => '32'
-        'startDateInactivity' => '01/01/2020'
-        'phoneNumber' => 'toto'
-        'cellPhoneNumber' => 'toto'
-        'email' => 'toto'
-        'identityDocCode' => 'FE21'
-        'identityDocValidityDate' => '01/01/2020'
-        'addressPostalCode' => 'toto'
-        'addressCity' => 'toto'
-        'addressCountryCode' => 'XXXXXFRANCE'
-        'addressStreetName' => 'toto'
-        'addressDropOffPoint' => 'toto'
-        'addressGeographicPoint' => 'toto'
-        'addressPostBox' => 'toto'
+        'lastName' => 'toto',
+        'firstName' => 'toto',
+        'birthName' => 'toto',
+        'familialSituation' => '1',
+        'professionalSituation' => 'SAL',
+        'civility' => 'MONSIEUR',
+        'taxCountry' => 'XXXXXFRANCE',
+        'nationality' => '99110AUTRICHE',
+        'birthDate' => '01/01/2020',
+        'birthPlace' => 'toto',
+        'birthCountry' => 'XXXXXFRANCE',
+        'birthPostalCode' => 'toto',
+        'birthDepartmentCode' => 'toto',
+        'legalCapacity' => '4',
+        'matrimonialRegime' => '3',
+        'cspCode' => '32',
+        'profession' => 'toto',
+        'nafCode' => '14',
+        'siretNumber' => 654654654,
+        'employerName' => 'toto',
+        'cspCodeLastProfession' => '32',
+        'startDateInactivity' => '01/01/2020',
+        'phoneNumber' => 'toto',
+        'cellPhoneNumber' => 'toto',
+        'email' => 'toto',
+        'identityDocCode' => 'FE21',
+        'identityDocValidityDate' => '01/01/2020',
+        'addressPostalCode' => 'toto',
+        'addressCity' => 'toto',
+        'addressCountryCode' => 'XXXXXFRANCE',
+        'addressStreetName' => 'toto',
+        'addressDropOffPoint' => 'toto',
+        'addressGeographicPoint' => 'toto',
+        'addressPostBox' => 'toto',
       ]
     ]
 );
 ```
+You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
 
 Once your free payment is build, you can send it to Generali :
 ```

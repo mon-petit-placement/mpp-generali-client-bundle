@@ -27,7 +27,7 @@ $partialSurrender = $this->partialSurrenderFactory->create([
                 'codeOrigin' => '1',
                 'amount' => 654.25,
                 'date' => '01/01/2020',
-                'precision' => 'toto'
+                'precision' => 'toto',
             }
         ]
     },
@@ -35,11 +35,13 @@ $partialSurrender = $this->partialSurrenderFactory->create([
         {
             'amount' => 564.23,
             'fundsCode' => '54',
-            'totalSurrender' => true
+            'totalSurrender' => true,
         }
     ]
 ];
 ````
+You will need to access to the availables' funds and saving Reachs, see [here](../referentials.md) how to.
+
 Once your partialSurrender is build, you can add a comment and tell if you want to dematerialize or not the process.
 And then you can send it to Generali:
 ```

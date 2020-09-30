@@ -48,31 +48,31 @@ $scheduledFreePayment = $this->scheduledFreePaymentFactory->create([
               'payoutTargets' => [
                   [
                       'targetCode' => '1',
-                      'precision' => 'toto'
+                      'precision' => 'toto',
                   ],
                   [
                       'targetCode' => '1',
-                      'precision' => 'toto'
+                      'precision' => 'toto',
                   ]
               ],
               'assetsOrigin' => [
                   [
                       'codeOrigin' => '1',
-                      'precision' => 'toto'
+                      'precision' => 'toto',
                   ], [
                       'codeOrigin' => '2',
-                      'precision' => 'toto'
+                      'precision' => 'toto',
                   ]
               ],
               'assetsRepartition' => [
                   [
                       'codeRepartition' => '1',
                       'percentRepartition' => 0.5,
-                      'precision' => 'toto'
+                      'precision' => 'toto',
                   ], [
                       'codeRepartition' => '1',
                       'percentRepartition' => 0.5,
-                      'precision' => 'toto'
+                      'precision' => 'toto',
                   ]
               ]
           },
@@ -110,11 +110,12 @@ $scheduledFreePayment = $this->scheduledFreePaymentFactory->create([
               'addressStreetName' => 'toto',
               'addressDropOffPoint' => 'toto',
               'addressGeographicPoint' => 'toto',
-              'addressPostBox' => 'toto'
+              'addressPostBox' => 'toto',
           ]
       ]
 );
 ```
+You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
 
 Once your Scheduled Free Payment is build, you can send it to Generali :
 ```

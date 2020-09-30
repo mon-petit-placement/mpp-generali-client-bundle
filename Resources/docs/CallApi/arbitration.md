@@ -10,28 +10,29 @@ $context = $this->httpClient->buildContext();
 Then you build your $subscription using the ArbitrationFactory with the following structure:
 ````php
 $arbitration = $this->arbitrationFactory->create([
-    'numOperationExterne' => '654654'
-    'mandatTransmissionOrdre' => false
-    'mandatArbitrage' => false
+    'numOperationExterne' => '654654',
+    'mandatTransmissionOrdre' => false,
+    'mandatArbitrage' => false,
     'fondsInvestis' => [
         [
             'fondsInvesti' => [
-                'codeFonds' => 'toto'
-                'montant' => 654654
+                'codeFonds' => 'toto',
+                'montant' => 654654,
             ]
         ]
     ],
     'fondsDesinvestis' => [
         [
             'fondsDesinvesti' => [
-                'codeFonds' => 'toto'
-                'montant' => 654654
+                'codeFonds' => 'toto',
+                'montant' => 654654,
             ]
         ]
     ]
 ]);
 ````
-
+You will need to access to the availables' funds and saving Reachs, see [here](../referentials.md) how to.
+ 
 Once your arbitration is build, then you can send it to Generali:
 ```
 $arbitrationResponse = $this->httpClient->createArbitration(
