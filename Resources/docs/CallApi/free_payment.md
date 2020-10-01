@@ -4,112 +4,111 @@
 
 First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
 ````php
-$context = $this->httpClient->buildContext();
+$context = $this->httpClient->buildContext(['contractNumber' => $contractNumber]);
 ````
 
 Then you build your $freePayment using the FreePaymentFactory with the following structure:
 ```php
 $freePayment = $this->freePaymentFactory->create([
-      'externalOperationNumber' => 'dfghjkl',
-      'customerFolder' => [
-        'assetAmount' => 654.25,
-        'incomeAmount' => 654.25,
-        'payoutTargets' => [
-          [
-            'targetCode' => '1',
-            'precision' => 'toto',
-          ], [
-            'targetCode' => '1',
-            'precision' => 'toto',
-          ]
-        ],
-        'assetsOrigin' => [
-          [
-            'codeOrigin' => '1',
-            'precision' => 'toto',
-          ], [
-            'codeOrigin' => '2',
-            'precision' => 'toto',
-          ]
-        ],
-        'assetsRepartition' => [
-         [
-            'codeRepartition' => '1',
-            'percentRepartition' => 0.5,
-            'precision' => 'toto',
-          ], [
-            'codeRepartition' => '1',
-            'percentRepartition' => 0.5,
-            'precision' => 'toto',
-          ]
-        ]
+  'externalOperationNumber' => 'dfghjkl',
+  'customerFolder' => [
+    'assetAmount' => 654.25,
+    'incomeAmount' => 654.25,
+    'payoutTargets' => [
+      [
+        'targetCode' => '1',
+        'precision' => 'toto',
+      ], [
+        'targetCode' => '1',
+        'precision' => 'toto',
       ]
-      'repartitions' => [
-       [
-          'amount' => 564.23,
-          'fundsCode' => '54',
-       ]
+    ],
+    'assetsOrigin' => [
+      [
+        'codeOrigin' => '1',
+        'precision' => 'toto',
+      ], [
+        'codeOrigin' => '2',
+        'precision' => 'toto',
       ]
-      'settlement' => [
-        'paymentType' => 'toto',
-        'bankName' => 'toto',
-        'accountOwner' => 'toto',
-        'accountIban' => 'toto',
-        'accountBic' => 'toto',
-        'debitAuthorization' => true,
-        'fundsOrigin' => [
-        [
-            'codeOrigin' => '1',
-            'amount' => 654.25,
-            'date' => '01/01/2020',
-            'precision' => 'toto',
-        ], [
-            'codeOrigin' => '1',
-            'amount' => 654.25,
-            'date' => '01/01/2020',
-            'precision' => 'toto',
-          ]
-        ]
-      ],
-      'amount' => 564.23,
-      'subscriber' => [
-        'lastName' => 'toto',
-        'firstName' => 'toto',
-        'birthName' => 'toto',
-        'familialSituation' => '1',
-        'professionalSituation' => 'SAL',
-        'civility' => 'MONSIEUR',
-        'taxCountry' => 'XXXXXFRANCE',
-        'nationality' => '99110AUTRICHE',
-        'birthDate' => '01/01/2020',
-        'birthPlace' => 'toto',
-        'birthCountry' => 'XXXXXFRANCE',
-        'birthPostalCode' => 'toto',
-        'birthDepartmentCode' => 'toto',
-        'legalCapacity' => '4',
-        'matrimonialRegime' => '3',
-        'cspCode' => '32',
-        'profession' => 'toto',
-        'nafCode' => '14',
-        'siretNumber' => 654654654,
-        'employerName' => 'toto',
-        'cspCodeLastProfession' => '32',
-        'startDateInactivity' => '01/01/2020',
-        'phoneNumber' => 'toto',
-        'cellPhoneNumber' => 'toto',
-        'email' => 'toto',
-        'identityDocCode' => 'FE21',
-        'identityDocValidityDate' => '01/01/2020',
-        'addressPostalCode' => 'toto',
-        'addressCity' => 'toto',
-        'addressCountryCode' => 'XXXXXFRANCE',
-        'addressStreetName' => 'toto',
-        'addressDropOffPoint' => 'toto',
-        'addressGeographicPoint' => 'toto',
-        'addressPostBox' => 'toto',
+    ],
+    'assetsRepartition' => [
+     [
+        'codeRepartition' => '1',
+        'percentRepartition' => 0.5,
+        'precision' => 'toto',
+      ], [
+        'codeRepartition' => '1',
+        'percentRepartition' => 0.5,
+        'precision' => 'toto',
       ]
     ]
-);
+  ]
+  'repartitions' => [
+   [
+      'amount' => 564.23,
+      'fundsCode' => '54',
+   ]
+  ]
+  'settlement' => [
+    'paymentType' => 'toto',
+    'bankName' => 'toto',
+    'accountOwner' => 'toto',
+    'accountIban' => 'toto',
+    'accountBic' => 'toto',
+    'debitAuthorization' => true,
+    'fundsOrigin' => [
+    [
+        'codeOrigin' => '1',
+        'amount' => 654.25,
+        'date' => '01/01/2020',
+        'precision' => 'toto',
+    ], [
+        'codeOrigin' => '1',
+        'amount' => 654.25,
+        'date' => '01/01/2020',
+        'precision' => 'toto',
+      ]
+    ]
+  ],
+  'amount' => 564.23,
+  'subscriber' => [
+    'lastName' => 'toto',
+    'firstName' => 'toto',
+    'birthName' => 'toto',
+    'familialSituation' => '1',
+    'professionalSituation' => 'SAL',
+    'civility' => 'MONSIEUR',
+    'taxCountry' => 'XXXXXFRANCE',
+    'nationality' => '99110AUTRICHE',
+    'birthDate' => '01/01/2020',
+    'birthPlace' => 'toto',
+    'birthCountry' => 'XXXXXFRANCE',
+    'birthPostalCode' => 'toto',
+    'birthDepartmentCode' => 'toto',
+    'legalCapacity' => '4',
+    'matrimonialRegime' => '3',
+    'cspCode' => '32',
+    'profession' => 'toto',
+    'nafCode' => '14',
+    'siretNumber' => 654654654,
+    'employerName' => 'toto',
+    'cspCodeLastProfession' => '32',
+    'startDateInactivity' => '01/01/2020',
+    'phoneNumber' => 'toto',
+    'cellPhoneNumber' => 'toto',
+    'email' => 'toto',
+    'identityDocCode' => 'FE21',
+    'identityDocValidityDate' => '01/01/2020',
+    'addressPostalCode' => 'toto',
+    'addressCity' => 'toto',
+    'addressCountryCode' => 'XXXXXFRANCE',
+    'addressStreetName' => 'toto',
+    'addressDropOffPoint' => 'toto',
+    'addressGeographicPoint' => 'toto',
+    'addressPostBox' => 'toto',
+  ]
+]);
 ```
 You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
 
@@ -120,7 +119,7 @@ $response = $this->httpClient->createFreePayment(
     $freePayment
 );
 ```
-You will get a SubscriptionResponse which contains the information returned by the API, like this: 
+You will get a ApiResponse which contains the information returned by the API, like this: 
 ````php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
@@ -176,7 +175,10 @@ $document = (new Document())
 
 Build a context and affect the idTransaction to it:
 ```php
-$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
+$context = $this->httpClient->buildContext([
+    'contractNumber' => $contractNumber, 
+    'idTransaction'=> $idTransaction
+]);
 ```
 And then call the freePayment's finalization
 ```

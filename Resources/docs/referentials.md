@@ -53,56 +53,124 @@ For these kind of attribute, you will have to send one in this list.
 ```
 For each of these Model's attributes, you will have to retrieve the availables' attribute given list.
 #### How to get the list of availables values ?
-For each of these Models' attributes, you will retrieve the list with a ReferentialKey
-``` php
-| Model            | Attribute                     | ReferentialKey                       |
-|------------------|-------------------------------|--------------------------------------|
-| AssetOrigin      | codeOrigin                    | REFERENTIAL_ASSET_ORIGINS            |
-| AssetRepartition | codeRepartition               | REFERENTIAL_ASSET_REPARTITIONS       |
-| FundsOrigin      | codeOrigin                    | REFERENTIAL_FUND_ORIGINS             |
-| FundsOrigin      | detail                        | explained_at_the_bottom              |
-| PayoutTarget     | targetCode                    | REFERENTIAL_PAYMENT_TARGETS          |
-| Subscriber       | civility                      | REFERENTIAL_CIVILITIES               |
-| Subscriber       | taxCountry                    | REFERENTIAL_TAX_COUNTRIES            |
-| Subscriber       | nationality                   | REFERENTIAL_NATIONALITIES            |
-| Subscriber       | birthCountry                  | REFERENTIAL_BIRTH_COUNTRIES          |
-| Subscriber       | legalCapacity                 | REFERENTIAL_LEGAL_CAPACITIES         |
-| Subscriber       | familialSituation             | REFERENTIAL_FAMILIAL_SITUATIONS      |
-| Subscriber       | professionalSituation         | REFERENTIAL_PROFESSIONNAL_SITUATIONS |
-| Subscriber       | matrimonialRegime             | REFERENTIAL_MATRIMONIAL_REGIMES      |
-| Subscriber       | cspCode                       | REFERENTIAL_CSPS_CODES               |
-| Subscriber       | nafCode                       | REFERENTIAL_NAF_CODES                |
-| Subscriber       | cspCodeLastProfession         | REFERENTIAL_CSPS_CODES               |
-| Subscriber       | identityDocCode               | REFERENTIAL_IDENTITY_DOCS            |
-| Subscriber       | addressCountryCode            | REFERENTIAL_ADDRESS_COUNTRIES        |
-| Subscription     | deathBeneficiaryClauseOutcome | EXPECTED_ITEM_DENOUEMENT_TYPE        |
-| Subscription     | deathBeneficiaryClauseCode    | EXPECTED_ITEM_BENEFICIARY_CLAUSE     |
+
+All the availables' attributes ara retrievable by asking the API with these:
+```php
+/**
+ * To get the provider's contract data
+ */ 
+ $this->httpClient->retrieveContractData($contractNumber, $expectedItems);
+ 
+/**
+ * For the subscription's transaction data
+ */ 
+ $this->httpClient->retrieveTransactionSubscriptionData($expectedItems);
+ 
+/**
+ * For the free payment's transaction data
+ */ 
+ $this->httpClient->retrieveTransactionFreePaymentData($contractNumber, $expectedItems);
+ 
+/**
+ * For the scheduled free payment's transaction data
+ */ 
+ $this->httpClient->retrieveTransactionScheduledFreePaymentData($contractNumber, $expectedItems);
+ 
+/**
+ * For the partial surrender transaction data
+ */ 
+ $this->httpClient->retrieveTransactionPartialSurrenderData($contractNumber, $expectedItems);
+ 
+/**
+ * For the arbitration transaction data
+ */ 
+ $this->httpClient->retrieveTransactionArbitrationData($contractNumber, $expectedItems);
 ```
-you will use these by doing:
+
+For each you will have a BaseResponse wich have this structure:
+```php
+[
+    "donnee": [
+        "situationsProfessionnelles": [
+            ...
+        ], 
+        ...
+    ],
+    "errorMessages": [
+        ...
+    ]
+]
+```
+
+### The ReferentialHandler, an easier way to retrieve attributes' list
+The referentialHandler will extract data by expectedItem or by referentialKey following the method you use.
+
+For each of these Models' attributes, you will retrieve the availables' values with these ReferentialKeys.
+``` php
+| Model            | Attribute                     | ReferentialKey                            |
+|------------------|-------------------------------|-------------------------------------------|
+| AssetOrigin      | codeOrigin                    | REFERENTIAL_ASSET_ORIGIN_CODES            |
+| AssetRepartition | codeRepartition               | REFERENTIAL_ASSET_REPARTITION_CODES       |
+| FundsOrigin      | codeOrigin                    | REFERENTIAL_FUND_ORIGIN_CODES             |
+| FundsOrigin      | detail                        | 'explained below'                         |
+| PayoutTarget     | targetCode                    | REFERENTIAL_PAYMENT_TARGET_CODES          |
+| Subscriber       | civility                      | REFERENTIAL_CIVILITIES                    |
+| Subscriber       | taxCountry                    | REFERENTIAL_TAX_COUNTRY_CODES             |
+| Subscriber       | nationality                   | REFERENTIAL_NATIONALITIES                 |
+| Subscriber       | birthCountry                  | REFERENTIAL_BIRTH_COUNTRY_CODES           |
+| Subscriber       | legalCapacity                 | REFERENTIAL_LEGAL_CAPACITY_CODES          |
+| Subscriber       | familialSituation             | REFERENTIAL_FAMILIAL_SITUATION_CODES      |
+| Subscriber       | professionalSituation         | REFERENTIAL_PROFESSIONNAL_SITUATION_CODES |
+| Subscriber       | matrimonialRegime             | REFERENTIAL_MATRIMONIAL_REGIME_CODES      |
+| Subscriber       | cspCode                       | REFERENTIAL_CSPS_CODES                    |
+| Subscriber       | nafCode                       | REFERENTIAL_NAF_CODES                     |
+| Subscriber       | cspCodeLastProfession         | REFERENTIAL_CSPS_CODES                    |
+| Subscriber       | identityDocCode               | REFERENTIAL_IDENTITY_DOC_CODES            |
+| Subscriber       | addressCountryCode            | REFERENTIAL_ADDRESS_COUNTRY_CODES         |
+| Subscription     | deathBeneficiaryClauseOutcome | EXPECTED_ITEM_DENOUEMENT_TYPE             |
+| Subscription     | deathBeneficiaryClauseCode    | EXPECTED_ITEM_BENEFICIARY_CLAUSE_CODES    |
+```
+
+For example, you will use these by doing:
 ```php
 /**
  * For those which start by REFERENTIAL_
  */ 
-$availableAttributes = $this->subscriptionFactory->getReferentialCodes(ReferentialHandler::$ReferentialKey);
+$availableAttributes = ReferentialHandler::extractReferentialCodes(
+    $this->httpClient->retrieveTransactionSubscriptionData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+    $ReferentialKey
+);
 
 /**
  * For those which start by EXPECTED_ITEM_
  */ 
-$availableAttributes = $this->subscriptionFactory->getExpectedItemCodes(ReferentialHandler::$ReferentialKey);
+$availableAttributes = ReferentialHandler::extractExpectedItemsCode(
+    $this->httpClient->retrieveTransactionSubscriptionData([$ReferentialKey])->getDonnees(),
+    $ReferentialKey
+);
 ```
-In FundsOrigin, for detail, there is a particularity, you have a subReferentialKey 'detail' which you can call with: 
+with REFERENTIAL_IDENTITY_DOC_CODES, you will have a response like this:
 ```php
-$availableDetailCode = $this->subscriptionFactory->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS);
+ [
+  "FE21" => "Carte Nationale d'Identité (CNI)"
+  "FE22" => "Passeport"
+  "FE23" => "Nouveau permis de conduire"
+  "FE25" => "Livret de famille"
+  "FE26" => "Carte électorale française"
+  "FE27" => "Acte de naissance"
+  "FE30" => "Permis de conduire"
+]
 ```
 
-If you want to retrieve any other information you need on subscription, freePayment, scheduledFreePayment, Arbitration, PartialSurrender, you can access them by doing:
+In FundsOrigin, for detail, there is a particularity, you have a subReferentialKey 'detail' which you can call with: 
 ```php
-$this->httpClient->getFreePaymentInformations($contractNumber, $expectedItems);
-$this->httpClient->getScheduledFreePaymentInformations($contractNumber, $expectedItems);
-$this->httpClient->getPartialSurrenderInformations($contractNumber, $expectedItems);
-$this->httpClient->getArbitrationInformations($contractNumber, $expectedItems);
-$this->httpClient->retrieveTransactionSubscriptionData($expectedItems);
+$availableDetailCode = ReferentialHandler::extractSubReferentialCodes(
+    $this->httpClient->retrieveTransactionSubscriptionData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+    ReferentialHandler::REFERENTIAL_FUND_ORIGINS,
+    ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS
+);
 ```
+
 The ExpectedItems you could send are:
 ```php
 [
@@ -137,8 +205,8 @@ The ExpectedItems you could send are:
 ####Special Requirements for Arbitration & Partial Surrender
 you will need to access the list of available funds, and the subscribed funds on a specific contractNumber, you can retrieve them via:
 ```php
-$investableFunds = $this->arbitrationFactory->getArbitrationInformations($contractNumber, ReferentialHandler::REFERENTIAL_INVESTABLE_FUNDS);
-$investableFunds = $this->partialSurrenderFactory->retrieveTransactionPartialSurrenderData($contractNumber, ReferentialHandler::REFERENTIAL_INVESTABLE_FUNDS);
+$investableFunds = $this->httpClient->retrieveTransactionArbitrationData($contractNumber, ReferentialHandler::REFERENTIAL_INVESTABLE_FUNDS);
+$investableFunds = $this->httpClient->retrieveTransactionPartialSurrenderData($contractNumber, ReferentialHandler::REFERENTIAL_INVESTABLE_FUNDS);
 ```
 Here is the answer you will have:
 ```php
@@ -155,7 +223,7 @@ Here is the answer you will have:
 
 You will also need to access to the saving reachs:
 ```php
-$savingReachs = $this->arbitrationFactory->getArbitrationInformations($contractNumber, ReferentialHandler::REFERENTIAL_SAVINGS_REACHS);
+$savingReachs = $this->httpClient->retrieveTransactionArbitrationData($contractNumber, ReferentialHandler::REFERENTIAL_SAVINGS_REACHS);
 ```
 you will have an answer like this:
 ```php
@@ -172,10 +240,9 @@ you will have an answer like this:
     ],
 ]
  ```
- 
 Same method for partial Surrender, but not the same answer
 ```php
-$savingReachs = $this->partialSurrenderFactory->retrieveTransactionPartialSurrender($contractNumber, ReferentialHandler::REFERENTIAL_SAVINGS_REACHS);
+$savingReachs = $this->httpClient->retrieveTransactionPartialSurrender($contractNumber, ReferentialHandler::REFERENTIAL_SAVINGS_REACHS);
 ```
 you will have an answer like this:
 ```php
@@ -183,13 +250,13 @@ you will have an answer like this:
     'epargneAtteinte' => [
         'repartitionList' => [
             [
-                'codeFonds' => 'codeFondsInvestis',
-                'montant' => 654654,
+                'codeFonds' => 'TechniPC5401',
+                'montant' => 1234,
                 'desinvestissable' => false,
             ],
             [
-                'codeFonds' => 'codeFondsInvestis',
-                'montant' => 654654,
+                'codeFonds' => 'BNP022CFCAL',
+                'montant' => 5678,
                 'desinvestissable' => true,
             ],
         ],

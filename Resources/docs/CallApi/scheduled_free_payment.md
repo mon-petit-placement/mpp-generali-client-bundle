@@ -180,8 +180,10 @@ $document = (new Document())
 
 Build a context and affect the idTransaction to it:
 ```php
-$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
-```
+$context = $this->httpClient->buildContext([
+    'contractNumber' => $contractNumber,
+    'idTransaction'=> $idTransaction
+]);```
 And then call the scheduledFreePayment's finalization
 ```
 $response = $this->httpClient->finalizeScheduledFreePayment($context, $documents);

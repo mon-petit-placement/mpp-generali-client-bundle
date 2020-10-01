@@ -133,14 +133,14 @@ You will need to access to the availables' values on some attribute, please chec
 Once your subscription is build, you can add a comment and tell if you want to dematerialize or not the process.
 And then you can send it to Generali:
 ```
-$subscriptionResponse = $this->httpClient->createSubscription(
+$apiResponse = $this->httpClient->createSubscription(
     $context, 
     $subscription, 
     $comment, 
     $dematerialization
 );
 ```
-You will get a SubscriptionResponse which contains the information returned by the API, like this: 
+You will get a ApiResponse which contains the information returned by the API, like this: 
 ````php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca',
@@ -161,7 +161,7 @@ You will also have access to expected documents' list, that you will need to sen
 /**
  * array<Document>
  */
-$expectedDocuments = $subscriptionResponse->getExpectedDocuments();
+$expectedDocuments = $apiResponse->getExpectedDocuments();
 ````
 The Document will have this structure:
 ```php
@@ -200,7 +200,7 @@ $context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
 ```
 And then call the subscription's finalization
 ```
-$subscriptionResponse = $this->httpClient->finalizeSubscription($context, $documents);
+$apiResponse = $this->httpClient->finalizeSubscription($context, $documents);
 ```
 you will get in return a numberOrderTransaction, that you have to save
 

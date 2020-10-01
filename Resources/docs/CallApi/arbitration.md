@@ -4,7 +4,7 @@
 
 First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
 ````php
-$context = $this->httpClient->buildContext();
+$context = $this->httpClient->buildContext(['contractNumber' => $contractNumber]);
 ````
 
 Then you build your $subscription using the ArbitrationFactory with the following structure:
@@ -16,16 +16,16 @@ $arbitration = $this->arbitrationFactory->create([
     'fondsInvestis' => [
         [
             'fondsInvesti' => [
-                'codeFonds' => 'toto',
-                'montant' => 654654,
+                'codeFonds' => 'BNPF',
+                'montant' => 123,
             ]
         ]
     ],
     'fondsDesinvestis' => [
         [
             'fondsDesinvesti' => [
-                'codeFonds' => 'toto',
-                'montant' => 654654,
+                'codeFonds' => 'SOGE45',
+                'montant' => 456,
             ]
         ]
     ]
@@ -40,7 +40,7 @@ $arbitrationResponse = $this->httpClient->createArbitration(
     $arbitration
 );
 ```
-You will get a SubscriptionResponse which contains the information returned by the API, like this: 
+You will get a ApiResponse which contains the information returned by the API, like this: 
 ````php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca',
@@ -60,25 +60,13 @@ $idTransaction = $suscriptionResponse->getIdTransaction();
 
 To finalize a arbitration, you have to send all the idTransaction, build a context and affect the idTransaction to it:
 ```php
-$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
+$context = $this->httpClient->buildContext([
+    'contractNumber' => $contractNumber,
+    'idTransaction'=> $idTransaction
+]);
 ```
 And then call the subscription's finalization
 ```
 $response = $this->httpClient->finalizeArbitration($context);
 ```
 you will get in return a numberOrderTransaction, that you have to save
-
-
-```php
-public function getFundsAvailableInContract()
-{
-    $availablesFunds = $this->httpClient->getAvailableFunds(
-        Subscription::PRODUCT_ARBITRATION, [
-         'contexte' => [
-            'codeApporteur' => $generaliIntermediaryCode,
-            'numContrat' => $contractCode,
-            ],
-        ]
-    );
-}
-```

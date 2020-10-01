@@ -5,7 +5,7 @@
 
 First you have to build a Context object wich contains your partial Code's code and your intermediary code defined in the configuration
 ````php
-$context = $this->httpClient->buildContext();
+$context = $this->httpClient->buildContext(['contractNumber' => $contractNumber]);
 ````
 
 Then you build your $partialSurrender using the $partialSurrenderFactory with the following structure:
@@ -76,10 +76,12 @@ $expectedDocuments = $response->getExpectedDocuments();
 
 Build a context and assign the idTransaction to it:
 ```php
-$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
-```
+$context = $this->httpClient->buildContext([
+    'contractNumber' => $contractNumber,
+    'idTransaction'=> $idTransaction
+]);```
 And then call the partialSurrender's finalization
 ```
-$subscriptionResponse = $this->httpClient->finalizePartialSurrender($context);
+$apiResponse = $this->httpClient->finalizePartialSurrender($context);
 ```
 you will get in return a numberOrderTransaction, that you have to save

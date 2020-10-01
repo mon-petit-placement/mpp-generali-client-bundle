@@ -196,8 +196,12 @@ class ReferentialHandler
     {
         $extractedData = self::getReferentialKeyData($data, $referentialKey);
 
-        return array_map(function ($value) {
-            return [$value['code'] => $value['libelle']];
-        }, $extractedData);
+        $extractedReferentialValues = [];
+        foreach ($extractedData as $item) {
+            $extractedReferentialValues[$item['code']] = $item['libelle'];
+        }
+        ksort($extractedReferentialValues);
+
+        return $extractedReferentialValues;
     }
 }
