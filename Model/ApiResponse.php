@@ -3,9 +3,9 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class SubscriptionResponse.
+ * Class ApiResponse.
  */
-class SubscriptionResponse
+class ApiResponse
 {
     /**
      * @var string
@@ -18,9 +18,9 @@ class SubscriptionResponse
     protected $idTransaction;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $errorMessage;
+    protected $errorMessages;
 
     /**
      * @var string
@@ -33,19 +33,19 @@ class SubscriptionResponse
     protected $requiredDocuments;
 
     /**
-     * SubscriptionResponse constructor.
+     * ApiResponse constructor.
      */
     public function __construct()
     {
         $this->requiredDocuments = [];
         $this->status = null;
-        $this->errorMessage = null;
+        $this->errorMessages = [];
     }
 
     /**
      * @param Document $document
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
     public function addRequiredDocument(Document $document): self
     {
@@ -95,21 +95,21 @@ class SubscriptionResponse
     }
 
     /***
-     * @return string|null
+     * @return array
      */
-    public function getErrorMessage(): ?string
+    public function getErrorMessage(): ?array
     {
-        return $this->errorMessage;
+        return $this->errorMessages;
     }
 
     /**
-     * @param string|null $errorMessage
+     * @param array $errorMessages
      *
      * @return self
      */
-    public function setErrorMessage(?string $errorMessage): self
+    public function setErrorMessages(?array $errorMessages): self
     {
-        $this->errorMessage = $errorMessage;
+        $this->errorMessages = $errorMessages;
 
         return $this;
     }
@@ -117,7 +117,7 @@ class SubscriptionResponse
     /**
      * @param string $status
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
     public function setStatus(string $status): self
     {

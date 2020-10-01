@@ -49,7 +49,7 @@ class BaseResponse
     /**
      * @return array
      */
-    public function getDonnees()
+    public function getDonnees(): array
     {
         return $this->donnees;
     }

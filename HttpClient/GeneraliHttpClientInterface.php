@@ -10,7 +10,7 @@ use Mpp\GeneraliClientBundle\Model\FreePayment;
 use Mpp\GeneraliClientBundle\Model\PartialSurrender;
 use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
 use Mpp\GeneraliClientBundle\Model\Subscription;
-use Mpp\GeneraliClientBundle\Model\SubscriptionResponse;
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
 
 /**
  * Interface GeneraliHttpClientInterface.
@@ -62,9 +62,9 @@ interface GeneraliHttpClientInterface
      * @param string       $comment
      * @param bool         $dematerialization
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): SubscriptionResponse;
+    public function createSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): ApiResponse;
 
     /**
      * Initiate a Subscription with a Context, a GeneraliSubsription, a comment if you wish dematerialize the process.
@@ -76,9 +76,9 @@ interface GeneraliHttpClientInterface
      * @param string       $comment
      * @param bool         $dematerialization
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function initiateSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): SubscriptionResponse;
+    public function initiateSubscription(Context $context, Subscription $subscription, bool $dematerialization, string $comment): ApiResponse;
 
     /**
      * Check a Subscription with a Context.
@@ -87,55 +87,55 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function checkSubscription(Context $context): SubscriptionResponse;
+    public function checkSubscription(Context $context): ApiResponse;
 
     /**
-     * Confirm a Subscription with a Context, a SubscriptionResponse, and get the required documents to send.
+     * Confirm a Subscription with a Context, a ApiResponse, and get the required documents to send.
      *
      * path: /epart/v2.0/transaction/souscription/confirmer
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function confirmSubscription(Context $context): SubscriptionResponse;
+    public function confirmSubscription(Context $context): ApiResponse;
 
     /**
-     * Send a document to the API Generali with a SubscriptionResponse, and get the required documents to send.
+     * Send a document to the API Generali with a ApiResponse, and get the required documents to send.
      *
      * path: /epart/v1.0/transaction/fournirPiece/{idTransaction}/{idDocument}
      *
      * @param string   $idTransaction
      * @param Document $document
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function sendFile(string $idTransaction, Document $document): SubscriptionResponse;
+    public function sendFile(string $idTransaction, Document $document): ApiResponse;
 
     /**
-     * list all the files the customer need to send for the subscription with a SubscriptionResponse, and the idTransaction.
+     * list all the files the customer need to send for the subscription with a ApiResponse, and the idTransaction.
      *
      * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/souscription
      *
      * @param string $idTransaction
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function listSubscriptionFiles(string $idTransaction): SubscriptionResponse;
+    public function listSubscriptionFiles(string $idTransaction): ApiResponse;
 
     /**
-     * Finalize a Subscription with a Context, a SubscriptionResponse, the list of Document to send.
+     * Finalize a Subscription with a Context, a ApiResponse, the list of Document to send.
      *
      * path: /epart/v2.0/transaction/souscription/finalisser
      *
      * @param Context         $context
      * @param array<Document> $documents
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function finalizeSubscription(Context $context, array $documents): SubscriptionResponse;
+    public function finalizeSubscription(Context $context, array $documents): ApiResponse;
 
     /**
      * Retrieve free payment informations with contractNumber and expectedItems.
@@ -159,9 +159,9 @@ interface GeneraliHttpClientInterface
      * @param Context     $context
      * @param FreePayment $freePayment
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function createFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse;
+    public function createFreePayment(Context $context, FreePayment $freePayment): ApiResponse;
 
     /**
      *  Initiate Data to create a free payment.
@@ -171,9 +171,9 @@ interface GeneraliHttpClientInterface
      * @param Context     $context
      * @param FreePayment $freePayment
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function initiateFreePayment(Context $context, FreePayment $freePayment): SubscriptionResponse;
+    public function initiateFreePayment(Context $context, FreePayment $freePayment): ApiResponse;
 
     /**
      *  Check a Free Payment with a token Status.
@@ -182,9 +182,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function checkFreePayment(Context $context): SubscriptionResponse;
+    public function checkFreePayment(Context $context): ApiResponse;
 
     /**
      *  Confirm a Free Payment with a token Status.
@@ -193,20 +193,20 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function confirmFreePayment(Context $context): SubscriptionResponse;
+    public function confirmFreePayment(Context $context): ApiResponse;
 
     /**
-     *  list all the files the customer need to send for the freePayment with a SubscriptionResponse, and the idTransaction.
+     *  list all the files the customer need to send for the freePayment with a ApiResponse, and the idTransaction.
      *
      * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/VERSEMENT_LIBRE
      *
      * @param string $idTransaction
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function listFreePaymentFiles(string $idTransaction): SubscriptionResponse;
+    public function listFreePaymentFiles(string $idTransaction): ApiResponse;
 
     /**
      *  Finalize a Free Payment with a token Status.
@@ -216,9 +216,9 @@ interface GeneraliHttpClientInterface
      * @param Context $context
      * @param array   $documents
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function finalizeFreePayment(Context $context, array $documents): SubscriptionResponse;
+    public function finalizeFreePayment(Context $context, array $documents): ApiResponse;
 
     /**
      * Retrieve scheduled free payment informations with contractNumber & expectedItems.
@@ -240,9 +240,9 @@ interface GeneraliHttpClientInterface
      * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function createScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
+    public function createScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse;
 
     /**
      *  Initiate Data to create a Scheduled Free Payment.
@@ -252,9 +252,9 @@ interface GeneraliHttpClientInterface
      * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function initiateScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
+    public function initiateScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse;
 
     /**
      *  Check a Scheduled Free Payment with a token Status.
@@ -263,9 +263,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function checkScheduledFreePayment(Context $context): SubscriptionResponse;
+    public function checkScheduledFreePayment(Context $context): ApiResponse;
 
     /**
      *  Confirm a Scheduled Free Payment with a token Status.
@@ -274,9 +274,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function confirmScheduledFreePayment(Context $context): SubscriptionResponse;
+    public function confirmScheduledFreePayment(Context $context): ApiResponse;
 
     /**
      *  Finalize a Scheduled Free Payment with a token Status.
@@ -286,9 +286,9 @@ interface GeneraliHttpClientInterface
      * @param Context $context
      * @param array   $documents
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function finalizeScheduledFreePayment(Context $context, array $documents): SubscriptionResponse;
+    public function finalizeScheduledFreePayment(Context $context, array $documents): ApiResponse;
 
     /**
      * Suspend a Scheduled Free Payment.
@@ -298,9 +298,9 @@ interface GeneraliHttpClientInterface
      * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function suspendScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
+    public function suspendScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse;
 
     /**
      * Intiate a Scheduled Free Payment's edit.
@@ -310,9 +310,9 @@ interface GeneraliHttpClientInterface
      * @param Context              $context
      * @param ScheduledFreePayment $scheduledFreePayment
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function initiateEditScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): SubscriptionResponse;
+    public function initiateEditScheduledFreePayment(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse;
 
     /**
      * Check a Scheduled Free Payment's edit.
@@ -321,9 +321,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function checkEditScheduledFreePayment(Context $context): SubscriptionResponse;
+    public function checkEditScheduledFreePayment(Context $context): ApiResponse;
 
     /**
      * Confirm a Scheduled Free Payment's edit.
@@ -332,9 +332,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function confirmEditScheduledFreePayment(Context $context): SubscriptionResponse;
+    public function confirmEditScheduledFreePayment(Context $context): ApiResponse;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems.
@@ -356,9 +356,9 @@ interface GeneraliHttpClientInterface
      * @param Context          $context
      * @param PartialSurrender $partialSurrender
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function initiatePartialSurrender(Context $context, PartialSurrender $partialSurrender): SubscriptionResponse;
+    public function initiatePartialSurrender(Context $context, PartialSurrender $partialSurrender): ApiResponse;
 
     /**
      *  Check a Partial Surrender with a token Status.
@@ -367,9 +367,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function checkPartialSurrender(Context $context): SubscriptionResponse;
+    public function checkPartialSurrender(Context $context): ApiResponse;
 
     /**
      *  Confirm a Partial Surrender with a token Status.
@@ -378,9 +378,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function confirmPartialSurrender(Context $context): SubscriptionResponse;
+    public function confirmPartialSurrender(Context $context): ApiResponse;
 
     /**
      *  Finalize a Partial Surrender with a token Status.
@@ -389,9 +389,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function finalizePartialSurrender(Context $context): SubscriptionResponse;
+    public function finalizePartialSurrender(Context $context): ApiResponse;
 
     /**
      * Retrieve partial surrender informations with contractNumber & expectedItems.
@@ -413,9 +413,9 @@ interface GeneraliHttpClientInterface
      * @param Context     $context
      * @param Arbitration $arbitration
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function initiateArbitration(Context $context, Arbitration $arbitration): SubscriptionResponse;
+    public function initiateArbitration(Context $context, Arbitration $arbitration): ApiResponse;
 
     /**
      *  Check a Arbitration with a token Status.
@@ -424,9 +424,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function checkArbitration(Context $context): SubscriptionResponse;
+    public function checkArbitration(Context $context): ApiResponse;
 
     /**
      *  Confirm a Arbitration with a token Status.
@@ -435,9 +435,9 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function confirmArbitration(Context $context): SubscriptionResponse;
+    public function confirmArbitration(Context $context): ApiResponse;
 
     /**
      *  Finalize a Arbitration with a token Status.
@@ -446,7 +446,7 @@ interface GeneraliHttpClientInterface
      *
      * @param Context $context
      *
-     * @return SubscriptionResponse
+     * @return ApiResponse
      */
-    public function finalizeArbitration(Context $context): SubscriptionResponse;
+    public function finalizeArbitration(Context $context): ApiResponse;
 }

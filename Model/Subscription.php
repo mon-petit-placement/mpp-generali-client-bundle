@@ -307,9 +307,9 @@ class Subscription
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDeathBeneficiaryClauseOutcome(): string
+    public function getDeathBeneficiaryClauseOutcome(): ?string
     {
         return $this->deathBeneficiaryClauseOutcome;
     }
