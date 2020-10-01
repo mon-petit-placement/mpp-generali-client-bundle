@@ -118,12 +118,14 @@ class SubscriptionFactory extends AbstractFactory
             ->setFiscality($resolvedData['fiscality'])
             ->setDeathBeneficiaryClauseCode($resolvedData['deathBeneficiaryClauseCode'])
             ->setDeathBeneficiaryClauseText($resolvedData['deathBeneficiaryClauseText'])
-            ->setDeathBeneficiaryClauseOutcome($resolvedData['deathBeneficiaryClauseOutcome'])
             ->setGestionMode($resolvedData['gestionMode'])
             ->setDurationType($resolvedData['durationType'])
         ;
         if (isset($resolvedData['duration'])) {
             $subscription->setDuration($resolvedData['duration']);
+        }
+        if (isset($resolvedData['deathBeneficiaryClauseOutcome'])) {
+            $subscription->setDeathBeneficiaryClauseOutcome($resolvedData['deathBeneficiaryClauseOutcome']);
         }
 
         return $subscription;
