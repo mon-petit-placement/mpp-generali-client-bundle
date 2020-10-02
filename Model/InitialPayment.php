@@ -2,6 +2,9 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+/**
+ * Class InitialPayment
+ */
 class InitialPayment
 {
     /**
@@ -49,9 +52,9 @@ class InitialPayment
     /**
      * @param float $amount
      *
-     * @return $this
+     * @return self
      */
-    public function setAmount(float $amount)
+    public function setAmount(float $amount): self
     {
         $this->amount = $amount;
 

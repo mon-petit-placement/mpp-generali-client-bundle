@@ -3,16 +3,16 @@
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use GuzzleHttp\Client;
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\Arbitration;
 use Mpp\GeneraliClientBundle\Model\BaseResponse;
+use Mpp\GeneraliClientBundle\Model\Context;
 use Mpp\GeneraliClientBundle\Model\Document;
 use Mpp\GeneraliClientBundle\Model\FreePayment;
 use Mpp\GeneraliClientBundle\Model\PartialSurrender;
 use Mpp\GeneraliClientBundle\Model\ScheduledFreePayment;
-use Psr\Log\LoggerInterface;
-use Mpp\GeneraliClientBundle\Model\Context;
-use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\Subscription;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class GeneraliHttpClientV2.

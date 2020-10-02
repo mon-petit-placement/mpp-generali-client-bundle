@@ -101,9 +101,9 @@ class FundsOrigin
     /**
      * @param \DateTime $date
      *
-     * @return $this
+     * @return self
      */
-    public function setDate(\DateTime $date)
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 

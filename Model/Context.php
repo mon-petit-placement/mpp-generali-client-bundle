@@ -79,8 +79,6 @@ class Context
 
     /**
      * Context constructor.
-     *
-     * @param array $expectedItems
      */
     public function __construct()
     {
@@ -155,7 +153,7 @@ class Context
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'numContrat' => $this->contractNumber,

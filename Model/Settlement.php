@@ -2,6 +2,9 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+/**
+ * Class Settlement
+ */
 class Settlement
 {
     /**

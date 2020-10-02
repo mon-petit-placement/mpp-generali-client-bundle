@@ -113,11 +113,9 @@ class Arbitration
     }
 
     /**
-     * @param array $investedFunds
-     *
      * @return array
      */
-    public function getInvestedFunds(array $investedFunds): array
+    public function getInvestedFunds(): array
     {
         return $this->investedFunds;
     }
@@ -140,7 +138,7 @@ class Arbitration
     public function investedFundsToArray(): array
     {
         $investedFunds = [];
-        foreach ($this->investedFunds as $investedFund) {
+        foreach ($this->getInvestedFunds() as $investedFund) {
             $investedFunds[] = [
                 'fondsInvesti' => $investedFund->toArray(),
             ];
@@ -155,7 +153,7 @@ class Arbitration
     public function divestedFundsToArray(): array
     {
         $disvestedFunds = [];
-        foreach ($this->divestedFunds as $divestedFund) {
+        foreach ($this->getInvestedFunds() as $divestedFund) {
             $disvestedFunds[] = [
                 'fondsDesinvesti' => $divestedFund->toArray(),
             ];

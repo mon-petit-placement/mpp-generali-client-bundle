@@ -117,9 +117,9 @@ class Repartition
     /**
      * @param float $percent
      *
-     * @return $this
+     * @return self
      */
-    public function setPercent(float $percent)
+    public function setPercent(float $percent): self
     {
         $this->percent = $percent;
 

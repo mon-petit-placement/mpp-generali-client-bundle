@@ -94,7 +94,7 @@ class CustomerFolder
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return  [
             'situationPatrimoniale' => [
@@ -162,8 +162,7 @@ class CustomerFolder
     }
 
     /**
-     * @param string $heritageAmount
-     *
+     * @param string $assetAmount
      * @return self
      */
     public function setAssetAmount(string $assetAmount): self

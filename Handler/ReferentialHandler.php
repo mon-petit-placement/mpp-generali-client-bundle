@@ -83,6 +83,7 @@ class ReferentialHandler
     /**
      * @param array  $data
      * @param string $referentialKey
+     * @param string $subReferentialKey
      *
      * @return array
      */
@@ -173,7 +174,7 @@ class ReferentialHandler
 
     /**
      * @param array  $data
-     * @param string $referentialKey
+     * @param string $expectedItem
      *
      * @return mixed
      */

@@ -86,7 +86,7 @@ class InitialScheduledFreePayment
     /**
      * @param string $periodicity
      *
-     * @return ScheduledFreePayment
+     * @return self
      */
     public function setPeriodicity(string $periodicity): self
     {

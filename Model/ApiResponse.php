@@ -77,7 +77,7 @@ class ApiResponse
     /**
      * @return string
      */
-    public function getIdTransaction()
+    public function getIdTransaction(): string
     {
         return $this->idTransaction;
     }

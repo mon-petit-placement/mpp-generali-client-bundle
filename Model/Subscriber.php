@@ -205,7 +205,7 @@ class Subscriber
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'noms' => [
@@ -495,6 +495,7 @@ class Subscriber
 
     /**
      * @param string $birthInseeCode
+     * @return self
      */
     public function setBirthInseeCode(string $birthInseeCode): self
     {
@@ -532,9 +533,9 @@ class Subscriber
     }
 
     /**
-     * @param string $ppeFamilyStateIndicator
+     * @param bool $ppeFamilyStateIndicator
      *
-     * @return Subscriber
+     * @return self
      */
     public function setPpeFamilyStateIndicator(bool $ppeFamilyStateIndicator): self
     {
@@ -601,6 +602,7 @@ class Subscriber
 
     /**
      * @param string $legalCapacity
+     * @return self
      */
     public function setLegalCapacity(string $legalCapacity): self
     {
