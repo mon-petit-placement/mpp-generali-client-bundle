@@ -57,6 +57,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     const TRANSACTION_PARTIAL_SURRENDER_CONFIRM = '/epart/v1.0/transaction/rachatpartiel/confirmer';
     const TRANSACTION_PARTIAL_SURRENDER_FINALIZE = '/epart/v1.0/transaction/rachatpartiel/finaliser';
 
+    const TRANSACTION_SENDING_SUPPORT_DOCUMENT = '/epart/v1.0/transaction/piecesAFournir/list';
+    const TRANSACTION_PROVIDING_SUPPORT_DOCUMENT = '/epart/v1.0/transaction/fournirPiece';
+
     /**
      * @var Client
      */
@@ -96,21 +99,24 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function retrieveContractData(string $contractNumber, array $exepectedItems = []): BaseResponse
+    public function retrieveContractData(string $contractNumber, array $expectedItems = []): BaseResponse
     {
         $path = sprintf('%s/%s', self::TRANSACTION_CONTRACT_DATA, $contractNumber);
 
         $response = new BaseResponse();
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode($this->buildContext(['contractNumber' => $contractNumber], $exepectedItems), JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                ], JSON_THROW_ON_ERROR),
             ]);
 
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-            $response
-                ->setDonnees($decodedRawResponse['donnees'])
-                ->setErrorMessages($decodedRawResponse['messages'])
-            ;
+            if (isset($decodedRawResponse['messages'])) {
+                $response->setErrorMessages($decodedRawResponse['messages']);
+            }
+            $response->setDonnees($decodedRawResponse['donnees']);
+
             $this->logger->info(sprintf(
                 '[Generali - httpClient.getContractInformations %s ] SUCCESS',
                 $path
@@ -131,14 +137,16 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function retrieveTransactionSubscriptionData(array $exepectedItems = []): BaseResponse
+    public function retrieveTransactionSubscriptionData(array $expectedItems = []): BaseResponse
     {
         $path = self::TRANSACTION_SUBSCRIPTION_DATA;
         $response = new BaseResponse();
 
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode(['contexte' => $this->buildContext([], $exepectedItems)->toArray()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $this->buildContext([], $expectedItems)->toArray()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512,JSON_THROW_ON_ERROR);
             $response
@@ -244,7 +252,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new ApiResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CHECK, [
-                'body' => json_encode(['contexte' => $context->arrayToCheck()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToCheck()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -320,7 +330,12 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $fileName = $document->getFilename();
 
         $file = new UploadedFile($document->getFilePath().$fileName, $fileName);
-        $url = sprintf('/epart/v1.0/transaction/fournirPiece/%s/%s', $idTransaction, $document->getIdDocument());
+        $url = sprintf(
+            '%s/%s/%s',
+            self::TRANSACTION_PROVIDING_SUPPORT_DOCUMENT,
+            $idTransaction,
+            $document->getIdDocument()
+        );
 
         try {
             $rawResponse = $this->httpClient->post(
@@ -364,7 +379,8 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     public function listSubscriptionFiles(string $idTransaction): ApiResponse
     {
         $path = sprintf(
-            '/epart/v1.0/transaction/piecesAFournir/list/%s/souscription',
+            '%s/%s/souscription',
+            self::TRANSACTION_SENDING_SUPPORT_DOCUMENT,
             $idTransaction
         );
 
@@ -415,7 +431,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_FINALIZE, [
-                'body' => json_encode(['contexte' => $context->arrayToFinalize()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToFinalize()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -450,7 +468,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new BaseResponse();
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode($this->buildContext(['contractNumber' => $contractNumber], $expectedItems), JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                    ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -536,7 +556,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new ApiResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_CHECK, [
-                'body' => json_encode(['contexte' => $context->arrayToCheck()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToCheck()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -609,7 +631,8 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
     public function listFreePaymentFiles(string $idTransaction): ApiResponse
     {
         $path = sprintf(
-            '/epart/v1.0/transaction/piecesAFournir/list/%s/VERSEMENT_LIBRE',
+            '%s/%s/VERSEMENT_LIBRE',
+            self::TRANSACTION_SENDING_SUPPORT_DOCUMENT,
             $idTransaction
         );
 
@@ -663,7 +686,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_FINALIZE, [
-                'body' => json_encode(['contexte' => $context->arrayToFinalize()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToFinalize()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -782,7 +807,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new ApiResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK, [
-                'body' => json_encode(['contexte' => $context->arrayToCheck()],  JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToCheck()
+                ],  JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
@@ -850,6 +877,52 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         return $response;
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listScheduledFreePaymentFiles(string $idTransaction): ApiResponse
+    {
+        $path = sprintf(
+            '%s/%s/CREATION_VERSEMENT_LIBRE_PROGRAMME',
+            self::TRANSACTION_SENDING_SUPPORT_DOCUMENT,
+            $idTransaction
+        );
+
+        $response = new ApiResponse();
+
+        try {
+            $rawResponse = $this->httpClient->get($path);
+            $this->logger->info(sprintf(
+                '[Generali - httpClient.listScheduledFreePaymentFiles on path %s] SUCCESS',
+                $path
+            ));
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            if (isset($decodedRawResponse['messages'])) {
+                $response->setErrorMessages($decodedRawResponse['messages']);
+            }
+
+            foreach ($decodedRawResponse['donnees']['piecesAFournir'] as $docToGive) {
+                $document = (new Document())
+                    ->setIdDocument($docToGive['idPieceAFournir'])
+                    ->setTitle($docToGive['libelle'])
+                    ->setRequired((bool) $docToGive['nombreMin'])
+                ;
+                $response->addRequiredDocument($document);
+            }
+        } catch (\Exception $exception) {
+            $errorMessage = sprintf(
+                '[Generali - httpClient.listScheduledFreePaymentFiles on path %s] ERROR: %s',
+                $path,
+                $exception->getMessage()
+            );
+            $response->setErrorMessages([$errorMessage]);
+            $this->logger->error($errorMessage);
+        }
+
+        return $response;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -866,7 +939,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE, [
-                'body' => json_encode(['contexte' => $context->arrayToFinalize()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToFinalize()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -902,7 +977,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode(['contexte' => $context->arrayToSuspend()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToSuspend()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -972,10 +1049,11 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new ApiResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CHECK, [
-                'body' => json_encode(['contexte' => $context->arrayToCheck()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToCheck()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-
             if (isset($decodedRawResponse['messages'])) {
                 $response->setErrorMessages($decodedRawResponse['messages']);
             }
@@ -1050,7 +1128,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new BaseResponse();
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode($this->buildContext(['contractNumber' => $contractNumber], $expectedItems), JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true,512,JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -1138,7 +1218,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new ApiResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_CHECK, [
-                'body' => json_encode(['contexte' => $context->arrayToCheck()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToCheck()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
@@ -1215,7 +1297,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_FINALIZE, [
-                'body' => json_encode(['contexte' => $context->arrayToFinalize()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToFinalize()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -1250,7 +1334,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new BaseResponse();
         try {
             $rawResponse = $this->httpClient->post($path, [
-                'body' => json_encode($this->buildContext(['contractNumber' => $contractNumber], $expectedItems), JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -1336,7 +1422,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         $response = new ApiResponse();
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_CHECK, [
-                'body' => json_encode(['contexte' => $context->arrayToCheck()],  JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToCheck()
+                ],  JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -1411,7 +1499,9 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_FINALIZE, [
-                'body' => json_encode(['contexte' => $context->arrayToFinalize()], JSON_THROW_ON_ERROR),
+                'body' => json_encode([
+                    'contexte' => $context->arrayToFinalize()
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {

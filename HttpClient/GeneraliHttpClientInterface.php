@@ -279,6 +279,17 @@ interface GeneraliHttpClientInterface
     public function confirmScheduledFreePayment(Context $context): ApiResponse;
 
     /**
+     *  list all the files the customer need to send for the scheduledFreePayment with a ApiResponse, and the idTransaction.
+     *
+     * path: /epart/v1.0/transaction/piecesAFournir/list/{idTransaction}/CREATION_VERSEMENT_LIBRE_PROGRAMME
+     *
+     * @param string $idTransaction
+     *
+     * @return ApiResponse
+     */
+    public function listScheduledFreePaymentFiles(string $idTransaction): ApiResponse;
+
+    /**
      *  Finalize a Scheduled Free Payment with a token Status.
      *
      * path: /epart/v2.0/transaction/versementsLibresProgrammes/finaliser
