@@ -163,6 +163,7 @@ class CustomerFolder
 
     /**
      * @param string $assetAmount
+     *
      * @return self
      */
     public function setAssetAmount(string $assetAmount): self

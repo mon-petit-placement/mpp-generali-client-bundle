@@ -3,7 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class InitialPayment
+ * Class InitialPayment.
  */
 class InitialPayment
 {

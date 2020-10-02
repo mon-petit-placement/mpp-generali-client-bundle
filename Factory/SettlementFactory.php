@@ -20,8 +20,9 @@ class SettlementFactory extends AbstractFactory
 
     /**
      * SettlementFactory constructor.
+     *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param FundsOriginFactory $fundsOriginFactory
+     * @param FundsOriginFactory          $fundsOriginFactory
      */
     public function __construct(GeneraliHttpClientInterface $httpClient, FundsOriginFactory $fundsOriginFactory)
     {

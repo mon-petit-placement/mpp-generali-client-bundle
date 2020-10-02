@@ -3,7 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 /**
- * Interface FactoryInterface
+ * Interface FactoryInterface.
  */
 interface FactoryInterface
 {

@@ -42,11 +42,11 @@ class SubscriptionFactory extends AbstractFactory
     /**
      * SubscriptionFactory constructor.
      *
-     * @param GeneraliHttpClientInterface $httpClient
-     * @param SubscriberFactory $subscriberFactory
-     * @param CustomerFolderFactory $customerFolderFactory
-     * @param SettlementFactory $settlementFactory
-     * @param InitialPaymentFactory $initialPaymentFactory
+     * @param GeneraliHttpClientInterface        $httpClient
+     * @param SubscriberFactory                  $subscriberFactory
+     * @param CustomerFolderFactory              $customerFolderFactory
+     * @param SettlementFactory                  $settlementFactory
+     * @param InitialPaymentFactory              $initialPaymentFactory
      * @param InitialScheduledFreePaymentFactory $initialScheduledFreePaymentFactory
      */
     public function __construct(

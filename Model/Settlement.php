@@ -3,7 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Model;
 
 /**
- * Class Settlement
+ * Class Settlement.
  */
 class Settlement
 {

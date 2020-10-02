@@ -107,7 +107,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post($path, [
                 'body' => json_encode([
-                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
                 ], JSON_THROW_ON_ERROR),
             ]);
 
@@ -145,10 +145,10 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post($path, [
                 'body' => json_encode([
-                    'contexte' => $this->buildContext([], $expectedItems)->toArray()
+                    'contexte' => $this->buildContext([], $expectedItems)->toArray(),
                 ], JSON_THROW_ON_ERROR),
             ]);
-            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512,JSON_THROW_ON_ERROR);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             $response
                 ->setDonnees($decodedRawResponse['donnees'])
                 ->setErrorMessages($decodedRawResponse['messages'])
@@ -253,7 +253,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_CHECK, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToCheck()
+                    'contexte' => $context->arrayToCheck(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -392,7 +392,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 '[Generali - httpClient.listSubscriptionFiles on path %s] SUCCESS',
                 $path
             ));
-            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true,512, JSON_THROW_ON_ERROR);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
             foreach ($decodedRawResponse['donnees']['piecesAFournir'] as $docToGive) {
                 $document = (new Document())
@@ -432,7 +432,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SUBSCRIPTION_FINALIZE, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToFinalize()
+                    'contexte' => $context->arrayToFinalize(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -469,7 +469,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post($path, [
                 'body' => json_encode([
-                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
                     ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -557,7 +557,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_CHECK, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToCheck()
+                    'contexte' => $context->arrayToCheck(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -687,7 +687,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_FREE_PAYMENT_FINALIZE, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToFinalize()
+                    'contexte' => $context->arrayToFinalize(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -732,7 +732,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
                 $response->setErrorMessages($decodedRawResponse['messages']);
             }
             $response->setDonnees($decodedRawResponse['donnees']);
-
         } catch (\Exception $e) {
             $errorMessage = sprintf(
                 '[Generali - httpClient.getScheduledFreePaymentInformations %s ] ERROR: %s',
@@ -808,8 +807,8 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_CHECK, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToCheck()
-                ],  JSON_THROW_ON_ERROR),
+                    'contexte' => $context->arrayToCheck(),
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
@@ -877,7 +876,6 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         return $response;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -940,7 +938,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_FINALIZE, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToFinalize()
+                    'contexte' => $context->arrayToFinalize(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -978,7 +976,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post($path, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToSuspend()
+                    'contexte' => $context->arrayToSuspend(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -1050,7 +1048,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_SCHEDULED_FREE_PAYMENT_EDIT_CHECK, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToCheck()
+                    'contexte' => $context->arrayToCheck(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -1129,10 +1127,10 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post($path, [
                 'body' => json_encode([
-                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
                 ], JSON_THROW_ON_ERROR),
             ]);
-            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true,512,JSON_THROW_ON_ERROR);
+            $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
                 $response->setErrorMessages($decodedRawResponse['messages']);
             }
@@ -1219,7 +1217,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_CHECK, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToCheck()
+                    'contexte' => $context->arrayToCheck(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -1298,7 +1296,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_PARTIAL_SURRENDER_FINALIZE, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToFinalize()
+                    'contexte' => $context->arrayToFinalize(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -1335,7 +1333,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post($path, [
                 'body' => json_encode([
-                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems)
+                    'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
@@ -1423,8 +1421,8 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_CHECK, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToCheck()
-                ],  JSON_THROW_ON_ERROR),
+                    'contexte' => $context->arrayToCheck(),
+                ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
@@ -1500,7 +1498,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
         try {
             $rawResponse = $this->httpClient->post(self::TRANSACTION_ARBITRATION_FINALIZE, [
                 'body' => json_encode([
-                    'contexte' => $context->arrayToFinalize()
+                    'contexte' => $context->arrayToFinalize(),
                 ], JSON_THROW_ON_ERROR),
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);

@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class MppGeneraliClientExtension
+ * Class MppGeneraliClientExtension.
  */
 class MppGeneraliClientExtension extends Extension
 {

@@ -36,10 +36,10 @@ class FreePaymentFactory extends AbstractFactory
      * FreePaymentFactory constructor.
      *
      * @param GeneraliHttpClientInterface $httpClient
-     * @param SubscriberFactory $subscriberFactory
-     * @param CustomerFolderFactory $customerFolderFactory
-     * @param SettlementFactory $settlementFactory
-     * @param RepartitionFactory $repartitionFactory
+     * @param SubscriberFactory           $subscriberFactory
+     * @param CustomerFolderFactory       $customerFolderFactory
+     * @param SettlementFactory           $settlementFactory
+     * @param RepartitionFactory          $repartitionFactory
      */
     public function __construct(
         GeneraliHttpClientInterface $httpClient,

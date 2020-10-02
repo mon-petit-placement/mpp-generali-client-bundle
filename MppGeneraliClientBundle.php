@@ -7,7 +7,7 @@ namespace Mpp\GeneraliClientBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class MppGeneraliClientBundle
+ * Class MppGeneraliClientBundle.
  */
 class MppGeneraliClientBundle extends Bundle
 {

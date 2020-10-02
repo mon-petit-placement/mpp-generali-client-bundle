@@ -495,6 +495,7 @@ class Subscriber
 
     /**
      * @param string $birthInseeCode
+     *
      * @return self
      */
     public function setBirthInseeCode(string $birthInseeCode): self
@@ -602,6 +603,7 @@ class Subscriber
 
     /**
      * @param string $legalCapacity
+     *
      * @return self
      */
     public function setLegalCapacity(string $legalCapacity): self
