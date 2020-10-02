@@ -17,17 +17,17 @@ class SubscriberFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $availableCodeProfessionnalSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATIONS);
-        $availableCodeFamilialSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATIONS);
+        $availableCodeProfessionnalSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATION_CODES);
+        $availableCodeFamilialSituation = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATION_CODES);
         $availableCodeNaf = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NAF_CODES);
         $availableCspCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CSPS_CODES);
-        $availableTaxCountry = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_TAX_COUNTRIES);
-        $availableMatrimonialRegime = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIMES);
-        $availableLegalCapacity = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_LEGAL_CAPACITIES);
+        $availableTaxCountry = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_TAX_COUNTRY_CODES);
+        $availableMatrimonialRegime = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIME_CODES);
+        $availableLegalCapacity = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_LEGAL_CAPACITY_CODES);
         $availableNationalities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_NATIONALITIES);
         $availableIdentityDocCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_IDENTITY_DOCS);
-        $availableBirthCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_BIRTH_COUNTRIES);
-        $availableAddressCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRIES);
+        $availableBirthCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_BIRTH_COUNTRY_CODES);
+        $availableAddressCountries = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRY_CODES);
         $availableCivilities = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_CIVILITIES);
 
         $resolver

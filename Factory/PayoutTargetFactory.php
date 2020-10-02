@@ -16,7 +16,7 @@ class PayoutTargetFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $targetCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGETS);
+        $targetCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGET_CODES);
 
         $resolver
             ->setRequired('targetCode')->setAllowedTypes('targetCode', ['string'])->setAllowedValues('targetCode', $targetCode)

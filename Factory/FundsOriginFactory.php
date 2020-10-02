@@ -18,8 +18,8 @@ class FundsOriginFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $availableCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGINS);
-        $availableDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGINS, ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS);
+        $availableCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES);
+        $availableDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES, ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS);
 
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $availableCodeOrigin)

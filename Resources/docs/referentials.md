@@ -166,7 +166,7 @@ In FundsOrigin, for detail, there is a particularity, you have a subReferentialK
 ```php
 $availableDetailCode = ReferentialHandler::extractSubReferentialCodes(
     $this->httpClient->retrieveTransactionSubscriptionData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
-    ReferentialHandler::REFERENTIAL_FUND_ORIGINS,
+    ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES,
     ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS
 );
 ```
@@ -174,27 +174,27 @@ $availableDetailCode = ReferentialHandler::extractSubReferentialCodes(
 The ExpectedItems you could send are:
 ```php
 [
-    ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATIONS,
-    ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATIONS,
+    ReferentialHandler::REFERENTIAL_PROFESSIONNAL_SITUATION_CODES,
+    ReferentialHandler::REFERENTIAL_FAMILIAL_SITUATION_CODES,
     ReferentialHandler::REFERENTIAL_INCOME_SLICES,
     ReferentialHandler::REFERENTIAL_ASSET_SLICES,
-    ReferentialHandler::REFERENTIAL_FUND_ORIGINS,
+    ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES,
     ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS,
     ReferentialHandler::REFERENTIAL_COCONTRACTOR_LINKS,
     ReferentialHandler::REFERENTIAL_PPE_FUNCTIONS,
     ReferentialHandler::REFERENTIAL_COCONTRACTOR_LINKS_PPE,
-    ReferentialHandler::REFERENTIAL_PAYMENT_TARGETS,
+    ReferentialHandler::REFERENTIAL_PAYMENT_TARGET_CODES,
     ReferentialHandler::REFERENTIAL_NAF_CODES,
     ReferentialHandler::REFERENTIAL_CSPS_CODES,
-    ReferentialHandler::REFERENTIAL_TAX_COUNTRIES,
-    ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIMES,
-    ReferentialHandler::REFERENTIAL_ASSET_REPARTITIONS,
-    ReferentialHandler::REFERENTIAL_ASSET_ORIGINS,
-    ReferentialHandler::REFERENTIAL_LEGAL_CAPACITIES,
+    ReferentialHandler::REFERENTIAL_TAX_COUNTRY_CODES,
+    ReferentialHandler::REFERENTIAL_MATRIMONIAL_REGIME_CODES,
+    ReferentialHandler::REFERENTIAL_ASSET_REPARTITION_CODES,
+    ReferentialHandler::REFERENTIAL_ASSET_ORIGIN_CODES,
+    ReferentialHandler::REFERENTIAL_LEGAL_CAPACITY_CODES,
     ReferentialHandler::REFERENTIAL_NATIONALITIES,
     ReferentialHandler::REFERENTIAL_VOUCHERS,
-    ReferentialHandler::REFERENTIAL_BIRTH_COUNTRIES,
-    ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRIES,
+    ReferentialHandler::REFERENTIAL_BIRTH_COUNTRY_CODES,
+    ReferentialHandler::REFERENTIAL_ADDRESS_COUNTRY_CODES,
     ReferentialHandler::REFERENTIAL_CSRS_OCDE_COUNTRIES,
     ReferentialHandler::REFERENTIAL_CIVILITIES,
     ReferentialHandler::REFERENTIAL_IDENTITY_DOCS,

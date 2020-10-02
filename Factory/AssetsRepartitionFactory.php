@@ -16,7 +16,7 @@ class AssetsRepartitionFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $availableCodeRepartition = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_REPARTITIONS);
+        $availableCodeRepartition = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_REPARTITION_CODES);
 
         $resolver
             ->setRequired('codeRepartition')->setAllowedTypes('codeRepartition', ['string'])->setAllowedValues('codeRepartition', $availableCodeRepartition)

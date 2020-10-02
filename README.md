@@ -16,9 +16,6 @@ mpp_generali_client:
     intermediary_code: '%env(GENERALI_INTERMEDIARY_CODE)%'
     app_code: '%env(GENERALI_APP_CODE)%'
     subscription_code: '%env(GENERALI_SUBSCRIPTION_CODE)%'
-    pdf_generator: 
-        debit_mandate_template_path: 'template/debit_mandate.html.twig'
-        debit_mandate_export_path: 'var/generali/debit_mandate/'
 ```
 
 Then you must configure the Generali API Client using eight point guzzle, like with env variables, 

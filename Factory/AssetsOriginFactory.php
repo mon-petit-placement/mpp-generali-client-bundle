@@ -16,7 +16,7 @@ class AssetsOriginFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $availableOriginCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_ORIGINS);
+        $availableOriginCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_ASSET_ORIGIN_CODES);
 
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $availableOriginCode)

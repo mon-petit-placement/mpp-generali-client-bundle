@@ -10,110 +10,107 @@ $context = $this->httpClient->buildContext('contractNumber' => $contractNumber])
 Then you build your $scheduledFreePayment using the ScheduledFreePaymentFactory with the following structure:
 ```php
 $scheduledFreePayment = $this->scheduledFreePaymentFactory->create([
-      [
-          'amount' => 654.23,
-          'periodicity' => 'toto',
-          'settlement' => [
-              'paymentType' => 'toto',
-              'bankName' => 'toto',
-              'accountOwner' => 'toto',
-              'accountIban' => 'toto',
-              'accountBic' => 'toto',
-              'debitAuthorization' => true,
-              'fundsOrigin' => [
-                  [
-                      'codeOrigin' => '1',
-                      'amount' => 654.25,
-                      'date' => '01/01/2020',
-                      'precision' => 'toto'
-                  ],
-                  [
-                      'codeOrigin' => '1',
-                      'amount' => 654.25,
-                      'date' => '01/01/2020',
-                      'precision' => 'toto'
-                  ]
-              ]
-          },
-          'repartitions' => [
-              {
-                  'amount' => 564.23,
-                  'fundsCode' => '54',
-                  'totalSurrender' => true
-              }
-          ],
-          'customerFolder' => {
-              'assetAmount' => 654.25,
-              'incomeAmount' => 654.25,
-              'payoutTargets' => [
-                  [
-                      'targetCode' => '1',
-                      'precision' => 'toto',
-                  ],
-                  [
-                      'targetCode' => '1',
-                      'precision' => 'toto',
-                  ]
+    'amount' => 654.23,
+    'periodicity' => 'toto',
+    'settlement' => [
+          'paymentType' => 'toto',
+          'bankName' => 'toto',
+          'accountOwner' => 'toto',
+          'accountIban' => 'toto',
+          'accountBic' => 'toto',
+          'debitAuthorization' => true,
+          'fundsOrigin' => [
+              [
+                  'codeOrigin' => '1',
+                  'amount' => 654.25,
+                  'date' => '01/01/2020',
+                  'precision' => 'toto'
               ],
-              'assetsOrigin' => [
-                  [
-                      'codeOrigin' => '1',
-                      'precision' => 'toto',
-                  ], [
-                      'codeOrigin' => '2',
-                      'precision' => 'toto',
-                  ]
-              ],
-              'assetsRepartition' => [
-                  [
-                      'codeRepartition' => '1',
-                      'percentRepartition' => 0.5,
-                      'precision' => 'toto',
-                  ], [
-                      'codeRepartition' => '1',
-                      'percentRepartition' => 0.5,
-                      'precision' => 'toto',
-                  ]
+              [
+                  'codeOrigin' => '1',
+                  'amount' => 654.25,
+                  'date' => '01/01/2020',
+                  'precision' => 'toto'
               ]
-          },
-          'subscriber' => [
-              'lastName' => 'toto',
-              'firstName' => 'toto',
-              'birthName' => 'toto',
-              'familialSituation' => '1',
-              'professionalSituation' => 'SAL',
-              'civility' => 'MONSIEUR',
-              'taxCountry' => 'XXXXXFRANCE',
-              'nationality' => '99110AUTRICHE',
-              'birthDate' => '01/01/2020',
-              'birthPlace' => 'toto',
-              'birthCountry' => 'XXXXXFRANCE',
-              'birthPostalCode' => 'toto',
-              'birthDepartmentCode' => 'toto',
-              'legalCapacity' => '4',
-              'matrimonialRegime' => '3',
-              'cspCode' => '32',
-              'profession' => 'toto',
-              'nafCode' => '14',
-              'siretNumber' => 654654654,
-              'employerName' => 'toto',
-              'cspCodeLastProfession' => '32',
-              'startDateInactivity' => '01/01/2020',
-              'phoneNumber' => 'toto',
-              'cellPhoneNumber' => 'toto',
-              'email' => 'toto',
-              'identityDocCode' => 'FE21',
-              'identityDocValidityDate' => '01/01/2020',
-              'addressPostalCode' => 'toto',
-              'addressCity' => 'toto',
-              'addressCountryCode' => 'XXXXXFRANCE',
-              'addressStreetName' => 'toto',
-              'addressDropOffPoint' => 'toto',
-              'addressGeographicPoint' => 'toto',
-              'addressPostBox' => 'toto',
           ]
-      ]
-);
+    ],
+    'repartitions' => [
+          [
+              'amount' => 564.23,
+              'fundsCode' => '54',
+              'totalSurrender' => true
+          ]
+    ],
+    'customerFolder' => {
+          'assetAmount' => 654.25,
+          'incomeAmount' => 654.25,
+          'payoutTargets' => [
+               [
+                    'targetCode' => '1',
+                    'precision' => 'toto',
+               ], [
+                     'targetCode' => '1',
+                     'precision' => 'toto',
+               ]
+          ],
+          'assetsOrigin' => [
+               [
+                    'codeOrigin' => '1',
+                    'precision' => 'toto',
+               ], [
+                    'codeOrigin' => '2',
+                    'precision' => 'toto',
+               ]
+          ],
+          'assetsRepartition' => [
+               [
+                    'codeRepartition' => '1',
+                    'percentRepartition' => 0.5,
+                    'precision' => 'toto',
+               ], [
+                    'codeRepartition' => '1',
+                    'percentRepartition' => 0.5,
+                    'precision' => 'toto',
+               ]
+          ]
+    ],
+    'subscriber' => [
+          'lastName' => 'toto',
+          'firstName' => 'toto',
+          'birthName' => 'toto',
+          'familialSituation' => '1',
+          'professionalSituation' => 'SAL',
+          'civility' => 'MONSIEUR',
+          'taxCountry' => 'XXXXXFRANCE',
+          'nationality' => '99110AUTRICHE',
+          'birthDate' => '01/01/2020',
+          'birthPlace' => 'toto',
+          'birthCountry' => 'XXXXXFRANCE',
+          'birthPostalCode' => 'toto',
+          'birthDepartmentCode' => 'toto',
+          'legalCapacity' => '4',
+          'matrimonialRegime' => '3',
+          'cspCode' => '32',
+          'profession' => 'toto',
+          'nafCode' => '14',
+          'siretNumber' => 654654654,
+          'employerName' => 'toto',
+          'cspCodeLastProfession' => '32',
+          'startDateInactivity' => '01/01/2020',
+          'phoneNumber' => 'toto',
+          'cellPhoneNumber' => 'toto',
+          'email' => 'toto',
+          'identityDocCode' => 'FE21',
+          'identityDocValidityDate' => '01/01/2020',
+          'addressPostalCode' => 'toto',
+          'addressCity' => 'toto',
+          'addressCountryCode' => 'XXXXXFRANCE',
+          'addressStreetName' => 'toto',
+          'addressDropOffPoint' => 'toto',
+          'addressGeographicPoint' => 'toto',
+          'addressPostBox' => 'toto'
+    ]
+]);
 ```
 You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
 
@@ -150,12 +147,12 @@ $expectedDocuments = $response->getExpectedDocuments();
 The Document will have this structure:
 ```php
 [
-   'idDocument' => '654d4f564f54df',
-   'title' => 'Carte identité',
-   'filename' => null,
-   'filePath' => null,
-   'alreadySent' = > false,
-   'required' => true
+    'idDocument' => '654d4f564f54df',
+    'title' => 'Carte identité',
+    'filename' => null,
+    'filePath' => null,
+    'alreadySent' = > false,
+    'required' => true
 ]
 ````
 If you want to access to the list of the documents expected for a freePayment, you can still access them until the freePayment is finalized:

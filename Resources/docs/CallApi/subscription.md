@@ -166,12 +166,12 @@ $expectedDocuments = $apiResponse->getExpectedDocuments();
 The Document will have this structure:
 ```php
 [
-   'idDocument' => '654d4f564f54df',
-   'title' => 'Carte identité',
-   'filename' => null,
-   'filePath' => null,
-   'alreadySent' = > false,
-   'required' => true
+    'idDocument' => '654d4f564f54df',
+    'title' => 'Carte identité',
+    'filename' => null,
+    'filePath' => null,
+    'alreadySent' = > false,
+    'required' => true
 ]
 ````
 If you want to access to the documents expected list for a subscription, you can still access them until the subscription is finalized:

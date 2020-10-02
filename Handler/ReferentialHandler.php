@@ -9,27 +9,27 @@ use Mpp\GeneraliClientBundle\Model\Context;
  */
 class ReferentialHandler
 {
-    const REFERENTIAL_PROFESSIONNAL_SITUATIONS = 'situationsProfessionnelles';
-    const REFERENTIAL_FAMILIAL_SITUATIONS = 'situationsFamiliales';
+    const REFERENTIAL_PROFESSIONNAL_SITUATION_CODES = 'situationsProfessionnelles';
+    const REFERENTIAL_FAMILIAL_SITUATION_CODES = 'situationsFamiliales';
     const REFERENTIAL_INCOME_SLICES = 'tranchesRevenu';
     const REFERENTIAL_ASSET_SLICES = 'tranchesPatrimoine';
-    const REFERENTIAL_FUND_ORIGINS = 'originesFonds';
+    const REFERENTIAL_FUND_ORIGIN_CODES = 'originesFonds';
     const REFERENTIAL_FUND_ORIGINS_DETAILS = 'detail';
     const REFERENTIAL_COCONTRACTOR_LINKS = 'liensCoContractant';
     const REFERENTIAL_PPE_FUNCTIONS = 'fonctionsPPE';
     const REFERENTIAL_COCONTRACTOR_LINKS_PPE = 'liensContractantPPE';
-    const REFERENTIAL_PAYMENT_TARGETS = 'objectifsVersement';
+    const REFERENTIAL_PAYMENT_TARGET_CODES = 'objectifsVersement';
     const REFERENTIAL_NAF_CODES = 'codesNaf';
     const REFERENTIAL_CSPS_CODES = 'csps';
-    const REFERENTIAL_TAX_COUNTRIES = 'paysResidenceFiscale';
-    const REFERENTIAL_MATRIMONIAL_REGIMES = 'regimesMatrimoniaux';
-    const REFERENTIAL_ASSET_REPARTITIONS = 'repartitionsPatrimoine';
-    const REFERENTIAL_ASSET_ORIGINS = 'originesPatrimoine';
-    const REFERENTIAL_LEGAL_CAPACITIES = 'capacitesJuridiques';
+    const REFERENTIAL_TAX_COUNTRY_CODES = 'paysResidenceFiscale';
+    const REFERENTIAL_MATRIMONIAL_REGIME_CODES = 'regimesMatrimoniaux';
+    const REFERENTIAL_ASSET_REPARTITION_CODES = 'repartitionsPatrimoine';
+    const REFERENTIAL_ASSET_ORIGIN_CODES = 'originesPatrimoine';
+    const REFERENTIAL_LEGAL_CAPACITY_CODES = 'capacitesJuridiques';
     const REFERENTIAL_NATIONALITIES = 'nationalites';
     const REFERENTIAL_VOUCHERS = 'piecesJustificatives';
-    const REFERENTIAL_BIRTH_COUNTRIES = 'paysNaissance';
-    const REFERENTIAL_ADDRESS_COUNTRIES = 'paysAdresses';
+    const REFERENTIAL_BIRTH_COUNTRY_CODES = 'paysNaissance';
+    const REFERENTIAL_ADDRESS_COUNTRY_CODES = 'paysAdresses';
     const REFERENTIAL_CSRS_OCDE_COUNTRIES = 'paysCrsOcde';
     const REFERENTIAL_CIVILITIES = 'civilites';
     const REFERENTIAL_IDENTITY_DOCS = 'piecesIdentite';
@@ -39,26 +39,26 @@ class ReferentialHandler
     const REFERENTIAL_SAVINGS_REACHS = 'epargneAtteinte';
 
     const AVAILABLE_REFERENTIALS = [
-       self::REFERENTIAL_PROFESSIONNAL_SITUATIONS,
-       self::REFERENTIAL_FAMILIAL_SITUATIONS,
+       self::REFERENTIAL_PROFESSIONNAL_SITUATION_CODES,
+       self::REFERENTIAL_FAMILIAL_SITUATION_CODES,
        self::REFERENTIAL_INCOME_SLICES,
        self::REFERENTIAL_ASSET_SLICES,
-       self::REFERENTIAL_FUND_ORIGINS,
+       self::REFERENTIAL_FUND_ORIGIN_CODES,
        self::REFERENTIAL_COCONTRACTOR_LINKS,
        self::REFERENTIAL_PPE_FUNCTIONS,
        self::REFERENTIAL_COCONTRACTOR_LINKS_PPE,
-       self::REFERENTIAL_PAYMENT_TARGETS,
+       self::REFERENTIAL_PAYMENT_TARGET_CODES,
        self::REFERENTIAL_NAF_CODES,
        self::REFERENTIAL_CSPS_CODES,
-       self::REFERENTIAL_TAX_COUNTRIES,
-       self::REFERENTIAL_MATRIMONIAL_REGIMES,
-       self::REFERENTIAL_ASSET_REPARTITIONS,
-       self::REFERENTIAL_ASSET_ORIGINS,
-       self::REFERENTIAL_LEGAL_CAPACITIES,
+       self::REFERENTIAL_TAX_COUNTRY_CODES,
+       self::REFERENTIAL_MATRIMONIAL_REGIME_CODES,
+       self::REFERENTIAL_ASSET_REPARTITION_CODES,
+       self::REFERENTIAL_ASSET_ORIGIN_CODES,
+       self::REFERENTIAL_LEGAL_CAPACITY_CODES,
        self::REFERENTIAL_NATIONALITIES,
        self::REFERENTIAL_VOUCHERS,
-       self::REFERENTIAL_BIRTH_COUNTRIES,
-       self::REFERENTIAL_ADDRESS_COUNTRIES,
+       self::REFERENTIAL_BIRTH_COUNTRY_CODES,
+       self::REFERENTIAL_ADDRESS_COUNTRY_CODES,
        self::REFERENTIAL_CSRS_OCDE_COUNTRIES,
        self::REFERENTIAL_CIVILITIES,
        self::REFERENTIAL_IDENTITY_DOCS,
