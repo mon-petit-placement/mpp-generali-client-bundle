@@ -217,6 +217,6 @@ You will receive this ApiResponse:
 ]
 ````
 #### When will you get your ContractNumber ?
-Once the subscription is sent, Generali will generate a csv file every night that you will have to parse.
-The next days, you will have to connect to the ftp they gave you.
+Once the subscription is sent, Generali will generate a csv file "InfoGB", every night that you will have to parse.
+The next days or few days after (less 3 days), you will have to connect to the ftp they gave you.
 You will find the line where you have a created a subscription by searching your external Reference 1 and/or 2 that you have set in your Subscription object.
