@@ -395,10 +395,18 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
             foreach ($decodedRawResponse['donnees']['piecesAFournir'] as $docToGive) {
+                $alreadySent = false;
+                foreach ($docToGive['listPieceFournie'] as $givenDoc) {
+                    if (false === $givenDoc['invalide']) {
+                        $alreadySent = true;
+                    }
+                }
+
                 $document = (new Document())
                     ->setIdDocument($docToGive['idPieceAFournir'])
                     ->setTitle($docToGive['libelle'])
                     ->setRequired((bool) $docToGive['nombreMin'])
+                    ->setAlreadySent($alreadySent)
                 ;
                 $response->addRequiredDocument($document);
             }
@@ -424,7 +432,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         foreach ($documents as $document) {
             $response = $this->sendFile($context->getIdTransaction(), $document);
-            if (!empty($response->getMessage())) {
+            if (!empty($response->getErrorMessages())) {
                 return $response;
             }
         }
@@ -650,10 +658,19 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             }
 
             foreach ($decodedRawResponse['donnees']['piecesAFournir'] as $docToGive) {
+
+                $alreadySent = false;
+                foreach ($docToGive['listPieceFournie'] as $givenDoc) {
+                    if (false === $givenDoc['invalide']) {
+                        $alreadySent = true;
+                    }
+                }
+
                 $document = (new Document())
                     ->setIdDocument($docToGive['idPieceAFournir'])
                     ->setTitle($docToGive['libelle'])
                     ->setRequired((bool) $docToGive['nombreMin'])
+                    ->setAlreadySent($alreadySent)
                 ;
                 $response->addRequiredDocument($document);
             }
@@ -679,7 +696,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         foreach ($documents as $document) {
             $response = $this->sendFile($context->getIdTransaction(), $document);
-            if (!empty($response->getMessage())) {
+            if (!empty($response->getErrorMessage())) {
                 return $response;
             }
         }
@@ -813,7 +830,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
             if (isset($decodedRawResponse['messages'])) {
-                $response->setErrorMessage($decodedRawResponse['messages']);
+                $response->setErrorMessages($decodedRawResponse['messages']);
             }
 
             $this->logger->info(sprintf(
@@ -901,10 +918,19 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             }
 
             foreach ($decodedRawResponse['donnees']['piecesAFournir'] as $docToGive) {
+
+                $alreadySent = false;
+                foreach ($docToGive['listPieceFournie'] as $givenDoc) {
+                    if (false === $givenDoc['invalide']) {
+                        $alreadySent = true;
+                    }
+                }
+
                 $document = (new Document())
                     ->setIdDocument($docToGive['idPieceAFournir'])
                     ->setTitle($docToGive['libelle'])
                     ->setRequired((bool) $docToGive['nombreMin'])
+                    ->setAlreadySent($alreadySent)
                 ;
                 $response->addRequiredDocument($document);
             }
@@ -930,7 +956,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
 
         foreach ($documents as $document) {
             $response = $this->sendFile($context->getIdTransaction(), $document);
-            if (!empty($response->getMessage())) {
+            if (!empty($response->getErrorMessages())) {
                 return $response;
             }
         }
@@ -983,7 +1009,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             if (isset($decodedRawResponse['messages'])) {
                 $response->setErrorMessages($decodedRawResponse['messages']);
             }
-            $response->setErrorMessage($decodedRawResponse['messages']);
+            $response->setErrorMessages($decodedRawResponse['messages']);
 
             $this->logger->info(sprintf(
                 '[Generali - httpClient.suspendScheduledFreePayment %s ] SUCCESS',
@@ -1426,7 +1452,7 @@ class GeneraliHttpClientV2 implements GeneraliHttpClientInterface
             ]);
             $decodedRawResponse = json_decode($rawResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
             if (isset($decodedRawResponse['messages'])) {
-                $response->setErrorMessage($decodedRawResponse['messages']);
+                $response->setErrorMessages($decodedRawResponse['messages']);
             }
             $this->logger->info(sprintf(
                 '[Generali - httpClient.checkArbitration %s ] SUCCESS',
