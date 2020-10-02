@@ -73,7 +73,6 @@ How you will get the Contract Number ?
 
 Once you have it, you can create and follow many FreePayment, ScheduledFreePayment, Arbitration, PartialSurrender.
 
-
 ##How to use ? :
 First you will have to create a [Subscription](./Resources/docs/CallApi/subscription.md), where you will send all the needed information on your customer and the subscription asked.
 Then you will get a contractNumber which will be used to create:
@@ -81,3 +80,6 @@ Then you will get a contractNumber which will be used to create:
 - [Scheduled Free Payment](./Resources/docs/CallApi/scheduled_free_payment.md)
 - [Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
 - [Arbitration](./Resources/docs/CallApi/arbitration.md)
+
+You will use specifics code for some attributes, please check [here](./Resources/docs/referentials.md) when you will build your data structure. 
+Generali has normalized data.

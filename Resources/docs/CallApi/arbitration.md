@@ -35,17 +35,17 @@ You will need to access to the availables' funds and saving Reachs, see [here](.
  
 Once your arbitration is build, then you can send it to Generali:
 ```
-$arbitrationResponse = $this->httpClient->createArbitration(
+$apiResponse = $this->httpClient->createArbitration(
     $context, 
     $arbitration
 );
 ```
-You will get a ApiResponse which contains the information returned by the API, like this: 
+You will get an ApiResponse which contains the information returned by the API, like this: 
 ````php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca',
     'idTransaction' => '5f0cc70b2547d',
-    'message' => [],
+    'errorMessages' => [],
     'orderTransaction' => null,
     'expectedDocuments' => []
 ]
@@ -53,7 +53,7 @@ You will get a ApiResponse which contains the information returned by the API, l
 At the end of this step, you have to save the idTransaction in your database, in the case you can't finalize at the moment, or your users stop their registration.
 You Will access the idTransaction by:
 ````php
-$idTransaction = $suscriptionResponse->getIdTransaction();
+$idTransaction = $apiResponse->getIdTransaction();
 ````
 
 ## How to finalize an Arbitration ?
@@ -67,6 +67,20 @@ $context = $this->httpClient->buildContext([
 ```
 And then call the subscription's finalization
 ```
-$response = $this->httpClient->finalizeArbitration($context);
+$apiResponse = $this->httpClient->finalizeArbitration($context);
 ```
-you will get in return a numberOrderTransaction, that you have to save
+
+You will get an ApiResponse which contains the numberOrderTransaction that you have to save.
+
+In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP.
+
+You will receive this ApiResponse:
+````php
+[
+    'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
+    'idTransaction' => '5f0cc70b2547d',
+    'errorMessages' => [],
+    'orderTransaction' => 'fj456225f0cc70b2547d642f44ede2c8d232cca...',
+    'expectedDocuments' => []
+]
+````

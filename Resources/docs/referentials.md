@@ -244,7 +244,8 @@ Same method for partial Surrender, but not the same answer
 ```php
 $savingReachs = $this->httpClient->retrieveTransactionPartialSurrender($contractNumber, ReferentialHandler::REFERENTIAL_SAVINGS_REACHS);
 ```
-you will have an answer like this:
+
+You will have an answer like this:
 ```php
 [
     'epargneAtteinte' => [

@@ -115,17 +115,17 @@ You will need to access to the availables' values on some attribute, please chec
 
 Once your free payment is build, you can send it to Generali :
 ```
-$response = $this->httpClient->createFreePayment(
+$apiResponse = $this->httpClient->createFreePayment(
     $context, 
     $freePayment
 );
 ```
-You will get a ApiResponse which contains the information returned by the API, like this: 
+You will get an ApiResponse which contains the information returned by the API, like this: 
 ````php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
     'idTransaction' => '5f0cc70b2547d',
-    'message' => [],
+    'errorMessages' => [],
     'orderTransaction' => null,
     'expectedDocuments' => [...]
 ]
@@ -133,7 +133,7 @@ You will get a ApiResponse which contains the information returned by the API, l
 At the end of this step, you have to save the idTransaction, in the case you can't finalize at the moment, or your users stop their registration.
 You will access the idTransaction by:
 ````php
-$idTransaction = $response->getIdTransaction();
+$idTransaction = $apiResponse->getIdTransaction();
 ````
 
 You will also have access to the list of expected documents, that you will need to send to Generali by doing:
@@ -141,7 +141,7 @@ You will also have access to the list of expected documents, that you will need 
 /**
  * array<Document>
  */
-$expectedDocuments = $response->getExpectedDocuments();
+$expectedDocuments = $apiResponse->getExpectedDocuments();
 ````
 The Document will have this structure:
 ```php
@@ -183,9 +183,19 @@ $context = $this->httpClient->buildContext([
 ```
 And then call the freePayment's finalization
 ```
-$response = $this->httpClient->finalizeFreePayment($context, $documents);
+$apiResponse = $this->httpClient->finalizeFreePayment($context, $documents);
 ```
-you will get in return a numberOrderTransaction, that you have to save.
-In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP.
+You will get an ApiResponse which contains the numberOrderTransaction that you have to save.
 
+In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP. 
 
+You will receive this ApiResponse:
+````php
+[
+    'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
+    'idTransaction' => '5f0cc70b2547d',
+    'errorMessages' => [],
+    'orderTransaction' => 'fj456225f0cc70b2547d642f44ede2c8d232cca...',
+    'expectedDocuments' => []
+]
+````

@@ -97,7 +97,7 @@ class ApiResponse
     /***
      * @return array
      */
-    public function getErrorMessage(): ?array
+    public function getErrorMessages(): ?array
     {
         return $this->errorMessages;
     }

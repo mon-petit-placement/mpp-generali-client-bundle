@@ -42,36 +42,27 @@ $partialSurrender = $this->partialSurrenderFactory->create([
 ````
 You will need to access to the availables' funds and saving Reachs, see [here](../referentials.md) how to.
 
-Once your partialSurrender is build, you can add a comment and tell if you want to dematerialize or not the process.
-And then you can send it to Generali:
+Once your partialSurrender is build, you can send it to Generali:
 ```
 $partialSurrender = $this->httpClient->createPartialSurrender(
     $context, 
     $partialSurrender
 );
 ```
-You will get a Response which contains the information returned by the API, like this: 
+You will get an ApiResponse which contains the information returned by the API, like this: 
 ````php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca....',
     'idTransaction' => '5f0cc70b2547d',
-    'message' => [],
+    'errorMessages' => [],
     'orderTransaction' => null,
-    'expectedDocuments' => [...]
+    'expectedDocuments' => []
 ]
 ````
 At the end of this step, you have to keep the idTransaction. In the case you can't finalize at the moment, or your users stop their registration.
 You will access the idTransaction by:
 ````php
-$idTransaction = $response->getIdTransaction();
-````
-
-You will also have access to expected documents' list, that you will need to send to Generali, by doing:
-````php
-/**
- * array<Document>
- */
-$expectedDocuments = $response->getExpectedDocuments();
+$idTransaction = $apiResponse->getIdTransaction();
 ````
 
 Build a context and assign the idTransaction to it:
@@ -79,9 +70,23 @@ Build a context and assign the idTransaction to it:
 $context = $this->httpClient->buildContext([
     'contractNumber' => $contractNumber,
     'idTransaction'=> $idTransaction
-]);```
+]);
+```
 And then call the partialSurrender's finalization
 ```
 $apiResponse = $this->httpClient->finalizePartialSurrender($context);
 ```
-you will get in return a numberOrderTransaction, that you have to save
+You will get an ApiResponse which contains the numberOrderTransaction that you have to save.
+
+In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP.
+
+You will receive this ApiResponse:
+````php
+[
+    'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
+    'idTransaction' => '5f0cc70b2547d',
+    'errorMessages' => [],
+    'orderTransaction' => 'fj456225f0cc70b2547d642f44ede2c8d232cca...',
+    'expectedDocuments' => []
+]
+````
