@@ -1,0 +1,107 @@
+services:
+    Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientV2:
+        public: true
+        arguments:
+          - '@eight_points_guzzle.client.mpp_generali'
+          - '@logger'
+          - '%mpp_generali_client.intermediary_code%'
+          - '%mpp_generali_client.subscription_code%'
+
+    Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface: '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientV2'
+
+    Mpp\GeneraliClientBundle\Factory\FundsOriginFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\RepartitionFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\ArbitrationFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\SubscriberFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\PayoutTargetFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\AssetsOriginFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\AssetsRepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\AssetsOriginFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\AssetsRepartitionFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\PayoutTargetFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+
+    Mpp\GeneraliClientBundle\Factory\SettlementFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\FundsOriginFactory'
+
+    Mpp\GeneraliClientBundle\Factory\InitialPaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\SubscriptionFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\SubscriberFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\SettlementFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\InitialPaymentFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\InitialScheduledFreePaymentFactory'
+
+    Mpp\GeneraliClientBundle\Factory\FreePaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\SubscriberFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\SettlementFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\ScheduledFreePaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\SubscriberFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\CustomerFolderFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\SettlementFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\InitialScheduledFreePaymentFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'
+
+    Mpp\GeneraliClientBundle\Factory\PartialSurrenderFactory:
+      public: true
+      arguments:
+        - '@Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface'
+        - '@Mpp\GeneraliClientBundle\Factory\SettlementFactory'
+        - '@Mpp\GeneraliClientBundle\Factory\RepartitionFactory'

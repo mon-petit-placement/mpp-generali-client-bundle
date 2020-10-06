@@ -1,7 +1,7 @@
 {
   "name": "mpp/generali-client-bundle",
   "type": "symfony-bundle",
-  "description": "Symfony PartnerBundle",
+  "description": "Symfony Generali Client Bundle",
   "keywords": ["Generali application", "json", "api", "web service"],
   "license": "MIT",
   "authors": [
@@ -16,9 +16,10 @@
     "symfony/dependency-injection": "^4.0",
     "symfony/framework-bundle": "^4.0",
     "symfony/options-resolver": "^4.0",
-    "fzaninotto/faker": "^1.9",
     "ext-json": "*",
-    "eightpoints/guzzle-bundle": "^8.0"
+    "symfony/monolog-bundle": "*",
+    "eightpoints/guzzle-bundle": "^8.0",
+    "symfony/twig-bundle": "4.4.*"
   },
   "autoload":{
     "psr-4":{
@@ -28,8 +29,5 @@
       "Resources/",
       "Tests/"
     ]
-  },
-  "require-dev": {
-    "phpunit/phpunit": "7"
   }
 }
