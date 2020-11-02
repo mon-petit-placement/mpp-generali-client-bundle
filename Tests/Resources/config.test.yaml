@@ -1,0 +1,29 @@
+eight_points_guzzle:
+    clients:
+        mpp_generali_test:
+            base_url: '%env(GENERALI_BASE_URL)%'
+            options:
+                timeout: 30
+                http_errors: true
+                headers:
+                    User-Agent: "MppGeneraliClient/v1.0"
+                    Accept: 'application/json'
+                    Content-Type: 'application/json'
+                    apiKey: '%env(GENERALI_API_KEY)%'
+
+framework:
+    property_info:
+        enabled: true
+
+mpp_generali_client:
+    http_client: 'eight_points_guzzle.client.mpp_generali_test'
+    intermediary_code: '%env(string:GENERALI_INTERMEDIARY_CODE)%'
+    app_code: '%env(string:GENERALI_APP_CODE)%'
+    subscription_code: '%env(string:GENERALI_SUBSCRIPTION_CODE)%'
+
+services:
+    Mpp\GeneraliClientBundle\Client\GeneraliClientRegistry:
+        public: true
+    Mpp\GeneraliClientBundle\Client\GeneraliClientRegistryInterface:
+        alias: 'Mpp\GeneraliClientBundle\Client\GeneraliClientRegistry'
+        public: true

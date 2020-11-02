@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Mpp\GeneraliClientBundle\DependencyInjection;
 
+use Mpp\GeneraliClientBundle\Client\GeneraliClientInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -25,6 +24,7 @@ class MppGeneraliClientExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
+        $container->setParameter(Configuration::CONFIGURATION_ROOT, $config);
         $container->setParameter(
             sprintf('%s.intermediary_code', Configuration::CONFIGURATION_ROOT),
             $config['intermediary_code']
@@ -37,5 +37,10 @@ class MppGeneraliClientExtension extends Extension
             sprintf('%s.subscription_code', Configuration::CONFIGURATION_ROOT),
             $config['subscription_code']
         );
+
+        $container
+            ->registerForAutoconfiguration(GeneraliClientInterface::class)
+            ->addTag(sprintf('%s.client', Configuration::CONFIGURATION_ROOT))
+        ;
     }
 }

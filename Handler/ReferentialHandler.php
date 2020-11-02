@@ -2,6 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Handler;
 
+use Mpp\GeneraliClientBundle\Client\GeneraliClientRegistryInterface;
 use Mpp\GeneraliClientBundle\Model\Context;
 
 /**
@@ -64,6 +65,72 @@ class ReferentialHandler
        self::REFERENTIAL_IDENTITY_DOCS,
        self::REFERENTIAL_IDENTITY_DOCS_2,
     ];
+
+    /**
+     * @var GeneraliClientRegistryInterface
+     */
+    private $registry;
+
+    public function __construct(GeneraliClientRegistryInterface $registry)
+    {
+        $this->registry = $registry;
+    }
+
+    /**
+     * @param string $referentialKey
+     *
+     * @return array
+     */
+    public function getReferentialCodes(string $referentialKey): array
+    {
+        return self::extractReferentialCodes(
+            $this->registry->getSubscription()->getData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $referentialKey
+        );
+    }
+
+    /**
+     * @param string $referentialKey
+     * @param string $subReferentialKey
+     *
+     * @return array
+     */
+    public function getSubReferentialCode(string $referentialKey, string $subReferentialKey): array
+    {
+        return self::extractSubReferentialCodes(
+            $this->registry->getSubscription()->getData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $referentialKey,
+            $subReferentialKey
+        );
+    }
+
+    /**
+     * @param string $referentialKey
+     * @param float  $searchedAmount
+     *
+     * @return string|null
+     */
+    public function guessReferentialCode(string $referentialKey, float $searchedAmount): ?string
+    {
+        return self::guessCodeByAmount(
+            $this->registry->getSubscription()->getData([Context::EXPECTED_ITEM_REFERENTIEL])->getDonnees(),
+            $referentialKey,
+            $searchedAmount
+        );
+    }
+
+    /**
+     * @param string $expectedItem
+     *
+     * @return array
+     */
+    public function getExpectedItemCodes(string $expectedItem): array
+    {
+        return self::extractExpectedItemsCode(
+            $this->registry->getSubscription()->getData([$expectedItem])->getDonnees(),
+            $expectedItem
+        );
+    }
 
     /**
      * @param array  $data

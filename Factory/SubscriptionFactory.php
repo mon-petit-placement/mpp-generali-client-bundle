@@ -2,9 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\Model\Context;
-use Mpp\GeneraliClientBundle\Model\Subscriber;
 use Mpp\GeneraliClientBundle\Model\Subscription;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -42,7 +41,7 @@ class SubscriptionFactory extends AbstractFactory
     /**
      * SubscriptionFactory constructor.
      *
-     * @param GeneraliHttpClientInterface        $httpClient
+     * @param ReferentialHandler                 $referentialHandler
      * @param SubscriberFactory                  $subscriberFactory
      * @param CustomerFolderFactory              $customerFolderFactory
      * @param SettlementFactory                  $settlementFactory
@@ -50,14 +49,15 @@ class SubscriptionFactory extends AbstractFactory
      * @param InitialScheduledFreePaymentFactory $initialScheduledFreePaymentFactory
      */
     public function __construct(
-        GeneraliHttpClientInterface $httpClient,
+        ReferentialHandler $referentialHandler,
         SubscriberFactory $subscriberFactory,
         CustomerFolderFactory $customerFolderFactory,
         SettlementFactory $settlementFactory,
         InitialPaymentFactory $initialPaymentFactory,
         InitialScheduledFreePaymentFactory $initialScheduledFreePaymentFactory
     ) {
-        parent::__construct($httpClient);
+        parent::__construct($referentialHandler);
+
         $this->subscriberFactory = $subscriberFactory;
         $this->customerFolderFactory = $customerFolderFactory;
         $this->settlementFactory = $settlementFactory;
@@ -70,12 +70,12 @@ class SubscriptionFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $beneficiaryClauseCodes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
-        $beneficiaryClauseOutcomes = $this->getExpectedItemCodes(Context::EXPECTED_ITEM_DENOUEMENT_TYPE);
+        $beneficiaryClauseCodes = $this->getReferentialHandler()->getExpectedItemCodes(Context::EXPECTED_ITEM_BENEFICIARY_CLAUSE);
+        $beneficiaryClauseOutcomes = $this->getReferentialHandler()->getExpectedItemCodes(Context::EXPECTED_ITEM_DENOUEMENT_TYPE);
 
         $resolver
             ->setRequired('externalReference1')->setAllowedTypes('externalReference1', ['string'])
-            ->setDefined('externalReference2')->setAllowedTypes('externalReference2', ['string'])
+            ->setDefault('externalReference2', null)->setAllowedTypes('externalReference2', ['string'])
             ->setRequired('subscriber')->setAllowedTypes('subscriber', ['array', 'null'])->setNormalizer('subscriber', function (Options $options, $value) {
                 return $this->subscriberFactory->create($value);
             })
@@ -93,12 +93,12 @@ class SubscriptionFactory extends AbstractFactory
             })
             ->setRequired('paymentType')->setAllowedValues('paymentType', ['PRELEVEMENT', 'VIREMENT', 'CHEQUE'])
             ->setRequired('fiscality')->setAllowedTypes('fiscality', ['string'])
-            ->setDefined('deathBeneficiaryClauseOutcome')->setAllowedValues('deathBeneficiaryClauseOutcome', $beneficiaryClauseOutcomes)
-            ->setDefined('deathBeneficiaryClauseCode')->setAllowedValues('deathBeneficiaryClauseCode', $beneficiaryClauseCodes)
-            ->setDefined('deathBeneficiaryClauseText')->setAllowedTypes('deathBeneficiaryClauseText', ['string'])
+            ->setDefault('deathBeneficiaryClauseOutcome', null)->setAllowedValues('deathBeneficiaryClauseOutcome', $beneficiaryClauseOutcomes)
+            ->setDefault('deathBeneficiaryClauseCode', null)->setAllowedValues('deathBeneficiaryClauseCode', $beneficiaryClauseCodes)
+            ->setDefault('deathBeneficiaryClauseText', null)->setAllowedTypes('deathBeneficiaryClauseText', ['string'])
             ->setRequired('gestionMode')->setAllowedTypes('gestionMode', ['string'])
             ->setRequired('durationType')->setAllowedTypes('durationType', ['string'])
-            ->setDefined('duration')->setAllowedTypes('duration', ['int'])
+            ->setDefault('duration', null)->setAllowedTypes('duration', ['int'])
         ;
     }
 

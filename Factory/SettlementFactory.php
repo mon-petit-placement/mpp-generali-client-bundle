@@ -2,11 +2,10 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\FundsOrigin;
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\Model\Settlement;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class SettlementFactory.
@@ -21,12 +20,13 @@ class SettlementFactory extends AbstractFactory
     /**
      * SettlementFactory constructor.
      *
-     * @param GeneraliHttpClientInterface $httpClient
-     * @param FundsOriginFactory          $fundsOriginFactory
+     * @param ReferentialHandler $referentialHandler
+     * @param FundsOriginFactory $fundsOriginFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient, FundsOriginFactory $fundsOriginFactory)
+    public function __construct(ReferentialHandler $referentialHandler, FundsOriginFactory $fundsOriginFactory)
     {
-        parent::__construct($httpClient);
+        parent::__construct($referentialHandler);
+
         $this->fundsOriginFactory = $fundsOriginFactory;
     }
 
@@ -37,7 +37,7 @@ class SettlementFactory extends AbstractFactory
     {
         $resolver
             ->setRequired('paymentType')->setAllowedValues('paymentType', ['PRELEVEMENT', 'VIREMENT', 'CHEQUE'])
-            ->setDefined('bankName')->setAllowedTypes('bankName', ['string'])
+            ->setDefault('bankName', null)->setAllowedTypes('bankName', ['string', 'null'])
             ->setRequired('accountOwner')->setAllowedTypes('accountOwner', ['string'])
             ->setRequired('accountIban')->setAllowedTypes('accountIban', ['string'])
             ->setRequired('accountBic')->setAllowedTypes('accountBic', ['string'])

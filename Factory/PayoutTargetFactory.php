@@ -16,11 +16,11 @@ class PayoutTargetFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $targetCode = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGET_CODES);
+        $targetCode = $this->getReferentialHandler()->getReferentialCodes(ReferentialHandler::REFERENTIAL_PAYMENT_TARGET_CODES);
 
         $resolver
             ->setRequired('targetCode')->setAllowedTypes('targetCode', ['string'])->setAllowedValues('targetCode', $targetCode)
-            ->setDefined('precision')->setAllowedTypes('precision', ['string'])
+            ->setDefault('precision', null)->setAllowedTypes('precision', ['string'])
         ;
     }
 
