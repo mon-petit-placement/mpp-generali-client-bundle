@@ -18,7 +18,7 @@ class RepartitionFactory extends AbstractFactory
         $resolver
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
             ->setRequired('fundsCode')->setAllowedTypes('fundsCode', ['string'])
-            ->setDefined('totalSurrender')->setAllowedTypes('totalSurrender', ['bool'])
+            ->setDefault('totalSurrender', null)->setAllowedTypes('totalSurrender', ['bool'])
         ;
     }
 

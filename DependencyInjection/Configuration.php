@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
+                ->scalarNode('http_client')->isRequired()->end()
                 ->scalarNode('intermediary_code')->isRequired()->end()
                 ->scalarNode('app_code')->isRequired()->end()
                 ->scalarNode('subscription_code')->isRequired()->end()

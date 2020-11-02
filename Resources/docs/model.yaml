@@ -1,0 +1,681 @@
+RetourConsultationArbitrage:
+    fondsInvestissables: array<FondsInvestissable>
+    epargneAtteinte: array<EpargneAtteinte>
+    reglesArbitrage: ReglesArbitrage
+    fraisArbitrage: FraisArbitrage
+
+FondsInvestissable:
+    fonds: Fonds
+    optionsTechniques: array
+    investissementObligatoire: bool
+
+Fonds:
+    # Arbitrage p7 (FondsInvestissableFonds)
+    codeFonds: string
+    codeISIN: string
+    typeFonds: string
+    nomFonds: string
+    dateValeur: string
+    valeurPart: float
+    bloque: bool
+    categorie: string
+    sousCategorie: string
+    avenant: bool
+    questionnaire: bool
+    degreRisqueDICI: int
+    capitalisation: bool
+    distribution: bool
+    # Arbitrage p15
+    code: string
+    codeElementFinancier: string
+    libelle: string
+    existenceQuestionnaire: bool
+    # Arbitrage p13
+    codeIcone: string
+    risque: int
+    typeAvenant: string
+    typeMarcheAvenant: string
+    natureEtablissementAvenant: string
+    # Arbitrage p14
+    texteBrutAvenant: string
+    texteHTLMAvenant: string
+    # Souscription (p16)
+    performance3ans: float
+    presenceAvenant: bool
+    presenceQuestionnaire: bool
+    degreRisqueSdh: int
+    restrictions: array
+    # ModifVersementLibreProgrammes (p16)
+    montantBrut: float
+
+EpargneAtteinte:
+    montantEpargneAtteinte: float
+    repartition: array<Repartition>
+
+Repartition:
+    code: string
+    libelle: string
+    codeIsin: string
+    epargneAtteinte: float
+    pourcentageRepartition: float
+    taux: int
+    duree: int
+    anneeTermeEngagement: int
+    numEngagement: int
+    encoursValidation: bool
+    nonDesinvestissable: bool
+
+ReglesArbitrage:
+    minimumDesinvestissementParFond: float
+    minimumReinvestissementParFond: float
+    soldeRestantMinimumParFond: float
+    minimumDesinvestissementTotal: float
+    maximumDesinvestissementTotal: float
+
+FraisArbitrage:
+    parametrageFrais: ParametrageFrais
+
+ParametrageFrais:
+    derogeable: bool
+    tauxStandard: float
+    tauxMinimal: float
+    montantStandard: float
+
+Contexte:
+    statut: string
+    codeApporteur: string
+    codeSouscription: string
+    numContrat: string
+    elementsAttendus: array
+    adresseEmailCopie: string
+    adresseEmailCopie: bool
+    idTransaction: string
+    utilisateur: enum<CLIENT,APPORTEUR>
+
+Arbitrage:
+    numOperationExterne: int
+    mandatTransmissionOrdre: bool
+    mandatArbitrage: bool
+    fondsInvestis: array<FondsInvesti>
+    fondsDesinvestis: array<FondsInvesti>
+
+FondsInvesti/FondsDeinvesti:
+    codeFonds: string
+    montant: float
+    pourcentage: float
+    avenantValide: bool
+    taux: int
+    duree: int
+    numeroEngagement: int
+
+RetourValidationArbitrage:
+    idTransaction: string
+    numeroOrdreTransaction: string
+    piecesAFournir: array<PieceAFournir>
+
+PieceAFournir:
+    idPieceAFournir: string
+    libelle: string
+    libelleOrdre: string
+    groupe: string
+    groupeOrdre: string
+    code: string
+    sousCode: string
+    nombreMin: int
+    nombreMax: int
+
+ApiResponse:
+    statut: string
+    messages: array
+    donnees: array
+
+RetourConsultationRachatPartiel:
+    seuils: Seuils
+    repartitionLibrePossible: bool
+    rp72Possible: bool
+    informationSaisieMotifSortie: InformationSaisieMotifSortie
+    listeFiscalites: array<Fiscalite>
+    epargneAtteinte: EpargneAtteinte
+    listeIbanVirement: array<IbanVirement>
+    motifsDeRachat: array<MotifDeRachat>
+
+Seuils:
+    montantMinTotalRachat: float
+    montantMaxTotalRachat: float
+    montantMinRachatParFonds: float
+    soldeMinParFondsApresRachat: float
+    soldeMinTotalApresRachat: float
+    soldeMinTotalApresRachatIRPP: float
+    soldeMinTotalApresRachatPFL: float
+    tauxPfo: float
+    presenceC1: bool
+    presenceC2: bool
+    presenceC3: bool
+    exonerationC3: bool
+
+InformationSaisieMotifSortie:
+    motifSortieObligatoire: bool
+
+Fiscalite:
+    codeFiscalite: string
+    texte: string
+
+IbanVirement:
+    iban: string
+    bic: string
+    titulaire: string
+    nomBanque: string
+    autorisationPrelevement: bool
+
+MotifDeRachat:
+    code: string
+    libelle: string
+
+RachatPartiel:
+    montant: float
+    rp72: bool
+    numOperationExterne: int
+    codeOptionFiscale: string
+    codeMotif: string
+    libMotif: string
+    repartitionProportionnelle: bool
+    modeReglement: ModeReglement
+
+ModeReglement:
+    typePaiement: enum<CHEQUE,VIREMENT>
+    compteBancaire: CompteBancaire
+
+CompteBancaire:
+    iban: string
+    bic: string
+    domiciliation: string
+    titulaire: string
+    actif: bool
+    autorise: bool
+
+RetourDonneesSimulationRachatPartiel:
+    tauxPaysNonResidents: array<TauxPaysNonResident>
+    dureeFiscalite: int
+    tauxPfl: float
+    tauxPfo: float
+    presenceC1: bool
+    presenceC2: bool
+    presenceC3: bool
+    exonerationC3: bool
+
+TauxPaysNonResident:
+    codPays: string
+    libellePays: string
+    txAvantHuitAns: float
+    txApreshuitAns: float
+
+RetourSimulationRachatPartiel:
+    typeSimulation: string
+    montantTronque: bool
+    montantNet: float
+    montantBrut: float
+    montantAbattement: float
+    montantPlusValueImposable: float
+    montantRetenuPfl: float
+    montantRetenuPrelevementsSociaux: float
+    montanRemboursementPrelevementsSociaux: float
+    tauxPlf: float
+    tauxPfo: float
+    montantPlusValueImposableC3: float
+    montantPlusValueExonere: float
+    montantRetenuPfo: float
+    dureeFiscalite: int
+    presenceC1: bool
+    presenceC2: bool
+    presenceC3: bool
+    exonerationC3: bool
+
+Souscription:
+    codeSouscription: string
+    referenceCG: string
+    fiscalite: string
+    duree: TypeDuree
+    modeGestion: ModeGestion
+    referencesExternes: ReferenceExterne
+    souscripteur: Souscripteur
+    dossierClient: DossierClient
+    versementInitial: VersementInitial
+    versementsLibresProgrammes: VersementsLibresProgrammes
+    reglement: Reglement
+    clauseBeneficiaireDeces: ClauseBeneficiaireDeces
+    codeGarantiePrevoyance: string
+    commentaire: string
+    dematerialisationCourriers: bool
+    dateSignature: DateTime (Y-m-d)
+
+ClauseBeneficiaireDeces:
+    code: string
+    texteLibre: string
+
+Reglement:
+    typeReglementVersementPonctuel: string
+    ibanContractant: IbanVirement
+    originesFonds: array<OrigineFonds>
+
+OrigineFonds:
+    code: string
+    montant: float
+    date: DateTime (Y-m-d)
+    precision: string
+    codesDetail: array<string>
+    # p50 Souscription
+    libelle: string
+    dateNecessaire: bool
+    commentaireNecessaire: bool
+    detail: array<DetailOrigineFonds>
+    bloquantDemat: bool
+
+DetailOrigineFonds:
+    code: string
+    libelle: string
+
+VersementInitial:
+    montant: float
+    repartition: array<FondsInvesti/FondsDeinvesti>
+
+VersementsLibresProgrammes:
+    repartition: array<FondsInvesti/FondsDeinvesti>
+    vlpMontant: VlpMontant
+
+VlpMontant:
+    montant: float
+    periodicite: string
+
+DossierClient:
+    situationPatrimoniale: SituationPatrimoniale
+    objectifsVersement: array<ObjectifVersement>
+    originePaiement: OriginePaiement
+
+OriginePaiement:
+    moyenPaiementFrancais: bool
+
+ObjectifVersement:
+    codeObjectif: string
+    precision: string
+    # Souscription p52
+    code: string
+    libelle: string
+
+SituationPatrimoniale:
+    codeTrancheRevenu: string
+    montantRevenu: float
+    codeTranchePatrimoine: string
+    montantPatrimoine: float
+    originePatrimoniale: array<OriginePatrimoniale>
+    repartitionPatrimoniale: array<RepartitionPatrimoniale>
+
+OriginePatrimoniale:
+    code: string
+    precision: string
+
+RepartitionPatrimoniale:
+    code: string
+    pourcentage: float
+    precision: string
+
+ReferenceExterne:
+    refExterne: string
+
+Souscripteur:
+    noms: Noms
+    residenceFiscale: ResidenceFiscale
+    nationalite: string
+    complement: SouscripteurComplement
+    ppe: Ppe
+    capaciteJuridique: string
+    naissance: SouscripteurNaissance
+    contact: SouscripteurContact
+    pieceIdentite: PieceIdentite
+    secondePieceIdentite: PieceIdentite
+
+Noms:
+    codeCivilite: string
+    prenom: string
+    nom: string
+    nomNaissance: string
+
+ResidenceFiscale:
+    codePays: string
+    paysCrsOcde: array<PaysCrsOcde>
+
+PaysCrsOcde:
+    codePays: string
+    nif: string
+    # Souscription p56
+    code: string
+    libelle: string
+
+SouscripteurComplement:
+    situationFamiliale: string
+    regimeMatrimonial: string
+    detailRegimeMatrimonial: string
+    situationProfessionnelle: string
+    csp: string
+    profession: string
+    nomEmployeur: string
+    codeNaf: string
+    siret: string
+    dateDebutInactivite: DateTime (Y-m-d)
+
+Ppe:
+    etatPPE: EtatPPE
+    etatPPEFamille: EtatPPE
+
+EtatPPE:
+    indicateur: bool
+    codeFonction: string
+    codePays: string
+    dateFin: DateTime (Y-m-d)
+    lienContractantPPE: string
+    nomProche: string
+    prenomProche: string
+
+SouscripteurNaissance:
+    dateNaissance: string
+    lieuNaissance: string
+    codeDepartementNaissance: string
+    paysNaissance: string
+    codeInseeCommuneNaissance: string
+    codePostal: string
+
+Fatca:
+    citoyenUSA: bool
+    residenceUSA: bool
+    tin: string
+
+SouscripteurContact:
+    adressePostale: AdressePostale
+    telephone: string
+    email: string
+
+AdressePostale:
+    adresse3LibelleVoie: string
+    codePostal: string
+    commune: string
+    codePays: string
+    nePasNormaliser: bool
+
+PieceIdentite:
+    codePieceIdentite: string
+    dateValidite: DateTime (Y-m-d)
+    # Souscription p57
+    code: string
+    libelle: string
+
+RetourConsultationSouscription:
+    clausesBenefs: array<ClausesBenef>
+    garantiesPrevoyance: array<GarantiePrevoyance>
+    modesReglementAutorises: array<Enum(PRELEVEMENT, VIREMENT, CHEQUE)>
+    infoProduit: InfoProduit
+    fiscalites: array<SouscriptionFiscalite>
+    typesDuree: array<TypeDuree>
+    typesDenouement: array<TypeDenouement>
+    combinaisonsPossiblesSouscription: array<CombinaisonPossibleSouscription>
+    modesGestion: array<ModeGestion>
+    paramVersementInitial: ParamVersementInitial
+    paramVersementLibreProgramme: ParamVersementLibreProgramme
+    referentiel: Referentiel
+
+ClausesBenef:
+    code: string
+    texte: string
+    texteLibre: bool
+    apresTexteLibre: string
+
+GarantiePrevoyance:
+    code: string
+    libelle: string
+    description: string
+    ageMin: int
+    ageMax: int
+    montantMinimum: int
+
+InfoProduit:
+    libelle: string
+    gerePBDiffere: bool
+
+SouscriptionFiscalite:
+    code: libelle
+    libelle: string
+
+TypeDuree:
+    typeDuree: enum<CAPITAL_DIFFERE, VIE_ENTIERE>
+    libelle: string
+    dureeNecessaire: bool
+    dureeMin: int
+    dureeMax: int
+
+TypeDenouement:
+    code: enum<PREMIER_DECES, SECOND_DECES>
+    libelle: string
+
+CombinaisonPossibleSouscription:
+    codeModeGestion: string
+    modeGestion: string
+    garantiePrevoyance: string
+    securisationPlusValues: bool
+    limitationsMoinsValues: bool
+    rachatPartielProgramme: bool
+    versementLibreProgramme: bool
+
+ModeGestion:
+    idModeGestion: string
+    libelle: string
+    descriptif: string
+    typeModeGestion: enum<LIBRE, PILOTEE, PROFILEE, HORIZON_RETRAITE, DEDIEE, CONSEILLEE, MULTIPROFILEE>
+    profils: array<Profil>
+
+Profil:
+    idProfilGestion: string
+    libelle: string
+    descriptif: string
+
+ParamVersementInitial:
+    seuils: array<Seuil>
+
+ParamVersementLibreProgramme:
+    seuils: array<Seuil>
+    joursPrelevement: array<int>
+
+Seuil:
+    montantMin: float
+    minParSupport: float
+    seuilsParPeriodicite: SeuilParPeriodicite
+
+SeuilParPeriodicite:
+    codePeriodicite: enum<HEBDOMADAIRE, MENSUELLE, TRIMESTRIELLE, SEMESTRIELLE, ANNUELLE>
+    montantMin: float
+
+
+RetourInitiationSouscription:
+    fondsInvestissables: array<Fonds>
+
+Referentiel: (voir Souscription p49)
+    situationsProfessionnelles: array<SituationProfessionnelle>
+    situationsFamiliales: array<SituationFamiliale>
+    tranchesRevenus: array<TrancheRevenus>
+    tranchesPatrimoine: array<TranchePatrimoine>
+    originesFonds: array<OrigineFonds>
+    liensCoContractant: array<LienContractant>
+    fonctionsPPE: array<FonctionPPE>
+    liensContractantPPE: array<LienContractant>
+    objectifsVersement: array<ObjectifVersement>
+    codesNaf: array<CodeNaf>
+    csps: array<Csp>
+    paysResidenceFiscale: array<PaysResidenceFiscale>
+    regimesMatrimoniaux: array<RegimeMatrimonial>
+    repartitionsPatrimoine: array<RepartitionPatrimoine>
+    originesPatrimoine: array<OriginePatrimoine>
+    capacitesJuridiques: array<CapaciteJuridique>
+    nationalites: array<Nationalite>
+    paysNaissance: array<PaysNaissance>
+    paysAdresses: array<PaysAdresse>
+    paysCrsOcde: array<PaysCrsOcde>
+    civilites: array<Civilite>
+    piecesIdentite: array<PieceIdentite>
+    secondesPiecesIdentite: array<PieceIdentite>
+
+Civilite:
+    code: string
+    libelle: string
+
+PaysAdresse:
+    code: string
+    libelle: string
+
+PaysNaissance:
+    code: string
+    libelle: string
+    departements: array<Departement>
+
+Departement:
+    code: string
+    libelle: string
+
+Nationalite:
+    code: string
+    libelle: string
+
+CapaciteJuridique:
+    code: string
+    libelle: string
+
+RepartitionPatrimoine:
+    code: string
+    libelle: string
+
+OriginePatrimoine:
+    code: string
+    libelle: string
+
+RegimeMatrimonial:
+    code: string
+    libelle: string
+
+PaysResidenceFiscale:
+    code: string
+    libelle: string
+
+CodeNaf:
+    code: string
+    libelle: string
+
+LienContractant:
+    code: string
+    libelle: string
+
+FonctionPPE:
+    code: string
+    libelle: string
+
+SituationFamiliale:
+    code: string
+    libelle: string
+
+TrancheRevenus:
+    code: string
+    libelle: string
+    trancheMin: int
+    trancheMax: int
+
+TranchePatrimoine:
+    code: string
+    libelle: string
+    trancheMin: int
+    trancheMax: int
+
+SituationProfessionnelle:
+    code: string
+    libelle: string
+    listeCsp: array<Csp>
+
+Csp:
+    code: string
+    libelle: string
+
+ErrorMessage:
+    code: string
+    criticite: string
+    texte: string
+    cible: string
+
+RetourConsultationVersementLibreProgramme:
+    infosContrat: : InfosContrat
+    parametrageVersementLibreProgramme: ParametrageVersementLibreProgramme
+    fondsInvestissables: array<FondsInvestissable>
+    referentiel: Referentiel
+    comptesBancairesPrelevement: array<IbanVirement>
+    connaissanceClient: ConnaissanceClient
+    epargneAtteinte: EpargneAtteinte
+    infoVersement: InfoVersement
+
+InfosContrat:
+    numeroContrat: string
+    libelleProduit: string
+    codeProduit: string
+    modeGestion: string
+    nomProfil: string
+
+ParametrageVersementLibreProgramme:
+    id: string
+    montantMinSupport: int
+    periodicite: array<Periodicite>
+    jourPrelevement: array<int>
+
+Periodicite:
+    typePeriodicite: string
+    libelle: string
+    min: float
+
+ConnaissanceClient:
+    contractant: Souscripteur
+    revenusAnnuelsNetFoyer: RevenusAnnuelsNetFoyer
+    estimationPatrimoineFoyer: EstimationPatrimoineFoyer
+    objectifsVersement: array<ObjectifVersement>
+
+RevenusAnnuelsNetFoyer:
+    code: string
+    montant: float
+
+EstimationPatrimoineFoyer:
+    code: string
+    montant: float
+
+InfoVersement:
+    indicateurRepartition: string
+    montantInvestissementMin: float
+    montantversementlibre: float
+    vlpEncours: bool
+    vlpSuspendu: bool
+    periodicite: string
+    debutPeriode: DateTime (Y-m-d)
+    dateProchainPrelevement: DateTime (Y-m-d)
+    dateProchaineEcheance: DateTime (Y-m-d)
+    fondsInvestis: array<FondsInvesti>
+
+ModifVlpRetour:
+    fondsInvestissables: array<FondsInvestissables>
+    ribsPrelevement: array<CompteBancaire>
+    infoVersement: InfoVersement
+    epargneAtteinte: EpargneAtteinte
+
+ModifVersementLibreProgrammes:
+    versement: VlpMontant
+    repartition: Repartition
+
+Contrat:
+    numContrat: string
+    infoVLP: InfoVLP
+
+InfoVLP:
+    dateProchainPrelevement: DateTime
+    debutPeriode: DateTime
+    suspendu: bool
+    periodicite: string
+    montantPreleve: float
+    fonds: array<Fonds>

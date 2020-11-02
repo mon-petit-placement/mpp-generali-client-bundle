@@ -18,21 +18,21 @@ class FundsOriginFactory extends AbstractFactory
      */
     public function configureData(OptionsResolver $resolver): void
     {
-        $availableCodeOrigin = $this->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES);
-        $availableDetailCode = $this->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES, ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS);
+        $availableCodeOrigin = $this->getReferentialHandler()->getReferentialCodes(ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES);
+        $availableDetailCode = $this->getReferentialHandler()->getSubReferentialCode(ReferentialHandler::REFERENTIAL_FUND_ORIGIN_CODES, ReferentialHandler::REFERENTIAL_FUND_ORIGINS_DETAILS);
 
         $resolver
             ->setRequired('codeOrigin')->setAllowedTypes('codeOrigin', ['string'])->setAllowedValues('codeOrigin', $availableCodeOrigin)
-            ->setDefined('detail')->setAllowedTypes('detail', ['string'])->setAllowedValues('detail', $availableDetailCode)
+            ->setDefault('detail', null)->setAllowedTypes('detail', ['string'])->setAllowedValues('detail', $availableDetailCode)
             ->setRequired('amount')->setAllowedTypes('amount', ['float', 'int'])
-            ->setDefined('date')->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function (Options $options, $value) {
+            ->setDefault('date', null)->setAllowedTypes('date', ['\DateTime', 'string'])->setNormalizer('date', function (Options $options, $value) {
                 if ($value instanceof \DateTime) {
                     return $value;
                 }
 
                 return \DateTime::createFromFormat('d/m/Y', $value);
             })
-            ->setDefined('precision')->setAllowedTypes('precision', ['string'])
+            ->setDefault('precision', null)->setAllowedTypes('precision', ['string'])
         ;
     }
 

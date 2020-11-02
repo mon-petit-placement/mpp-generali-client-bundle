@@ -10,20 +10,12 @@ $ composer require mpp/generali-client-bundle
 
 ##How to run:
 
-First you have to configure your credentials in `config/packages/mpp_generali_client.yaml`, like here with env variables:
-```yaml
-mpp_generali_client:
-    intermediary_code: '%env(GENERALI_INTERMEDIARY_CODE)%'
-    app_code: '%env(GENERALI_APP_CODE)%'
-    subscription_code: '%env(GENERALI_SUBSCRIPTION_CODE)%'
-```
-
-Then you must configure the Generali API Client using eight point guzzle, like with env variables, 
+First you must configure the Generali API Client using eight point guzzle, like with env variables,
 in the file `config/packages/eight_points_guzzle.yaml`:
 ```yaml
 eight_points_guzzle:
     clients:
-        mpp_generali:
+        my_generali_client:
             base_url: '%env(GENERALI_BASE_URL)%'
             options:
                 timeout: 30
@@ -34,6 +26,15 @@ eight_points_guzzle:
                     Content-Type: 'application/json'
                     apiKey: '%env(GENERALI_API_KEY)%'
 ```  
+
+Then you have to configure your credentials in `config/packages/mpp_generali_client.yaml`, like here with env variables:
+```yaml
+mpp_generali_client:
+    http_client: 'eight_points_guzzle.client.my_generali_client'
+    intermediary_code: '%env(GENERALI_INTERMEDIARY_CODE)%'
+    app_code: '%env(GENERALI_APP_CODE)%'
+    subscription_code: '%env(GENERALI_SUBSCRIPTION_CODE)%'
+```
 
 That gives you this configuration in .env file.
 ```
@@ -52,11 +53,11 @@ GENERALI_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
 To easily handle Generali API calls, the bundle provides a httpClient service. Here is an example on how to retrieve this service in your Symfony Application using Dependancy Injection:
 ```php
 use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
- 
+
  ...
- 
-/** 
- * @var GeneraliHttpClientInterface 
+
+/**
+ * @var GeneraliHttpClientInterface
  */
 private $httpClient;
 
@@ -73,7 +74,8 @@ How you will get the Contract Number ?
 
 Once you have it, you can create and follow many FreePayment, ScheduledFreePayment, Arbitration, PartialSurrender.
 
-##How to use ? :
+## How to use ?
+
 First you will have to create a [Subscription](./Resources/docs/CallApi/subscription.md), where you will send all the needed information on your customer and the subscription asked.
 Then you will get a contractNumber which will be used to create:
 - [Free Payment](./Resources/docs/CallApi/free_payment.md)
@@ -81,5 +83,5 @@ Then you will get a contractNumber which will be used to create:
 - [Partial Surrender](./Resources/docs/CallApi/partial_surrender.md)
 - [Arbitration](./Resources/docs/CallApi/arbitration.md)
 
-You will use specifics code for some attributes, please check [here](./Resources/docs/referentials.md) when you will build your data structure. 
+You will use specifics code for some attributes, please check [here](./Resources/docs/referentials.md) when you will build your data structure.
 Generali has normalized data.

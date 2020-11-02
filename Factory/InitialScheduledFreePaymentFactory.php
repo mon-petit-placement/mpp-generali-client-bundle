@@ -2,10 +2,10 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\Model\InitialScheduledFreePayment;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ScheduledFreePaymentFactory.
@@ -20,12 +20,13 @@ class InitialScheduledFreePaymentFactory extends AbstractFactory
     /**
      * ScheduledFreePaymentFactory constructor.
      *
-     * @param GeneraliHttpClientInterface $httpClient
-     * @param RepartitionFactory          $repartitionFactory
+     * @param ReferentialHandler $referentialHandler
+     * @param RepartitionFactory $repartitionFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient, RepartitionFactory $repartitionFactory)
+    public function __construct(ReferentialHandler $referentialHandler, RepartitionFactory $repartitionFactory)
     {
-        parent::__construct($httpClient);
+        parent::__construct($referentialHandler);
+
         $this->repartitionFactory = $repartitionFactory;
     }
 

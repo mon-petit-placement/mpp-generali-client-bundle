@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    syntaxCheck="false"
+    bootstrap="./Tests/Unit/autoload.php"
+>
+    <php>
+        <env name="APP_ENV" value="test" />
+        <env name="GENERALI_BASE_URL" value="https://generalifrprod-recette.apigee.net/epart" />
+        <env name="GENERALI_API_KEY" value="1nA1sdn9QUDMBNXdgTBDOM1qsIf4KAAY" />
+        <env name="GENERALI_INTERMEDIARY_CODE" value="30C1415" />
+        <env name="GENERALI_APP_CODE" value="4fbbdc20-f1d2-46e2-8223-f3a0c852e96b" />
+        <env name="GENERALI_SUBSCRIPTION_CODE" value="param.70017002" />
+        <server name="KERNEL_CLASS" value="Mpp\GeneraliClientBundle\Tests\TestKernel" />
+    </php>
+
+    <testsuites>
+        <testsuite name="MPP generali client bundle unit test suite">
+            <directory suffix="Test.php">./Tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

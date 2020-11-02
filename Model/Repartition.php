@@ -2,127 +2,60 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-/**
- * Class Repartition.
- */
 class Repartition
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected $fundsCode;
+    private $code;
 
     /**
-     * @var float
+     * @var string|null
      */
-    protected $amount;
+    private $libelle;
 
     /**
-     * @var bool
+     * @var string|null
      */
-    protected $totalSurrender;
+    private $codeIsin;
 
     /**
-     * @var float
+     * @var float|null
      */
-    protected $percent;
+    private $epargneAtteinte;
 
     /**
-     * Repartition constructor.
+     * @var float|null
      */
-    public function __construct()
-    {
-        $this->totalSurrender = false;
-    }
+    private $pourcentageRepartition;
 
     /**
-     * @return array
+     * @var int|null
      */
-    public function toArray(): array
-    {
-        return [
-          'codeFonds' => $this->getFundsCode(),
-          'montant' => $this->getAmount(),
-        ];
-    }
+    private $taux;
 
     /**
-     * @return string
+     * @var int|null
      */
-    public function getFundsCode(): string
-    {
-        return $this->fundsCode;
-    }
+    private $duree;
 
     /**
-     * @param string $fundsCode
-     *
-     * @return Repartition
+     * @var int|null
      */
-    public function setFundsCode(string $fundsCode): self
-    {
-        $this->fundsCode = $fundsCode;
-
-        return $this;
-    }
+    private $anneeTermeEngagement;
 
     /**
-     * @return float
+     * @var int|null
      */
-    public function getAmount(): float
-    {
-        return $this->amount;
-    }
+    private $numEngagement;
 
     /**
-     * @param float $amount
-     *
-     * @return self
+     * @var bool|null
      */
-    public function setAmount(float $amount): self
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
+    private $encoursValidation;
 
     /**
-     * @return bool
+     * @var bool|null
      */
-    public function getTotalSurrender(): ?bool
-    {
-        return $this->totalSurrender;
-    }
-
-    /**
-     * @param bool $totalSurrender
-     *
-     * @return self
-     */
-    public function setTotalSurrender(?bool $totalSurrender): self
-    {
-        $this->totalSurrender = $totalSurrender;
-
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getPercent(): float
-    {
-        return $this->percent;
-    }
-
-    /**
-     * @param float $percent
-     *
-     * @return self
-     */
-    public function setPercent(float $percent): self
-    {
-        $this->percent = $percent;
-
-        return $this;
-    }
+    private $nonDesinvestissable;
 }

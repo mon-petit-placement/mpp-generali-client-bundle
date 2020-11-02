@@ -2,7 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\Model\FreePayment;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,20 +35,21 @@ class FreePaymentFactory extends AbstractFactory
     /**
      * FreePaymentFactory constructor.
      *
-     * @param GeneraliHttpClientInterface $httpClient
-     * @param SubscriberFactory           $subscriberFactory
-     * @param CustomerFolderFactory       $customerFolderFactory
-     * @param SettlementFactory           $settlementFactory
-     * @param RepartitionFactory          $repartitionFactory
+     * @param ReferentialHandler    $referentialHandler
+     * @param SubscriberFactory     $subscriberFactory
+     * @param CustomerFolderFactory $customerFolderFactory
+     * @param SettlementFactory     $settlementFactory
+     * @param RepartitionFactory    $repartitionFactory
      */
     public function __construct(
-        GeneraliHttpClientInterface $httpClient,
+        ReferentialHandler $referentialHandler,
         SubscriberFactory $subscriberFactory,
         CustomerFolderFactory $customerFolderFactory,
         SettlementFactory $settlementFactory,
         RepartitionFactory $repartitionFactory
     ) {
-        parent::__construct($httpClient);
+        parent::__construct($referentialHandler);
+
         $this->subscriberFactory = $subscriberFactory;
         $this->customerFolderFactory = $customerFolderFactory;
         $this->settlementFactory = $settlementFactory;

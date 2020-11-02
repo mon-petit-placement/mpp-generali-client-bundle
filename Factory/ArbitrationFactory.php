@@ -2,7 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Factory;
 
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
+use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 use Mpp\GeneraliClientBundle\Model\Arbitration;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,12 +20,13 @@ class ArbitrationFactory extends AbstractFactory
     /**
      * ArbitrationFactory constructor.
      *
-     * @param GeneraliHttpClientInterface $httpClient
-     * @param RepartitionFactory          $repartitionFactory
+     * @param ReferentialHandler $referentialHandler
+     * @param RepartitionFactory $repartitionFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient, RepartitionFactory $repartitionFactory)
+    public function __construct(ReferentialHandler $referentialHandler, RepartitionFactory $repartitionFactory)
     {
-        parent::__construct($httpClient);
+        parent::__construct($referentialHandler);
+
         $this->repartitionFactory = $repartitionFactory;
     }
 
@@ -35,24 +36,30 @@ class ArbitrationFactory extends AbstractFactory
     public function configureData(OptionsResolver $resolver): void
     {
         $resolver
-            ->setRequired('externalNumberOperation')->setAllowedTypes('externalNumberOperation', ['int'])
-            ->setDefault('mandateTransmissionOrder', false)->setAllowedTypes('mandateTransmissionOrder', ['bool'])
-            ->setDefault('mandateArbitration', false)->setAllowedTypes('mandateArbitration', ['bool'])
-            ->setRequired('divestedFunds')->setAllowedTypes('divestedFunds', ['array'])->setNormalizer('divestedFunds', function (Options $options, $values): array {
-                $resolvedData = [];
-                foreach ($values as $value) {
-                    $resolvedData[] = $this->repartitionFactory->create($value);
+            ->setRequired('numOperationExterne')->setAllowedTypes('numOperationExterne', ['string'])
+            ->setDefault('mandatTransmissionOrdre', false)->setAllowedTypes('mandatTransmissionOrdre', ['bool'])
+            ->setDefault('mandatArbitrage', false)->setAllowedTypes('mandatArbitrage', ['bool'])
+            ->setRequired('fondsInvestis')->setAllowedTypes('fondsInvestis', ['array'])->setNormalizer('fondsInvestis', function (Options $options, $values) {
+                foreach ($values as &$value) {
+                    if ($value instanceof Repartition) {
+                        continue;
+                    }
+
+                    $value = $this->repartitionFactory->create($value);
                 }
 
-                return $resolvedData;
+                return $values;
             })
-            ->setRequired('investedFunds')->setAllowedTypes('investedFunds', ['array'])->setNormalizer('investedFunds', function (Options $options, $values): array {
-                $resolvedData = [];
-                foreach ($values as $value) {
-                    $resolvedData[] = $this->repartitionFactory->create($value);
+            ->setRequired('fondsDesinvestis')->setAllowedTypes('fondsDesinvestis', ['array'])->setNormalizer('fondsDesinvestis', function (Options $options, $values) {
+                foreach ($values as &$value) {
+                    if ($value instanceof Repartition) {
+                        continue;
+                    }
+
+                    $value = $this->repartitionFactory->create($value);
                 }
 
-                return $resolvedData;
+                return $values;
             })
         ;
     }
@@ -63,11 +70,11 @@ class ArbitrationFactory extends AbstractFactory
     public function doCreate(array $resolvedData)
     {
         return (new Arbitration())
-            ->setExternalNumberOperation($resolvedData['externalNumberOperation'])
-            ->setMandateTransmissionOrder($resolvedData['mandateTransmissionOrder'])
-            ->setMandateArbitration($resolvedData['mandateArbitration'])
-            ->setDivestedFunds($resolvedData['divestedFunds'])
-            ->setInvestedFunds($resolvedData['investedFunds'])
+            ->setNumOperationExterne($resolvedData['numOperationExterne'])
+            ->setMandatTransmissionOrdre($resolvedData['mandatTransmissionOrdre'])
+            ->setMandatArbitrage($resolvedData['mandatArbitrage'])
+            ->setFondsInvestis($resolvedData['fondsInvestis'])
+            ->setFondsDesinvestis($resolvedData['fondsDesinvestis'])
         ;
     }
 }

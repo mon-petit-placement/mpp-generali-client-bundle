@@ -3,9 +3,6 @@
 namespace Mpp\GeneraliClientBundle\Factory;
 
 use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
-use Mpp\GeneraliClientBundle\HttpClient\GeneraliHttpClientInterface;
-use Mpp\GeneraliClientBundle\Model\AssetsOrigin;
-use Mpp\GeneraliClientBundle\Model\AssetsRepartition;
 use Mpp\GeneraliClientBundle\Model\CustomerFolder;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,14 +30,19 @@ class CustomerFolderFactory extends AbstractFactory
     /**
      * CustomerFolderFactory constructor.
      *
-     * @param GeneraliHttpClientInterface $httpClient
-     * @param PayoutTargetFactory         $payoutTargetFactory
-     * @param AssetsOriginFactory         $assetsOriginFactory
-     * @param AssetsRepartitionFactory    $assetRepartitionFactory
+     * @param ReferentialHandler       $referentialHandler
+     * @param PayoutTargetFactory      $payoutTargetFactory
+     * @param AssetsOriginFactory      $assetsOriginFactory
+     * @param AssetsRepartitionFactory $assetRepartitionFactory
      */
-    public function __construct(GeneraliHttpClientInterface $httpClient, PayoutTargetFactory $payoutTargetFactory, AssetsOriginFactory $assetsOriginFactory, AssetsRepartitionFactory $assetRepartitionFactory)
-    {
-        parent::__construct($httpClient);
+    public function __construct(
+        ReferentialHandler $referentialHandler,
+        PayoutTargetFactory $payoutTargetFactory,
+        AssetsOriginFactory $assetsOriginFactory,
+        AssetsRepartitionFactory $assetRepartitionFactory
+    ) {
+        parent::__construct($referentialHandler);
+
         $this->payoutTargetFactory = $payoutTargetFactory;
         $this->assetsOriginFactory = $assetsOriginFactory;
         $this->assetsRepartitionFactory = $assetRepartitionFactory;
@@ -64,7 +66,7 @@ class CustomerFolderFactory extends AbstractFactory
 
                 return $resolvedValues;
             })
-            ->setDefined('assetsOrigin')->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values) {
+            ->setDefault('assetsOrigin', null)->setAllowedTypes('assetsOrigin', ['array'])->setNormalizer('assetsOrigin', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
                     $resolvedValues[] = $this->assetsOriginFactory->create($value);
@@ -72,7 +74,7 @@ class CustomerFolderFactory extends AbstractFactory
 
                 return $resolvedValues;
             })
-            ->setDefined('assetsRepartition')->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values) {
+            ->setDefault('assetsRepartition', null)->setAllowedTypes('assetsRepartition', ['array'])->setNormalizer('assetsRepartition', function (Options $options, $values) {
                 $resolvedValues = [];
                 foreach ($values as $value) {
                     $resolvedValues[] = $this->assetsRepartitionFactory->create($value);
@@ -88,8 +90,8 @@ class CustomerFolderFactory extends AbstractFactory
      */
     public function doCreate(array $resolvedData)
     {
-        $incomeCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_INCOME_SLICES, $resolvedData['incomeAmount']);
-        $assetCode = $this->guessReferentialCode(ReferentialHandler::REFERENTIAL_ASSET_SLICES, $resolvedData['assetAmount']);
+        $incomeCode = $this->getReferentialHandler()->guessReferentialCode(ReferentialHandler::REFERENTIAL_INCOME_SLICES, $resolvedData['incomeAmount']);
+        $assetCode = $this->getReferentialHandler()->guessReferentialCode(ReferentialHandler::REFERENTIAL_ASSET_SLICES, $resolvedData['assetAmount']);
 
         return (new CustomerFolder())
             ->setAssetAmount($resolvedData['assetAmount'])
