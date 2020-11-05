@@ -18,7 +18,6 @@ class FondsInvestissable
      * @var bool|null
      */
     private $investissementObligatoire;
-<<<<<<< HEAD
 
     /**
      * Get the value of fonds
@@ -91,6 +90,4 @@ class FondsInvestissable
 
         return $this;
     }
-=======
->>>>>>> 78eca0cf506f39f6c7ac10f5abdcde398c5468ec
 }
