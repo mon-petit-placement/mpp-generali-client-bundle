@@ -23,6 +23,7 @@ class TauxPaysNonResident
      * @var float|null
      */
     private $txApreshuitAns;
+<<<<<<< HEAD
 
     /**
      * Get the value of codPays
@@ -119,4 +120,6 @@ class TauxPaysNonResident
 
         return $this;
     }
+=======
+>>>>>>> 78eca0cf506f39f6c7ac10f5abdcde398c5468ec
 }

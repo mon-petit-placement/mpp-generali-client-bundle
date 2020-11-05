@@ -13,6 +13,7 @@ class Ppe
      * @var EtatPPE|null
      */
     private $etatPPEFamille;
+<<<<<<< HEAD
 
     /**
      * Get the value of etatPPE
@@ -61,4 +62,6 @@ class Ppe
 
         return $this;
     }
+=======
+>>>>>>> 78eca0cf506f39f6c7ac10f5abdcde398c5468ec
 }
