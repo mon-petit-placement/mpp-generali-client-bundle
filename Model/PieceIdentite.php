@@ -10,7 +10,7 @@ class PieceIdentite
     private $codePieceIdentite;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var string|null
      */
     private $dateValidite;
 
@@ -25,22 +25,22 @@ class PieceIdentite
     private $libelle;
 
     /**
-     * Get the value of codePieceIdentite
+     * Get the value of codePieceIdentite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePieceIdentite(): ?string
     {
         return $this->codePieceIdentite;
     }
 
     /**
-     * Set the value of codePieceIdentite
+     * Set the value of codePieceIdentite.
      *
-     * @param  string|null  $codePieceIdentite
+     * @param string|null $codePieceIdentite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePieceIdentite(?string $codePieceIdentite): self
     {
         $this->codePieceIdentite = $codePieceIdentite;
@@ -49,23 +49,23 @@ class PieceIdentite
     }
 
     /**
-     * Get the value of dateValidite
+     * Get the value of dateValidite.
      *
-     * @return  \DateTimeInterface|null
-     */ 
-    public function getDateValidite(): ?\DateTimeInterface
+     * @return string|null
+     */
+    public function getDateValidite(): ?string
     {
         return $this->dateValidite;
     }
 
     /**
-     * Set the value of dateValidite
+     * Set the value of dateValidite.
      *
-     * @param  \DateTimeInterface|null  $dateValidite
+     * @param string|null $dateValidite
      *
-     * @return  self
-     */ 
-    public function setDateValidite(?\DateTimeInterface $dateValidite): self
+     * @return self
+     */
+    public function setDateValidite(?string $dateValidite): self
     {
         $this->dateValidite = $dateValidite;
 
@@ -73,22 +73,22 @@ class PieceIdentite
     }
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -97,22 +97,22 @@ class PieceIdentite
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;

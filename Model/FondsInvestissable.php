@@ -20,22 +20,22 @@ class FondsInvestissable
     private $investissementObligatoire;
 
     /**
-     * Get the value of fonds
+     * Get the value of fonds.
      *
-     * @return  Fonds|null
-     */ 
+     * @return Fonds|null
+     */
     public function getFonds(): ?Fonds
     {
         return $this->fonds;
     }
 
     /**
-     * Set the value of fonds
+     * Set the value of fonds.
      *
-     * @param  Fonds|null  $fonds
+     * @param Fonds|null $fonds
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFonds(?Fonds $fonds): self
     {
         $this->fonds = $fonds;
@@ -44,22 +44,22 @@ class FondsInvestissable
     }
 
     /**
-     * Get the value of optionsTechniques
+     * Get the value of optionsTechniques.
      *
-     * @return  array|null
-     */ 
+     * @return array|null
+     */
     public function getOptionsTechniques(): ?array
     {
         return $this->optionsTechniques;
     }
 
     /**
-     * Set the value of optionsTechniques
+     * Set the value of optionsTechniques.
      *
-     * @param  array|null  $optionsTechniques
+     * @param array|null $optionsTechniques
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setOptionsTechniques(?array $optionsTechniques): self
     {
         $this->optionsTechniques = $optionsTechniques;
@@ -68,22 +68,22 @@ class FondsInvestissable
     }
 
     /**
-     * Get the value of investissementObligatoire
+     * Get the value of investissementObligatoire.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getInvestissementObligatoire(): ?bool
     {
         return $this->investissementObligatoire;
     }
 
     /**
-     * Set the value of investissementObligatoire
+     * Set the value of investissementObligatoire.
      *
-     * @param  bool|null  $investissementObligatoire
+     * @param bool|null $investissementObligatoire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setInvestissementObligatoire(?bool $investissementObligatoire): self
     {
         $this->investissementObligatoire = $investissementObligatoire;

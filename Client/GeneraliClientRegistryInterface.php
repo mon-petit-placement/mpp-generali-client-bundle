@@ -7,8 +7,6 @@ interface GeneraliClientRegistryInterface
     /**
      * Check if the generali client is registered in the registry.
      *
-     * @method has
-     *
      * @param string $alias
      *
      * @return bool
@@ -17,8 +15,6 @@ interface GeneraliClientRegistryInterface
 
     /**
      * Register the generali client with the given alias.
-     *
-     * @method set
      *
      * @param string                  $alias
      * @param GeneraliClientInterface $client
@@ -30,8 +26,6 @@ interface GeneraliClientRegistryInterface
     /**
      * Get the generali client by its alias.
      *
-     * @method get
-     *
      * @param string $alias
      *
      * @return GeneraliClientInterface
@@ -40,8 +34,6 @@ interface GeneraliClientRegistryInterface
 
     /**
      * Retrieve all generali client from the registry.
-     *
-     * @method all
      *
      * @return array
      */

@@ -35,23 +35,23 @@ class SouscripteurNaissance
     private $codePostal;
 
     /**
-     * Get the value of dateNaissance
+     * Get the value of dateNaissance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getDateNaissance(): ?string
     {
         return $this->dateNaissance;
     }
 
     /**
-     * Set the value of dateNaissance
+     * Set the value of dateNaissance.
      *
-     * @param  string|null  $dateNaissance
+     * @param string $dateNaissance
      *
-     * @return  self
-     */ 
-    public function setDateNaissance(?string $dateNaissance): self
+     * @return self
+     */
+    public function setDateNaissance(string $dateNaissance): self
     {
         $this->dateNaissance = $dateNaissance;
 
@@ -59,22 +59,22 @@ class SouscripteurNaissance
     }
 
     /**
-     * Get the value of lieuNaissance
+     * Get the value of lieuNaissance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLieuNaissance(): ?string
     {
         return $this->lieuNaissance;
     }
 
     /**
-     * Set the value of lieuNaissance
+     * Set the value of lieuNaissance.
      *
-     * @param  string|null  $lieuNaissance
+     * @param string|null $lieuNaissance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLieuNaissance(?string $lieuNaissance): self
     {
         $this->lieuNaissance = $lieuNaissance;
@@ -83,22 +83,22 @@ class SouscripteurNaissance
     }
 
     /**
-     * Get the value of codeDepartementNaissance
+     * Get the value of codeDepartementNaissance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeDepartementNaissance(): ?string
     {
         return $this->codeDepartementNaissance;
     }
 
     /**
-     * Set the value of codeDepartementNaissance
+     * Set the value of codeDepartementNaissance.
      *
-     * @param  string|null  $codeDepartementNaissance
+     * @param string|null $codeDepartementNaissance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeDepartementNaissance(?string $codeDepartementNaissance): self
     {
         $this->codeDepartementNaissance = $codeDepartementNaissance;
@@ -107,22 +107,22 @@ class SouscripteurNaissance
     }
 
     /**
-     * Get the value of paysNaissance
+     * Get the value of paysNaissance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPaysNaissance(): ?string
     {
         return $this->paysNaissance;
     }
 
     /**
-     * Set the value of paysNaissance
+     * Set the value of paysNaissance.
      *
-     * @param  string|null  $paysNaissance
+     * @param string|null $paysNaissance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPaysNaissance(?string $paysNaissance): self
     {
         $this->paysNaissance = $paysNaissance;
@@ -131,22 +131,22 @@ class SouscripteurNaissance
     }
 
     /**
-     * Get the value of codeInseeCommuneNaissance
+     * Get the value of codeInseeCommuneNaissance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeInseeCommuneNaissance(): ?string
     {
         return $this->codeInseeCommuneNaissance;
     }
 
     /**
-     * Set the value of codeInseeCommuneNaissance
+     * Set the value of codeInseeCommuneNaissance.
      *
-     * @param  string|null  $codeInseeCommuneNaissance
+     * @param string|null $codeInseeCommuneNaissance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeInseeCommuneNaissance(?string $codeInseeCommuneNaissance): self
     {
         $this->codeInseeCommuneNaissance = $codeInseeCommuneNaissance;
@@ -155,22 +155,22 @@ class SouscripteurNaissance
     }
 
     /**
-     * Get the value of codePostal
+     * Get the value of codePostal.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePostal(): ?string
     {
         return $this->codePostal;
     }
 
     /**
-     * Set the value of codePostal
+     * Set the value of codePostal.
      *
-     * @param  string|null  $codePostal
+     * @param string|null $codePostal
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePostal(?string $codePostal): self
     {
         $this->codePostal = $codePostal;

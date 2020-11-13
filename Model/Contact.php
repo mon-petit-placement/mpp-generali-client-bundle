@@ -20,22 +20,22 @@ class Contact
     private $email;
 
     /**
-     * Get the value of adressePostale
+     * Get the value of adressePostale.
      *
-     * @return  AdressePostale|null
-     */ 
+     * @return AdressePostale|null
+     */
     public function getAdressePostale(): ?AdressePostale
     {
         return $this->adressePostale;
     }
 
     /**
-     * Set the value of adressePostale
+     * Set the value of adressePostale.
      *
-     * @param  AdressePostale|null  $adressePostale
+     * @param AdressePostale|null $adressePostale
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAdressePostale(?AdressePostale $adressePostale): self
     {
         $this->adressePostale = $adressePostale;
@@ -44,22 +44,22 @@ class Contact
     }
 
     /**
-     * Get the value of telephone
+     * Get the value of telephone.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTelephone(): ?string
     {
         return $this->telephone;
     }
 
     /**
-     * Set the value of telephone
+     * Set the value of telephone.
      *
-     * @param  string|null  $telephone
+     * @param string|null $telephone
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
@@ -68,22 +68,22 @@ class Contact
     }
 
     /**
-     * Get the value of email
+     * Get the value of email.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
-     * Set the value of email
+     * Set the value of email.
      *
-     * @param  string|null  $email
+     * @param string|null $email
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEmail(?string $email): self
     {
         $this->email = $email;

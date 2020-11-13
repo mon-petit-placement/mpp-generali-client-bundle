@@ -15,22 +15,22 @@ class ModifVersementLibreProgrammes
     private $repartition;
 
     /**
-     * Get the value of versement
+     * Get the value of versement.
      *
-     * @return  VlpMontant|null
-     */ 
+     * @return VlpMontant|null
+     */
     public function getVersement(): ?VlpMontant
     {
         return $this->versement;
     }
 
     /**
-     * Set the value of versement
+     * Set the value of versement.
      *
-     * @param  VlpMontant|null  $versement
+     * @param VlpMontant|null $versement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setVersement(?VlpMontant $versement): self
     {
         $this->versement = $versement;
@@ -39,22 +39,22 @@ class ModifVersementLibreProgrammes
     }
 
     /**
-     * Get the value of repartition
+     * Get the value of repartition.
      *
-     * @return  Repartition|null
-     */ 
+     * @return Repartition|null
+     */
     public function getRepartition(): ?Repartition
     {
         return $this->repartition;
     }
 
     /**
-     * Set the value of repartition
+     * Set the value of repartition.
      *
-     * @param  Repartition|null  $repartition
+     * @param Repartition|null $repartition
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRepartition(?Repartition $repartition): self
     {
         $this->repartition = $repartition;

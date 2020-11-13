@@ -12,8 +12,6 @@ class GeneraliClientRegistry implements GeneraliClientRegistryInterface
     /**
      * Proxy method to use $registry->getAlias() instead of $registry->get('alias').
      *
-     * @method __call
-     *
      * @param string $method
      * @param array  $arguments
      *

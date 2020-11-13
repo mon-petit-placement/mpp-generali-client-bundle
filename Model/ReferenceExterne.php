@@ -10,22 +10,22 @@ class ReferenceExterne
     private $refExterne;
 
     /**
-     * Get the value of refExterne
+     * Get the value of refExterne.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getRefExterne(): ?string
     {
         return $this->refExterne;
     }
 
     /**
-     * Set the value of refExterne
+     * Set the value of refExterne.
      *
-     * @param  string|null  $refExterne
+     * @param string|null $refExterne
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRefExterne(?string $refExterne): self
     {
         $this->refExterne = $refExterne;

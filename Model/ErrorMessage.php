@@ -2,6 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+use Mpp\GeneraliClientBundle\Exception\GeneraliApiException;
+
 class ErrorMessage
 {
     /**
@@ -25,22 +27,32 @@ class ErrorMessage
     private $cible;
 
     /**
-     * Get the value of code
+     * Cast object to string (magical call).
      *
-     * @return  string|null
-     */ 
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return sprintf('[%s] %s: %s (%s)', $this->getCode(), $this->getCriticite(), $this->getTexte(), $this->getCible());
+    }
+
+    /**
+     * Get the value of code.
+     *
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -49,22 +61,22 @@ class ErrorMessage
     }
 
     /**
-     * Get the value of criticite
+     * Get the value of criticite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCriticite(): ?string
     {
         return $this->criticite;
     }
 
     /**
-     * Set the value of criticite
+     * Set the value of criticite.
      *
-     * @param  string|null  $criticite
+     * @param string|null $criticite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCriticite(?string $criticite): self
     {
         $this->criticite = $criticite;
@@ -73,22 +85,22 @@ class ErrorMessage
     }
 
     /**
-     * Get the value of texte
+     * Get the value of texte.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTexte(): ?string
     {
         return $this->texte;
     }
 
     /**
-     * Set the value of texte
+     * Set the value of texte.
      *
-     * @param  string|null  $texte
+     * @param string|null $texte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTexte(?string $texte): self
     {
         $this->texte = $texte;
@@ -97,26 +109,36 @@ class ErrorMessage
     }
 
     /**
-     * Get the value of cible
+     * Get the value of cible.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCible(): ?string
     {
         return $this->cible;
     }
 
     /**
-     * Set the value of cible
+     * Set the value of cible.
      *
-     * @param  string|null  $cible
+     * @param string|null $cible
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCible(?string $cible): self
     {
         $this->cible = $cible;
 
         return $this;
+    }
+
+    /**
+     * Build and return generali api exception.
+     *
+     * @return GeneraliApiException
+     */
+    public function getException(): GeneraliApiException
+    {
+        return new GeneraliApiException((string) $this, $this->getCode());
     }
 }

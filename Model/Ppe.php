@@ -15,22 +15,22 @@ class Ppe
     private $etatPPEFamille;
 
     /**
-     * Get the value of etatPPE
+     * Get the value of etatPPE.
      *
-     * @return  EtatPPE|null
-     */ 
+     * @return EtatPPE|null
+     */
     public function getEtatPPE(): ?EtatPPE
     {
         return $this->etatPPE;
     }
 
     /**
-     * Set the value of etatPPE
+     * Set the value of etatPPE.
      *
-     * @param  EtatPPE|null  $etatPPE
+     * @param EtatPPE|null $etatPPE
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEtatPPE(?EtatPPE $etatPPE): self
     {
         $this->etatPPE = $etatPPE;
@@ -39,22 +39,22 @@ class Ppe
     }
 
     /**
-     * Get the value of etatPPEFamille
+     * Get the value of etatPPEFamille.
      *
-     * @return  EtatPPE|null
-     */ 
+     * @return EtatPPE|null
+     */
     public function getEtatPPEFamille(): ?EtatPPE
     {
         return $this->etatPPEFamille;
     }
 
     /**
-     * Set the value of etatPPEFamille
+     * Set the value of etatPPEFamille.
      *
-     * @param  EtatPPE|null  $etatPPEFamille
+     * @param EtatPPE|null $etatPPEFamille
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEtatPPEFamille(?EtatPPE $etatPPEFamille): self
     {
         $this->etatPPEFamille = $etatPPEFamille;

@@ -25,22 +25,22 @@ class Noms
     private $nomNaissance;
 
     /**
-     * Get the value of codeCivilite
+     * Get the value of codeCivilite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeCivilite(): ?string
     {
         return $this->codeCivilite;
     }
 
     /**
-     * Set the value of codeCivilite
+     * Set the value of codeCivilite.
      *
-     * @param  string|null  $codeCivilite
+     * @param string|null $codeCivilite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeCivilite(?string $codeCivilite): self
     {
         $this->codeCivilite = $codeCivilite;
@@ -49,22 +49,22 @@ class Noms
     }
 
     /**
-     * Get the value of prenom
+     * Get the value of prenom.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPrenom(): ?string
     {
         return $this->prenom;
     }
 
     /**
-     * Set the value of prenom
+     * Set the value of prenom.
      *
-     * @param  string|null  $prenom
+     * @param string|null $prenom
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
@@ -73,22 +73,22 @@ class Noms
     }
 
     /**
-     * Get the value of nom
+     * Get the value of nom.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
     /**
-     * Set the value of nom
+     * Set the value of nom.
      *
-     * @param  string|null  $nom
+     * @param string|null $nom
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNom(?string $nom): self
     {
         $this->nom = $nom;
@@ -97,22 +97,22 @@ class Noms
     }
 
     /**
-     * Get the value of nomNaissance
+     * Get the value of nomNaissance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNomNaissance(): ?string
     {
         return $this->nomNaissance;
     }
 
     /**
-     * Set the value of nomNaissance
+     * Set the value of nomNaissance.
      *
-     * @param  string|null  $nomNaissance
+     * @param string|null $nomNaissance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNomNaissance(?string $nomNaissance): self
     {
         $this->nomNaissance = $nomNaissance;

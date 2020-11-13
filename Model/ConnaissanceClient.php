@@ -25,22 +25,37 @@ class ConnaissanceClient
     private $objectifsVersement;
 
     /**
-     * Get the value of contractant
+     * @var array<RepartitionPatrimoine>
+     */
+    private $repartitionPatrimoine;
+
+    /**
+     * @var array<OriginePatrimoine>
+     */
+    private $originesPatrimoine;
+
+    /**
+     * @var OriginePaiement
+     */
+    private $originePaiement;
+
+    /**
+     * Get the value of contractant.
      *
-     * @return  Souscripteur|null
-     */ 
+     * @return Souscripteur|null
+     */
     public function getContractant(): ?Souscripteur
     {
         return $this->contractant;
     }
 
     /**
-     * Set the value of contractant
+     * Set the value of contractant.
      *
-     * @param  Souscripteur|null  $contractant
+     * @param Souscripteur|null $contractant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setContractant(?Souscripteur $contractant): self
     {
         $this->contractant = $contractant;
@@ -49,22 +64,22 @@ class ConnaissanceClient
     }
 
     /**
-     * Get the value of revenusAnnuelsNetFoyer
+     * Get the value of revenusAnnuelsNetFoyer.
      *
-     * @return  RevenusAnnuelsNetFoyer|null
-     */ 
+     * @return RevenusAnnuelsNetFoyer|null
+     */
     public function getRevenusAnnuelsNetFoyer(): ?revenusAnnuelsNetFoyer
     {
         return $this->revenusAnnuelsNetFoyer;
     }
 
     /**
-     * Set the value of revenusAnnuelsNetFoyer
+     * Set the value of revenusAnnuelsNetFoyer.
      *
-     * @param  RevenusAnnuelsNetFoyer|null  $revenusAnnuelsNetFoyer
+     * @param RevenusAnnuelsNetFoyer|null $revenusAnnuelsNetFoyer
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRevenusAnnuelsNetFoyer(?RevenusAnnuelsNetFoyer $revenusAnnuelsNetFoyer): self
     {
         $this->revenusAnnuelsNetFoyer = $revenusAnnuelsNetFoyer;
@@ -73,22 +88,22 @@ class ConnaissanceClient
     }
 
     /**
-     * Get the value of estimationPatrimoineFoyer
+     * Get the value of estimationPatrimoineFoyer.
      *
-     * @return  EstimationPatrimoineFoyer|null
-     */ 
+     * @return EstimationPatrimoineFoyer|null
+     */
     public function getEstimationPatrimoineFoyer(): ?EstimationPatrimoineFoyer
     {
         return $this->estimationPatrimoineFoyer;
     }
 
     /**
-     * Set the value of estimationPatrimoineFoyer
+     * Set the value of estimationPatrimoineFoyer.
      *
-     * @param  EstimationPatrimoineFoyer|null  $estimationPatrimoineFoyer
+     * @param EstimationPatrimoineFoyer|null $estimationPatrimoineFoyer
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEstimationPatrimoineFoyer(?EstimationPatrimoineFoyer $estimationPatrimoineFoyer): self
     {
         $this->estimationPatrimoineFoyer = $estimationPatrimoineFoyer;
@@ -97,25 +112,97 @@ class ConnaissanceClient
     }
 
     /**
-     * Get the value of objectifsVersement
+     * Get the value of objectifsVersement.
      *
-     * @return  array<ObjectifVersement>|null
-     */ 
-    public function getObjectifsVersement(): array
+     * @return array<ObjectifVersement>|null
+     */
+    public function getObjectifsVersement(): ?array
     {
         return $this->objectifsVersement;
     }
 
     /**
-     * Set the value of objectifsVersement
+     * Set the value of objectifsVersement.
      *
-     * @param  array<ObjectifVersement>|null  $objectifsVersement
+     * @param array<ObjectifVersement>|null $objectifsVersement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setObjectifsVersement(?array $objectifsVersement): self
     {
         $this->objectifsVersement = $objectifsVersement;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of repartitionPatrimoine.
+     *
+     * @return array<RepartitionPatrimoine>|null
+     */
+    public function getRepartitionPatrimoine(): ?array
+    {
+        return $this->repartitionPatrimoine;
+    }
+
+    /**
+     * Set the value of repartitionPatrimoine.
+     *
+     * @param array<RepartitionPatrimoine>|null $repartitionPatrimoine
+     *
+     * @return self
+     */
+    public function setRepartitionPatrimoine(?array $repartitionPatrimoine): self
+    {
+        $this->repartitionPatrimoine = $repartitionPatrimoine;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of originesPatrimoine.
+     *
+     * @return array<OriginePatrimoine>|null
+     */
+    public function getOriginesPatrimoine(): ?array
+    {
+        return $this->originesPatrimoine;
+    }
+
+    /**
+     * Set the value of originesPatrimoine.
+     *
+     * @param array<OriginePatrimoine>|null $originesPatrimoine
+     *
+     * @return self
+     */
+    public function setOriginesPatrimoine(?array $originesPatrimoine): self
+    {
+        $this->originesPatrimoine = $originesPatrimoine;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of originePaiement.
+     *
+     * @return OriginePaiement|null
+     */
+    public function getOriginePaiement(): ?OriginePaiement
+    {
+        return $this->originePaiement;
+    }
+
+    /**
+     * Set the value of originePaiement.
+     *
+     * @param OriginePaiement $originePaiement
+     *
+     * @return self
+     */
+    public function setOriginePaiement(?OriginePaiement $originePaiement): self
+    {
+        $this->originePaiement = $originePaiement;
 
         return $this;
     }

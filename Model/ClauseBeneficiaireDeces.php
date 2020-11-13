@@ -15,22 +15,22 @@ class ClauseBeneficiaireDeces
     private $texteLibre;
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -39,22 +39,22 @@ class ClauseBeneficiaireDeces
     }
 
     /**
-     * Get the value of texteLibre
+     * Get the value of texteLibre.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTexteLibre(): ?string
     {
         return $this->texteLibre;
     }
 
     /**
-     * Set the value of texteLibre
+     * Set the value of texteLibre.
      *
-     * @param  string|null  $texteLibre
+     * @param string|null $texteLibre
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTexteLibre(?string $texteLibre): self
     {
         $this->texteLibre = $texteLibre;

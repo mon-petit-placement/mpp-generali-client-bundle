@@ -25,22 +25,22 @@ class RetourConsultationArbitrage
     private $fraisArbitrage;
 
     /**
-     * Get the value of fondsInvestissables
+     * Get the value of fondsInvestissables.
      *
-     * @return  array<FondsInvestissable>|null
-     */ 
+     * @return array<FondsInvestissable>|null
+     */
     public function getFondsInvestissables(): ?array
     {
         return $this->fondsInvestissables;
     }
 
     /**
-     * Set the value of fondsInvestissables
+     * Set the value of fondsInvestissables.
      *
-     * @param  array<FondsInvestissable>|null  $fondsInvestissables
+     * @param array<FondsInvestissable>|null $fondsInvestissables
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFondsInvestissables(?array $fondsInvestissables): self
     {
         $this->fondsInvestissables = $fondsInvestissables;
@@ -49,22 +49,22 @@ class RetourConsultationArbitrage
     }
 
     /**
-     * Get the value of epargneAtteinte
+     * Get the value of epargneAtteinte.
      *
-     * @return  array<EpargneAtteinte>|null
-     */ 
+     * @return array<EpargneAtteinte>|null
+     */
     public function getEpargneAtteinte(): ?array
     {
         return $this->epargneAtteinte;
     }
 
     /**
-     * Set the value of epargneAtteinte
+     * Set the value of epargneAtteinte.
      *
-     * @param  array<EpargneAtteinte>|null  $epargneAtteinte
+     * @param array<EpargneAtteinte>|null $epargneAtteinte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEpargneAtteinte(?array $epargneAtteinte): self
     {
         $this->epargneAtteinte = $epargneAtteinte;
@@ -73,22 +73,22 @@ class RetourConsultationArbitrage
     }
 
     /**
-     * Get the value of reglesArbitrage
+     * Get the value of reglesArbitrage.
      *
-     * @return  ReglesArbitrage|null
-     */ 
+     * @return ReglesArbitrage|null
+     */
     public function getReglesArbitrage(): ?ReglesArbitrage
     {
         return $this->reglesArbitrage;
     }
 
     /**
-     * Set the value of reglesArbitrage
+     * Set the value of reglesArbitrage.
      *
-     * @param  ReglesArbitrage|null  $reglesArbitrage
+     * @param ReglesArbitrage|null $reglesArbitrage
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setReglesArbitrage(?ReglesArbitrage $reglesArbitrage): self
     {
         $this->reglesArbitrage = $reglesArbitrage;
@@ -97,22 +97,22 @@ class RetourConsultationArbitrage
     }
 
     /**
-     * Get the value of fraisArbitrage
+     * Get the value of fraisArbitrage.
      *
-     * @return  FraisArbitrage|null
-     */ 
+     * @return FraisArbitrage|null
+     */
     public function getFraisArbitrage(): ?FraisArbitrage
     {
         return $this->fraisArbitrage;
     }
 
     /**
-     * Set the value of fraisArbitrage
+     * Set the value of fraisArbitrage.
      *
-     * @param  FraisArbitrage|null  $fraisArbitrage
+     * @param FraisArbitrage|null $fraisArbitrage
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFraisArbitrage(?FraisArbitrage $fraisArbitrage): self
     {
         $this->fraisArbitrage = $fraisArbitrage;

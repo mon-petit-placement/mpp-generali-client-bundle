@@ -2,68 +2,104 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\Contexte;
+use Mpp\GeneraliClientBundle\Model\RetourConsultationVersementLibre;
+use Mpp\GeneraliClientBundle\Model\VersementLibre;
+
 class GeneraliFreePaymentClient extends AbstractGeneraliClient
 {
-    public function getData(string $contractNumber, array $expectedItems = []): BaseResponse
+    /**
+     * POST /v2.0/transaction/versementLibre/donnees
+     * Retrieve free payment data.
+     *
+     * @param string $contractNumber
+     * @param array  $expectedItems
+     *
+     * @return ApiResponse
+     */
+    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
     {
-        return $this->request('POST', '/donnees', [
-            'body' => json_encode([
-                'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
+        return $this->getApiResponse(RetourConsultationVersementLibre::class, 'POST', '/donnees', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                    'elementsAttendus' => $expectedItems,
+                ]),
             ]),
         ]);
     }
 
-    public function create(Context $context, FreePayment $freePayment): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementLibre/initier
+     * Init a free payment request.
+     *
+     * @param string      $contractNumber
+     * @param string|null $linkedTransactionNumber
+     *
+     * @return ApiResponse
+     */
+    public function init(string $contractNumber, ?string $linkedTransactionNumber = null): ApiResponse
     {
-        $response = $this->init($context, $freePayment);
-
-        if (null === $response->getStatus()) {
-            throw new \RuntimeException('The free payment\'s initiation has failed.');
-        }
-
-        $this->check($context);
-
-        return $this->confirm($context);
-    }
-
-    public function init(Context $context, FreePayment $freePayment): ApiResponse
-    {
-        return $this->request('POST', '/initier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToInitiate(),
-                'versementLibre' => $freePayment->toArray(),
+        return $this->getApiResponse(null, 'POST', '/initier', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                    'numeroOrdreTransactionLiee' => $linkedTransactionNumber,
+                ]),
             ]),
         ]);
     }
 
-    public function checkFreePayment(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementLibre/verifier
+     * Check a free payment request.
+     *
+     * @param Contexte       $context
+     * @param VersementLibre $freePayment
+     *
+     * @return ApiResponse
+     */
+    public function check(Contexte $context, VersementLibre $freePayment): ApiResponse
     {
-        return $this->request('POST', '/initier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToCheck(),
+        return $this->getApiResponse(null, 'POST', '/verifier', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+                'versementLibre' => $freePayment,
             ]),
         ]);
     }
 
-    public function confirm(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementLibre/confirmer
+     * Confirm a free payment request.
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function confirm(Contexte $context): ApiResponse
     {
-        return $this->request('POST', '/confirmer', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToConfirm(),
-                'options' => [
-                    'genererUnBulletin' => true,
-                    'envoyerUnMailClient' => true,
-                    'cloturerLeDossier' => true,
-                ],
+        return $this->getApiResponse(null, 'POST', '/confirmer', [
+            'body' => $this->serialize([
+                'contexte' => $context,
             ]),
         ]);
     }
 
-    public function finalize(Context $context, array $documents): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementLibre/finaliser.
+     * Finalize a free payment request.
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function finalize(Contexte $context): ApiResponse
     {
-        return $this->request('POST', '/finaliser', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToFinalize(),
+        return $this->getApiResponse(null, 'POST', '/finaliser', [
+            'body' => $this->serialize([
+                'contexte' => $context,
             ]),
         ]);
     }

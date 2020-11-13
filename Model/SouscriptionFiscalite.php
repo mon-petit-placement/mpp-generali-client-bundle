@@ -18,7 +18,7 @@ class SouscriptionFiscalite
      * Get the value of code
      *
      * @return  string|null
-     */ 
+     */
     public function getCode(): ?string
     {
         return $this->code;
@@ -30,7 +30,7 @@ class SouscriptionFiscalite
      * @param  string|null  $code
      *
      * @return  self
-     */ 
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -42,7 +42,7 @@ class SouscriptionFiscalite
      * Get the value of libelle
      *
      * @return  string|null
-     */ 
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
@@ -54,7 +54,7 @@ class SouscriptionFiscalite
      * @param  string|null  $libelle
      *
      * @return  self
-     */ 
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;

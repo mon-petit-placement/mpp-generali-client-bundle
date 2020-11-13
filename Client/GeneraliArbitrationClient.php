@@ -2,80 +2,99 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\Contexte;
+use Mpp\GeneraliClientBundle\Model\RetourConsultationArbitrage;
+use Mpp\GeneraliClientBundle\Model\RetourFinalisation;
+use Mpp\GeneraliClientBundle\Model\RetourValidation;
+
 class GeneraliArbitrationClient extends AbstractGeneraliClient
 {
-    public function getData(string $contractNumber, array $expectedItems = []): BaseResponse
+    /**
+     * POST /v2.0/transaction/arbitrage/donnees
+     * Retrieve arbitration data.
+     *
+     * @param string $contractNumber
+     * @param array  $expectedItems
+     *
+     * @return ApiResponse
+     */
+    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
     {
-        $context = $this->buildContext(['contractNumber' => $contractNumber], $expectedItems);
-
-        return $this->request('POST', '/donnees', [
-            'json' => [
-                'contexte' => [
-                    'codeApporteur' => $context->getProviderCode(),
-                    'numContrat' => $context->getContractNumber(),
-                    'elementsAttendus' => $context->expectedItems(),
-                ],
-            ],
+        return $this->getApiResponse(RetourConsultationArbitrage::class, 'POST', '/donnees', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext(['elementsAttendus' => $expectedItems]),
+            ]),
         ]);
     }
 
-    public function create(Context $context, Arbitration $arbitration): ApiResponse
+    /**
+     * POST /v2.0/transaction/arbitrage/initier
+     * Init an arbitration request.
+     *
+     * @param string $contractNumber
+     *
+     * @return ApiResponse
+     */
+    public function init(string $contractNumber): ApiResponse
     {
-        $response = $this->init($context);
-
-        if (null === $response->getStatus()) {
-            throw new \RuntimeException('The arbitration\'s initiation has failed.');
-        }
-
-        $this->check($context, $arbitration);
-
-        return $this->confirm($context);
-    }
-
-    public function init(Context $context): BaseResponse
-    {
-        return $this->request('POST', '/initier', [
-            'json' => [
-                'contexte' => [
-                    'codeApporteur' => $context->getProviderCode(),
-                    'numContrat' => $context->getContractNumber(),
-                ],
-            ],
+        return $this->getApiResponse(null, 'POST', '/initier', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext(['numContrat' => $contractNumber]),
+            ]),
         ]);
     }
 
-    public function check(Context $context, Arbitration $arbitration): ApiResponse
+    /**
+     * POST /v2.0/transaction/arbitrage/verifier
+     * Check arbitration request.
+     *
+     * @param Contexte    $context
+     * @param Arbitration $arbitration
+     *
+     * @return ApiResponse
+     */
+    public function check(Contexte $context, Arbitration $arbitration): ApiResponse
     {
-        return $this->request('POST', '/verifier', [
-            'json' => [
-                'contexte' => [
-                    'status' => $context->getStatus(),
-                ],
-                'arbitrage' => $arbitration->toArray(),
-            ],
+        return $this->getApiResponse(null, 'POST', '/verifier', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+                'arbitrage' => $arbitration,
+            ]),
         ]);
     }
 
-    public function confirm(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/arbitrage/confirmer
+     * Confirm an arbitration request.
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function confirm(Contexte $context): ApiResponse
     {
-        return $this->request('POST', '/confirmer', [
-            'json' => [
-                'contexte' => $context->arrayToConfirm(),
-                'options' => [
-                    'genererUnBulletin' => true,
-                    'envoyerUnMailClient' => true,
-                    'cloturerLeDossier' => true,
-                ],
-            ],
+        return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+            ]),
         ]);
     }
 
-    public function finalize(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/arbitrage/finaliser
+     * Finalize an arbitration request.
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function finalize(Contexte $context): ApiResponse
     {
-        return $this->request('POST', '/finaliser', [
-            'json' => [
-                'contexte' => $context->arrayToFinalize(),
-            ],
+        return $this->getApiResponse(RetourFinalisation::class, 'POST', '/finaliser', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+            ]),
         ]);
     }
 

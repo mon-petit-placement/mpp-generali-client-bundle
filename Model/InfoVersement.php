@@ -35,17 +35,17 @@ class InfoVersement
     private $periodicite;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var string|null
      */
     private $debutPeriode;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var string|null
      */
     private $dateProchainPrelevement;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var string|null
      */
     private $dateProchaineEcheance;
 
@@ -55,22 +55,22 @@ class InfoVersement
     private $fondsInvestis;
 
     /**
-     * Get the value of indicateurRepartition
+     * Get the value of indicateurRepartition.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getIndicateurRepartition(): ?string
     {
         return $this->indicateurRepartition;
     }
 
     /**
-     * Set the value of indicateurRepartition
+     * Set the value of indicateurRepartition.
      *
-     * @param  string|null  $indicateurRepartition
+     * @param string|null $indicateurRepartition
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIndicateurRepartition(?string $indicateurRepartition): self
     {
         $this->indicateurRepartition = $indicateurRepartition;
@@ -79,22 +79,22 @@ class InfoVersement
     }
 
     /**
-     * Get the value of montantInvestissementMin
+     * Get the value of montantInvestissementMin.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantInvestissementMin(): ?float
     {
         return $this->montantInvestissementMin;
     }
 
     /**
-     * Set the value of montantInvestissementMin
+     * Set the value of montantInvestissementMin.
      *
-     * @param  float|null  $montantInvestissementMin
+     * @param float|null $montantInvestissementMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantInvestissementMin(?float $montantInvestissementMin): self
     {
         $this->montantInvestissementMin = $montantInvestissementMin;
@@ -103,22 +103,22 @@ class InfoVersement
     }
 
     /**
-     * Get the value of montantversementlibre
+     * Get the value of montantversementlibre.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantversementlibre(): ?float
     {
         return $this->montantversementlibre;
     }
 
     /**
-     * Set the value of montantversementlibre
+     * Set the value of montantversementlibre.
      *
-     * @param  float|null  $montantversementlibre
+     * @param float|null $montantversementlibre
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantversementlibre(?float $montantversementlibre): self
     {
         $this->montantversementlibre = $montantversementlibre;
@@ -127,22 +127,22 @@ class InfoVersement
     }
 
     /**
-     * Get the value of vlpEncours
+     * Get the value of vlpEncours.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getVlpEncours(): ?bool
     {
         return $this->vlpEncours;
     }
 
     /**
-     * Set the value of vlpEncours
+     * Set the value of vlpEncours.
      *
-     * @param  bool|null  $vlpEncours
+     * @param bool|null $vlpEncours
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setVlpEncours(?bool $vlpEncours): self
     {
         $this->vlpEncours = $vlpEncours;
@@ -151,22 +151,22 @@ class InfoVersement
     }
 
     /**
-     * Get the value of vlpSuspendu
+     * Get the value of vlpSuspendu.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getVlpSuspendu(): ?bool
     {
         return $this->vlpSuspendu;
     }
 
     /**
-     * Set the value of vlpSuspendu
+     * Set the value of vlpSuspendu.
      *
-     * @param  bool|null  $vlpSuspendu
+     * @param bool|null $vlpSuspendu
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setVlpSuspendu(?bool $vlpSuspendu): self
     {
         $this->vlpSuspendu = $vlpSuspendu;
@@ -175,22 +175,22 @@ class InfoVersement
     }
 
     /**
-     * Get the value of periodicite
+     * Get the value of periodicite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPeriodicite(): ?string
     {
         return $this->periodicite;
     }
 
     /**
-     * Set the value of periodicite
+     * Set the value of periodicite.
      *
-     * @param  string|null  $periodicite
+     * @param string|null $periodicite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPeriodicite(?string $periodicite): self
     {
         $this->periodicite = $periodicite;
@@ -199,23 +199,23 @@ class InfoVersement
     }
 
     /**
-     * Get the value of debutPeriode
+     * Get the value of debutPeriode.
      *
-     * @return  \DateTimeInterface|null
-     */ 
-    public function getDebutPeriode(): ?\DateTimeInterface
+     * @return string|null
+     */
+    public function getDebutPeriode(): ?string
     {
         return $this->debutPeriode;
     }
 
     /**
-     * Set the value of debutPeriode
+     * Set the value of debutPeriode.
      *
-     * @param  \DateTimeInterface|null  $debutPeriode
+     * @param string|null $debutPeriode
      *
-     * @return  self
-     */ 
-    public function setDebutPeriode(?\DateTimeInterface $debutPeriode): self
+     * @return self
+     */
+    public function setDebutPeriode(?string $debutPeriode): self
     {
         $this->debutPeriode = $debutPeriode;
 
@@ -223,23 +223,23 @@ class InfoVersement
     }
 
     /**
-     * Get the value of dateProchainPrelevement
+     * Get the value of dateProchainPrelevement.
      *
-     * @return  \DateTimeInterface|null
-     */ 
-    public function getDateProchainPrelevement(): ?\DateTimeInterface
+     * @return string|null
+     */
+    public function getDateProchainPrelevement(): ?string
     {
         return $this->dateProchainPrelevement;
     }
 
     /**
-     * Set the value of dateProchainPrelevement
+     * Set the value of dateProchainPrelevement.
      *
-     * @param  \DateTimeInterface|null  $dateProchainPrelevement
+     * @param string|null $dateProchainPrelevement
      *
-     * @return  self
-     */ 
-    public function setDateProchainPrelevement(?\DateTimeInterface $dateProchainPrelevement): self
+     * @return self
+     */
+    public function setDateProchainPrelevement(?string $dateProchainPrelevement): self
     {
         $this->dateProchainPrelevement = $dateProchainPrelevement;
 
@@ -247,23 +247,23 @@ class InfoVersement
     }
 
     /**
-     * Get the value of dateProchaineEcheance
+     * Get the value of dateProchaineEcheance.
      *
-     * @return  \DateTimeInterface|null
-     */ 
-    public function getDateProchaineEcheance(): ?\DateTimeInterface
+     * @return string|null
+     */
+    public function getDateProchaineEcheance(): ?string
     {
         return $this->dateProchaineEcheance;
     }
 
     /**
-     * Set the value of dateProchaineEcheance
+     * Set the value of dateProchaineEcheance.
      *
-     * @param  \DateTimeInterface|null  $dateProchaineEcheance
+     * @param string|null $dateProchaineEcheance
      *
-     * @return  self
-     */ 
-    public function setDateProchaineEcheance(?\DateTimeInterface $dateProchaineEcheance): self
+     * @return self
+     */
+    public function setDateProchaineEcheance(?string $dateProchaineEcheance): self
     {
         $this->dateProchaineEcheance = $dateProchaineEcheance;
 
@@ -271,22 +271,22 @@ class InfoVersement
     }
 
     /**
-     * Get the value of fondsInvestis
+     * Get the value of fondsInvestis.
      *
-     * @return  array<FondsInvesti>|null
-     */ 
+     * @return array<FondsInvesti>|null
+     */
     public function getFondsInvestis(): ?array
     {
         return $this->fondsInvestis;
     }
 
     /**
-     * Set the value of fondsInvestis
+     * Set the value of fondsInvestis.
      *
-     * @param  array<FondsInvesti>|null  $fondsInvestis
+     * @param array<FondsInvesti>|null $fondsInvestis
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFondsInvestis(?array $fondsInvestis): self
     {
         $this->fondsInvestis = $fondsInvestis;

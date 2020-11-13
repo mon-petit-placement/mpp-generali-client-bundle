@@ -20,22 +20,22 @@ class Seuil
     private $seuilsParPeriodicite;
 
     /**
-     * Get the value of montantMin
+     * Get the value of montantMin.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantMin(): ?float
     {
         return $this->montantMin;
     }
 
     /**
-     * Set the value of montantMin
+     * Set the value of montantMin.
      *
-     * @param  float|null  $montantMin
+     * @param float|null $montantMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantMin(?float $montantMin): self
     {
         $this->montantMin = $montantMin;
@@ -44,22 +44,22 @@ class Seuil
     }
 
     /**
-     * Get the value of minParSupport
+     * Get the value of minParSupport.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMinParSupport(): ?float
     {
         return $this->minParSupport;
     }
 
     /**
-     * Set the value of minParSupport
+     * Set the value of minParSupport.
      *
-     * @param  float|null  $minParSupport
+     * @param float|null $minParSupport
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMinParSupport(?float $minParSupport): self
     {
         $this->minParSupport = $minParSupport;
@@ -68,22 +68,22 @@ class Seuil
     }
 
     /**
-     * Get the value of seuilsParPeriodicite
+     * Get the value of seuilsParPeriodicite.
      *
-     * @return  SeuilParPeriodicite|null
-     */ 
+     * @return SeuilParPeriodicite|null
+     */
     public function getSeuilsParPeriodicite(): ?SeuilParPeriodicite
     {
         return $this->seuilsParPeriodicite;
     }
 
     /**
-     * Set the value of seuilsParPeriodicite
+     * Set the value of seuilsParPeriodicite.
      *
-     * @param  SeuilParPeriodicite|null  $seuilsParPeriodicite
+     * @param SeuilParPeriodicite|null $seuilsParPeriodicite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSeuilsParPeriodicite(?SeuilParPeriodicite $seuilsParPeriodicite): self
     {
         $this->seuilsParPeriodicite = $seuilsParPeriodicite;

@@ -25,22 +25,22 @@ class PaysCrsOcde
     private $libelle;
 
     /**
-     * Get the value of codePays
+     * Get the value of codePays.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePays(): ?string
     {
         return $this->codePays;
     }
 
     /**
-     * Set the value of codePays
+     * Set the value of codePays.
      *
-     * @param  string|null  $codePays
+     * @param string|null $codePays
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePays(?string $codePays): self
     {
         $this->codePays = $codePays;
@@ -49,22 +49,22 @@ class PaysCrsOcde
     }
 
     /**
-     * Get the value of nif
+     * Get the value of nif.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNif(): ?string
     {
         return $this->nif;
     }
 
     /**
-     * Set the value of nif
+     * Set the value of nif.
      *
-     * @param  string|null  $nif
+     * @param string|null $nif
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNif(?string $nif): self
     {
         $this->nif = $nif;
@@ -73,22 +73,22 @@ class PaysCrsOcde
     }
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -97,22 +97,22 @@ class PaysCrsOcde
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;

@@ -1,0 +1,1 @@
+# GeneraliPartialRepurchaseClient - Examples

@@ -30,22 +30,22 @@ class InfosContrat
     private $nomProfil;
 
     /**
-     * Get the value of numeroContrat
+     * Get the value of numeroContrat.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNumeroContrat(): ?string
     {
         return $this->numeroContrat;
     }
 
     /**
-     * Set the value of numeroContrat
+     * Set the value of numeroContrat.
      *
-     * @param  string|null  $numeroContrat
+     * @param string|null $numeroContrat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNumeroContrat(?string $numeroContrat): self
     {
         $this->numeroContrat = $numeroContrat;
@@ -54,22 +54,22 @@ class InfosContrat
     }
 
     /**
-     * Get the value of libelleProduit
+     * Get the value of libelleProduit.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelleProduit(): ?string
     {
         return $this->libelleProduit;
     }
 
     /**
-     * Set the value of libelleProduit
+     * Set the value of libelleProduit.
      *
-     * @param  string|null  $libelleProduit
+     * @param string|null $libelleProduit
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelleProduit(?string $libelleProduit): self
     {
         $this->libelleProduit = $libelleProduit;
@@ -78,22 +78,22 @@ class InfosContrat
     }
 
     /**
-     * Get the value of codeProduit
+     * Get the value of codeProduit.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeProduit(): ?string
     {
         return $this->codeProduit;
     }
 
     /**
-     * Set the value of codeProduit
+     * Set the value of codeProduit.
      *
-     * @param  string|null  $codeProduit
+     * @param string|null $codeProduit
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeProduit(?string $codeProduit): self
     {
         $this->codeProduit = $codeProduit;
@@ -102,22 +102,22 @@ class InfosContrat
     }
 
     /**
-     * Get the value of modeGestion
+     * Get the value of modeGestion.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getModeGestion(): ?string
     {
         return $this->modeGestion;
     }
 
     /**
-     * Set the value of modeGestion
+     * Set the value of modeGestion.
      *
-     * @param  string|null  $modeGestion
+     * @param string|null $modeGestion
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setModeGestion(?string $modeGestion): self
     {
         $this->modeGestion = $modeGestion;
@@ -126,22 +126,22 @@ class InfosContrat
     }
 
     /**
-     * Get the value of nomProfil
+     * Get the value of nomProfil.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNomProfil(): ?string
     {
         return $this->nomProfil;
     }
 
     /**
-     * Set the value of nomProfil
+     * Set the value of nomProfil.
      *
-     * @param  string|null  $nomProfil
+     * @param string|null $nomProfil
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNomProfil(?string $nomProfil): self
     {
         $this->nomProfil = $nomProfil;

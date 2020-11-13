@@ -18,22 +18,22 @@ class ModeReglement
     private $compteBancaire;
 
     /**
-     * Get the value of typePaiement
+     * Get the value of typePaiement.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTypePaiement(): ?string
     {
         return $this->typePaiement;
     }
 
     /**
-     * Set the value of typePaiement
+     * Set the value of typePaiement.
      *
-     * @param  string|null  $typePaiement
+     * @param string|null $typePaiement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypePaiement(?string $typePaiement): self
     {
         $this->typePaiement = $typePaiement;
@@ -42,22 +42,22 @@ class ModeReglement
     }
 
     /**
-     * Get the value of compteBancaire
+     * Get the value of compteBancaire.
      *
-     * @return  CompteBancaire|null
-     */ 
+     * @return CompteBancaire|null
+     */
     public function getCompteBancaire(): ?CompteBancaire
     {
         return $this->compteBancaire;
     }
 
     /**
-     * Set the value of compteBancaire
+     * Set the value of compteBancaire.
      *
-     * @param  CompteBancaire|null  $compteBancaire
+     * @param CompteBancaire|null $compteBancaire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCompteBancaire(?CompteBancaire $compteBancaire): self
     {
         $this->compteBancaire = $compteBancaire;

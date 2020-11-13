@@ -18,7 +18,7 @@ class RetourConsultationSouscription
     private $garantiesPrevoyance;
 
     /**
-     * @var string|null
+     * @var array<string>|null
      */
     private $modesReglementAutorises;
 
@@ -68,22 +68,22 @@ class RetourConsultationSouscription
     private $referentiel;
 
     /**
-     * Get the value of clausesBenefs
+     * Get the value of clausesBenefs.
      *
-     * @return  array<ClausesBenef>|null
-     */ 
+     * @return array<ClausesBenef>|null
+     */
     public function getClausesBenefs(): ?array
     {
         return $this->clausesBenefs;
     }
 
     /**
-     * Set the value of clausesBenefs
+     * Set the value of clausesBenefs.
      *
-     * @param  array<ClausesBenef>|null  $clausesBenefs
+     * @param array<ClausesBenef>|null $clausesBenefs
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setClausesBenefs(?array $clausesBenefs): self
     {
         $this->clausesBenefs = $clausesBenefs;
@@ -92,22 +92,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of garantiesPrevoyance
+     * Get the value of garantiesPrevoyance.
      *
-     * @return  array<GarantiePrevoyance>|null
-     */ 
+     * @return array<GarantiePrevoyance>|null
+     */
     public function getGarantiesPrevoyance(): ?array
     {
         return $this->garantiesPrevoyance;
     }
 
     /**
-     * Set the value of garantiesPrevoyance
+     * Set the value of garantiesPrevoyance.
      *
-     * @param  array<GarantiePrevoyance>|null  $garantiesPrevoyance
+     * @param array<GarantiePrevoyance>|null $garantiesPrevoyance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setGarantiesPrevoyance(?array $garantiesPrevoyance): self
     {
         $this->garantiesPrevoyance = $garantiesPrevoyance;
@@ -116,23 +116,23 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of modesReglementAutorises
+     * Get the value of modesReglementAutorises.
      *
-     * @return  string|null
-     */ 
-    public function getModesReglementAutorises(): ?string
+     * @return array<string>|null
+     */
+    public function getModesReglementAutorises(): ?array
     {
         return $this->modesReglementAutorises;
     }
 
     /**
-     * Set the value of modesReglementAutorises
+     * Set the value of modesReglementAutorises.
      *
-     * @param  string|null  $modesReglementAutorises
+     * @param array<string>|null $modesReglementAutorises
      *
-     * @return  self
-     */ 
-    public function setModesReglementAutorises(?string $modesReglementAutorises): self
+     * @return self
+     */
+    public function setModesReglementAutorises(?array $modesReglementAutorises): self
     {
         $this->modesReglementAutorises = $modesReglementAutorises;
 
@@ -140,22 +140,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of infoProduit
+     * Get the value of infoProduit.
      *
-     * @return  InfoProduit|null
-     */ 
+     * @return InfoProduit|null
+     */
     public function getInfoProduit(): ?InfoProduit
     {
         return $this->infoProduit;
     }
 
     /**
-     * Set the value of infoProduit
+     * Set the value of infoProduit.
      *
-     * @param  InfoProduit|null  $infoProduit
+     * @param InfoProduit|null $infoProduit
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setInfoProduit(?InfoProduit $infoProduit): self
     {
         $this->infoProduit = $infoProduit;
@@ -164,22 +164,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of fiscalites
+     * Get the value of fiscalites.
      *
-     * @return  array<SouscriptionFiscalite>|null
-     */ 
+     * @return array<SouscriptionFiscalite>|null
+     */
     public function getFiscalites(): ?array
     {
         return $this->fiscalites;
     }
 
     /**
-     * Set the value of fiscalites
+     * Set the value of fiscalites.
      *
-     * @param  array<SouscriptionFiscalite>|null  $fiscalites
+     * @param array<SouscriptionFiscalite>|null $fiscalites
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFiscalites(?array $fiscalites): self
     {
         $this->fiscalites = $fiscalites;
@@ -188,22 +188,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of typesDuree
+     * Get the value of typesDuree.
      *
-     * @return  array<TypeDuree>|null
-     */ 
+     * @return array<TypeDuree>|null
+     */
     public function getTypesDuree(): ?array
     {
         return $this->typesDuree;
     }
 
     /**
-     * Set the value of typesDuree
+     * Set the value of typesDuree.
      *
-     * @param  array<TypeDuree>|null  $typesDuree
+     * @param array<TypeDuree>|null $typesDuree
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypesDuree(?array $typesDuree): self
     {
         $this->typesDuree = $typesDuree;
@@ -212,22 +212,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of typesDenouement
+     * Get the value of typesDenouement.
      *
-     * @return  array<TypeDenouement>|null
-     */ 
+     * @return array<TypeDenouement>|null
+     */
     public function getTypesDenouement(): ?array
     {
         return $this->typesDenouement;
     }
 
     /**
-     * Set the value of typesDenouement
+     * Set the value of typesDenouement.
      *
-     * @param  array<TypeDenouement>|null  $typesDenouement
+     * @param array<TypeDenouement>|null $typesDenouement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypesDenouement(?array $typesDenouement): self
     {
         $this->typesDenouement = $typesDenouement;
@@ -236,22 +236,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of combinaisonsPossiblesSouscription
+     * Get the value of combinaisonsPossiblesSouscription.
      *
-     * @return  array<CombinaisonPossibleSouscription>|null
-     */ 
+     * @return array<CombinaisonPossibleSouscription>|null
+     */
     public function getCombinaisonsPossiblesSouscription(): ?array
     {
         return $this->combinaisonsPossiblesSouscription;
     }
 
     /**
-     * Set the value of combinaisonsPossiblesSouscription
+     * Set the value of combinaisonsPossiblesSouscription.
      *
-     * @param  array<CombinaisonPossibleSouscription>|null  $combinaisonsPossiblesSouscription
+     * @param array<CombinaisonPossibleSouscription>|null $combinaisonsPossiblesSouscription
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCombinaisonsPossiblesSouscription(?array $combinaisonsPossiblesSouscription): self
     {
         $this->combinaisonsPossiblesSouscription = $combinaisonsPossiblesSouscription;
@@ -260,22 +260,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of modesGestion
+     * Get the value of modesGestion.
      *
-     * @return  array<ModeGestion>|null
-     */ 
+     * @return array<ModeGestion>|null
+     */
     public function getModesGestion(): ?array
     {
         return $this->modesGestion;
     }
 
     /**
-     * Set the value of modesGestion
+     * Set the value of modesGestion.
      *
-     * @param  array<ModeGestion>|null  $modesGestion
+     * @param array<ModeGestion>|null $modesGestion
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setModesGestion(?array $modesGestion): self
     {
         $this->modesGestion = $modesGestion;
@@ -284,22 +284,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of paramVersementInitial
+     * Get the value of paramVersementInitial.
      *
-     * @return  ParamVersementInitial|null
-     */ 
+     * @return ParamVersementInitial|null
+     */
     public function getParamVersementInitial(): ?ParamVersementInitial
     {
         return $this->paramVersementInitial;
     }
 
     /**
-     * Set the value of paramVersementInitial
+     * Set the value of paramVersementInitial.
      *
-     * @param  ParamVersementInitial|null  $paramVersementInitial
+     * @param ParamVersementInitial|null $paramVersementInitial
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setParamVersementInitial(?ParamVersementInitial $paramVersementInitial): self
     {
         $this->paramVersementInitial = $paramVersementInitial;
@@ -308,22 +308,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of paramVersementLibreProgramme
+     * Get the value of paramVersementLibreProgramme.
      *
-     * @return  ParamVersementLibreProgramme|null
-     */ 
+     * @return ParamVersementLibreProgramme|null
+     */
     public function getParamVersementLibreProgramme(): ?ParamVersementLibreProgramme
     {
         return $this->paramVersementLibreProgramme;
     }
 
     /**
-     * Set the value of paramVersementLibreProgramme
+     * Set the value of paramVersementLibreProgramme.
      *
-     * @param  ParamVersementLibreProgramme|null  $paramVersementLibreProgramme
+     * @param ParamVersementLibreProgramme|null $paramVersementLibreProgramme
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setParamVersementLibreProgramme(?ParamVersementLibreProgramme $paramVersementLibreProgramme): self
     {
         $this->paramVersementLibreProgramme = $paramVersementLibreProgramme;
@@ -332,22 +332,22 @@ class RetourConsultationSouscription
     }
 
     /**
-     * Get the value of referentiel
+     * Get the value of referentiel.
      *
-     * @return  Referentiel|null
-     */ 
+     * @return Referentiel|null
+     */
     public function getReferentiel(): ?Referentiel
     {
         return $this->referentiel;
     }
 
     /**
-     * Set the value of referentiel
+     * Set the value of referentiel.
      *
-     * @param  Referentiel|null  $referentiel
+     * @param Referentiel|null $referentiel
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setReferentiel(?Referentiel $referentiel): self
     {
         $this->referentiel = $referentiel;

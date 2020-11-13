@@ -15,22 +15,22 @@ class VersementInitial
     private $repartition;
 
     /**
-     * Get the value of montant
+     * Get the value of montant.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontant(): ?float
     {
         return $this->montant;
     }
 
     /**
-     * Set the value of montant
+     * Set the value of montant.
      *
-     * @param  float|null  $montant
+     * @param float|null $montant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontant(?float $montant): self
     {
         $this->montant = $montant;
@@ -39,22 +39,22 @@ class VersementInitial
     }
 
     /**
-     * Get the value of repartition
+     * Get the value of repartition.
      *
-     * @return  array<FondsInvesti>|null
-     */ 
+     * @return array<FondsInvesti>|null
+     */
     public function getRepartition(): ?array
     {
         return $this->repartition;
     }
 
     /**
-     * Set the value of repartition
+     * Set the value of repartition.
      *
-     * @param  array<FondsInvesti>|null  $repartition
+     * @param array<FondsInvesti>|null $repartition
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRepartition(?array $repartition): self
     {
         $this->repartition = $repartition;

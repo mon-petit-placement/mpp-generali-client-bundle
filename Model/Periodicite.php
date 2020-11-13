@@ -20,22 +20,22 @@ class Periodicite
     private $min;
 
     /**
-     * Get the value of typePeriodicite
+     * Get the value of typePeriodicite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTypePeriodicite(): ?string
     {
         return $this->typePeriodicite;
     }
 
     /**
-     * Set the value of typePeriodicite
+     * Set the value of typePeriodicite.
      *
-     * @param  string|null  $typePeriodicite
+     * @param string|null $typePeriodicite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypePeriodicite(?string $typePeriodicite): self
     {
         $this->typePeriodicite = $typePeriodicite;
@@ -44,22 +44,22 @@ class Periodicite
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -68,22 +68,22 @@ class Periodicite
     }
 
     /**
-     * Get the value of min
+     * Get the value of min.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMin(): ?float
     {
         return $this->min;
     }
 
     /**
-     * Set the value of min
+     * Set the value of min.
      *
-     * @param  float|null  $min
+     * @param float|null $min
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMin(?float $min): self
     {
         $this->min = $min;

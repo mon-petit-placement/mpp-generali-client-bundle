@@ -40,22 +40,22 @@ class FondsDesinvesti
     private $numeroEngagement;
 
     /**
-     * Get the value of codeFonds
+     * Get the value of codeFonds.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeFonds(): ?string
     {
         return $this->codeFonds;
     }
 
     /**
-     * Set the value of codeFonds
+     * Set the value of codeFonds.
      *
-     * @param  string|null  $codeFonds
+     * @param string|null $codeFonds
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeFonds(?string $codeFonds): self
     {
         $this->codeFonds = $codeFonds;
@@ -64,22 +64,22 @@ class FondsDesinvesti
     }
 
     /**
-     * Get the value of montant
+     * Get the value of montant.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontant(): ?float
     {
         return $this->montant;
     }
 
     /**
-     * Set the value of montant
+     * Set the value of montant.
      *
-     * @param  float|null  $montant
+     * @param float|null $montant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontant(?float $montant): self
     {
         $this->montant = $montant;
@@ -88,22 +88,22 @@ class FondsDesinvesti
     }
 
     /**
-     * Get the value of pourcentage
+     * Get the value of pourcentage.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getPourcentage(): ?float
     {
         return $this->pourcentage;
     }
 
     /**
-     * Set the value of pourcentage
+     * Set the value of pourcentage.
      *
-     * @param  float|null  $pourcentage
+     * @param float|null $pourcentage
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPourcentage(?float $pourcentage): self
     {
         $this->pourcentage = $pourcentage;
@@ -112,22 +112,22 @@ class FondsDesinvesti
     }
 
     /**
-     * Get the value of avenantValide
+     * Get the value of avenantValide.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getAvenantValide(): ?bool
     {
         return $this->avenantValide;
     }
 
     /**
-     * Set the value of avenantValide
+     * Set the value of avenantValide.
      *
-     * @param  bool|null  $avenantValide
+     * @param bool|null $avenantValide
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAvenantValide(?bool $avenantValide): self
     {
         $this->avenantValide = $avenantValide;
@@ -136,22 +136,22 @@ class FondsDesinvesti
     }
 
     /**
-     * Get the value of taux
+     * Get the value of taux.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getTaux(): ?int
     {
         return $this->taux;
     }
 
     /**
-     * Set the value of taux
+     * Set the value of taux.
      *
-     * @param  int|null  $taux
+     * @param int|null $taux
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTaux(?int $taux): self
     {
         $this->taux = $taux;
@@ -160,22 +160,22 @@ class FondsDesinvesti
     }
 
     /**
-     * Get the value of duree
+     * Get the value of duree.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getDuree(): ?int
     {
         return $this->duree;
     }
 
     /**
-     * Set the value of duree
+     * Set the value of duree.
      *
-     * @param  int|null  $duree
+     * @param int|null $duree
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDuree(?int $duree): self
     {
         $this->duree = $duree;
@@ -184,22 +184,22 @@ class FondsDesinvesti
     }
 
     /**
-     * Get the value of numeroEngagement
+     * Get the value of numeroEngagement.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getNumeroEngagement(): ?int
     {
         return $this->numeroEngagement;
     }
 
     /**
-     * Set the value of numeroEngagement
+     * Set the value of numeroEngagement.
      *
-     * @param  int|null  $numeroEngagement
+     * @param int|null $numeroEngagement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNumeroEngagement(?int $numeroEngagement): self
     {
         $this->numeroEngagement = $numeroEngagement;

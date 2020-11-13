@@ -10,6 +10,11 @@ class Repartition
     private $code;
 
     /**
+     * @var string
+     */
+    private $codeFonds;
+
+    /**
      * @var string|null
      */
     private $libelle;
@@ -28,6 +33,11 @@ class Repartition
      * @var float|null
      */
     private $pourcentageRepartition;
+
+    /**
+     * @var int|null
+     */
+    private $montant;
 
     /**
      * @var int|null
@@ -60,22 +70,22 @@ class Repartition
     private $nonDesinvestissable;
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -84,22 +94,46 @@ class Repartition
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of codeFonds.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
+    public function getCodeFonds(): ?string
+    {
+        return $this->codeFonds;
+    }
+
+    /**
+     * Set the value of codeFonds.
+     *
+     * @param string|null $codeFonds
+     *
+     * @return self
+     */
+    public function setCodeFonds(?string $codeFonds): self
+    {
+        $this->codeFonds = $codeFonds;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of libelle.
+     *
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -108,22 +142,22 @@ class Repartition
     }
 
     /**
-     * Get the value of codeIsin
+     * Get the value of codeIsin.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeIsin(): ?string
     {
         return $this->codeIsin;
     }
 
     /**
-     * Set the value of codeIsin
+     * Set the value of codeIsin.
      *
-     * @param  string|null  $codeIsin
+     * @param string|null $codeIsin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeIsin(?string $codeIsin): self
     {
         $this->codeIsin = $codeIsin;
@@ -132,22 +166,22 @@ class Repartition
     }
 
     /**
-     * Get the value of epargneAtteinte
+     * Get the value of epargneAtteinte.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getEpargneAtteinte(): ?float
     {
         return $this->epargneAtteinte;
     }
 
     /**
-     * Set the value of epargneAtteinte
+     * Set the value of epargneAtteinte.
      *
-     * @param  float|null  $epargneAtteinte
+     * @param float|null $epargneAtteinte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEpargneAtteinte(?float $epargneAtteinte): self
     {
         $this->epargneAtteinte = $epargneAtteinte;
@@ -156,22 +190,22 @@ class Repartition
     }
 
     /**
-     * Get the value of pourcentageRepartition
+     * Get the value of pourcentageRepartition.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getPourcentageRepartition(): ?float
     {
         return $this->pourcentageRepartition;
     }
 
     /**
-     * Set the value of pourcentageRepartition
+     * Set the value of pourcentageRepartition.
      *
-     * @param  float|null  $pourcentageRepartition
+     * @param float|null $pourcentageRepartition
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPourcentageRepartition(?float $pourcentageRepartition): self
     {
         $this->pourcentageRepartition = $pourcentageRepartition;
@@ -180,22 +214,46 @@ class Repartition
     }
 
     /**
-     * Get the value of taux
+     * Get the value of montant.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
+    public function getMontant(): ?int
+    {
+        return $this->montant;
+    }
+
+    /**
+     * Set the value of montant.
+     *
+     * @param int|null $montant
+     *
+     * @return self
+     */
+    public function setMontant(?int $montant): self
+    {
+        $this->montant = $montant;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of taux.
+     *
+     * @return int|null
+     */
     public function getTaux(): ?int
     {
         return $this->taux;
     }
 
     /**
-     * Set the value of taux
+     * Set the value of taux.
      *
-     * @param  int|null  $taux
+     * @param int|null $taux
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTaux(?int $taux): self
     {
         $this->taux = $taux;
@@ -204,22 +262,22 @@ class Repartition
     }
 
     /**
-     * Get the value of duree
+     * Get the value of duree.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getDuree(): ?int
     {
         return $this->duree;
     }
 
     /**
-     * Set the value of duree
+     * Set the value of duree.
      *
-     * @param  int|null  $duree
+     * @param int|null $duree
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDuree(?int $duree): self
     {
         $this->duree = $duree;
@@ -228,22 +286,22 @@ class Repartition
     }
 
     /**
-     * Get the value of anneeTermeEngagement
+     * Get the value of anneeTermeEngagement.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getAnneeTermeEngagement(): ?int
     {
         return $this->anneeTermeEngagement;
     }
 
     /**
-     * Set the value of anneeTermeEngagement
+     * Set the value of anneeTermeEngagement.
      *
-     * @param  int|null  $anneeTermeEngagement
+     * @param int|null $anneeTermeEngagement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAnneeTermeEngagement(?int $anneeTermeEngagement): self
     {
         $this->anneeTermeEngagement = $anneeTermeEngagement;
@@ -252,22 +310,22 @@ class Repartition
     }
 
     /**
-     * Get the value of numEngagement
+     * Get the value of numEngagement.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getNumEngagement(): ?int
     {
         return $this->numEngagement;
     }
 
     /**
-     * Set the value of numEngagement
+     * Set the value of numEngagement.
      *
-     * @param  int|null  $numEngagement
+     * @param int|null $numEngagement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNumEngagement(?int $numEngagement): self
     {
         $this->numEngagement = $numEngagement;
@@ -276,22 +334,22 @@ class Repartition
     }
 
     /**
-     * Get the value of encoursValidation
+     * Get the value of encoursValidation.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getEncoursValidation(): ?bool
     {
         return $this->encoursValidation;
     }
 
     /**
-     * Set the value of encoursValidation
+     * Set the value of encoursValidation.
      *
-     * @param  bool|null  $encoursValidation
+     * @param bool|null $encoursValidation
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEncoursValidation(?bool $encoursValidation): self
     {
         $this->encoursValidation = $encoursValidation;
@@ -300,22 +358,22 @@ class Repartition
     }
 
     /**
-     * Get the value of nonDesinvestissable
+     * Get the value of nonDesinvestissable.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getNonDesinvestissable(): ?bool
     {
         return $this->nonDesinvestissable;
     }
 
     /**
-     * Set the value of nonDesinvestissable
+     * Set the value of nonDesinvestissable.
      *
-     * @param  bool|null  $nonDesinvestissable
+     * @param bool|null $nonDesinvestissable
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNonDesinvestissable(?bool $nonDesinvestissable): self
     {
         $this->nonDesinvestissable = $nonDesinvestissable;
