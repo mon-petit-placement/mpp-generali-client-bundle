@@ -21,22 +21,22 @@ class SeuilParPeriodicite
     private $montantMin;
 
     /**
-     * Get the value of codePeriodicite
+     * Get the value of codePeriodicite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePeriodicite(): ?string
     {
         return $this->codePeriodicite;
     }
 
     /**
-     * Set the value of codePeriodicite
+     * Set the value of codePeriodicite.
      *
-     * @param  string|null  $codePeriodicite
+     * @param string|null $codePeriodicite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePeriodicite(?string $codePeriodicite): self
     {
         $this->codePeriodicite = $codePeriodicite;
@@ -45,22 +45,22 @@ class SeuilParPeriodicite
     }
 
     /**
-     * Get the value of montantMin
+     * Get the value of montantMin.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantMin(): ?float
     {
         return $this->montantMin;
     }
 
     /**
-     * Set the value of montantMin
+     * Set the value of montantMin.
      *
-     * @param  float|null  $montantMin
+     * @param float|null $montantMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantMin(?float $montantMin): self
     {
         $this->montantMin = $montantMin;

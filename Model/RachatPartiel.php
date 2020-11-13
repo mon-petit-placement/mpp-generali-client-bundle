@@ -45,22 +45,22 @@ class RachatPartiel
     private $modeReglement;
 
     /**
-     * Get the value of montant
+     * Get the value of montant.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontant(): ?float
     {
         return $this->montant;
     }
 
     /**
-     * Set the value of montant
+     * Set the value of montant.
      *
-     * @param  float|null  $montant
+     * @param float|null $montant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontant(?float $montant): self
     {
         $this->montant = $montant;
@@ -69,22 +69,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of rp72
+     * Get the value of rp72.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getRp72(): ?bool
     {
         return $this->rp72;
     }
 
     /**
-     * Set the value of rp72
+     * Set the value of rp72.
      *
-     * @param  bool|null  $rp72
+     * @param bool|null $rp72
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRp72(?bool $rp72): self
     {
         $this->rp72 = $rp72;
@@ -93,22 +93,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of numOperationExterne
+     * Get the value of numOperationExterne.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getNumOperationExterne(): ?int
     {
         return $this->numOperationExterne;
     }
 
     /**
-     * Set the value of numOperationExterne
+     * Set the value of numOperationExterne.
      *
-     * @param  int|null  $numOperationExterne
+     * @param int|null $numOperationExterne
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNumOperationExterne(?int $numOperationExterne): self
     {
         $this->numOperationExterne = $numOperationExterne;
@@ -117,22 +117,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of codeOptionFiscale
+     * Get the value of codeOptionFiscale.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeOptionFiscale(): ?string
     {
         return $this->codeOptionFiscale;
     }
 
     /**
-     * Set the value of codeOptionFiscale
+     * Set the value of codeOptionFiscale.
      *
-     * @param  string|null  $codeOptionFiscale
+     * @param string|null $codeOptionFiscale
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeOptionFiscale(?string $codeOptionFiscale): self
     {
         $this->codeOptionFiscale = $codeOptionFiscale;
@@ -141,22 +141,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of codeMotif
+     * Get the value of codeMotif.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeMotif(): ?string
     {
         return $this->codeMotif;
     }
 
     /**
-     * Set the value of codeMotif
+     * Set the value of codeMotif.
      *
-     * @param  string|null  $codeMotif
+     * @param string|null $codeMotif
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeMotif(?string $codeMotif): self
     {
         $this->codeMotif = $codeMotif;
@@ -165,22 +165,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of libMotif
+     * Get the value of libMotif.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibMotif(): ?string
     {
         return $this->libMotif;
     }
 
     /**
-     * Set the value of libMotif
+     * Set the value of libMotif.
      *
-     * @param  string|null  $libMotif
+     * @param string|null $libMotif
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibMotif(?string $libMotif): self
     {
         $this->libMotif = $libMotif;
@@ -189,22 +189,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of repartitionProportionnelle
+     * Get the value of repartitionProportionnelle.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getRepartitionProportionnelle(): ?bool
     {
         return $this->repartitionProportionnelle;
     }
 
     /**
-     * Set the value of repartitionProportionnelle
+     * Set the value of repartitionProportionnelle.
      *
-     * @param  bool|null  $repartitionProportionnelle
+     * @param bool|null $repartitionProportionnelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRepartitionProportionnelle(?bool $repartitionProportionnelle): self
     {
         $this->repartitionProportionnelle = $repartitionProportionnelle;
@@ -213,22 +213,22 @@ class RachatPartiel
     }
 
     /**
-     * Get the value of modeReglement
+     * Get the value of modeReglement.
      *
-     * @return  ModeReglement|null
-     */ 
+     * @return ModeReglement|null
+     */
     public function getModeReglement(): ?ModeReglement
     {
         return $this->modeReglement;
     }
 
     /**
-     * Set the value of modeReglement
+     * Set the value of modeReglement.
      *
-     * @param  ModeReglement|null  $modeReglement
+     * @param ModeReglement|null $modeReglement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setModeReglement(?ModeReglement $modeReglement): self
     {
         $this->modeReglement = $modeReglement;

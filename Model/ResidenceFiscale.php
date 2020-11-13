@@ -15,22 +15,22 @@ class ResidenceFiscale
     private $paysCrsOcde;
 
     /**
-     * Get the value of codePays
+     * Get the value of codePays.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePays(): ?string
     {
         return $this->codePays;
     }
 
     /**
-     * Set the value of codePays
+     * Set the value of codePays.
      *
-     * @param  string|null  $codePays
+     * @param string|null $codePays
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePays(?string $codePays): self
     {
         $this->codePays = $codePays;
@@ -39,22 +39,22 @@ class ResidenceFiscale
     }
 
     /**
-     * Get the value of paysCrsOcde
+     * Get the value of paysCrsOcde.
      *
-     * @return  array<PaysCrsOcde>|null
-     */ 
+     * @return array<PaysCrsOcde>|null
+     */
     public function getPaysCrsOcde(): ?array
     {
         return $this->paysCrsOcde;
     }
 
     /**
-     * Set the value of paysCrsOcde
+     * Set the value of paysCrsOcde.
      *
-     * @param  array<PaysCrsOcde>|null  $paysCrsOcde
+     * @param array<PaysCrsOcde>|null $paysCrsOcde
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPaysCrsOcde(?array $paysCrsOcde): self
     {
         $this->paysCrsOcde = $paysCrsOcde;

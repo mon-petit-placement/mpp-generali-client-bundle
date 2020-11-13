@@ -15,22 +15,22 @@ class EpargneAtteinte
     private $repartition;
 
     /**
-     * Get the value of montantEpargneAtteinte
+     * Get the value of montantEpargneAtteinte.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantEpargneAtteinte(): ?float
     {
         return $this->montantEpargneAtteinte;
     }
 
     /**
-     * Set the value of montantEpargneAtteinte
+     * Set the value of montantEpargneAtteinte.
      *
-     * @param  float|null  $montantEpargneAtteinte
+     * @param float|null $montantEpargneAtteinte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantEpargneAtteinte(?float $montantEpargneAtteinte): self
     {
         $this->montantEpargneAtteinte = $montantEpargneAtteinte;
@@ -39,22 +39,22 @@ class EpargneAtteinte
     }
 
     /**
-     * Get the value of repartition
+     * Get the value of repartition.
      *
-     * @return  array<Repartition>|null
-     */ 
+     * @return array<Repartition>|null
+     */
     public function getRepartition(): ?array
     {
         return $this->repartition;
     }
 
     /**
-     * Set the value of repartition
+     * Set the value of repartition.
      *
-     * @param  array<Repartition>|null  $repartition
+     * @param array<Repartition>|null $repartition
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRepartition(?array $repartition): self
     {
         $this->repartition = $repartition;

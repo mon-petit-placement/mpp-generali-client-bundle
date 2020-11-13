@@ -65,22 +65,22 @@ class Seuils
     private $exonerationC3;
 
     /**
-     * Get the value of montantMinTotalRachat
+     * Get the value of montantMinTotalRachat.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantMinTotalRachat(): ?float
     {
         return $this->montantMinTotalRachat;
     }
 
     /**
-     * Set the value of montantMinTotalRachat
+     * Set the value of montantMinTotalRachat.
      *
-     * @param  float|null  $montantMinTotalRachat
+     * @param float|null $montantMinTotalRachat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantMinTotalRachat(?float $montantMinTotalRachat): self
     {
         $this->montantMinTotalRachat = $montantMinTotalRachat;
@@ -89,22 +89,22 @@ class Seuils
     }
 
     /**
-     * Get the value of montantMaxTotalRachat
+     * Get the value of montantMaxTotalRachat.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantMaxTotalRachat(): ?float
     {
         return $this->montantMaxTotalRachat;
     }
 
     /**
-     * Set the value of montantMaxTotalRachat
+     * Set the value of montantMaxTotalRachat.
      *
-     * @param  float|null  $montantMaxTotalRachat
+     * @param float|null $montantMaxTotalRachat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantMaxTotalRachat(?float $montantMaxTotalRachat): self
     {
         $this->montantMaxTotalRachat = $montantMaxTotalRachat;
@@ -113,22 +113,22 @@ class Seuils
     }
 
     /**
-     * Get the value of montantMinRachatParFonds
+     * Get the value of montantMinRachatParFonds.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantMinRachatParFonds(): ?float
     {
         return $this->montantMinRachatParFonds;
     }
 
     /**
-     * Set the value of montantMinRachatParFonds
+     * Set the value of montantMinRachatParFonds.
      *
-     * @param  float|null  $montantMinRachatParFonds
+     * @param float|null $montantMinRachatParFonds
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantMinRachatParFonds(?float $montantMinRachatParFonds): self
     {
         $this->montantMinRachatParFonds = $montantMinRachatParFonds;
@@ -137,22 +137,22 @@ class Seuils
     }
 
     /**
-     * Get the value of soldeMinParFondsApresRachat
+     * Get the value of soldeMinParFondsApresRachat.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getSoldeMinParFondsApresRachat(): ?float
     {
         return $this->soldeMinParFondsApresRachat;
     }
 
     /**
-     * Set the value of soldeMinParFondsApresRachat
+     * Set the value of soldeMinParFondsApresRachat.
      *
-     * @param  float|null  $soldeMinParFondsApresRachat
+     * @param float|null $soldeMinParFondsApresRachat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSoldeMinParFondsApresRachat(?float $soldeMinParFondsApresRachat): self
     {
         $this->soldeMinParFondsApresRachat = $soldeMinParFondsApresRachat;
@@ -161,22 +161,22 @@ class Seuils
     }
 
     /**
-     * Get the value of soldeMinTotalApresRachat
+     * Get the value of soldeMinTotalApresRachat.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getSoldeMinTotalApresRachat(): ?float
     {
         return $this->soldeMinTotalApresRachat;
     }
 
     /**
-     * Set the value of soldeMinTotalApresRachat
+     * Set the value of soldeMinTotalApresRachat.
      *
-     * @param  float|null  $soldeMinTotalApresRachat
+     * @param float|null $soldeMinTotalApresRachat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSoldeMinTotalApresRachat(?float $soldeMinTotalApresRachat): self
     {
         $this->soldeMinTotalApresRachat = $soldeMinTotalApresRachat;
@@ -185,46 +185,22 @@ class Seuils
     }
 
     /**
-     * Get the value of soldeMinTotalApresRachat
+     * Get the value of soldeMinTotalApresRachatIRPP.
      *
-     * @return  float|null
-     */ 
-    public function getSoldeMinTotalApresRachat(): ?float
-    {
-        return $this->soldeMinTotalApresRachat;
-    }
-
-    /**
-     * Set the value of soldeMinTotalApresRachat
-     *
-     * @param  float|null  $soldeMinTotalApresRachat
-     *
-     * @return  self
-     */ 
-    public function setSoldeMinTotalApresRachat(?float $soldeMinTotalApresRachat): self
-    {
-        $this->soldeMinTotalApresRachat = $soldeMinTotalApresRachat;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of soldeMinTotalApresRachatIRPP
-     *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getSoldeMinTotalApresRachatIRPP(): ?float
     {
         return $this->soldeMinTotalApresRachatIRPP;
     }
 
     /**
-     * Set the value of soldeMinTotalApresRachatIRPP
+     * Set the value of soldeMinTotalApresRachatIRPP.
      *
-     * @param  float|null  $soldeMinTotalApresRachatIRPP
+     * @param float|null $soldeMinTotalApresRachatIRPP
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSoldeMinTotalApresRachatIRPP(?float $soldeMinTotalApresRachatIRPP): self
     {
         $this->soldeMinTotalApresRachatIRPP = $soldeMinTotalApresRachatIRPP;
@@ -233,22 +209,22 @@ class Seuils
     }
 
     /**
-     * Get the value of soldeMinTotalApresRachatPFL
+     * Get the value of soldeMinTotalApresRachatPFL.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getSoldeMinTotalApresRachatPFL(): ?float
     {
         return $this->soldeMinTotalApresRachatPFL;
     }
 
     /**
-     * Set the value of soldeMinTotalApresRachatPFL
+     * Set the value of soldeMinTotalApresRachatPFL.
      *
-     * @param  float|null  $soldeMinTotalApresRachatPFL
+     * @param float|null $soldeMinTotalApresRachatPFL
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSoldeMinTotalApresRachatPFL(?float $soldeMinTotalApresRachatPFL): self
     {
         $this->soldeMinTotalApresRachatPFL = $soldeMinTotalApresRachatPFL;
@@ -257,22 +233,22 @@ class Seuils
     }
 
     /**
-     * Get the value of tauxPfo
+     * Get the value of tauxPfo.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getTauxPfo(): ?float
     {
         return $this->tauxPfo;
     }
 
     /**
-     * Set the value of tauxPfo
+     * Set the value of tauxPfo.
      *
-     * @param  float|null  $tauxPfo
+     * @param float|null $tauxPfo
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTauxPfo(?float $tauxPfo): self
     {
         $this->tauxPfo = $tauxPfo;
@@ -281,22 +257,22 @@ class Seuils
     }
 
     /**
-     * Get the value of presenceC1
+     * Get the value of presenceC1.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getPresenceC1(): ?bool
     {
         return $this->presenceC1;
     }
 
     /**
-     * Set the value of presenceC1
+     * Set the value of presenceC1.
      *
-     * @param  bool|null  $presenceC1
+     * @param bool|null $presenceC1
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPresenceC1(?bool $presenceC1): self
     {
         $this->presenceC1 = $presenceC1;
@@ -305,22 +281,22 @@ class Seuils
     }
 
     /**
-     * Get the value of presenceC2
+     * Get the value of presenceC2.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getPresenceC2(): ?bool
     {
         return $this->presenceC2;
     }
 
     /**
-     * Set the value of presenceC2
+     * Set the value of presenceC2.
      *
-     * @param  bool|null  $presenceC2
+     * @param bool|null $presenceC2
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPresenceC2(?bool $presenceC2): self
     {
         $this->presenceC2 = $presenceC2;
@@ -329,22 +305,22 @@ class Seuils
     }
 
     /**
-     * Get the value of presenceC3
+     * Get the value of presenceC3.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getPresenceC3(): ?bool
     {
         return $this->presenceC3;
     }
 
     /**
-     * Set the value of presenceC3
+     * Set the value of presenceC3.
      *
-     * @param  bool|null  $presenceC3
+     * @param bool|null $presenceC3
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPresenceC3(?bool $presenceC3): self
     {
         $this->presenceC3 = $presenceC3;
@@ -353,22 +329,22 @@ class Seuils
     }
 
     /**
-     * Get the value of exonerationC3
+     * Get the value of exonerationC3.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getExonerationC3(): ?bool
     {
         return $this->exonerationC3;
     }
 
     /**
-     * Set the value of exonerationC3
+     * Set the value of exonerationC3.
      *
-     * @param  bool|null  $exonerationC3
+     * @param bool|null $exonerationC3
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setExonerationC3(?bool $exonerationC3): self
     {
         $this->exonerationC3 = $exonerationC3;

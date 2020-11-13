@@ -35,22 +35,22 @@ class InfoVLP
     private $fonds;
 
     /**
-     * Get the value of dateProchainPrelevement
+     * Get the value of dateProchainPrelevement.
      *
-     * @return  \DateTimeInterface|null
-     */ 
+     * @return \DateTimeInterface|null
+     */
     public function getDateProchainPrelevement(): ?\DateTimeInterface
     {
         return $this->dateProchainPrelevement;
     }
 
     /**
-     * Set the value of dateProchainPrelevement
+     * Set the value of dateProchainPrelevement.
      *
-     * @param  \DateTimeInterface|null  $dateProchainPrelevement
+     * @param \DateTimeInterface|null $dateProchainPrelevement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDateProchainPrelevement(?\DateTimeInterface $dateProchainPrelevement): self
     {
         $this->dateProchainPrelevement = $dateProchainPrelevement;
@@ -59,22 +59,22 @@ class InfoVLP
     }
 
     /**
-     * Get the value of debutPeriode
+     * Get the value of debutPeriode.
      *
-     * @return  \DateTimeInterface|null
-     */ 
+     * @return \DateTimeInterface|null
+     */
     public function getDebutPeriode(): ?\DateTimeInterface
     {
         return $this->debutPeriode;
     }
 
     /**
-     * Set the value of debutPeriode
+     * Set the value of debutPeriode.
      *
-     * @param  \DateTimeInterface|null  $debutPeriode
+     * @param \DateTimeInterface|null $debutPeriode
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDebutPeriode(?\DateTimeInterface $debutPeriode): self
     {
         $this->debutPeriode = $debutPeriode;
@@ -83,22 +83,22 @@ class InfoVLP
     }
 
     /**
-     * Get the value of suspendu
+     * Get the value of suspendu.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getSuspendu(): ?bool
     {
         return $this->suspendu;
     }
 
     /**
-     * Set the value of suspendu
+     * Set the value of suspendu.
      *
-     * @param  bool|null  $suspendu
+     * @param bool|null $suspendu
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSuspendu(?bool $suspendu): self
     {
         $this->suspendu = $suspendu;
@@ -107,22 +107,22 @@ class InfoVLP
     }
 
     /**
-     * Get the value of periodicite
+     * Get the value of periodicite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPeriodicite(): ?string
     {
         return $this->periodicite;
     }
 
     /**
-     * Set the value of periodicite
+     * Set the value of periodicite.
      *
-     * @param  string|null  $periodicite
+     * @param string|null $periodicite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPeriodicite(?string $periodicite): self
     {
         $this->periodicite = $periodicite;
@@ -131,22 +131,22 @@ class InfoVLP
     }
 
     /**
-     * Get the value of montantPreleve
+     * Get the value of montantPreleve.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantPreleve(): ?float
     {
         return $this->montantPreleve;
     }
 
     /**
-     * Set the value of montantPreleve
+     * Set the value of montantPreleve.
      *
-     * @param  float|null  $montantPreleve
+     * @param float|null $montantPreleve
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantPreleve(?float $montantPreleve): self
     {
         $this->montantPreleve = $montantPreleve;
@@ -155,22 +155,22 @@ class InfoVLP
     }
 
     /**
-     * Get the value of fonds
+     * Get the value of fonds.
      *
-     * @return  array<Fonds>|null
-     */ 
+     * @return array<Fonds>|null
+     */
     public function getFonds(): ?array
     {
         return $this->fonds;
     }
 
     /**
-     * Set the value of fonds
+     * Set the value of fonds.
      *
-     * @param  array<Fonds>|null  $fonds
+     * @param array<Fonds>|null $fonds
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFonds(?array $fonds): self
     {
         $this->fonds = $fonds;

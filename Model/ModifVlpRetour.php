@@ -25,22 +25,22 @@ class ModifVlpRetour
     private $epargneAtteinte;
 
     /**
-     * Get the value of fondsInvestissables
+     * Get the value of fondsInvestissables.
      *
-     * @return  array<FondsInvestissables>|null
-     */ 
+     * @return array<FondsInvestissables>|null
+     */
     public function getFondsInvestissables(): ?array
     {
         return $this->fondsInvestissables;
     }
 
     /**
-     * Set the value of fondsInvestissables
+     * Set the value of fondsInvestissables.
      *
-     * @param  array<FondsInvestissables>|null  $fondsInvestissables
+     * @param array<FondsInvestissables>|null $fondsInvestissables
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFondsInvestissables(?array $fondsInvestissables): self
     {
         $this->fondsInvestissables = $fondsInvestissables;
@@ -49,22 +49,22 @@ class ModifVlpRetour
     }
 
     /**
-     * Get the value of ribsPrelevement
+     * Get the value of ribsPrelevement.
      *
-     * @return  array<CompteBancaire>|null
-     */ 
+     * @return array<CompteBancaire>|null
+     */
     public function getRibsPrelevement(): ?array
     {
         return $this->ribsPrelevement;
     }
 
     /**
-     * Set the value of ribsPrelevement
+     * Set the value of ribsPrelevement.
      *
-     * @param  array<CompteBancaire>|null  $ribsPrelevement
+     * @param array<CompteBancaire>|null $ribsPrelevement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRibsPrelevement(?array $ribsPrelevement): self
     {
         $this->ribsPrelevement = $ribsPrelevement;
@@ -73,22 +73,22 @@ class ModifVlpRetour
     }
 
     /**
-     * Get the value of infoVersement
+     * Get the value of infoVersement.
      *
-     * @return  InfoVersement|null
-     */ 
+     * @return InfoVersement|null
+     */
     public function getInfoVersement(): ?InfoVersement
     {
         return $this->infoVersement;
     }
 
     /**
-     * Set the value of infoVersement
+     * Set the value of infoVersement.
      *
-     * @param  InfoVersement|null  $infoVersement
+     * @param InfoVersement|null $infoVersement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setInfoVersement(?InfoVersement $infoVersement): self
     {
         $this->infoVersement = $infoVersement;
@@ -97,22 +97,22 @@ class ModifVlpRetour
     }
 
     /**
-     * Get the value of epargneAtteinte
+     * Get the value of epargneAtteinte.
      *
-     * @return  EpargneAtteinte|null
-     */ 
+     * @return EpargneAtteinte|null
+     */
     public function getEpargneAtteinte(): ?EpargneAtteinte
     {
         return $this->epargneAtteinte;
     }
 
     /**
-     * Set the value of epargneAtteinte
+     * Set the value of epargneAtteinte.
      *
-     * @param  EpargneAtteinte|null  $epargneAtteinte
+     * @param EpargneAtteinte|null $epargneAtteinte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEpargneAtteinte(?EpargneAtteinte $epargneAtteinte): self
     {
         $this->epargneAtteinte = $epargneAtteinte;

@@ -20,22 +20,22 @@ class Fatca
     private $tin;
 
     /**
-     * Get the value of citoyenUSA
+     * Get the value of citoyenUSA.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getCitoyenUSA(): ?bool
     {
         return $this->citoyenUSA;
     }
 
     /**
-     * Set the value of citoyenUSA
+     * Set the value of citoyenUSA.
      *
-     * @param  bool|null  $citoyenUSA
+     * @param bool|null $citoyenUSA
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCitoyenUSA(?bool $citoyenUSA): self
     {
         $this->citoyenUSA = $citoyenUSA;
@@ -44,22 +44,22 @@ class Fatca
     }
 
     /**
-     * Get the value of residenceUSA
+     * Get the value of residenceUSA.
      *
-     * @return  bool
-     */ 
+     * @return bool
+     */
     public function getResidenceUSA(): ?bool
     {
         return $this->residenceUSA;
     }
 
     /**
-     * Set the value of residenceUSA
+     * Set the value of residenceUSA.
      *
-     * @param  bool  $residenceUSA
+     * @param bool $residenceUSA
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setResidenceUSA(?bool $residenceUSA): self
     {
         $this->residenceUSA = $residenceUSA;
@@ -68,22 +68,22 @@ class Fatca
     }
 
     /**
-     * Get the value of tin
+     * Get the value of tin.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTin(): ?string
     {
         return $this->tin;
     }
 
     /**
-     * Set the value of tin
+     * Set the value of tin.
      *
-     * @param  string|null  $tin
+     * @param string|null $tin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTin(?string $tin): self
     {
         $this->tin = $tin;

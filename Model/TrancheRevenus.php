@@ -25,22 +25,22 @@ class TrancheRevenus
     private $trancheMax;
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -49,22 +49,22 @@ class TrancheRevenus
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -73,22 +73,22 @@ class TrancheRevenus
     }
 
     /**
-     * Get the value of trancheMin
+     * Get the value of trancheMin.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getTrancheMin(): ?int
     {
         return $this->trancheMin;
     }
 
     /**
-     * Set the value of trancheMin
+     * Set the value of trancheMin.
      *
-     * @param  int|null  $trancheMin
+     * @param int|null $trancheMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTrancheMin(?int $trancheMin): self
     {
         $this->trancheMin = $trancheMin;
@@ -97,22 +97,22 @@ class TrancheRevenus
     }
 
     /**
-     * Get the value of trancheMax
+     * Get the value of trancheMax.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getTrancheMax(): ?int
     {
         return $this->trancheMax;
     }
 
     /**
-     * Set the value of trancheMax
+     * Set the value of trancheMax.
      *
-     * @param  int|null  $trancheMax
+     * @param int|null $trancheMax
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTrancheMax(?int $trancheMax): self
     {
         $this->trancheMax = $trancheMax;

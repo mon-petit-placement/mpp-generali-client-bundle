@@ -2,64 +2,112 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\RetourConsultationVersementLibreProgramme;
+use Mpp\GeneraliClientBundle\Model\RetourValidation;
+use Mpp\GeneraliClientBundle\Model\VersementsLibresProgrammes;
+
 class GeneraliScheduledFreePaymentClient extends AbstractGeneraliClient
 {
-    public function getData(string $contractNumber, array $expectedItems = []): BaseResponse
+    /**
+     * POST /v2.0/transaction/versementsLibresProgrammes/donnees
+     * Retrieve scheduled free payment data.
+     *
+     * @method getData
+     *
+     * @param string $contractNumber
+     * @param array  $expectedItems
+     *
+     * @return ApiResponse
+     */
+    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
     {
-        return $this->request('GET', sprintf('/donnees/%s', $contractNumber));
-    }
-
-    public function create(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse
-    {
-        $response = $this->init($context, $scheduledFreePayment);
-
-        if (null === $response->getStatus()) {
-            throw new \RuntimeException('The scheduled free payment\'s initiation has failed.');
-        }
-
-        $this->check($context);
-
-        return $this->confirm($context);
-    }
-
-    public function init(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse
-    {
-        return $this->request('POST', '/initier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToInitiate(),
-                'versementsLibresProgrammes' => $scheduledFreePayment->toArray(),
+        return $this->getApiResponse(RetourConsultationVersementLibreProgramme::class, 'POST', '/donnees', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                    'elementsAttendus' => $expectedItems,
+                ]),
             ]),
         ]);
     }
 
-    public function check(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementsLibresProgrammes/initier
+     * Init a partial repurchase request.
+     *
+     * @method init
+     *
+     * @param string $contractNumber
+     *
+     * @return ApiResponse
+     */
+    public function init(string $contractNumber): ApiResponse
     {
-        return $this->request('POST', '/initier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToCheck(),
+        return $this->getApiResponse(null, 'POST', '/initier', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                ]),
             ]),
         ]);
     }
 
-    public function confirm(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementsLibresProgrammes/verifier.
+     * Check a partial repruchase request.
+     *
+     * @method check
+     *
+     * @param Contexte                   $context
+     * @param VersementsLibresProgrammes $scheduledFreePayment
+     *
+     * @return ApiResponse
+     */
+    public function check(Contexte $context, VersementsLibresProgrammes $scheduledFreePayment): ApiResponse
     {
-        return $this->request('POST', '/confirmer', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToConfirm(),
-                'options' => [
-                    'genererUnBulletin' => true,
-                    'envoyerUnMailClient' => true,
-                    'cloturerLeDossier' => true,
-                ],
+        return $this->getApiResponse(null, 'POST', '/verifier', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+                'versementsLibresProgrammes' => $scheduledFreePayment,
             ]),
         ]);
     }
 
-    public function finalizeScheduledFreePayment(Context $context, array $documents): ApiResponse
+    /**
+     * POST /v2.0/transaction/versementsLibresProgrammes/confirmer.
+     * Confirm a partial repruchase request.
+     *
+     * @method confirm
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function confirm(Contexte $context): ApiResponse
     {
-        return $this->request('POST', '/finaliser', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToFinalize(),
+        return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+            ]),
+        ]);
+    }
+
+    /**
+     * POST /v2.0/transaction/versementsLibresProgrammes/finaliser.
+     * Finalize a partial repruchase request.
+     *
+     * @method finalize
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function finalize(Contexte $context): ApiResponse
+    {
+        return $this->getApiResponse(null, 'POST', '/finaliser', [
+            'body' => $this->serialize([
+                'contexte' => $context,
             ]),
         ]);
     }

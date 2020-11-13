@@ -15,22 +15,22 @@ class Fiscalite
     private $texte;
 
     /**
-     * Get the value of codeFiscalite
+     * Get the value of codeFiscalite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeFiscalite(): ?string
     {
         return $this->codeFiscalite;
     }
 
     /**
-     * Set the value of codeFiscalite
+     * Set the value of codeFiscalite.
      *
-     * @param  string|null  $codeFiscalite
+     * @param string|null $codeFiscalite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeFiscalite(?string $codeFiscalite): self
     {
         $this->codeFiscalite = $codeFiscalite;
@@ -39,22 +39,22 @@ class Fiscalite
     }
 
     /**
-     * Get the value of texte
+     * Get the value of texte.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTexte(): ?string
     {
         return $this->texte;
     }
 
     /**
-     * Set the value of texte
+     * Set the value of texte.
      *
-     * @param  string|null  $texte
+     * @param string|null $texte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTexte(?string $texte): self
     {
         $this->texte = $texte;

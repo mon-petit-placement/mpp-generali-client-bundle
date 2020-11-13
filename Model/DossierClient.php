@@ -20,22 +20,22 @@ class DossierClient
     private $originePaiement;
 
     /**
-     * Get the value of situationPatrimoniale
+     * Get the value of situationPatrimoniale.
      *
-     * @return  SituationPatrimoniale|null
-     */ 
+     * @return SituationPatrimoniale|null
+     */
     public function getSituationPatrimoniale(): ?SituationPatrimoniale
     {
         return $this->situationPatrimoniale;
     }
 
     /**
-     * Set the value of situationPatrimoniale
+     * Set the value of situationPatrimoniale.
      *
-     * @param  SituationPatrimoniale|null  $situationPatrimoniale
+     * @param SituationPatrimoniale|null $situationPatrimoniale
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSituationPatrimoniale(?SituationPatrimoniale $situationPatrimoniale): self
     {
         $this->situationPatrimoniale = $situationPatrimoniale;
@@ -44,22 +44,22 @@ class DossierClient
     }
 
     /**
-     * Get the value of objectifsVersement
+     * Get the value of objectifsVersement.
      *
-     * @return  array<ObjectifVersement>|null
-     */ 
+     * @return array<ObjectifVersement>|null
+     */
     public function getObjectifsVersement(): ?array
     {
         return $this->objectifsVersement;
     }
 
     /**
-     * Set the value of objectifsVersement
+     * Set the value of objectifsVersement.
      *
-     * @param  array<ObjectifVersement>|null  $objectifsVersement
+     * @param array<ObjectifVersement>|null $objectifsVersement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setObjectifsVersement(?array $objectifsVersement): self
     {
         $this->objectifsVersement = $objectifsVersement;
@@ -68,22 +68,22 @@ class DossierClient
     }
 
     /**
-     * Get the value of originePaiement
+     * Get the value of originePaiement.
      *
-     * @return  OriginePaiement|null
-     */ 
+     * @return OriginePaiement|null
+     */
     public function getOriginePaiement(): ?OriginePaiement
     {
         return $this->originePaiement;
     }
 
     /**
-     * Set the value of originePaiement
+     * Set the value of originePaiement.
      *
-     * @param  OriginePaiement|null  $originePaiement
+     * @param OriginePaiement|null $originePaiement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setOriginePaiement(?OriginePaiement $originePaiement): self
     {
         $this->originePaiement = $originePaiement;

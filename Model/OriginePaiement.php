@@ -10,22 +10,22 @@ class OriginePaiement
     private $moyenPaiementFrancais;
 
     /**
-     * Get the value of moyenPaiementFrancais
+     * Get the value of moyenPaiementFrancais.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getMoyenPaiementFrancais(): ?bool
     {
         return $this->moyenPaiementFrancais;
     }
 
     /**
-     * Set the value of moyenPaiementFrancais
+     * Set the value of moyenPaiementFrancais.
      *
-     * @param  bool|null  $moyenPaiementFrancais
+     * @param bool|null $moyenPaiementFrancais
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMoyenPaiementFrancais(?bool $moyenPaiementFrancais): self
     {
         $this->moyenPaiementFrancais = $moyenPaiementFrancais;

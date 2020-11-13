@@ -55,22 +55,22 @@ class OrigineFonds
     private $bloquantDemat;
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -79,22 +79,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of montant
+     * Get the value of montant.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontant(): ?float
     {
         return $this->montant;
     }
 
     /**
-     * Set the value of montant
+     * Set the value of montant.
      *
-     * @param  float|null  $montant
+     * @param float|null $montant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontant(?float $montant): self
     {
         $this->montant = $montant;
@@ -103,22 +103,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of date
+     * Get the value of date.
      *
-     * @return  \DateTimeInterface|null
-     */ 
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
     /**
-     * Set the value of date
+     * Set the value of date.
      *
-     * @param  \DateTimeInterface|null  $date
+     * @param \DateTimeInterface|null $date
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -127,22 +127,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of precision
+     * Get the value of precision.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPrecision(): ?string
     {
         return $this->precision;
     }
 
     /**
-     * Set the value of precision
+     * Set the value of precision.
      *
-     * @param  string|null  $precision
+     * @param string|null $precision
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPrecision(?string $precision): self
     {
         $this->precision = $precision;
@@ -151,22 +151,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of codesDetail
+     * Get the value of codesDetail.
      *
-     * @return  array<string>|null
-     */ 
+     * @return array<string>|null
+     */
     public function getCodesDetail(): ?array
     {
         return $this->codesDetail;
     }
 
     /**
-     * Set the value of codesDetail
+     * Set the value of codesDetail.
      *
-     * @param  array<string>|null  $codesDetail
+     * @param array<string>|null $codesDetail
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodesDetail(?array $codesDetail): self
     {
         $this->codesDetail = $codesDetail;
@@ -175,22 +175,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -199,22 +199,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of dateNecessaire
+     * Get the value of dateNecessaire.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getDateNecessaire(): ?bool
     {
         return $this->dateNecessaire;
     }
 
     /**
-     * Set the value of dateNecessaire
+     * Set the value of dateNecessaire.
      *
-     * @param  bool|null  $dateNecessaire
+     * @param bool|null $dateNecessaire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDateNecessaire(?bool $dateNecessaire): self
     {
         $this->dateNecessaire = $dateNecessaire;
@@ -223,22 +223,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of commentaireNecessaire
+     * Get the value of commentaireNecessaire.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getCommentaireNecessaire(): ?bool
     {
         return $this->commentaireNecessaire;
     }
 
     /**
-     * Set the value of commentaireNecessaire
+     * Set the value of commentaireNecessaire.
      *
-     * @param  bool|null  $commentaireNecessaire
+     * @param bool|null $commentaireNecessaire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCommentaireNecessaire(?bool $commentaireNecessaire): self
     {
         $this->commentaireNecessaire = $commentaireNecessaire;
@@ -247,22 +247,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of detail
+     * Get the value of detail.
      *
-     * @return  array<DetailOrigineFonds>|null
-     */ 
+     * @return array<DetailOrigineFonds>|null
+     */
     public function getDetail(): ?array
     {
         return $this->detail;
     }
 
     /**
-     * Set the value of detail
+     * Set the value of detail.
      *
-     * @param  array<DetailOrigineFonds>|null  $detail
+     * @param array<DetailOrigineFonds>|null $detail
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDetail(?array $detail): self
     {
         $this->detail = $detail;
@@ -271,22 +271,22 @@ class OrigineFonds
     }
 
     /**
-     * Get the value of bloquantDemat
+     * Get the value of bloquantDemat.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getBloquantDemat(): ?bool
     {
         return $this->bloquantDemat;
     }
 
     /**
-     * Set the value of bloquantDemat
+     * Set the value of bloquantDemat.
      *
-     * @param  bool|null  $bloquantDemat
+     * @param bool|null $bloquantDemat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setBloquantDemat(?bool $bloquantDemat): self
     {
         $this->bloquantDemat = $bloquantDemat;

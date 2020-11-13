@@ -2,13 +2,27 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+
 class GeneraliScheduledFreePaymentSuspendClient extends AbstractGeneraliClient
 {
-    public function init(Context $context, ScheduledFreePayment $scheduledFreePayment): ApiResponse
+    /**
+     * POST /v1.0/transaction/suspensionVersementsLibresProgrammes
+     * Init a scheduled free payment suspend request.
+     *
+     * @method init
+     *
+     * @param string $contractNumber
+     *
+     * @return ApiResponse
+     */
+    public function init(string $contractNumber): ApiResponse
     {
-        return $this->request('POST', sprintf('/%s', $context->getContractNumber()), [
-            'body' => json_encode([
-                'contexte' => $context->arrayToSuspend(),
+        return $this->getApiResponse('POST', '', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                ]),
             ]),
         ]);
     }

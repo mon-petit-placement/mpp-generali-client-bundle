@@ -33,22 +33,22 @@ class TypeDuree
     private $dureeMax;
 
     /**
-     * Get the value of typeDuree
+     * Get the value of typeDuree.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTypeDuree(): ?string
     {
         return $this->typeDuree;
     }
 
     /**
-     * Set the value of typeDuree
+     * Set the value of typeDuree.
      *
-     * @param  string|null  $typeDuree
+     * @param string|null $typeDuree
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypeDuree(?string $typeDuree): self
     {
         $this->typeDuree = $typeDuree;
@@ -57,22 +57,22 @@ class TypeDuree
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -81,22 +81,22 @@ class TypeDuree
     }
 
     /**
-     * Get the value of dureeNecessaire
+     * Get the value of dureeNecessaire.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getDureeNecessaire(): ?bool
     {
         return $this->dureeNecessaire;
     }
 
     /**
-     * Set the value of dureeNecessaire
+     * Set the value of dureeNecessaire.
      *
-     * @param  bool|null  $dureeNecessaire
+     * @param bool|null $dureeNecessaire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDureeNecessaire(?bool $dureeNecessaire): self
     {
         $this->dureeNecessaire = $dureeNecessaire;
@@ -105,22 +105,22 @@ class TypeDuree
     }
 
     /**
-     * Get the value of dureeMin
+     * Get the value of dureeMin.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getDureeMin(): ?int
     {
         return $this->dureeMin;
     }
 
     /**
-     * Set the value of dureeMin
+     * Set the value of dureeMin.
      *
-     * @param  int|null  $dureeMin
+     * @param int|null $dureeMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDureeMin(?int $dureeMin): self
     {
         $this->dureeMin = $dureeMin;
@@ -129,22 +129,22 @@ class TypeDuree
     }
 
     /**
-     * Get the value of dureeMax
+     * Get the value of dureeMax.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getDureeMax(): ?int
     {
         return $this->dureeMax;
     }
 
     /**
-     * Set the value of dureeMax
+     * Set the value of dureeMax.
      *
-     * @param  int|null  $dureeMax
+     * @param int|null $dureeMax
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDureeMax(?int $dureeMax): self
     {
         $this->dureeMax = $dureeMax;

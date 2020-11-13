@@ -3,90 +3,123 @@
 namespace Mpp\GeneraliClientBundle\HttpClient;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
-use Mpp\GeneraliClientBundle\Model\BaseResponse;
-use Mpp\GeneraliClientBundle\Model\Context;
-use Mpp\GeneraliClientBundle\Model\PartialSurrender;
+use Mpp\GeneraliClientBundle\Model\Contexte;
+use Mpp\GeneraliClientBundle\Model\RachatPartiel;
+use Mpp\GeneraliClientBundle\Model\RetourConsultationRachatPartiel;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
 {
     /**
-     * {@inheritdoc}
+     * POST /v1.0/donnees/rachatpartiel
+     * Retrieve partial repurchase data.
+     *
+     * @method getData
+     *
+     * @param array $contextOptions
+     *
+     * @return ApiResponse
      */
-    public function getData(string $contractNumber, array $expectedItems = []): BaseResponse
+    public function getData(array $contextOptions): ApiResponse
     {
-        return $this->request('POST', '/all', [
-            'body' => json_encode([
-                'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+            ->setDefined('elementsAttendus')
+        ;
+
+        return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext($resolver->resolve($contextOptions)),
             ]),
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * POST /v1.0/donnees/rachatpartiel/all
+     * Retrieve all partial repurchase data.
+     *
+     * @method getAllData
+     *
+     * @param array $contextOptions
+     *
+     * @return ApiResponse
      */
-    public function create(Context $context, PartialSurrender $partialSurrender): ApiResponse
+    public function getAllData(array $contextOptions): ApiResponse
     {
-        $response = $this->init($context, $partialSurrender);
+        $resolver = (new OptionsResolver())
+            ->setRequired(['utilisateur', 'numContrat'])
+            ->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
+        ;
 
-        if (null === $response->getStatus()) {
-            throw new \RuntimeException('The partial repurchase\'s initiation has failed.');
-        }
-
-        $this->check($context);
-
-        return $this->confirm($context);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function init(Context $context, PartialSurrender $partialSurrender): ApiResponse
-    {
-        return $this->request('POST', sprintf('/initier/%s', $context->getContractNumber()), [
-            'body' => json_encode([
-                'contexte' => $context->arrayToInitiate(),
-                'rachatPartiel' => $partialSurrender->toArray(),
+        return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/all', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext($resolver->resolve($contextOptions)),
             ]),
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * POST /v1.0/donnees/rachatpartiel/initier
+     * Init a partial repurchase request.
+     *
+     * @method init
+     *
+     * @param string $contractNumber
+     *
+     * @return ApiResponse
      */
-    public function check(Context $context): ApiResponse
+    public function init(string $contractNumber): ApiResponse
     {
-        return $this->request('POST', '/initier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToCheck(),
+        return $this->getApiResponse(null, 'POST', '/initier', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                ]),
             ]),
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * POST /v1.0/donnees/rachatpartiel/verifier
+     * Check a partial repurchase request.
+     *
+     * @method check
+     *
+     * @param array         $contextOptions
+     * @param RachatPartiel $partialRepurchase
+     *
+     * @return ApiResponse
+     */
+    public function check(array $contextOptions, RachatPartiel $partialRepurchase): ApiResponse
+    {
+        $resolver = (new OptionsResolver())
+            ->setRequired(['statut', 'numContrat', 'utilisateur'])
+            ->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
+        ;
+
+        return $this->getApiResponse(null, 'POST', '/verifier', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext($resolver->resolve($contextOptions)),
+                'rachatPartiel' => $partialRepurchase,
+            ]),
+        ]);
+    }
+
+    /**
+     * POST /v1.0/donnees/rachatpartiel/confirmer
+     * Confirm a partial repurchase request.
+     *
+     * @method confirm
+     *
+     * @param Context $context
+     *
+     * @return ApiResponse
      */
     public function confirm(Context $context): ApiResponse
     {
-        return $this->request('POST', '/confirmer', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToConfirm(),
-                'options' => [
-                    'genererUnBulletin' => true,
-                    'envoyerUnMailClient' => true,
-                    'cloturerLeDossier' => true,
-                ],
-            ]),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function finalize(Context $context): ApiResponse
-    {
-        return $this->request('POST', '/finaliser', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToFinalize(),
+        return $this->getApiResponse1(null, 'POST', '/confirmer', [
+            'body' => $this->serialize([
+                'contexte' => $context,
             ]),
         ]);
     }

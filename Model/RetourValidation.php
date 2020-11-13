@@ -2,7 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
-class RetourValidationArbitrage
+class RetourValidation
 {
     /**
      * @var string|null
@@ -20,22 +20,22 @@ class RetourValidationArbitrage
     private $piecesAFournir;
 
     /**
-     * Get the value of idTransaction
+     * Get the value of idTransaction.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getIdTransaction(): ?string
     {
         return $this->idTransaction;
     }
 
     /**
-     * Set the value of idTransaction
+     * Set the value of idTransaction.
      *
-     * @param  string|null  $idTransaction
+     * @param string|null $idTransaction
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIdTransaction(?string $idTransaction): self
     {
         $this->idTransaction = $idTransaction;
@@ -44,22 +44,22 @@ class RetourValidationArbitrage
     }
 
     /**
-     * Get the value of numeroOrdreTransaction
+     * Get the value of numeroOrdreTransaction.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNumeroOrdreTransaction(): ?string
     {
         return $this->numeroOrdreTransaction;
     }
 
     /**
-     * Set the value of numeroOrdreTransaction
+     * Set the value of numeroOrdreTransaction.
      *
-     * @param  string|null  $numeroOrdreTransaction
+     * @param string|null $numeroOrdreTransaction
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNumeroOrdreTransaction(?string $numeroOrdreTransaction): self
     {
         $this->numeroOrdreTransaction = $numeroOrdreTransaction;
@@ -68,22 +68,22 @@ class RetourValidationArbitrage
     }
 
     /**
-     * Get the value of piecesAFournir
+     * Get the value of piecesAFournir.
      *
-     * @return  array<PieceAFournir>|null
-     */ 
+     * @return array<PieceAFournir>|null
+     */
     public function getPiecesAFournir(): ?array
     {
         return $this->piecesAFournir;
     }
 
     /**
-     * Set the value of piecesAFournir
+     * Set the value of piecesAFournir.
      *
-     * @param  array<PieceAFournir>|null  $piecesAFournir
+     * @param array<PieceAFournir>|null $piecesAFournir
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPiecesAFournir(?array $piecesAFournir): self
     {
         $this->piecesAFournir = $piecesAFournir;

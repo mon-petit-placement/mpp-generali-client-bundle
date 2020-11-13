@@ -30,22 +30,22 @@ class AdressePostale
     private $nePasNormaliser;
 
     /**
-     * Get the value of adresse3LibelleVoie
+     * Get the value of adresse3LibelleVoie.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getAdresse3LibelleVoie(): ?string
     {
         return $this->adresse3LibelleVoie;
     }
 
     /**
-     * Set the value of adresse3LibelleVoie
+     * Set the value of adresse3LibelleVoie.
      *
-     * @param  string|null  $adresse3LibelleVoie
+     * @param string|null $adresse3LibelleVoie
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAdresse3LibelleVoie(?string $adresse3LibelleVoie): self
     {
         $this->adresse3LibelleVoie = $adresse3LibelleVoie;
@@ -54,22 +54,22 @@ class AdressePostale
     }
 
     /**
-     * Get the value of codePostal
+     * Get the value of codePostal.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePostal(): ?string
     {
         return $this->codePostal;
     }
 
     /**
-     * Set the value of codePostal
+     * Set the value of codePostal.
      *
-     * @param  string|null  $codePostal
+     * @param string|null $codePostal
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePostal(?string $codePostal): self
     {
         $this->codePostal = $codePostal;
@@ -78,22 +78,22 @@ class AdressePostale
     }
 
     /**
-     * Get the value of commune
+     * Get the value of commune.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCommune(): ?string
     {
         return $this->commune;
     }
 
     /**
-     * Set the value of commune
+     * Set the value of commune.
      *
-     * @param  string|null  $commune
+     * @param string|null $commune
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCommune(?string $commune): self
     {
         $this->commune = $commune;
@@ -102,22 +102,22 @@ class AdressePostale
     }
 
     /**
-     * Get the value of codePays
+     * Get the value of codePays.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePays(): ?string
     {
         return $this->codePays;
     }
 
     /**
-     * Set the value of codePays
+     * Set the value of codePays.
      *
-     * @param  string|null  $codePays
+     * @param string|null $codePays
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePays(?string $codePays): self
     {
         $this->codePays = $codePays;
@@ -126,22 +126,22 @@ class AdressePostale
     }
 
     /**
-     * Get the value of nePasNormaliser
+     * Get the value of nePasNormaliser.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getNePasNormaliser(): ?bool
     {
         return $this->nePasNormaliser;
     }
 
     /**
-     * Set the value of nePasNormaliser
+     * Set the value of nePasNormaliser.
      *
-     * @param  bool|null  $nePasNormaliser
+     * @param bool|null $nePasNormaliser
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNePasNormaliser(?bool $nePasNormaliser): self
     {
         $this->nePasNormaliser = $nePasNormaliser;

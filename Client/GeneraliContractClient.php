@@ -2,13 +2,29 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+
 class GeneraliContractClient extends AbstractGeneraliClient
 {
-    public function getData(string $contractNumber, array $expectedItems = []): BaseResponse
+    /**
+     * POST /v2.0/contrats
+     * Retrieve contract data.
+     *
+     * @method getData
+     *
+     * @param string $contractNumber
+     * @param array  $expectedItems
+     *
+     * @return ApiResponse
+     */
+    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
     {
-        return $this->request('POST', '', [
-            'body' => json_encode([
-                'contexte' => $this->buildContext(['contractNumber' => $contractNumber], $expectedItems),
+        return $this->getApiResponse(null, 'POST', '', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext([
+                    'numContrat' => $contractNumber,
+                    'elementsAttendus' => $expectedItems,
+                ]),
             ]),
         ]);
     }

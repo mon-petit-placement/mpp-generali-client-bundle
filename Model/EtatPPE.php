@@ -39,22 +39,22 @@ class EtatPPE
     private $prenomProche;
 
     /**
-     * Get the value of indicateur
+     * Get the value of indicateur.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getIndicateur(): ?bool
     {
         return $this->indicateur;
     }
 
     /**
-     * Set the value of indicateur
+     * Set the value of indicateur.
      *
-     * @param  bool|null  $indicateur
+     * @param bool|null $indicateur
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIndicateur(?bool $indicateur): self
     {
         $this->indicateur = $indicateur;
@@ -63,22 +63,22 @@ class EtatPPE
     }
 
     /**
-     * Get the value of codeFonction
+     * Get the value of codeFonction.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeFonction(): ?string
     {
         return $this->codeFonction;
     }
 
     /**
-     * Set the value of codeFonction
+     * Set the value of codeFonction.
      *
-     * @param  string|null  $codeFonction
+     * @param string|null $codeFonction
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeFonction(?string $codeFonction): self
     {
         $this->codeFonction = $codeFonction;
@@ -87,22 +87,22 @@ class EtatPPE
     }
 
     /**
-     * Get the value of codePays
+     * Get the value of codePays.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodePays(): ?string
     {
         return $this->codePays;
     }
 
     /**
-     * Set the value of codePays
+     * Set the value of codePays.
      *
-     * @param  string|null  $codePays
+     * @param string|null $codePays
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodePays(?string $codePays): self
     {
         $this->codePays = $codePays;
@@ -111,22 +111,22 @@ class EtatPPE
     }
 
     /**
-     * Get the value of dateFin
+     * Get the value of dateFin.
      *
-     * @return  \DateTimeInterface|null
-     */ 
+     * @return \DateTimeInterface|null
+     */
     public function getDateFin(): ?\DateTimeInterface
     {
         return $this->dateFin;
     }
 
     /**
-     * Set the value of dateFin
+     * Set the value of dateFin.
      *
-     * @param  \DateTimeInterface|null  $dateFin
+     * @param \DateTimeInterface|null $dateFin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDateFin(?\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
@@ -135,22 +135,22 @@ class EtatPPE
     }
 
     /**
-     * Get the value of lienContractantPPE
+     * Get the value of lienContractantPPE.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLienContractantPPE(): ?string
     {
         return $this->lienContractantPPE;
     }
 
     /**
-     * Set the value of lienContractantPPE
+     * Set the value of lienContractantPPE.
      *
-     * @param  string|null  $lienContractantPPE
+     * @param string|null $lienContractantPPE
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLienContractantPPE(?string $lienContractantPPE): self
     {
         $this->lienContractantPPE = $lienContractantPPE;
@@ -159,22 +159,22 @@ class EtatPPE
     }
 
     /**
-     * Get the value of nomProche
+     * Get the value of nomProche.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNomProche(): ?string
     {
         return $this->nomProche;
     }
 
     /**
-     * Set the value of nomProche
+     * Set the value of nomProche.
      *
-     * @param  string|null  $nomProche
+     * @param string|null $nomProche
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNomProche(?string $nomProche): self
     {
         $this->nomProche = $nomProche;
@@ -183,22 +183,22 @@ class EtatPPE
     }
 
     /**
-     * Get the value of prenomProche
+     * Get the value of prenomProche.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPrenomProche(): ?string
     {
         return $this->prenomProche;
     }
 
     /**
-     * Set the value of prenomProche
+     * Set the value of prenomProche.
      *
-     * @param  string|null  $prenomProche
+     * @param string|null $prenomProche
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPrenomProche(?string $prenomProche): self
     {
         $this->prenomProche = $prenomProche;

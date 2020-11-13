@@ -30,22 +30,22 @@ class IbanVirement
     private $autorisationPrelevement;
 
     /**
-     * Get the value of iban
+     * Get the value of iban.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getIban(): ?string
     {
         return $this->iban;
     }
 
     /**
-     * Set the value of iban
+     * Set the value of iban.
      *
-     * @param  string|null  $iban
+     * @param string|null $iban
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIban(?string $iban): self
     {
         $this->iban = $iban;
@@ -54,22 +54,22 @@ class IbanVirement
     }
 
     /**
-     * Get the value of bic
+     * Get the value of bic.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getBic(): ?string
     {
         return $this->bic;
     }
 
     /**
-     * Set the value of bic
+     * Set the value of bic.
      *
-     * @param  string|null  $bic
+     * @param string|null $bic
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setBic(?string $bic): self
     {
         $this->bic = $bic;
@@ -78,22 +78,22 @@ class IbanVirement
     }
 
     /**
-     * Get the value of titulaire
+     * Get the value of titulaire.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTitulaire(): ?string
     {
         return $this->titulaire;
     }
 
     /**
-     * Set the value of titulaire
+     * Set the value of titulaire.
      *
-     * @param  string|null  $titulaire
+     * @param string|null $titulaire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTitulaire(?string $titulaire): self
     {
         $this->titulaire = $titulaire;
@@ -102,22 +102,22 @@ class IbanVirement
     }
 
     /**
-     * Get the value of nomBanque
+     * Get the value of nomBanque.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNomBanque(): ?string
     {
         return $this->nomBanque;
     }
 
     /**
-     * Set the value of nomBanque
+     * Set the value of nomBanque.
      *
-     * @param  string|null  $nomBanque
+     * @param string|null $nomBanque
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNomBanque(?string $nomBanque): self
     {
         $this->nomBanque = $nomBanque;
@@ -126,22 +126,22 @@ class IbanVirement
     }
 
     /**
-     * Get the value of autorisationPrelevement
+     * Get the value of autorisationPrelevement.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getAutorisationPrelevement(): ?bool
     {
         return $this->autorisationPrelevement;
     }
 
     /**
-     * Set the value of autorisationPrelevement
+     * Set the value of autorisationPrelevement.
      *
-     * @param  bool|null  $autorisationPrelevement
+     * @param bool|null $autorisationPrelevement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAutorisationPrelevement(?bool $autorisationPrelevement): self
     {
         $this->autorisationPrelevement = $autorisationPrelevement;

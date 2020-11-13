@@ -2,6 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 class PieceAFournir
 {
     /**
@@ -50,22 +52,27 @@ class PieceAFournir
     private $nombreMax;
 
     /**
-     * Get the value of idPieceAFournir
+     * @var File|null
+     */
+    private $file;
+
+    /**
+     * Get the value of idPieceAFournir.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getIdPieceAFournir(): ?string
     {
         return $this->idPieceAFournir;
     }
 
     /**
-     * Set the value of idPieceAFournir
+     * Set the value of idPieceAFournir.
      *
-     * @param  string|null  $idPieceAFournir
+     * @param string|null $idPieceAFournir
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIdPieceAFournir(?string $idPieceAFournir): self
     {
         $this->idPieceAFournir = $idPieceAFournir;
@@ -74,22 +81,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -98,22 +105,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of libelleOrdre
+     * Get the value of libelleOrdre.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelleOrdre(): ?string
     {
         return $this->libelleOrdre;
     }
 
     /**
-     * Set the value of libelleOrdre
+     * Set the value of libelleOrdre.
      *
-     * @param  string|null  $libelleOrdre
+     * @param string|null $libelleOrdre
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelleOrdre(?string $libelleOrdre): self
     {
         $this->libelleOrdre = $libelleOrdre;
@@ -122,22 +129,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of groupe
+     * Get the value of groupe.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getGroupe(): ?string
     {
         return $this->groupe;
     }
 
     /**
-     * Set the value of groupe
+     * Set the value of groupe.
      *
-     * @param  string|null  $groupe
+     * @param string|null $groupe
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setGroupe(?string $groupe): self
     {
         $this->groupe = $groupe;
@@ -146,22 +153,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of groupeOrdre
+     * Get the value of groupeOrdre.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getGroupeOrdre(): ?string
     {
         return $this->groupeOrdre;
     }
 
     /**
-     * Set the value of groupeOrdre
+     * Set the value of groupeOrdre.
      *
-     * @param  string|null  $groupeOrdre
+     * @param string|null $groupeOrdre
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setGroupeOrdre(?string $groupeOrdre): self
     {
         $this->groupeOrdre = $groupeOrdre;
@@ -170,22 +177,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -194,22 +201,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of sousCode
+     * Get the value of sousCode.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getSousCode(): ?string
     {
         return $this->sousCode;
     }
 
     /**
-     * Set the value of sousCode
+     * Set the value of sousCode.
      *
-     * @param  string|null  $sousCode
+     * @param string|null $sousCode
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSousCode(?string $sousCode): self
     {
         $this->sousCode = $sousCode;
@@ -218,22 +225,22 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of nombreMin
+     * Get the value of nombreMin.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getNombreMin(): ?int
     {
         return $this->nombreMin;
     }
 
     /**
-     * Set the value of nombreMin
+     * Set the value of nombreMin.
      *
-     * @param  int|null  $nombreMin
+     * @param int|null $nombreMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNombreMin(?int $nombreMin): self
     {
         $this->nombreMin = $nombreMin;
@@ -242,25 +249,49 @@ class PieceAFournir
     }
 
     /**
-     * Get the value of nombreMax
+     * Get the value of nombreMax.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getNombreMax(): ?int
     {
         return $this->nombreMax;
     }
 
     /**
-     * Set the value of nombreMax
+     * Set the value of nombreMax.
      *
-     * @param  int|null  $nombreMax
+     * @param int|null $nombreMax
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNombreMax(?int $nombreMax): self
     {
         $this->nombreMax = $nombreMax;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of file.
+     *
+     * @return File|null
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set the value of file.
+     *
+     * @param File|null $file
+     *
+     * @return self
+     */
+    public function setFile(?File $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }

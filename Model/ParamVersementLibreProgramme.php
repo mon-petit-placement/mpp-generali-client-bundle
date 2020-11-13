@@ -15,22 +15,22 @@ class ParamVersementLibreProgramme
     private $joursPrelevement;
 
     /**
-     * Get the value of seuils
+     * Get the value of seuils.
      *
-     * @return  array<Seuil>|null
-     */ 
+     * @return array<Seuil>|null
+     */
     public function getSeuils(): ?array
     {
         return $this->seuils;
     }
 
     /**
-     * Set the value of seuils
+     * Set the value of seuils.
      *
-     * @param  array<Seuil>|null  $seuils
+     * @param array<Seuil>|null $seuils
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSeuils(?array $seuils): self
     {
         $this->seuils = $seuils;
@@ -39,22 +39,22 @@ class ParamVersementLibreProgramme
     }
 
     /**
-     * Get the value of joursPrelevement
+     * Get the value of joursPrelevement.
      *
-     * @return  array<int>|null
-     */ 
+     * @return array<int>|null
+     */
     public function getJoursPrelevement(): ?array
     {
         return $this->joursPrelevement;
     }
 
     /**
-     * Set the value of joursPrelevement
+     * Set the value of joursPrelevement.
      *
-     * @param  array<int>|null  $joursPrelevement
+     * @param array<int>|null $joursPrelevement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setJoursPrelevement(?array $joursPrelevement): self
     {
         $this->joursPrelevement = $joursPrelevement;

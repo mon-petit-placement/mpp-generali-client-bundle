@@ -45,22 +45,22 @@ class RetourConsultationRachatPartiel
     private $motifsDeRachat;
 
     /**
-     * Get the value of seuils
+     * Get the value of seuils.
      *
-     * @return  Seuils|null
-     */ 
+     * @return Seuils|null
+     */
     public function getSeuils(): ?Seuils
     {
         return $this->seuils;
     }
 
     /**
-     * Set the value of seuils
+     * Set the value of seuils.
      *
-     * @param  Seuils|null  $seuils
+     * @param Seuils|null $seuils
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSeuils(?Seuils $seuils): self
     {
         $this->seuils = $seuils;
@@ -69,22 +69,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of repartitionLibrePossible
+     * Get the value of repartitionLibrePossible.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getRepartitionLibrePossible(): ?bool
     {
         return $this->repartitionLibrePossible;
     }
 
     /**
-     * Set the value of repartitionLibrePossible
+     * Set the value of repartitionLibrePossible.
      *
-     * @param  bool|null  $repartitionLibrePossible
+     * @param bool|null $repartitionLibrePossible
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRepartitionLibrePossible(?bool $repartitionLibrePossible): self
     {
         $this->repartitionLibrePossible = $repartitionLibrePossible;
@@ -93,22 +93,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of rp72Possible
+     * Get the value of rp72Possible.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getRp72Possible(): ?bool
     {
         return $this->rp72Possible;
     }
 
     /**
-     * Set the value of rp72Possible
+     * Set the value of rp72Possible.
      *
-     * @param  bool|null  $rp72Possible
+     * @param bool|null $rp72Possible
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRp72Possible(?bool $rp72Possible): self
     {
         $this->rp72Possible = $rp72Possible;
@@ -117,22 +117,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of informationSaisieMotifSortie
+     * Get the value of informationSaisieMotifSortie.
      *
-     * @return  InformationSaisieMotifSortie|null
-     */ 
+     * @return InformationSaisieMotifSortie|null
+     */
     public function getInformationSaisieMotifSortie(): ?InformationSaisieMotifSortie
     {
         return $this->informationSaisieMotifSortie;
     }
 
     /**
-     * Set the value of informationSaisieMotifSortie
+     * Set the value of informationSaisieMotifSortie.
      *
-     * @param  InformationSaisieMotifSortie|null  $informationSaisieMotifSortie
+     * @param InformationSaisieMotifSortie|null $informationSaisieMotifSortie
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setInformationSaisieMotifSortie(?InformationSaisieMotifSortie $informationSaisieMotifSortie): self
     {
         $this->informationSaisieMotifSortie = $informationSaisieMotifSortie;
@@ -141,22 +141,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of listeFiscalites
+     * Get the value of listeFiscalites.
      *
-     * @return  array<Fiscalite>|null
-     */ 
+     * @return array<Fiscalite>|null
+     */
     public function getListeFiscalites(): ?array
     {
         return $this->listeFiscalites;
     }
 
     /**
-     * Set the value of listeFiscalites
+     * Set the value of listeFiscalites.
      *
-     * @param  array<Fiscalite>|null  $listeFiscalites
+     * @param array<Fiscalite>|null $listeFiscalites
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setListeFiscalites(?array $listeFiscalites): self
     {
         $this->listeFiscalites = $listeFiscalites;
@@ -165,22 +165,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of epargneAtteinte
+     * Get the value of epargneAtteinte.
      *
-     * @return  EpargneAtteinte|null
-     */ 
+     * @return EpargneAtteinte|null
+     */
     public function getEpargneAtteinte(): ?EpargneAtteinte
     {
         return $this->epargneAtteinte;
     }
 
     /**
-     * Set the value of epargneAtteinte
+     * Set the value of epargneAtteinte.
      *
-     * @param  EpargneAtteinte|null  $epargneAtteinte
+     * @param EpargneAtteinte|null $epargneAtteinte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEpargneAtteinte(?EpargneAtteinte $epargneAtteinte): self
     {
         $this->epargneAtteinte = $epargneAtteinte;
@@ -189,22 +189,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of listeIbanVirement
+     * Get the value of listeIbanVirement.
      *
-     * @return  array<IbanVirement>|null
-     */ 
+     * @return array<IbanVirement>|null
+     */
     public function getListeIbanVirement(): ?array
     {
         return $this->listeIbanVirement;
     }
 
     /**
-     * Set the value of listeIbanVirement
+     * Set the value of listeIbanVirement.
      *
-     * @param  array<IbanVirement>|null  $listeIbanVirement
+     * @param array<IbanVirement>|null $listeIbanVirement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setListeIbanVirement(?array $listeIbanVirement): self
     {
         $this->listeIbanVirement = $listeIbanVirement;
@@ -213,22 +213,22 @@ class RetourConsultationRachatPartiel
     }
 
     /**
-     * Get the value of motifsDeRachat
+     * Get the value of motifsDeRachat.
      *
-     * @return  array<MotifDeRachat>|null
-     */ 
+     * @return array<MotifDeRachat>|null
+     */
     public function getMotifsDeRachat(): ?array
     {
         return $this->motifsDeRachat;
     }
 
     /**
-     * Set the value of motifsDeRachat
+     * Set the value of motifsDeRachat.
      *
-     * @param  array<MotifDeRachat>|null  $motifsDeRachat
+     * @param array<MotifDeRachat>|null $motifsDeRachat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMotifsDeRachat(?array $motifsDeRachat): self
     {
         $this->motifsDeRachat = $motifsDeRachat;

@@ -28,6 +28,7 @@ class CombinaisonPossibleSouscription
      * @var bool|null
      */
     private $limitationsMoinsValues;
+
     /**
      * @var bool|null
      */
@@ -39,22 +40,22 @@ class CombinaisonPossibleSouscription
     private $versementLibreProgramme;
 
     /**
-     * Get the value of codeModeGestion
+     * Get the value of codeModeGestion.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeModeGestion(): ?string
     {
         return $this->codeModeGestion;
     }
 
     /**
-     * Set the value of codeModeGestion
+     * Set the value of codeModeGestion.
      *
-     * @param  string|null  $codeModeGestion
+     * @param string|null $codeModeGestion
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeModeGestion(?string $codeModeGestion): self
     {
         $this->codeModeGestion = $codeModeGestion;
@@ -63,22 +64,22 @@ class CombinaisonPossibleSouscription
     }
 
     /**
-     * Get the value of modeGestion
+     * Get the value of modeGestion.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getModeGestion(): ?string
     {
         return $this->modeGestion;
     }
 
     /**
-     * Set the value of modeGestion
+     * Set the value of modeGestion.
      *
-     * @param  string|null  $modeGestion
+     * @param string|null $modeGestion
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setModeGestion(?string $modeGestion): self
     {
         $this->modeGestion = $modeGestion;
@@ -87,22 +88,22 @@ class CombinaisonPossibleSouscription
     }
 
     /**
-     * Get the value of garantiePrevoyance
+     * Get the value of garantiePrevoyance.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getGarantiePrevoyance(): ?string
     {
         return $this->garantiePrevoyance;
     }
 
     /**
-     * Set the value of garantiePrevoyance
+     * Set the value of garantiePrevoyance.
      *
-     * @param  string|null  $garantiePrevoyance
+     * @param string|null $garantiePrevoyance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setGarantiePrevoyance(?string $garantiePrevoyance): self
     {
         $this->garantiePrevoyance = $garantiePrevoyance;
@@ -111,22 +112,22 @@ class CombinaisonPossibleSouscription
     }
 
     /**
-     * Get the value of securisationPlusValues
+     * Get the value of securisationPlusValues.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getSecurisationPlusValues(): ?bool
     {
         return $this->securisationPlusValues;
     }
 
     /**
-     * Set the value of securisationPlusValues
+     * Set the value of securisationPlusValues.
      *
-     * @param  bool|null  $securisationPlusValues
+     * @param bool|null $securisationPlusValues
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSecurisationPlusValues(?bool $securisationPlusValues): self
     {
         $this->securisationPlusValues = $securisationPlusValues;
@@ -135,22 +136,22 @@ class CombinaisonPossibleSouscription
     }
 
     /**
-     * Get the value of limitationsMoinsValues
+     * Get the value of limitationsMoinsValues.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getLimitationsMoinsValues(): ?bool
     {
         return $this->limitationsMoinsValues;
     }
 
     /**
-     * Set the value of limitationsMoinsValues
+     * Set the value of limitationsMoinsValues.
      *
-     * @param  bool|null  $limitationsMoinsValues
+     * @param bool|null $limitationsMoinsValues
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLimitationsMoinsValues(?bool $limitationsMoinsValues): self
     {
         $this->limitationsMoinsValues = $limitationsMoinsValues;
@@ -159,22 +160,22 @@ class CombinaisonPossibleSouscription
     }
 
     /**
-     * Get the value of rachatPartielProgramme
+     * Get the value of rachatPartielProgramme.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getRachatPartielProgramme(): ?bool
     {
         return $this->rachatPartielProgramme;
     }
 
     /**
-     * Set the value of rachatPartielProgramme
+     * Set the value of rachatPartielProgramme.
      *
-     * @param  bool|null  $rachatPartielProgramme
+     * @param bool|null $rachatPartielProgramme
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRachatPartielProgramme(?bool $rachatPartielProgramme): self
     {
         $this->rachatPartielProgramme = $rachatPartielProgramme;
@@ -183,22 +184,22 @@ class CombinaisonPossibleSouscription
     }
 
     /**
-     * Get the value of versementLibreProgramme
+     * Get the value of versementLibreProgramme.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getVersementLibreProgramme(): ?bool
     {
         return $this->versementLibreProgramme;
     }
 
     /**
-     * Set the value of versementLibreProgramme
+     * Set the value of versementLibreProgramme.
      *
-     * @param  bool|null  $versementLibreProgramme
+     * @param bool|null $versementLibreProgramme
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setVersementLibreProgramme(?bool $versementLibreProgramme): self
     {
         $this->versementLibreProgramme = $versementLibreProgramme;

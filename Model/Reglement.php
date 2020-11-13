@@ -20,22 +20,22 @@ class Reglement
     private $originesFonds;
 
     /**
-     * Get the value of typeReglementVersementPonctuel
+     * Get the value of typeReglementVersementPonctuel.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTypeReglementVersementPonctuel(): ?string
     {
         return $this->typeReglementVersementPonctuel;
     }
 
     /**
-     * Set the value of typeReglementVersementPonctuel
+     * Set the value of typeReglementVersementPonctuel.
      *
-     * @param  string|null  $typeReglementVersementPonctuel
+     * @param string|null $typeReglementVersementPonctuel
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypeReglementVersementPonctuel(?string $typeReglementVersementPonctuel): self
     {
         $this->typeReglementVersementPonctuel = $typeReglementVersementPonctuel;
@@ -44,22 +44,22 @@ class Reglement
     }
 
     /**
-     * Get the value of ibanContractant
+     * Get the value of ibanContractant.
      *
-     * @return  IbanVirement|null
-     */ 
+     * @return IbanVirement|null
+     */
     public function getIbanContractant(): ?IbanVirement
     {
         return $this->ibanContractant;
     }
 
     /**
-     * Set the value of ibanContractant
+     * Set the value of ibanContractant.
      *
-     * @param  IbanVirement|null  $ibanContractant
+     * @param IbanVirement|null $ibanContractant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIbanContractant(?IbanVirement $ibanContractant): self
     {
         $this->ibanContractant = $ibanContractant;
@@ -68,22 +68,22 @@ class Reglement
     }
 
     /**
-     * Get the value of originesFonds
+     * Get the value of originesFonds.
      *
-     * @return  array<OrigineFonds>|null
-     */ 
+     * @return array<OrigineFonds>|null
+     */
     public function getOriginesFonds(): ?array
     {
         return $this->originesFonds;
     }
 
     /**
-     * Set the value of originesFonds
+     * Set the value of originesFonds.
      *
-     * @param  array<OrigineFonds>|null  $originesFonds
+     * @param array<OrigineFonds>|null $originesFonds
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setOriginesFonds(?array $originesFonds): self
     {
         $this->originesFonds = $originesFonds;

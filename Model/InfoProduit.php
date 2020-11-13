@@ -15,22 +15,22 @@ class InfoProduit
     private $gerePBDiffere;
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -39,22 +39,22 @@ class InfoProduit
     }
 
     /**
-     * Get the value of gerePBDiffere
+     * Get the value of gerePBDiffere.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getGerePBDiffere(): ?bool
     {
         return $this->gerePBDiffere;
     }
 
     /**
-     * Set the value of gerePBDiffere
+     * Set the value of gerePBDiffere.
      *
-     * @param  bool|null  $gerePBDiffere
+     * @param bool|null $gerePBDiffere
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setGerePBDiffere(?bool $gerePBDiffere): self
     {
         $this->gerePBDiffere = $gerePBDiffere;

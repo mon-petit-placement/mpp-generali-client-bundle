@@ -35,22 +35,22 @@ class CompteBancaire
     private $autorise;
 
     /**
-     * Get the value of iban
+     * Get the value of iban.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getIban(): ?string
     {
         return $this->iban;
     }
 
     /**
-     * Set the value of iban
+     * Set the value of iban.
      *
-     * @param  string|null  $iban
+     * @param string|null $iban
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIban(?string $iban): self
     {
         $this->iban = $iban;
@@ -59,22 +59,22 @@ class CompteBancaire
     }
 
     /**
-     * Get the value of bic
+     * Get the value of bic.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getBic(): ?string
     {
         return $this->bic;
     }
 
     /**
-     * Set the value of bic
+     * Set the value of bic.
      *
-     * @param  string|null  $bic
+     * @param string|null $bic
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setBic(?string $bic): self
     {
         $this->bic = $bic;
@@ -83,22 +83,22 @@ class CompteBancaire
     }
 
     /**
-     * Get the value of domiciliation
+     * Get the value of domiciliation.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getDomiciliation(): ?string
     {
         return $this->domiciliation;
     }
 
     /**
-     * Set the value of domiciliation
+     * Set the value of domiciliation.
      *
-     * @param  string|null  $domiciliation
+     * @param string|null $domiciliation
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDomiciliation(?string $domiciliation): self
     {
         $this->domiciliation = $domiciliation;
@@ -107,22 +107,22 @@ class CompteBancaire
     }
 
     /**
-     * Get the value of titulaire
+     * Get the value of titulaire.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTitulaire(): ?string
     {
         return $this->titulaire;
     }
 
     /**
-     * Set the value of titulaire
+     * Set the value of titulaire.
      *
-     * @param  string|null  $titulaire
+     * @param string|null $titulaire
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTitulaire(?string $titulaire): self
     {
         $this->titulaire = $titulaire;
@@ -131,22 +131,22 @@ class CompteBancaire
     }
 
     /**
-     * Get the value of actif
+     * Get the value of actif.
      *
-     * @return  bool
-     */ 
+     * @return bool
+     */
     public function getActif(): bool
     {
         return $this->actif;
     }
 
     /**
-     * Set the value of actif
+     * Set the value of actif.
      *
-     * @param  bool  $actif
+     * @param bool $actif
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
@@ -155,22 +155,22 @@ class CompteBancaire
     }
 
     /**
-     * Get the value of autorise
+     * Get the value of autorise.
      *
-     * @return  bool
-     */ 
+     * @return bool
+     */
     public function getAutorise(): bool
     {
         return $this->autorise;
     }
 
     /**
-     * Set the value of autorise
+     * Set the value of autorise.
      *
-     * @param  bool  $autorise
+     * @param bool $autorise
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAutorise(bool $autorise): self
     {
         $this->autorise = $autorise;

@@ -25,22 +25,22 @@ class ParametrageFrais
     private $montantStandard;
 
     /**
-     * Get the value of derogeable
+     * Get the value of derogeable.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getDerogeable(): ?bool
     {
         return $this->derogeable;
     }
 
     /**
-     * Set the value of derogeable
+     * Set the value of derogeable.
      *
-     * @param  bool|null  $derogeable
+     * @param bool|null $derogeable
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDerogeable(?bool $derogeable): self
     {
         $this->derogeable = $derogeable;
@@ -49,22 +49,22 @@ class ParametrageFrais
     }
 
     /**
-     * Get the value of tauxStandard
+     * Get the value of tauxStandard.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getTauxStandard(): ?float
     {
         return $this->tauxStandard;
     }
 
     /**
-     * Set the value of tauxStandard
+     * Set the value of tauxStandard.
      *
-     * @param  float|null  $tauxStandard
+     * @param float|null $tauxStandard
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTauxStandard(?float $tauxStandard): self
     {
         $this->tauxStandard = $tauxStandard;
@@ -73,22 +73,22 @@ class ParametrageFrais
     }
 
     /**
-     * Get the value of tauxMinimal
+     * Get the value of tauxMinimal.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getTauxMinimal(): ?float
     {
         return $this->tauxMinimal;
     }
 
     /**
-     * Set the value of tauxMinimal
+     * Set the value of tauxMinimal.
      *
-     * @param  float|null  $tauxMinimal
+     * @param float|null $tauxMinimal
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTauxMinimal(?float $tauxMinimal): self
     {
         $this->tauxMinimal = $tauxMinimal;
@@ -97,22 +97,22 @@ class ParametrageFrais
     }
 
     /**
-     * Get the value of montantStandard
+     * Get the value of montantStandard.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantStandard(): ?float
     {
         return $this->montantStandard;
     }
 
     /**
-     * Set the value of montantStandard
+     * Set the value of montantStandard.
      *
-     * @param  float|null  $montantStandard
+     * @param float|null $montantStandard
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantStandard(?float $montantStandard): self
     {
         $this->montantStandard = $montantStandard;

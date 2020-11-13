@@ -2,16 +2,28 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\Contexte;
+
 class GeneraliFundsClient extends AbstractGeneraliClient
 {
+    /**
+     * POST /v1.0/fonds/{codeFonds}
+     * Retrieve funds data.
+     *
+     * @method getData
+     *
+     * @param string $fundsCode
+     * @param array  $expectedItems
+     *
+     * @return ApiResponse
+     */
     public function getData(string $fundsCode, array $expectedItems = []): ApiResponse
     {
-        return $this->request('POST', sprintf('/%s', $fundsCode), [
-            'json' => [
-                'contexte' => [
-                    'elementsAttendus' => $context->expectedItems(),
-                ],
-            ],
+        return $this->getApiResponse(null, 'POST', sprintf('/%s', $fundsCode), [
+            'body' => $this->serialize([
+                'contexte' => (new Contexte())->setElementsAttendus($expectedItems),
+            ]),
         ]);
     }
 
@@ -28,6 +40,6 @@ class GeneraliFundsClient extends AbstractGeneraliClient
      */
     public function getBasePath(): string
     {
-        return '/v2.0/fonds';
+        return '/v1.0/fonds';
     }
 }

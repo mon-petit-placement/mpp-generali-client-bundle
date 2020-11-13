@@ -55,22 +55,22 @@ class Souscripteur
     private $secondePieceIdentite;
 
     /**
-     * Get the value of noms
+     * Get the value of noms.
      *
-     * @return  Noms|null
-     */ 
+     * @return Noms|null
+     */
     public function getNoms(): ?Noms
     {
         return $this->noms;
     }
 
     /**
-     * Set the value of noms
+     * Set the value of noms.
      *
-     * @param  Noms|null  $noms
+     * @param Noms|null $noms
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNoms(?Noms $noms): self
     {
         $this->noms = $noms;
@@ -79,22 +79,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of residenceFiscale
+     * Get the value of residenceFiscale.
      *
-     * @return  ResidenceFiscale|null
-     */ 
+     * @return ResidenceFiscale|null
+     */
     public function getResidenceFiscale(): ?ResidenceFiscale
     {
         return $this->residenceFiscale;
     }
 
     /**
-     * Set the value of residenceFiscale
+     * Set the value of residenceFiscale.
      *
-     * @param  ResidenceFiscale|null  $residenceFiscale
+     * @param ResidenceFiscale|null $residenceFiscale
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setResidenceFiscale(?ResidenceFiscale $residenceFiscale): self
     {
         $this->residenceFiscale = $residenceFiscale;
@@ -103,22 +103,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of nationalite
+     * Get the value of nationalite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getNationalite(): ?string
     {
         return $this->nationalite;
     }
 
     /**
-     * Set the value of nationalite
+     * Set the value of nationalite.
      *
-     * @param  string|null  $nationalite
+     * @param string|null $nationalite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNationalite(?string $nationalite): self
     {
         $this->nationalite = $nationalite;
@@ -127,22 +127,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of complement
+     * Get the value of complement.
      *
-     * @return  SouscripteurComplement|null
-     */ 
+     * @return SouscripteurComplement|null
+     */
     public function getComplement(): ?SouscripteurComplement
     {
         return $this->complement;
     }
 
     /**
-     * Set the value of complement
+     * Set the value of complement.
      *
-     * @param  SouscripteurComplement|null  $complement
+     * @param SouscripteurComplement|null $complement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setComplement(?SouscripteurComplement $complement): self
     {
         $this->complement = $complement;
@@ -151,22 +151,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of ppe
+     * Get the value of ppe.
      *
-     * @return  Ppe|null
-     */ 
+     * @return Ppe|null
+     */
     public function getPpe(): ?Ppe
     {
         return $this->ppe;
     }
 
     /**
-     * Set the value of ppe
+     * Set the value of ppe.
      *
-     * @param  Ppe|null  $ppe
+     * @param Ppe|null $ppe
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPpe(?Ppe $ppe): self
     {
         $this->ppe = $ppe;
@@ -175,22 +175,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of capaciteJuridique
+     * Get the value of capaciteJuridique.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCapaciteJuridique(): ?string
     {
         return $this->capaciteJuridique;
     }
 
     /**
-     * Set the value of capaciteJuridique
+     * Set the value of capaciteJuridique.
      *
-     * @param  string|null  $capaciteJuridique
+     * @param string|null $capaciteJuridique
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCapaciteJuridique(?string $capaciteJuridique): self
     {
         $this->capaciteJuridique = $capaciteJuridique;
@@ -199,22 +199,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of naissance
+     * Get the value of naissance.
      *
-     * @return  SouscripteurNaissance|null
-     */ 
+     * @return SouscripteurNaissance|null
+     */
     public function getNaissance(): ?SouscripteurNaissance
     {
         return $this->naissance;
     }
 
     /**
-     * Set the value of naissance
+     * Set the value of naissance.
      *
-     * @param  SouscripteurNaissance|null  $naissance
+     * @param SouscripteurNaissance|null $naissance
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNaissance(?SouscripteurNaissance $naissance): self
     {
         $this->naissance = $naissance;
@@ -223,22 +223,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of contact
+     * Get the value of contact.
      *
-     * @return  Contact|null
-     */ 
+     * @return Contact|null
+     */
     public function getContact(): ?Contact
     {
         return $this->contact;
     }
 
     /**
-     * Set the value of contact
+     * Set the value of contact.
      *
-     * @param  Contact|null  $contact
+     * @param Contact|null $contact
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setContact(?Contact $contact): self
     {
         $this->contact = $contact;
@@ -247,22 +247,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of pieceIdentite
+     * Get the value of pieceIdentite.
      *
-     * @return  PieceIdentite|null
-     */ 
+     * @return PieceIdentite|null
+     */
     public function getPieceIdentite(): ?PieceIdentite
     {
         return $this->pieceIdentite;
     }
 
     /**
-     * Set the value of pieceIdentite
+     * Set the value of pieceIdentite.
      *
-     * @param  PieceIdentite|null  $pieceIdentite
+     * @param PieceIdentite|null $pieceIdentite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPieceIdentite(?PieceIdentite $pieceIdentite): self
     {
         $this->pieceIdentite = $pieceIdentite;
@@ -271,22 +271,22 @@ class Souscripteur
     }
 
     /**
-     * Get the value of secondePieceIdentite
+     * Get the value of secondePieceIdentite.
      *
-     * @return  PieceIdentite|null
-     */ 
+     * @return PieceIdentite|null
+     */
     public function getSecondePieceIdentite(): ?PieceIdentite
     {
         return $this->secondePieceIdentite;
     }
 
     /**
-     * Set the value of secondePieceIdentite
+     * Set the value of secondePieceIdentite.
      *
-     * @param  PieceIdentite|null  $secondePieceIdentite
+     * @param PieceIdentite|null $secondePieceIdentite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setSecondePieceIdentite(?PieceIdentite $secondePieceIdentite): self
     {
         $this->secondePieceIdentite = $secondePieceIdentite;

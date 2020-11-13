@@ -15,22 +15,32 @@ class RepartitionPatrimoine
     private $libelle;
 
     /**
-     * Get the value of code
+     * @var int|null
+     */
+    private $pourcentage;
+
+    /**
+     * @var string|null
+     */
+    private $precision;
+
+    /**
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCode(?string $code): self
     {
         $this->code = $code;
@@ -39,25 +49,73 @@ class RepartitionPatrimoine
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pourcentage.
+     *
+     * @return int|null
+     */
+    public function getPourcentage(): ?int
+    {
+        return $this->pourcentage;
+    }
+
+    /**
+     * Set the value of pourcentage.
+     *
+     * @param int|null pourcentage
+     *
+     * @return self
+     */
+    public function setPourcentage(?int $pourcentage): self
+    {
+        $this->pourcentage = $pourcentage;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of precision.
+     *
+     * @return string|null
+     */
+    public function getPrecision(): ?string
+    {
+        return $this->precision;
+    }
+
+    /**
+     * Set the value of precision.
+     *
+     * @param string|null precision
+     *
+     * @return self
+     */
+    public function setPrecision(?string $precision): self
+    {
+        $this->precision = $precision;
 
         return $this;
     }

@@ -15,22 +15,22 @@ class VlpMontant
     private $periodicite;
 
     /**
-     * Get the value of montant
+     * Get the value of montant.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontant(): ?float
     {
         return $this->montant;
     }
 
     /**
-     * Set the value of montant
+     * Set the value of montant.
      *
-     * @param  float|null  $montant
+     * @param float|null $montant
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontant(?float $montant): self
     {
         $this->montant = $montant;
@@ -39,22 +39,22 @@ class VlpMontant
     }
 
     /**
-     * Get the value of periodicite
+     * Get the value of periodicite.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getPeriodicite(): ?string
     {
         return $this->periodicite;
     }
 
     /**
-     * Set the value of periodicite
+     * Set the value of periodicite.
      *
-     * @param  string|null  $periodicite
+     * @param string|null $periodicite
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setPeriodicite(?string $periodicite): self
     {
         $this->periodicite = $periodicite;

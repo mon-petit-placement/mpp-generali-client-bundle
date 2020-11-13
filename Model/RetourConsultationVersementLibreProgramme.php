@@ -45,22 +45,22 @@ class RetourConsultationVersementLibreProgramme
     private $infoVersement;
 
     /**
-     * Get the value of infosContrat
+     * Get the value of infosContrat.
      *
-     * @return  InfosContrat|null
-     */ 
+     * @return InfosContrat|null
+     */
     public function getInfosContrat(): ?InfosContrat
     {
         return $this->infosContrat;
     }
 
     /**
-     * Set the value of infosContrat
+     * Set the value of infosContrat.
      *
-     * @param  InfosContrat|null  $infosContrat
+     * @param InfosContrat|null $infosContrat
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setInfosContrat(?InfosContrat $infosContrat): self
     {
         $this->infosContrat = $infosContrat;
@@ -69,22 +69,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of parametrageVersementLibreProgramme
+     * Get the value of parametrageVersementLibreProgramme.
      *
-     * @return  ParametrageVersementLibreProgramme|null
-     */ 
+     * @return ParametrageVersementLibreProgramme|null
+     */
     public function getParametrageVersementLibreProgramme(): ?ParametrageVersementLibreProgramme
     {
         return $this->parametrageVersementLibreProgramme;
     }
 
     /**
-     * Set the value of parametrageVersementLibreProgramme
+     * Set the value of parametrageVersementLibreProgramme.
      *
-     * @param  ParametrageVersementLibreProgramme|null  $parametrageVersementLibreProgramme
+     * @param ParametrageVersementLibreProgramme|null $parametrageVersementLibreProgramme
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setParametrageVersementLibreProgramme(?ParametrageVersementLibreProgramme $parametrageVersementLibreProgramme): self
     {
         $this->parametrageVersementLibreProgramme = $parametrageVersementLibreProgramme;
@@ -93,22 +93,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of fondsInvestissables
+     * Get the value of fondsInvestissables.
      *
-     * @return  array<FondsInvestissable>|null
-     */ 
+     * @return array<FondsInvestissable>|null
+     */
     public function getFondsInvestissables(): ?array
     {
         return $this->fondsInvestissables;
     }
 
     /**
-     * Set the value of fondsInvestissables
+     * Set the value of fondsInvestissables.
      *
-     * @param  array<FondsInvestissable>|null  $fondsInvestissables
+     * @param array<FondsInvestissable>|null $fondsInvestissables
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFondsInvestissables(?array $fondsInvestissables): self
     {
         $this->fondsInvestissables = $fondsInvestissables;
@@ -117,22 +117,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of referentiel
+     * Get the value of referentiel.
      *
-     * @return  Referentiel|null
-     */ 
+     * @return Referentiel|null
+     */
     public function getReferentiel(): ?Referentiel
     {
         return $this->referentiel;
     }
 
     /**
-     * Set the value of referentiel
+     * Set the value of referentiel.
      *
-     * @param  Referentiel|null  $referentiel
+     * @param Referentiel|null $referentiel
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setReferentiel(?Referentiel $referentiel): self
     {
         $this->referentiel = $referentiel;
@@ -141,22 +141,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of comptesBancairesPrelevement
+     * Get the value of comptesBancairesPrelevement.
      *
-     * @return  array<IbanVirement>|null
-     */ 
+     * @return array<IbanVirement>|null
+     */
     public function getComptesBancairesPrelevement(): ?array
     {
         return $this->comptesBancairesPrelevement;
     }
 
     /**
-     * Set the value of comptesBancairesPrelevement
+     * Set the value of comptesBancairesPrelevement.
      *
-     * @param  array<IbanVirement>|null  $comptesBancairesPrelevement
+     * @param array<IbanVirement>|null $comptesBancairesPrelevement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setComptesBancairesPrelevement(?array $comptesBancairesPrelevement): self
     {
         $this->comptesBancairesPrelevement = $comptesBancairesPrelevement;
@@ -165,22 +165,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of connaissanceClient
+     * Get the value of connaissanceClient.
      *
-     * @return  ConnaissanceClient|null
-     */ 
+     * @return ConnaissanceClient|null
+     */
     public function getConnaissanceClient(): ?ConnaissanceClient
     {
         return $this->connaissanceClient;
     }
 
     /**
-     * Set the value of connaissanceClient
+     * Set the value of connaissanceClient.
      *
-     * @param  ConnaissanceClient|null  $connaissanceClient
+     * @param ConnaissanceClient|null $connaissanceClient
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setConnaissanceClient(?ConnaissanceClient $connaissanceClient): self
     {
         $this->connaissanceClient = $connaissanceClient;
@@ -189,22 +189,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of epargneAtteinte
+     * Get the value of epargneAtteinte.
      *
-     * @return  EpargneAtteinte|null
-     */ 
+     * @return EpargneAtteinte|null
+     */
     public function getEpargneAtteinte(): ?EpargneAtteinte
     {
         return $this->epargneAtteinte;
     }
 
     /**
-     * Set the value of epargneAtteinte
+     * Set the value of epargneAtteinte.
      *
-     * @param  EpargneAtteinte|null  $epargneAtteinte
+     * @param EpargneAtteinte|null $epargneAtteinte
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setEpargneAtteinte(?EpargneAtteinte $epargneAtteinte): self
     {
         $this->epargneAtteinte = $epargneAtteinte;
@@ -213,22 +213,22 @@ class RetourConsultationVersementLibreProgramme
     }
 
     /**
-     * Get the value of infoVersement
+     * Get the value of infoVersement.
      *
-     * @return  InfoVersement|null
-     */ 
+     * @return InfoVersement|null
+     */
     public function getInfoVersement(): ?InfoVersement
     {
         return $this->infoVersement;
     }
 
     /**
-     * Set the value of infoVersement
+     * Set the value of infoVersement.
      *
-     * @param  InfoVersement|null  $infoVersement
+     * @param InfoVersement|null $infoVersement
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setInfoVersement(?InfoVersement $infoVersement): self
     {
         $this->infoVersement = $infoVersement;

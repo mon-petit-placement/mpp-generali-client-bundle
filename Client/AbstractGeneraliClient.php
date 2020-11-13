@@ -7,12 +7,16 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\RequestOptions;
-use Mpp\GeneraliClientBundle\Model\GeneraliApiError;
+use Mpp\GeneraliClientBundle\Factory\ModelFactory;
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\Contexte;
+use Mpp\GeneraliClientBundle\Model\ErrorMessage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AbstractGeneraliClient implements GeneraliClientInterface
@@ -33,20 +37,32 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     protected $httpClient;
 
     /**
-     * @var string
+     * @var ModelFactory
      */
-    private $providerCode;
+    protected $modelFactory;
 
     /**
      * @var string
      */
-    private $subscriptionCode;
+    protected $providerCode;
 
-    public function __construct(LoggerInterface $logger, SerializerInterface $serializer, ClientInterface $httpClient, string $providerCode, string $subscriptionCode)
-    {
+    /**
+     * @var string
+     */
+    protected $subscriptionCode;
+
+    public function __construct(
+        LoggerInterface $logger,
+        SerializerInterface $serializer,
+        ClientInterface $httpClient,
+        ModelFactory $modelFactory,
+        string $providerCode,
+        string $subscriptionCode
+    ) {
         $this->logger = $logger;
         $this->serializer = $serializer;
         $this->httpClient = $httpClient;
+        $this->modelFactory = $modelFactory;
         $this->providerCode = $providerCode;
         $this->subscriptionCode = $subscriptionCode;
     }
@@ -88,6 +104,18 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     }
 
     /**
+     * Retrieve model factory.
+     *
+     * @method getModelFactory
+     *
+     * @return ModelFactory
+     */
+    public function getModelFactory(): ModelFactory
+    {
+        return $this->modelFactory;
+    }
+
+    /**
      * Retrieve provider code.
      *
      * @method getProviderCode
@@ -114,19 +142,12 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     /**
      * {@inheritdoc}
      */
-    public function buildContext(array $parameters = [], array $expectedItems = []): Context
+    public function getContext(array $parameters = []): Contexte
     {
-        $context = (new Context())
-            ->setProviderCode($this->providerCode)
-            ->setSubscriptionCode($this->subscriptionCode)
-            ->setExpectedItems($expectedItems)
-        ;
+        $parameters['codeApporteur'] = $this->providerCode;
+        $parameters['codeSouscription'] = $this->subscriptionCode;
 
-        if (isset($parameters['contractNumber'])) {
-            $context->setContractNumber($parameters['contractNumber']);
-        }
-
-        return $context;
+        return $this->getModelFactory()->createFromArray(Contexte::class, $parameters);
     }
 
     /**
@@ -141,7 +162,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      *
      * @return GuzzleResponse
      *
-     * @throws GeneraliApiError
+     * @throws ErrorMessage
      */
     public function request(string $method, string $path, array $options = []): ResponseInterface
     {
@@ -153,20 +174,21 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
             $this->logger->info(sprintf('%s api call', $className), [
                 'method' => $method,
                 'url' => $url,
+                'options' => $options,
                 'headers' => $this->httpClient->getConfig('headers'),
             ]);
 
-            return $this->httpClient->request($method, $fullPath, $options);
+            return $this->httpClient->request($method, $url, $options);
         } catch (ClientException | ServerException $e) {
             if (Response::HTTP_UNAUTHORIZED === $e->getResponse()->getStatusCode()) {
-                throw (new GeneraliApiError())
+                throw (new ErrorMessage())
                     ->setCode(Response::HTTP_UNAUTHORIZED)
-                    ->setMessage($e->getResponse()->getBody()->getContents())
+                    ->setTexte($e->getResponse()->getBody()->getContents())
                     ->getException()
                 ;
             }
 
-            $generaliApiError = $this->serializer->deserialize($e->getResponse()->getBody()->getContents(), GeneraliApiError::class, 'json');
+            $errorMessages = $this->getModelFactory()->createFromJson(ApiResponse::class, $e->getResponse()->getBody()->getContents());
 
             $this->logger->error(sprintf('%s error', $className), [
                 'method' => $method,
@@ -174,11 +196,10 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
                 'headers' => $this->httpClient->getConfig('headers'),
                 'boby' => $e->getRequest()->getBody(),
                 'response_code' => $e->getResponse()->getStatusCode(),
-                'error_code' => $apicilApiError->getCode(),
-                'error_messages' => (string) $apicilApiError,
+                'error_message' => (string) $errorMessages,
             ]);
 
-            throw $apicilApiError->getException();
+            throw $errorMessages->getException();
         }
     }
 
@@ -220,19 +241,49 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     {
         $response = $this->request($method, $path, $options)->getBody()->getContents();
 
-        if ('bool' === $className) {
-            return filter_var($response, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        }
-
-        if ('array' === $className) {
-            return json_decode($response, true);
-        }
-
         try {
-            return $this->serializer->deserialize($response, $className, 'json');
+            return $this->getModelFactory()->createFromJson($className, $response);
         } catch (ExceptionInterface $e) {
             $this->logger->error(sprintf('Error during deserialization: %s', $e->getMessage()));
         }
+    }
+
+    /**
+     * Make a request and deserialize the Guzzle response to an object of the given class name and put it in api response object.
+     *
+     * @method requestAndPopulate
+     *
+     * @param string $className
+     * @param string $method
+     * @param string $path
+     * @param array  $options
+     * @param bool   $isSign
+     *
+     * @return mixed
+     */
+    public function getApiResponse(?string $className, string $method, string $path, array $options = []): ApiResponse
+    {
+        $apiResponse = $this->requestAndPopulate(ApiResponse::class, $method, $path, $options);
+
+        if (null === $className) {
+            return $apiResponse;
+        }
+
+        return $apiResponse->setDonnees($this->getModelFactory()->createFromArray($className, $apiResponse->getDonnees()));
+    }
+
+    /**
+     * Serialize model class to json format.
+     *
+     * @method serialize
+     *
+     * @param mixed $model
+     *
+     * @return string
+     */
+    public function serialize($model): string
+    {
+        return $this->serializer->serialize($model, 'json', [AbstractObjectNormalizer::SKIP_NULL_VALUES => true]);
     }
 
     /**

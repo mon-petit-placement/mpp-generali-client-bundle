@@ -2,6 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+use Mpp\GeneraliClientBundle\Exception\GeneraliApiException;
+
 class ApiResponse
 {
     /**
@@ -10,32 +12,59 @@ class ApiResponse
     private $statut;
 
     /**
-     * @var array|null
+     * @var array<ErrorMessage>|null
      */
     private $messages;
 
     /**
-     * @var array|null
+     * @var mixed|null
      */
     private $donnees;
 
     /**
-     * Get the value of statut
+     * @var array<Fonds>|null
+     */
+    private $fonds;
+
+    /**
+     * @var Contrat|null
+     */
+    private $contrat;
+
+    /**
+     * @var ModifVlpRetour|null
+     */
+    private $modifVlpRetour;
+
+    /**
+     * Cast object to string (magical call).
      *
-     * @return  string|null
-     */ 
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return json_encode(array_map(function ($message) {
+            return (string) $message;
+        }, $this->getMessages()));
+    }
+
+    /**
+     * Get the value of statut.
+     *
+     * @return string|null
+     */
     public function getStatut(): ?string
     {
         return $this->statut;
     }
 
     /**
-     * Set the value of statut
+     * Set the value of statut.
      *
-     * @param  string|null  $statut
+     * @param string|null $statut
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setStatut(?string $statut): self
     {
         $this->statut = $statut;
@@ -44,22 +73,22 @@ class ApiResponse
     }
 
     /**
-     * Get the value of messages
+     * Get the value of messages.
      *
-     * @return  array|null
-     */ 
+     * @return array<ErrorMessage>|null
+     */
     public function getMessages(): ?array
     {
         return $this->messages;
     }
 
     /**
-     * Set the value of messages
+     * Set the value of messages.
      *
-     * @param  array|null  $messages
+     * @param array<ErrorMessage>|null $messages
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMessages(?array $messages): self
     {
         $this->messages = $messages;
@@ -68,26 +97,108 @@ class ApiResponse
     }
 
     /**
-     * Get the value of donnees
+     * Get the value of donnees.
      *
-     * @return  array|null
-     */ 
-    public function getDonnees(): ?array
+     * @return mixed|null
+     */
+    public function getDonnees()
     {
         return $this->donnees;
     }
 
     /**
-     * Set the value of donnees
+     * Set the value of donnees.
      *
-     * @param  array|null  $donnees
+     * @param mixed|null $donnees
      *
-     * @return  self
-     */ 
-    public function setDonnees(?array $donnees): self
+     * @return self
+     */
+    public function setDonnees($donnees): self
     {
         $this->donnees = $donnees;
 
         return $this;
+    }
+
+    /**
+     * Get the value of fonds.
+     *
+     * @return array<Fonds>|null
+     */
+    public function getFonds(): ?array
+    {
+        return $this->fonds;
+    }
+
+    /**
+     * Set the value of fonds.
+     *
+     * @param array<Fonds>|null $fonds
+     *
+     * @return self
+     */
+    public function setFonds(?array $fonds): self
+    {
+        $this->fonds = $fonds;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of contrat.
+     *
+     * @return Contrat|null
+     */
+    public function getContrat(): ?Contrat
+    {
+        return $this->contrat;
+    }
+
+    /**
+     * Set the value of contrat.
+     *
+     * @param Contrat|null $contrat
+     *
+     * @return self
+     */
+    public function setContrat(?Contrat $contrat): self
+    {
+        $this->contrat = $contrat;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of modifVlpRetour.
+     *
+     * @return ModifVlpRetour|null
+     */
+    public function getModifVlpRetour(): ?ModifVlpRetour
+    {
+        return $this->modifVlpRetour;
+    }
+
+    /**
+     * Set the value of modifVlpRetour.
+     *
+     * @param ModifVlpRetour|null $modifVlpRetour
+     *
+     * @return self
+     */
+    public function setModifVlpRetour(?ModifVlpRetour $modifVlpRetour): self
+    {
+        $this->modifVlpRetour = $modifVlpRetour;
+
+        return $this;
+    }
+
+    /**
+     * Build and return generali api exception.
+     *
+     * @return GeneraliApiException
+     */
+    public function getException(): GeneraliApiException
+    {
+        return new GeneraliApiException((string) $this);
     }
 }

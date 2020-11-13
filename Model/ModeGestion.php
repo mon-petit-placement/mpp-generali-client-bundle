@@ -38,22 +38,22 @@ class ModeGestion
     private $profils;
 
     /**
-     * Get the value of idModeGestion
+     * Get the value of idModeGestion.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getIdModeGestion(): ?string
     {
         return $this->idModeGestion;
     }
 
     /**
-     * Set the value of idModeGestion
+     * Set the value of idModeGestion.
      *
-     * @param  string|null  $idModeGestion
+     * @param string|null $idModeGestion
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setIdModeGestion(?string $idModeGestion): self
     {
         $this->idModeGestion = $idModeGestion;
@@ -62,22 +62,22 @@ class ModeGestion
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -86,22 +86,22 @@ class ModeGestion
     }
 
     /**
-     * Get the value of descriptif
+     * Get the value of descriptif.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getDescriptif(): ?string
     {
         return $this->descriptif;
     }
 
     /**
-     * Set the value of descriptif
+     * Set the value of descriptif.
      *
-     * @param  string|null  $descriptif
+     * @param string|null $descriptif
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDescriptif(?string $descriptif): self
     {
         $this->descriptif = $descriptif;
@@ -110,22 +110,22 @@ class ModeGestion
     }
 
     /**
-     * Get the value of typeModeGestion
+     * Get the value of typeModeGestion.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getTypeModeGestion(): ?string
     {
         return $this->typeModeGestion;
     }
 
     /**
-     * Set the value of typeModeGestion
+     * Set the value of typeModeGestion.
      *
-     * @param  string|null  $typeModeGestion
+     * @param string|null $typeModeGestion
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTypeModeGestion(?string $typeModeGestion): self
     {
         $this->typeModeGestion = $typeModeGestion;
@@ -134,22 +134,22 @@ class ModeGestion
     }
 
     /**
-     * Get the value of profils
+     * Get the value of profils.
      *
-     * @return  array<Profil>|null
-     */ 
+     * @return array<Profil>|null
+     */
     public function getProfils(): ?array
     {
         return $this->profils;
     }
 
     /**
-     * Set the value of profils
+     * Set the value of profils.
      *
-     * @param  array<Profil>|null  $profils
+     * @param array<Profil>|null $profils
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setProfils(?array $profils): self
     {
         $this->profils = $profils;

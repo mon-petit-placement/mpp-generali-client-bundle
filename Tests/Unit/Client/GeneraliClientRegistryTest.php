@@ -12,7 +12,6 @@ use Mpp\GeneraliClientBundle\Client\GeneraliScheduledFreePaymentClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliScheduledFreePaymentEditClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliScheduledFreePaymentSuspendClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliSubscriptionClient;
-use Mpp\GeneraliClientBundle\Handler\ReferentialHandler;
 
 class GeneraliClientRegistryTest extends GeneraliClientTest
 {
@@ -94,11 +93,5 @@ class GeneraliClientRegistryTest extends GeneraliClientTest
 
         $this->assertEquals($subscriptionClient, self::$registry->get('subscription'));
         $this->assertInstanceOf(GeneraliSubscriptionClient::class, $subscriptionClient);
-    }
-
-    public function testReferentialHandler()
-    {
-        var_dump(ReferentialHandler::getInstance());
-        die();
     }
 }

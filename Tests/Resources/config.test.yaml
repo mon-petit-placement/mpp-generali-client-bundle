@@ -12,6 +12,8 @@ eight_points_guzzle:
                     apiKey: '%env(GENERALI_API_KEY)%'
 
 framework:
+    serializer:
+        enabled: true
     property_info:
         enabled: true
 
@@ -27,3 +29,22 @@ services:
     Mpp\GeneraliClientBundle\Client\GeneraliClientRegistryInterface:
         alias: 'Mpp\GeneraliClientBundle\Client\GeneraliClientRegistry'
         public: true
+    Mpp\GeneraliClientBundle\Handler\ReferentialHandler:
+        public: true
+        arguments:
+            $registry: '@Mpp\GeneraliClientBundle\Client\GeneraliClientRegistryInterface'
+    Mpp\GeneraliClientBundle\Factory\ModelFactory:
+        public: true
+        arguments:
+            $serializer: '@serializer'
+    # Symfony\Component\Serializer\Normalizer\ObjectNormalizer:
+    #     class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+    #     public: false
+    #     tags:
+    #         - { name: 'serializer.normalizer' }
+    #
+    # Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer:
+    #     class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+    #     public: false
+    #     tags:
+    #         - { name: 'serializer.normalizer' }

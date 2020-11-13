@@ -35,22 +35,22 @@ class SituationPatrimoniale
     private $repartitionPatrimoniale;
 
     /**
-     * Get the value of codeTrancheRevenu
+     * Get the value of codeTrancheRevenu.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeTrancheRevenu(): ?string
     {
         return $this->codeTrancheRevenu;
     }
 
     /**
-     * Set the value of codeTrancheRevenu
+     * Set the value of codeTrancheRevenu.
      *
-     * @param  string|null  $codeTrancheRevenu
+     * @param string|null $codeTrancheRevenu
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeTrancheRevenu(?string $codeTrancheRevenu): self
     {
         $this->codeTrancheRevenu = $codeTrancheRevenu;
@@ -59,22 +59,22 @@ class SituationPatrimoniale
     }
 
     /**
-     * Get the value of montantRevenu
+     * Get the value of montantRevenu.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantRevenu(): ?float
     {
         return $this->montantRevenu;
     }
 
     /**
-     * Set the value of montantRevenu
+     * Set the value of montantRevenu.
      *
-     * @param  float|null  $montantRevenu
+     * @param float|null $montantRevenu
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantRevenu(?float $montantRevenu): self
     {
         $this->montantRevenu = $montantRevenu;
@@ -83,22 +83,22 @@ class SituationPatrimoniale
     }
 
     /**
-     * Get the value of codeTranchePatrimoine
+     * Get the value of codeTranchePatrimoine.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodeTranchePatrimoine(): ?string
     {
         return $this->codeTranchePatrimoine;
     }
 
     /**
-     * Set the value of codeTranchePatrimoine
+     * Set the value of codeTranchePatrimoine.
      *
-     * @param  string|null  $codeTranchePatrimoine
+     * @param string|null $codeTranchePatrimoine
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodeTranchePatrimoine(?string $codeTranchePatrimoine): self
     {
         $this->codeTranchePatrimoine = $codeTranchePatrimoine;
@@ -107,22 +107,22 @@ class SituationPatrimoniale
     }
 
     /**
-     * Get the value of montantPatrimoine
+     * Get the value of montantPatrimoine.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getMontantPatrimoine(): ?float
     {
         return $this->montantPatrimoine;
     }
 
     /**
-     * Set the value of montantPatrimoine
+     * Set the value of montantPatrimoine.
      *
-     * @param  float|null  $montantPatrimoine
+     * @param float|null $montantPatrimoine
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantPatrimoine(?float $montantPatrimoine): self
     {
         $this->montantPatrimoine = $montantPatrimoine;
@@ -131,22 +131,22 @@ class SituationPatrimoniale
     }
 
     /**
-     * Get the value of originePatrimoniale
+     * Get the value of originePatrimoniale.
      *
-     * @return  array<OriginePatrimoniale>|null
-     */ 
+     * @return array<OriginePatrimoniale>|null
+     */
     public function getOriginePatrimoniale(): ?array
     {
         return $this->originePatrimoniale;
     }
 
     /**
-     * Set the value of originePatrimoniale
+     * Set the value of originePatrimoniale.
      *
-     * @param  array<OriginePatrimoniale>|null  $originePatrimoniale
+     * @param array<OriginePatrimoniale>|null $originePatrimoniale
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setOriginePatrimoniale(?array $originePatrimoniale): self
     {
         $this->originePatrimoniale = $originePatrimoniale;
@@ -155,22 +155,22 @@ class SituationPatrimoniale
     }
 
     /**
-     * Get the value of repartitionPatrimoniale
+     * Get the value of repartitionPatrimoniale.
      *
-     * @return  array<RepartitionPatrimoniale>|null
-     */ 
+     * @return array<RepartitionPatrimoniale>|null
+     */
     public function getRepartitionPatrimoniale(): ?array
     {
         return $this->repartitionPatrimoniale;
     }
 
     /**
-     * Set the value of repartitionPatrimoniale
+     * Set the value of repartitionPatrimoniale.
      *
-     * @param  array<RepartitionPatrimoniale>|null  $repartitionPatrimoniale
+     * @param array<RepartitionPatrimoniale>|null $repartitionPatrimoniale
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setRepartitionPatrimoniale(?array $repartitionPatrimoniale): self
     {
         $this->repartitionPatrimoniale = $repartitionPatrimoniale;

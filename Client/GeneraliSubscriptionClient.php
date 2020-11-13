@@ -2,79 +2,111 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\Contexte;
+use Mpp\GeneraliClientBundle\Model\RetourConsultationSouscription;
+use Mpp\GeneraliClientBundle\Model\RetourFinalisation;
+use Mpp\GeneraliClientBundle\Model\RetourInitiationSouscription;
+use Mpp\GeneraliClientBundle\Model\RetourValidation;
+use Mpp\GeneraliClientBundle\Model\Souscription;
+
 class GeneraliSubscriptionClient extends AbstractGeneraliClient
 {
-    public function getData(array $expectedItems = []): BaseResponse
+    /**
+     * POST /v2.0/transaction/souscription/donnees
+     * Retrieve subscription data.
+     *
+     * @method getData
+     *
+     * @param array $expectedItems
+     *
+     * @return ApiResponse
+     */
+    public function getData(array $expectedItems = []): ApiResponse
     {
-        return $this->request('POST', '/donnees', [
-            'body' => json_encode([
-                'contexte' => $this->buildContext([], $expectedItems)->toArray(),
+        return $this->getApiResponse(RetourConsultationSouscription::class, 'POST', '/donnees', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext(['elementsAttendus' => $expectedItems]),
             ]),
         ]);
     }
 
-    public function create(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): ApiResponse
+    /**
+     * POST /v2.0/transaction/souscription/initier
+     * Init a subscription request.
+     *
+     * @method init
+     *
+     * @param Souscription|null $subscription
+     * @param array             $expectedItems
+     *
+     * @return ApiResponse
+     */
+    public function init(?Souscription $subscription = null, array $expectedItems = []): ApiResponse
     {
-        $response = $this->init($context, $subscription, $dematerialization, $comment);
-
-        if (null === $response->getStatus()) {
-            throw new \RuntimeException('The Subsriptions\' Initiation has failed');
-        }
-
-        $this->check($context);
-
-        return $this->confirm($context);
-    }
-
-    public function init(Context $context, Subscription $subscription, bool $dematerialization = true, string $comment = null): ApiResponse
-    {
-        return $this->request('POST', '/initier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToInitiateSubscription(),
-                'souscription' => $subscription->toArray(),
-                'commentaire' => $comment,
-                'dematerialisationCourriers' => $dematerialization,
+        return $this->getApiResponse(RetourInitiationSouscription::class, 'POST', '/initier', [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext(['elementsAttendus' => $expectedItems]),
+                'souscription' => $subscription,
             ]),
         ]);
     }
 
-    public function check(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/souscription/verifier
+     * Check a subscription request.
+     *
+     * @method check
+     *
+     * @param Contexte     $context
+     * @param Souscription $subscription
+     *
+     * @return ApiResponse
+     */
+    public function check(Contexte $context, Souscription $subscription): ApiResponse
     {
-        return $this->request('POST', '/verifier', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToCheck(),
+        return $this->getApiResponse(null, 'POST', '/verifier', [
+            'body' => $this->serialize([
+                'contexte' => $context,
+                'souscription' => $subscription,
             ]),
         ]);
     }
 
-    public function confirm(Context $context): ApiResponse
+    /**
+     * POST /v2.0/transaction/souscription/confirmer
+     * Confirm a subscription request.
+     *
+     * @method confirm
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function confirm(Contexte $context): ApiResponse
     {
-        return $this->request('POST', '/confirmer', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToConfirm(),
-                'options' => [
-                    'genererUnBulletin' => true,
-                    'envoyerUnMailClient' => true,
-                    'cloturerLeDossier' => true,
-                ],
+        return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
+            'body' => $this->serialize([
+                'contexte' => $context,
             ]),
         ]);
     }
 
-    public function finalize(Context $context, array $documents): ApiResponse
+    /**
+     * POST /v2.0/transaction/souscription/finaliser
+     * Finalize a subscription request.
+     *
+     * @method finalize
+     *
+     * @param Contexte $context
+     *
+     * @return ApiResponse
+     */
+    public function finalize(Contexte $context): ApiResponse
     {
-        $response = new ApiResponse();
-
-        foreach ($documents as $document) {
-            $response = $this->sendFile($context->getIdTransaction(), $document);
-            if (!empty($response->getErrorMessages())) {
-                return $response;
-            }
-        }
-
-        return $this->request('POST', '/finaliser', [
-            'body' => json_encode([
-                'contexte' => $context->arrayToFinalize(),
+        return $this->getApiResponse(RetourFinalisation::class, 'POST', '/finaliser', [
+            'body' => $this->serialize([
+                'contexte' => $context,
             ]),
         ]);
     }

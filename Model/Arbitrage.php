@@ -30,22 +30,22 @@ class Arbitrage
     private $fondsDesinvestis;
 
     /**
-     * Get the value of numOperationExterne
+     * Get the value of numOperationExterne.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getNumOperationExterne(): ?int
     {
         return $this->numOperationExterne;
     }
 
     /**
-     * Set the value of numOperationExterne
+     * Set the value of numOperationExterne.
      *
-     * @param  int|null  $numOperationExterne
+     * @param int|null $numOperationExterne
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setNumOperationExterne(?int $numOperationExterne): self
     {
         $this->numOperationExterne = $numOperationExterne;
@@ -54,22 +54,22 @@ class Arbitrage
     }
 
     /**
-     * Get the value of mandatTransmissionOrdre
+     * Get the value of mandatTransmissionOrdre.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getMandatTransmissionOrdre(): ?bool
     {
         return $this->mandatTransmissionOrdre;
     }
 
     /**
-     * Set the value of mandatTransmissionOrdre
+     * Set the value of mandatTransmissionOrdre.
      *
-     * @param  bool|null  $mandatTransmissionOrdre
+     * @param bool|null $mandatTransmissionOrdre
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMandatTransmissionOrdre(?bool $mandatTransmissionOrdre): self
     {
         $this->mandatTransmissionOrdre = $mandatTransmissionOrdre;
@@ -78,22 +78,22 @@ class Arbitrage
     }
 
     /**
-     * Get the value of mandatArbitrage
+     * Get the value of mandatArbitrage.
      *
-     * @return  bool|null
-     */ 
+     * @return bool|null
+     */
     public function getMandatArbitrage(): ?bool
     {
         return $this->mandatArbitrage;
     }
 
     /**
-     * Set the value of mandatArbitrage
+     * Set the value of mandatArbitrage.
      *
-     * @param  bool|null  $mandatArbitrage
+     * @param bool|null $mandatArbitrage
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMandatArbitrage(?bool $mandatArbitrage): self
     {
         $this->mandatArbitrage = $mandatArbitrage;
@@ -102,22 +102,22 @@ class Arbitrage
     }
 
     /**
-     * Get the value of fondsInvestis
+     * Get the value of fondsInvestis.
      *
-     * @return  array<FondsInvesti>|null
-     */ 
+     * @return array<FondsInvesti>|null
+     */
     public function getFondsInvestis(): ?array
     {
         return $this->fondsInvestis;
     }
 
     /**
-     * Set the value of fondsInvestis
+     * Set the value of fondsInvestis.
      *
-     * @param  array<FondsInvesti>|null  $fondsInvestis
+     * @param array<FondsInvesti>|null $fondsInvestis
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFondsInvestis(?array $fondsInvestis): self
     {
         $this->fondsInvestis = $fondsInvestis;
@@ -126,22 +126,22 @@ class Arbitrage
     }
 
     /**
-     * Get the value of fondsDesinvestis
+     * Get the value of fondsDesinvestis.
      *
-     * @return  array<FondsInvesti>|null
-     */ 
+     * @return array<FondsInvesti>|null
+     */
     public function getFondsDesinvestis(): ?array
     {
         return $this->fondsDesinvestis;
     }
 
     /**
-     * Set the value of fondsDesinvestis
+     * Set the value of fondsDesinvestis.
      *
-     * @param  array<FondsInvesti>|null  $fondsDesinvestis
+     * @param array<FondsInvesti>|null $fondsDesinvestis
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setFondsDesinvestis(?array $fondsDesinvestis): self
     {
         $this->fondsDesinvestis = $fondsDesinvestis;

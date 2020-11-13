@@ -25,22 +25,22 @@ class TauxPaysNonResident
     private $txApreshuitAns;
 
     /**
-     * Get the value of codPays
+     * Get the value of codPays.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCodPays(): ?string
     {
         return $this->codPays;
     }
 
     /**
-     * Set the value of codPays
+     * Set the value of codPays.
      *
-     * @param  string|null  $codPays
+     * @param string|null $codPays
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setCodPays(?string $codPays): self
     {
         $this->codPays = $codPays;
@@ -49,22 +49,22 @@ class TauxPaysNonResident
     }
 
     /**
-     * Get the value of libellePays
+     * Get the value of libellePays.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibellePays(): ?string
     {
         return $this->libellePays;
     }
 
     /**
-     * Set the value of libellePays
+     * Set the value of libellePays.
      *
-     * @param  string|null  $libellePays
+     * @param string|null $libellePays
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibellePays(?string $libellePays): self
     {
         $this->libellePays = $libellePays;
@@ -73,22 +73,22 @@ class TauxPaysNonResident
     }
 
     /**
-     * Get the value of txAvantHuitAns
+     * Get the value of txAvantHuitAns.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getTxAvantHuitAns(): ?float
     {
         return $this->txAvantHuitAns;
     }
 
     /**
-     * Set the value of txAvantHuitAns
+     * Set the value of txAvantHuitAns.
      *
-     * @param  float|null  $txAvantHuitAns
+     * @param float|null $txAvantHuitAns
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTxAvantHuitAns(?float $txAvantHuitAns): self
     {
         $this->txAvantHuitAns = $txAvantHuitAns;
@@ -97,22 +97,22 @@ class TauxPaysNonResident
     }
 
     /**
-     * Get the value of txApreshuitAns
+     * Get the value of txApreshuitAns.
      *
-     * @return  float|null
-     */ 
+     * @return float|null
+     */
     public function getTxApreshuitAns(): ?float
     {
         return $this->txApreshuitAns;
     }
 
     /**
-     * Set the value of txApreshuitAns
+     * Set the value of txApreshuitAns.
      *
-     * @param  float|null  $txApreshuitAns
+     * @param float|null $txApreshuitAns
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setTxApreshuitAns(?float $txApreshuitAns): self
     {
         $this->txApreshuitAns = $txApreshuitAns;

@@ -35,23 +35,23 @@ class GarantiePrevoyance
     private $montantMinimum;
 
     /**
-     * Get the value of code
+     * Get the value of code.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
     /**
-     * Set the value of code
+     * Set the value of code.
      *
-     * @param  string|null  $code
+     * @param string|null $code
      *
-     * @return  self
-     */ 
-    public function setCode(?string $code): 
+     * @return self
+     */
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 
@@ -59,22 +59,22 @@ class GarantiePrevoyance
     }
 
     /**
-     * Get the value of libelle
+     * Get the value of libelle.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
     /**
-     * Set the value of libelle
+     * Set the value of libelle.
      *
-     * @param  string|null  $libelle
+     * @param string|null $libelle
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setLibelle(?string $libelle): self
     {
         $this->libelle = $libelle;
@@ -83,22 +83,22 @@ class GarantiePrevoyance
     }
 
     /**
-     * Get the value of description
+     * Get the value of description.
      *
-     * @return  string|null
-     */ 
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * Set the value of description
+     * Set the value of description.
      *
-     * @param  string|null  $description
+     * @param string|null $description
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -107,22 +107,22 @@ class GarantiePrevoyance
     }
 
     /**
-     * Get the value of ageMin
+     * Get the value of ageMin.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getAgeMin(): ?int
     {
         return $this->ageMin;
     }
 
     /**
-     * Set the value of ageMin
+     * Set the value of ageMin.
      *
-     * @param  int|null  $ageMin
+     * @param int|null $ageMin
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAgeMin(?int $ageMin): self
     {
         $this->ageMin = $ageMin;
@@ -131,22 +131,22 @@ class GarantiePrevoyance
     }
 
     /**
-     * Get the value of ageMax
+     * Get the value of ageMax.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getAgeMax(): ?int
     {
         return $this->ageMax;
     }
 
     /**
-     * Set the value of ageMax
+     * Set the value of ageMax.
      *
-     * @param  int|null  $ageMax
+     * @param int|null $ageMax
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setAgeMax(?int $ageMax): self
     {
         $this->ageMax = $ageMax;
@@ -155,22 +155,22 @@ class GarantiePrevoyance
     }
 
     /**
-     * Get the value of montantMinimum
+     * Get the value of montantMinimum.
      *
-     * @return  int|null
-     */ 
+     * @return int|null
+     */
     public function getMontantMinimum(): ?int
     {
         return $this->montantMinimum;
     }
 
     /**
-     * Set the value of montantMinimum
+     * Set the value of montantMinimum.
      *
-     * @param  int|null  $montantMinimum
+     * @param int|null $montantMinimum
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setMontantMinimum(?int $montantMinimum): self
     {
         $this->montantMinimum = $montantMinimum;
