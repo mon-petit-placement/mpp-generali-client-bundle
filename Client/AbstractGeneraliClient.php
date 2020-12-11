@@ -218,7 +218,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
             throw new GeneraliApiException(sprintf('Generali API response has error messages: %s', $errorMessages));
         }
 
-        $donnees = null;
+        $donnees = $apiResponse->getDonnees();
         if (null !== $className) {
             $donnees = $this->getModelFactory()->createFromArray($className, $apiResponse->getDonnees());
         }

@@ -94,7 +94,7 @@ class GeneraliSubscriptionClient extends AbstractGeneraliClient
      */
     public function finalize(Contexte $context): ApiResponse
     {
-        return $this->getApiResponse(RetourFinalisation::class, 'POST', '/finaliser', [
+        return $this->getApiResponse(null, 'POST', '/finaliser', [
             'body' => $this->serialize([
                 'contexte' => $context,
             ]),
