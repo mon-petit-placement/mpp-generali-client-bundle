@@ -34,10 +34,10 @@ class ExampleController extends AbstractController
 
     public function exampleAction()
     {
-        $apiResponse = $this->registry->getSubscription()->init();
+        $initApiResponse = $this->registry->getSubscription()->init();
 
-        $this->registry->getSubscription()->check(
-            (new Contexte())->setStatut($apiResponse->getStatut()),
+        $checkApiResponse = $this->registry->getSubscription()->check(
+            ['statut' => $initApiResponse->getStatut()],
             $this->factory->createFromArray(Souscription::class, [
                 'referencesExternes' => [
                     'refExterne' => 'ERFDV45X',
@@ -191,8 +191,8 @@ class ExampleController extends AbstractController
 
         $idTransaction = $apiResponse->getDonnees()->getIdTransaction();
 
-        $apiResponse = $this->registry->getSubscription()->confirm(
-            (new Contexte())->setStatut($apiResponse->getStatut())->setAdresseEmailCopie('toto@monpartenaire.com')
+        $confirmApiResponse = $this->registry->getSubscription()->confirm(
+            ['statut' => $checkApiResponse->getStatut()]
         );
 
         foreach ($apiResponse->getDonnees()->getPiecesAFournir() as $document) {
@@ -207,9 +207,7 @@ class ExampleController extends AbstractController
         }
 
 
-        $apiResponse = $this->registry->getSubscription()->finalize(
-            (new Contexte())->setIdTransaction($idTransaction)
-        );
+        $apiResponse = $this->registry->getSubscription()->finalize();
     }
 }
 ```

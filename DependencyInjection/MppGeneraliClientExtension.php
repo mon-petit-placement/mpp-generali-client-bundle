@@ -24,23 +24,20 @@ class MppGeneraliClientExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
+        $container
+            ->registerForAutoconfiguration(GeneraliClientInterface::class)
+            ->addTag(sprintf('%s.client', Configuration::CONFIGURATION_ROOT))
+        ;
+
         $container->setParameter(Configuration::CONFIGURATION_ROOT, $config);
-        $container->setParameter(
-            sprintf('%s.intermediary_code', Configuration::CONFIGURATION_ROOT),
-            $config['intermediary_code']
-        );
         $container->setParameter(
             sprintf('%s.app_code', Configuration::CONFIGURATION_ROOT),
             $config['app_code']
         );
         $container->setParameter(
-            sprintf('%s.subscription_code', Configuration::CONFIGURATION_ROOT),
-            $config['subscription_code']
+            sprintf('%s.default_context', Configuration::CONFIGURATION_ROOT),
+            $config['default_context']
         );
 
-        $container
-            ->registerForAutoconfiguration(GeneraliClientInterface::class)
-            ->addTag(sprintf('%s.client', Configuration::CONFIGURATION_ROOT))
-        ;
     }
 }

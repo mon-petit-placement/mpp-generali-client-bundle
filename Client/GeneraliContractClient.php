@@ -3,6 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliContractClient extends AbstractGeneraliClient
 {
@@ -10,19 +11,20 @@ class GeneraliContractClient extends AbstractGeneraliClient
      * POST /v2.0/contrats
      * Retrieve contract data.
      *
-     * @param string $contractNumber
-     * @param array  $expectedItems
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
+    public function getData(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+            ->setDefined('elementsAttendus')
+        ;
+
         return $this->getApiResponse(null, 'POST', '', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext([
-                    'numContrat' => $contractNumber,
-                    'elementsAttendus' => $expectedItems,
-                ]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }

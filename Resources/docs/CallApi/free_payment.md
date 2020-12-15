@@ -2,12 +2,7 @@
 
 ## How to create a FreePayment ?
 
-First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
-````php
-$context = $this->httpClient->buildContext(['contractNumber' => $contractNumber]);
-````
-
-Then you build your $freePayment using the FreePaymentFactory with the following structure:
+Build your $freePayment using the FreePaymentFactory with the following structure:
 ```php
 $freePayment = $this->freePaymentFactory->create([
     'externalOperationNumber' => 'dfghjkl',
@@ -111,17 +106,17 @@ $freePayment = $this->freePaymentFactory->create([
     ]
 );
 ```
-You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
+You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones
 
 Once your free payment is build, you can send it to Generali :
 ```
 $apiResponse = $this->httpClient->createFreePayment(
-    $context, 
-    $freePayment
+    $freePayment,
+    ['contractNumber' => $contractNumber]
 );
 ```
-You will get an ApiResponse which contains the information returned by the API, like this: 
-````php
+You will get an ApiResponse which contains the information returned by the API, like this:
+```php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
     'idTransaction' => '5f0cc70b2547d',
@@ -129,20 +124,20 @@ You will get an ApiResponse which contains the information returned by the API, 
     'orderTransaction' => null,
     'expectedDocuments' => [...]
 ]
-````
+```
 At the end of this step, you have to save the idTransaction, in the case you can't finalize at the moment, or your users stop their registration.
 You will access the idTransaction by:
-````php
+```php
 $idTransaction = $apiResponse->getIdTransaction();
-````
+```
 
 You will also have access to the list of expected documents, that you will need to send to Generali by doing:
-````php
+```php
 /**
  * array<Document>
  */
 $expectedDocuments = $apiResponse->getExpectedDocuments();
-````
+```
 The Document will have this structure:
 ```php
 [
@@ -153,7 +148,7 @@ The Document will have this structure:
     'alreadySent' = > false,
     'required' => true
 ]
-````
+```
 If you want to access to the list of the documents expected for a freePayment, you can still access them until the freePayment is finalized:
 ```php
 $expectedDocuments = $this->httpClient->listFreePaymentFiles($idTransaction);
@@ -170,27 +165,23 @@ $document = (new Document())
     ->setfilePath($yourFilePath)
     ->setIdDocument($idDocument)
     ->setTitle($title)
- ;
- $documents[] = $document;
+;
+$documents[] = $document;
 ```
 
-Build a context and affect the idTransaction to it:
-```php
-$context = $this->httpClient->buildContext([
-    'contractNumber' => $contractNumber, 
+Call the freePayment's finalization with the idTransaction in context
+```
+$apiResponse = $this->httpClient->finalizeFreePayment($documents, [
+    'contractNumber' => $contractNumber,
     'idTransaction'=> $idTransaction
 ]);
 ```
-And then call the freePayment's finalization
-```
-$apiResponse = $this->httpClient->finalizeFreePayment($context, $documents);
-```
 You will get an ApiResponse which contains the numberOrderTransaction that you have to save.
 
-In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP. 
+In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP.
 
 You will receive this ApiResponse:
-````php
+```php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
     'idTransaction' => '5f0cc70b2547d',
@@ -198,4 +189,4 @@ You will receive this ApiResponse:
     'orderTransaction' => 'fj456225f0cc70b2547d642f44ede2c8d232cca...',
     'expectedDocuments' => []
 ]
-````
+```

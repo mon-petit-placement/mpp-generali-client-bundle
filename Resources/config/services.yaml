@@ -15,8 +15,7 @@ services:
             bind:
                 $logger: '@logger'
                 $serializer: '@serializer'
-                $providerCode: '%mpp_generali_client.intermediary_code%'
-                $subscriptionCode: '%mpp_generali_client.subscription_code%'
+                $defaultContext: '%mpp_generali_client.default_context%'
 
     Mpp\GeneraliClientBundle\Client\GeneraliClientRegistry: ~
     Mpp\GeneraliClientBundle\Client\GeneraliClientRegistryInterface: '@Mpp\GeneraliClientBundle\Client\GeneraliClientRegistry'

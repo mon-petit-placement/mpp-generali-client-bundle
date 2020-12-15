@@ -3,9 +3,9 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
-use Mpp\GeneraliClientBundle\Model\Contexte;
 use Mpp\GeneraliClientBundle\Model\RetourConsultationVersementLibre;
 use Mpp\GeneraliClientBundle\Model\VersementLibre;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliFreePaymentClient extends AbstractGeneraliClient
 {
@@ -13,19 +13,20 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementLibre/donnees
      * Retrieve free payment data.
      *
-     * @param string $contractNumber
-     * @param array  $expectedItems
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
+    public function getData(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+            ->setDefined('elementsAttendus')
+        ;
+
         return $this->getApiResponse(RetourConsultationVersementLibre::class, 'POST', '/donnees', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext([
-                    'numContrat' => $contractNumber,
-                    'elementsAttendus' => $expectedItems,
-                ]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -34,19 +35,20 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementLibre/initier
      * Init a free payment request.
      *
-     * @param string      $contractNumber
-     * @param string|null $linkedTransactionNumber
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function init(string $contractNumber, ?string $linkedTransactionNumber = null): ApiResponse
+    public function init(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+            ->setDefined('numeroOrdreTransactionLiee')
+        ;
+
         return $this->getApiResponse(null, 'POST', '/initier', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext([
-                    'numContrat' => $contractNumber,
-                    'numeroOrdreTransactionLiee' => $linkedTransactionNumber,
-                ]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -55,16 +57,16 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementLibre/verifier
      * Check a free payment request.
      *
-     * @param Contexte       $context
+     * @param array          $context
      * @param VersementLibre $freePayment
      *
      * @return ApiResponse
      */
-    public function check(Contexte $context, VersementLibre $freePayment): ApiResponse
+    public function check(array $context = [], VersementLibre $freePayment): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
                 'versementLibre' => $freePayment,
             ]),
         ]);
@@ -74,15 +76,15 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementLibre/confirmer
      * Confirm a free payment request.
      *
-     * @param Contexte $context
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function confirm(Contexte $context): ApiResponse
+    public function confirm(array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/confirmer', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }
@@ -91,15 +93,15 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementLibre/finaliser.
      * Finalize a free payment request.
      *
-     * @param Contexte $context
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function finalize(Contexte $context): ApiResponse
+    public function finalize(array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/finaliser', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }

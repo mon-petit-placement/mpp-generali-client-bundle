@@ -3,7 +3,6 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
-use Mpp\GeneraliClientBundle\Model\Contexte;
 
 class GeneraliFundsClient extends AbstractGeneraliClient
 {
@@ -11,16 +10,16 @@ class GeneraliFundsClient extends AbstractGeneraliClient
      * POST /v1.0/fonds/{codeFonds}
      * Retrieve funds data.
      *
+     * @param array  $context
      * @param string $fundsCode
-     * @param array  $expectedItems
      *
      * @return ApiResponse
      */
-    public function getData(string $fundsCode, array $expectedItems = []): ApiResponse
+    public function getData(array $context = [], string $fundsCode): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', sprintf('/%s', $fundsCode), [
             'body' => $this->serialize([
-                'contexte' => (new Contexte())->setElementsAttendus($expectedItems),
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }

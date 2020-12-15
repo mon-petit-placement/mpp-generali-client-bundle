@@ -25,16 +25,17 @@ eight_points_guzzle:
                     Accept: 'application/json'
                     Content-Type: 'application/json'
                     apiKey: '%env(GENERALI_API_KEY)%'
-```  
+```
 
 Then you have to configure your credentials in `config/packages/mpp_generali_client.yaml`:
 
 ```yaml
 mpp_generali_client:
-    http_client: 'eight_points_guzzle.client.my_generali_client' # reference to guzzle client
-    intermediary_code: '%env(GENERALI_INTERMEDIARY_CODE)%'
-    app_code: '%env(GENERALI_APP_CODE)%'
-    subscription_code: '%env(GENERALI_SUBSCRIPTION_CODE)%'
+    http_client: 'eight_points_guzzle.client.mpp_generali' # reference to guzzle client
+    app_code: '%env(string:GENERALI_APP_CODE)%'
+    default_context:
+        codeApporteur: '%env(string:GENERALI_DEFAULT_PROVIDER_CODE)%'
+        codeSouscription: '%env(string:GENERALI_DEFAULT_SUBSCRIPTION_CODE)%'
 ```
 
 Put these environment variables i your ```.env``` file:
@@ -43,9 +44,9 @@ Put these environment variables i your ```.env``` file:
 ###> mpp/generali-client-bundle ###
 GENERALI_BASE_URL=https://generalifrprod-recette.apigee.net/epart
 GENERALI_API_KEY=YOUR_API_KEY
-GENERALI_INTERMEDIARY_CODE=YOUR_INTERMEDIARY_CODE
 GENERALI_APP_CODE=YOUR_APP_CODE
-GENERALI_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
+GENERALI_DEFAULT_PROVIDER_CODE=YOUR_PROVIDER_CODE
+GENERALI_DEFAULT_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
 ###< mpp/generali-client-bundle ###
 ```
 
@@ -238,9 +239,9 @@ Update the environment variables in ```phpunit.xml.dist``` or create a ```phpuni
     <env name="APP_ENV" value="test" />
     <env name="GENERALI_BASE_URL" value="" />
     <env name="GENERALI_API_KEY" value="" />
-    <env name="GENERALI_INTERMEDIARY_CODE" value="" />
     <env name="GENERALI_APP_CODE" value="" />
-    <env name="GENERALI_SUBSCRIPTION_CODE" value="" />
+    <env name="GENERALI_DEFAULT_PROVIDER_CODE" value="" />
+    <env name="GENERALI_DEFAULT_SUBSCRIPTION_CODE" value="" />
     <!-- ... -->
 </php>
 <!-- ... -->

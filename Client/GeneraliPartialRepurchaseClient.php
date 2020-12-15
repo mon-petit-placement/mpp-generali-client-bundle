@@ -14,11 +14,11 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * POST /v1.0/donnees/rachatpartiel
      * Retrieve partial repurchase data.
      *
-     * @param array $contextOptions
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function getData(array $contextOptions): ApiResponse
+    public function getData(array $context): ApiResponse
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
@@ -27,7 +27,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
 
         return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext($resolver->resolve($contextOptions)),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -36,11 +36,11 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * POST /v1.0/donnees/rachatpartiel/all
      * Retrieve all partial repurchase data.
      *
-     * @param array $contextOptions
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function getAllData(array $contextOptions): ApiResponse
+    public function getAllData(array $context): ApiResponse
     {
         $resolver = (new OptionsResolver())
             ->setRequired(['utilisateur', 'numContrat'])
@@ -49,7 +49,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
 
         return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/all', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext($resolver->resolve($contextOptions)),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -58,17 +58,19 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * POST /v1.0/donnees/rachatpartiel/initier
      * Init a partial repurchase request.
      *
-     * @param string $contractNumber
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function init(string $contractNumber): ApiResponse
+    public function init(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired(['numContrat'])
+        ;
+
         return $this->getApiResponse(null, 'POST', '/initier', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext([
-                    'numContrat' => $contractNumber,
-                ]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -77,12 +79,12 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * POST /v1.0/donnees/rachatpartiel/verifier
      * Check a partial repurchase request.
      *
-     * @param array         $contextOptions
+     * @param array         $context
      * @param RachatPartiel $partialRepurchase
      *
      * @return ApiResponse
      */
-    public function check(array $contextOptions, RachatPartiel $partialRepurchase): ApiResponse
+    public function check(array $context, RachatPartiel $partialRepurchase): ApiResponse
     {
         $resolver = (new OptionsResolver())
             ->setRequired(['statut', 'numContrat', 'utilisateur'])
@@ -91,7 +93,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
 
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext($resolver->resolve($contextOptions)),
+                'contexte' => $this->getContext($resolver->resolve($context)),
                 'rachatPartiel' => $partialRepurchase,
             ]),
         ]);
@@ -101,15 +103,15 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * POST /v1.0/donnees/rachatpartiel/confirmer
      * Confirm a partial repurchase request.
      *
-     * @param Context $context
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function confirm(Context $context): ApiResponse
+    public function confirm(array $context = []): ApiResponse
     {
         return $this->getApiResponse1(null, 'POST', '/confirmer', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }

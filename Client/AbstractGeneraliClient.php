@@ -43,29 +43,22 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     protected $modelFactory;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $providerCode;
-
-    /**
-     * @var string
-     */
-    protected $subscriptionCode;
+    protected $defaultContext;
 
     public function __construct(
         LoggerInterface $logger,
         SerializerInterface $serializer,
         ClientInterface $httpClient,
         ModelFactory $modelFactory,
-        string $providerCode,
-        string $subscriptionCode
+        array $defaultContext
     ) {
         $this->logger = $logger;
         $this->serializer = $serializer;
         $this->httpClient = $httpClient;
         $this->modelFactory = $modelFactory;
-        $this->providerCode = $providerCode;
-        $this->subscriptionCode = $subscriptionCode;
+        $this->defaultContext = $defaultContext;
     }
 
     /**
@@ -109,23 +102,13 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     }
 
     /**
-     * Retrieve provider code.
+     * Retrieve default context.
      *
-     * @return string
+     * @return array
      */
-    public function getProviderCode(): string
+    public function getDefaultContext(): array
     {
-        return $this->providerCode;
-    }
-
-    /**
-     * Retrieve subscription code.
-     *
-     * @return string
-     */
-    public function getSubscriptionCode(): string
-    {
-        return $this->subscriptionCode;
+        return $this->defaultContext;
     }
 
     /**
@@ -133,10 +116,10 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      */
     public function getContext(array $parameters = []): Contexte
     {
-        $parameters['codeApporteur'] = $this->providerCode;
-        $parameters['codeSouscription'] = $this->subscriptionCode;
-
-        return $this->getModelFactory()->createFromArray(Contexte::class, $parameters);
+        return $this->getModelFactory()->createFromArray(Contexte::class, array_merge(
+            $this->getDefaultContext(),
+            $parameters
+        ));
     }
 
     /**

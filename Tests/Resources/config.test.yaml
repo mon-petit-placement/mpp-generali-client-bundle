@@ -19,9 +19,10 @@ framework:
 
 mpp_generali_client:
     http_client: 'eight_points_guzzle.client.mpp_generali_test'
-    intermediary_code: '%env(string:GENERALI_INTERMEDIARY_CODE)%'
     app_code: '%env(string:GENERALI_APP_CODE)%'
-    subscription_code: '%env(string:GENERALI_SUBSCRIPTION_CODE)%'
+    default_context:
+        codeApporteur: '%env(string:GENERALI_DEFAULT_PROVIDER_CODE)%'
+        codeSouscription: '%env(string:GENERALI_DEFAULT_SUBSCRIPTION_CODE)%'
 
 services:
     Mpp\GeneraliClientBundle\Client\GeneraliClientRegistry:
