@@ -2,14 +2,8 @@
 
 ## How to create a Subscription ?
 
-
-First you have to build a Context object wich contains your subscription's code and your intermediary code defined in the configuration
-````php
-$context = $this->httpClient->buildContext();
-````
-
-Then you build your $subscription using the SubsriptionFactory with the following structure:
-````php
+Build your $subscription using the SubsriptionFactory with the following structure:
+```php
 $amount_1 = 5000;
 $amount_2 = 500;
 
@@ -127,21 +121,19 @@ $subscription = $this->subscriptionFactory->create([
         ]
     ]
 ]);
-````
-You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones 
+```
+You will need to access to the available's values on some attribute, please check [here](../referentials.md) to see which ones
 
 Once your subscription is build, you can add a comment and tell if you want to dematerialize or not the process.
 And then you can send it to Generali:
 ```
 $apiResponse = $this->httpClient->createSubscription(
-    $context, 
-    $subscription, 
-    $comment, 
-    $dematerialization
+    $subscription,
+    $context
 );
 ```
-You will get an ApiResponse which contains the information returned by the API, like this: 
-````php
+You will get an ApiResponse which contains the information returned by the API, like this:
+```php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca',
     'idTransaction' => '5f0cc70b2547d',
@@ -149,10 +141,10 @@ You will get an ApiResponse which contains the information returned by the API, 
     'orderTransaction' => null,
     'expectedDocuments' => [...]
 ]
-````
+```
 At the end of this step, you have to keep the idTransaction. In the case you can't finalize at the moment, or your users stop their registration.
 You will access the idTransaction by:
-````php
+```php
 $idTransaction = $apiResponse->getIdTransaction();
 ````
 
@@ -194,20 +186,16 @@ $document = (new Document())
 $documents[] = $document;
 ```
 
-Build a context and assign the idTransaction to it:
-```php
-$context = $this->httpClient->buildContext(['idTransaction'=> $idTransaction]);
+Call the subscription's finalization with the idTransaction
 ```
-And then call the subscription's finalization
-```
-$apiResponse = $this->httpClient->finalizeSubscription($context, $documents);
+$apiResponse = $this->httpClient->finalizeSubscription($documents, ['idTransaction'=> $idTransaction]);
 ```
 You will get an ApiResponse which contains the numberOrderTransaction that you have to save.
 
 In case you have a problem on a particular customer folder, Generali would ask you the numberOrderTransaction to find the folder in their ERP.
 
 You will receive this ApiResponse:
-````php
+```php
 [
     'status' => '5f0cc70b2547d642f44ede2c8d232cca...',
     'idTransaction' => '5f0cc70b2547d',
@@ -215,7 +203,7 @@ You will receive this ApiResponse:
     'orderTransaction' => 'fj456225f0cc70b2547d642f44ede2c8d232cca...',
     'expectedDocuments' => []
 ]
-````
+```
 #### When will you get your ContractNumber ?
 Once the subscription is sent, Generali will generate a csv file "InfoGB", every night that you will have to parse.
 The next days or few days after (less 3 days), you will have to connect to the ftp they gave you.

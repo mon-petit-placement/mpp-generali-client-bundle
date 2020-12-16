@@ -16,9 +16,9 @@
         <env name="APP_ENV" value="test" />
         <env name="GENERALI_BASE_URL" value="" />
         <env name="GENERALI_API_KEY" value="" />
-        <env name="GENERALI_INTERMEDIARY_CODE" value="" />
         <env name="GENERALI_APP_CODE" value="" />
-        <env name="GENERALI_SUBSCRIPTION_CODE" value="" />
+        <env name="GENERALI_DEFAULT_PROVIDER_CODE" value="" />
+        <env name="GENERALI_DEFAULT_SUBSCRIPTION_CODE" value="" />
         <server name="KERNEL_CLASS" value="Mpp\GeneraliClientBundle\Tests\TestKernel" />
     </php>
 

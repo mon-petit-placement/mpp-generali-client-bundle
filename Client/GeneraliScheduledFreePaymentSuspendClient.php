@@ -3,6 +3,7 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliScheduledFreePaymentSuspendClient extends AbstractGeneraliClient
 {
@@ -10,17 +11,19 @@ class GeneraliScheduledFreePaymentSuspendClient extends AbstractGeneraliClient
      * POST /v1.0/transaction/suspensionVersementsLibresProgrammes
      * Init a scheduled free payment suspend request.
      *
-     * @param string $contractNumber
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function init(string $contractNumber): ApiResponse
+    public function init(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired(['numContrat'])
+        ;
+
         return $this->getApiResponse(null, 'POST', '', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext([
-                    'numContrat' => $contractNumber,
-                ]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }

@@ -12,13 +12,15 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      * POST /v1.0/transaction/modificationVersementsLibresProgrammes/initier
      * Init a scheduled free payment edit request.
      *
+     * @param array $context
+     *
      * @return ApiResponse
      */
-    public function init(): ApiResponse
+    public function init(array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/initier', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext(),
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }
@@ -27,16 +29,16 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      * POST /v1.0/transaction/modificationVersementsLibresProgrammes/verifier
      * Check a scheduled free payment edit request.
      *
-     * @param Contexte                      $context
+     * @param array                         $context
      * @param ModifVersementLibreProgrammes $scheduledFreePaymentEdit
      *
      * @return ApiResponse
      */
-    public function check(Contexte $context, ModifVersementLibreProgrammes $scheduledFreePaymentEdit): ApiResponse
+    public function check(array $context = [], ModifVersementLibreProgrammes $scheduledFreePaymentEdit): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => json_encode([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
                 'modifVersementLibreProgrammes' => $scheduledFreePaymentEdit,
             ]),
         ]);
@@ -46,12 +48,12 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      * POST /v1.0/transaction/modificationVersementsLibresProgrammes/confirmer
      * Confirm a scheduled free payment edit request.
      *
-     * @param Contexte $context
-     * @param array    $options
+     * @param array $context
+     * @param array $options
      *
      * @return ApiResponse
      */
-    public function confirm(Contexte $context, array $options = []): ApiResponse
+    public function confirm(array $context = [], array $options = []): ApiResponse
     {
         $resolver = (new OptionsResolver())
             ->setDefaults([
@@ -63,7 +65,7 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
 
         return $this->getApiResponse(null, 'POST', '/confirmer', [
             'body' => json_encode([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
                 'options' => $resolver->resolve($options),
             ]),
         ]);

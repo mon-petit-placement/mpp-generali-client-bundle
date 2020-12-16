@@ -3,10 +3,10 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
-use Mpp\GeneraliClientBundle\Model\Contexte;
 use Mpp\GeneraliClientBundle\Model\RetourConsultationArbitrage;
 use Mpp\GeneraliClientBundle\Model\RetourFinalisation;
 use Mpp\GeneraliClientBundle\Model\RetourValidation;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliArbitrationClient extends AbstractGeneraliClient
 {
@@ -14,16 +14,20 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/arbitrage/donnees
      * Retrieve arbitration data.
      *
-     * @param string $contractNumber
-     * @param array  $expectedItems
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function getData(string $contractNumber, array $expectedItems = []): ApiResponse
+    public function getData(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+            ->setDefined('elementsAttendus')
+        ;
+
         return $this->getApiResponse(RetourConsultationArbitrage::class, 'POST', '/donnees', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext(['elementsAttendus' => $expectedItems]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -32,15 +36,19 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/arbitrage/initier
      * Init an arbitration request.
      *
-     * @param string $contractNumber
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function init(string $contractNumber): ApiResponse
+    public function init(array $context): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+        ;
+
         return $this->getApiResponse(null, 'POST', '/initier', [
             'body' => $this->serialize([
-                'contexte' => $this->getContext(['numContrat' => $contractNumber]),
+                'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
         ]);
     }
@@ -49,16 +57,16 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/arbitrage/verifier
      * Check arbitration request.
      *
-     * @param Contexte    $context
+     * @param array       $context
      * @param Arbitration $arbitration
      *
      * @return ApiResponse
      */
-    public function check(Contexte $context, Arbitration $arbitration): ApiResponse
+    public function check(array $context = [], Arbitration $arbitration): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
                 'arbitrage' => $arbitration,
             ]),
         ]);
@@ -68,15 +76,15 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/arbitrage/confirmer
      * Confirm an arbitration request.
      *
-     * @param Contexte $context
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function confirm(Contexte $context): ApiResponse
+    public function confirm(array $context = []): ApiResponse
     {
         return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }
@@ -85,15 +93,15 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/arbitrage/finaliser
      * Finalize an arbitration request.
      *
-     * @param Contexte $context
+     * @param array $context
      *
      * @return ApiResponse
      */
-    public function finalize(Contexte $context): ApiResponse
+    public function finalize(array $context = []): ApiResponse
     {
         return $this->getApiResponse(RetourFinalisation::class, 'POST', '/finaliser', [
             'body' => $this->serialize([
-                'contexte' => $context,
+                'contexte' => $this->getContext($context),
             ]),
         ]);
     }
