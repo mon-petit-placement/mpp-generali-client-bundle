@@ -35,7 +35,7 @@ class Repartition
     private $pourcentageRepartition;
 
     /**
-     * @var int|null
+     * @var float|null
      */
     private $montant;
 
@@ -216,9 +216,9 @@ class Repartition
     /**
      * Get the value of montant.
      *
-     * @return int|null
+     * @return float|null
      */
-    public function getMontant(): ?int
+    public function getMontant(): ?float
     {
         return $this->montant;
     }
@@ -226,11 +226,11 @@ class Repartition
     /**
      * Set the value of montant.
      *
-     * @param int|null $montant
+     * @param float|null $montant
      *
      * @return self
      */
-    public function setMontant(?int $montant): self
+    public function setMontant(?float $montant): self
     {
         $this->montant = $montant;
 
