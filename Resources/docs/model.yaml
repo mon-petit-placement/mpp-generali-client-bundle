@@ -113,6 +113,11 @@ RetourValidationArbitrage:
     numeroOrdreTransaction: string
     piecesAFournir: array<PieceAFournir>
 
+RetourFinalisatioOrdre:
+    idTransaction: string
+    numeroOrdreTransaction: string
+    demat: bool
+
 PieceAFournir:
     idPieceAFournir: string
     libelle: string
@@ -320,6 +325,15 @@ RepartitionPatrimoniale:
 
 ReferenceExterne:
     refExterne: string
+
+Contractant:
+    nom: string
+    prenom: string
+    residenceFiscale: string
+    nationalite: string
+    complement: SouscripteurComplement
+    ppe: Ppe
+    capaciteJuridique: string
 
 Souscripteur:
     noms: Noms
@@ -633,7 +647,7 @@ Periodicite:
     min: float
 
 ConnaissanceClient:
-    contractant: Souscripteur
+    contractant: Contractant
     revenusAnnuelsNetFoyer: RevenusAnnuelsNetFoyer
     estimationPatrimoineFoyer: EstimationPatrimoineFoyer
     objectifsVersement: array<ObjectifVersement>

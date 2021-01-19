@@ -5,7 +5,7 @@ namespace Mpp\GeneraliClientBundle\Model;
 class ConnaissanceClient
 {
     /**
-     * @var Souscripteur|null
+     * @var Contractant|null
      */
     private $contractant;
 
@@ -42,9 +42,9 @@ class ConnaissanceClient
     /**
      * Get the value of contractant.
      *
-     * @return Souscripteur|null
+     * @return Contractant|null
      */
-    public function getContractant(): ?Souscripteur
+    public function getContractant(): ?Contractant
     {
         return $this->contractant;
     }
@@ -52,11 +52,11 @@ class ConnaissanceClient
     /**
      * Set the value of contractant.
      *
-     * @param Souscripteur|null $contractant
+     * @param Contractant|null $contractant
      *
      * @return self
      */
-    public function setContractant(?Souscripteur $contractant): self
+    public function setContractant(?Contractant $contractant): self
     {
         $this->contractant = $contractant;
 

@@ -55,7 +55,7 @@ class VersementLibre
      */
     public function getRepartition(): ?array
     {
-        return $this->$repartition;
+        return $this->repartition;
     }
 
     /**
@@ -91,7 +91,7 @@ class VersementLibre
      */
     public function setReglement(?Reglement $reglement): self
     {
-        $this->$reglement = $reglement;
+        $this->reglement = $reglement;
 
         return $this;
     }

@@ -202,7 +202,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
         }
 
         $donnees = $apiResponse->getDonnees();
-        if (null !== $className) {
+        if (null !== $className && null !== $apiResponse->getDonnees()) {
             $donnees = $this->getModelFactory()->createFromArray($className, $apiResponse->getDonnees());
         }
 

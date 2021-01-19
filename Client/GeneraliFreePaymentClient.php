@@ -4,6 +4,8 @@ namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\RetourConsultationVersementLibre;
+use Mpp\GeneraliClientBundle\Model\RetourFinalisationOrdre;
+use Mpp\GeneraliClientBundle\Model\RetourValidation;
 use Mpp\GeneraliClientBundle\Model\VersementLibre;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -82,7 +84,7 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      */
     public function confirm(array $context = []): ApiResponse
     {
-        return $this->getApiResponse(null, 'POST', '/confirmer', [
+        return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
             ]),
@@ -99,7 +101,7 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      */
     public function finalize(array $context = []): ApiResponse
     {
-        return $this->getApiResponse(null, 'POST', '/finaliser', [
+        return $this->getApiResponse(RetourFinalisationOrdre::class, 'POST', '/finaliser', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
             ]),
