@@ -21,6 +21,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
     public function getData(array $context): ApiResponse
     {
         $resolver = (new OptionsResolver())
+            ->setRequired('utilisateur')->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
             ->setRequired('numContrat')
             ->setDefined('elementsAttendus')
         ;
