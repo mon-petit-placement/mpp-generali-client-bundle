@@ -286,6 +286,7 @@ VersementInitial:
 VersementsLibresProgrammes:
     repartition: array<FondsInvesti/FondsDeinvesti>
     vlpMontant: VlpMontant
+    versement: VlpMontant
 
 VlpMontant:
     montant: float

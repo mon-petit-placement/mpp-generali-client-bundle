@@ -120,7 +120,7 @@ class VersementsLibresProgrammes
      */
     public function setReglement(?Reglement $reglement): self
     {
-        $this->$reglement = $reglement;
+        $this->reglement = $reglement;
 
         return $this;
     }
