@@ -6,6 +6,7 @@ use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\Contexte;
 use Mpp\GeneraliClientBundle\Model\RachatPartiel;
 use Mpp\GeneraliClientBundle\Model\RetourConsultationRachatPartiel;
+use Mpp\GeneraliClientBundle\Model\RetourValidation;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
@@ -110,7 +111,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      */
     public function confirm(array $context = []): ApiResponse
     {
-        return $this->getApiResponse1(null, 'POST', '/confirmer', [
+        return $this->getApiResponse1(RetourValidation::class, 'POST', '/confirmer', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
             ]),

@@ -15,7 +15,7 @@ class RepartitionPatrimoine
     private $libelle;
 
     /**
-     * @var int|null
+     * @var float|null
      */
     private $pourcentage;
 
@@ -75,9 +75,9 @@ class RepartitionPatrimoine
     /**
      * Get the value of pourcentage.
      *
-     * @return int|null
+     * @return float|null
      */
-    public function getPourcentage(): ?int
+    public function getPourcentage(): ?float
     {
         return $this->pourcentage;
     }
@@ -85,11 +85,11 @@ class RepartitionPatrimoine
     /**
      * Set the value of pourcentage.
      *
-     * @param int|null pourcentage
+     * @param float|null pourcentage
      *
      * @return self
      */
-    public function setPourcentage(?int $pourcentage): self
+    public function setPourcentage(?float $pourcentage): self
     {
         $this->pourcentage = $pourcentage;
 

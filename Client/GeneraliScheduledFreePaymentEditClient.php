@@ -4,6 +4,7 @@ namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\ModifVersementLibreProgrammes;
+use Mpp\GeneraliClientBundle\Model\RetourValidation;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
@@ -16,9 +17,9 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function init(array $context = []): ApiResponse
+    public function init(array $context = [], string $numContract): ApiResponse
     {
-        return $this->getApiResponse(null, 'POST', '/initier', [
+        return $this->getApiResponse(null, 'POST', sprintf('/initier/%s', $numContract), [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
             ]),
@@ -34,9 +35,9 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function check(array $context = [], ModifVersementLibreProgrammes $scheduledFreePaymentEdit): ApiResponse
+    public function check(array $context = [], ModifVersementLibreProgrammes $scheduledFreePaymentEdit, string $numContract): ApiResponse
     {
-        return $this->getApiResponse(null, 'POST', '/verifier', [
+        return $this->getApiResponse(null, 'POST', sprintf('/verifier/%s', $numContract), [
             'body' => json_encode([
                 'contexte' => $this->getContext($context),
                 'modifVersementLibreProgrammes' => $scheduledFreePaymentEdit,
@@ -63,7 +64,7 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
             ])
         ;
 
-        return $this->getApiResponse(null, 'POST', '/confirmer', [
+        return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
             'body' => json_encode([
                 'contexte' => $this->getContext($context),
                 'options' => $resolver->resolve($options),
