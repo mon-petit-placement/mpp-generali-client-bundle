@@ -3,8 +3,10 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
+use Mpp\GeneraliClientBundle\Model\Arbitrage;
 use Mpp\GeneraliClientBundle\Model\RetourConsultationArbitrage;
 use Mpp\GeneraliClientBundle\Model\RetourFinalisation;
+use Mpp\GeneraliClientBundle\Model\RetourFinalisationOrdre;
 use Mpp\GeneraliClientBundle\Model\RetourValidation;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -58,11 +60,11 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * Check arbitration request.
      *
      * @param array       $context
-     * @param Arbitration $arbitration
+     * @param Arbitrage   $arbitration
      *
      * @return ApiResponse
      */
-    public function check(array $context = [], Arbitration $arbitration): ApiResponse
+    public function check(array $context = [], Arbitrage $arbitration): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([
@@ -99,7 +101,7 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      */
     public function finalize(array $context = []): ApiResponse
     {
-        return $this->getApiResponse(RetourFinalisation::class, 'POST', '/finaliser', [
+        return $this->getApiResponse(RetourFinalisationOrdre::class, 'POST', '/finaliser', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
             ]),
