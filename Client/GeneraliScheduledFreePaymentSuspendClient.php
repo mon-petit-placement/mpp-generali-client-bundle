@@ -22,7 +22,7 @@ class GeneraliScheduledFreePaymentSuspendClient extends AbstractGeneraliClient
             ->setDefined(['codeApporteur'])
         ;
 
-        return $this->getApiResponse(null, 'POST', '', [
+        return $this->getApiResponse(null, 'POST', sprintf('/%s', $context['numContrat']), [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($resolver->resolve($context)),
             ]),
