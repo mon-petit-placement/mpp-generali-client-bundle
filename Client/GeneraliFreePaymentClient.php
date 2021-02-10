@@ -23,7 +23,7 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
-            ->setDefined('elementsAttendus')
+            ->setDefined(['codeApporteur', 'elementsAttendus'])
         ;
 
         return $this->getApiResponse(RetourConsultationVersementLibre::class, 'POST', '/donnees', [
@@ -45,7 +45,7 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
-            ->setDefined('numeroOrdreTransactionLiee')
+            ->setDefined(['codeApporteur', 'numeroOrdreTransactionLiee'])
         ;
 
         return $this->getApiResponse(null, 'POST', '/initier', [

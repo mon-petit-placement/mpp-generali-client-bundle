@@ -15,10 +15,11 @@ class GeneraliScheduledFreePaymentSuspendClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function init(array $context): ApiResponse
+    public function init(array $context): ?ApiResponse
     {
         $resolver = (new OptionsResolver())
             ->setRequired(['numContrat'])
+            ->setDefined(['codeApporteur'])
         ;
 
         return $this->getApiResponse(null, 'POST', '', [

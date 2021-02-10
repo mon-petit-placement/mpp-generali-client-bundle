@@ -24,7 +24,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
         $resolver = (new OptionsResolver())
             ->setRequired('utilisateur')->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
             ->setRequired('numContrat')
-            ->setDefined('elementsAttendus')
+            ->setDefined(['codeApporteur', 'elementsAttendus'])
         ;
 
         return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/', [
@@ -47,6 +47,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
         $resolver = (new OptionsResolver())
             ->setRequired(['utilisateur', 'numContrat'])
             ->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
+            ->setDefined(['codeApporteur'])
         ;
 
         return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/all', [
@@ -68,6 +69,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired(['numContrat'])
+            ->setDefined(['codeApporteur'])
         ;
 
         return $this->getApiResponse(null, 'POST', '/initier', [
@@ -91,6 +93,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
         $resolver = (new OptionsResolver())
             ->setRequired(['statut', 'numContrat', 'utilisateur'])
             ->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
+            ->setDefined(['codeApporteur'])
         ;
 
         return $this->getApiResponse(null, 'POST', '/verifier', [
