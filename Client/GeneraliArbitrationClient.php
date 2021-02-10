@@ -24,7 +24,7 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
-            ->setDefined('elementsAttendus')
+            ->setDefined(['elementsAttendus', 'codeApporteur'])
         ;
 
         return $this->getApiResponse(RetourConsultationArbitrage::class, 'POST', '/donnees', [
@@ -46,6 +46,7 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
+            ->setDefined(['codeApporteur'])
         ;
 
         return $this->getApiResponse(null, 'POST', '/initier', [

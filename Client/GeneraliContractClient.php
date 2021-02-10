@@ -19,7 +19,7 @@ class GeneraliContractClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
-            ->setDefined('elementsAttendus')
+            ->setDefined(['codeApporteur', 'elementsAttendus'])
         ;
 
         return $this->getApiResponse(null, 'POST', '', [
