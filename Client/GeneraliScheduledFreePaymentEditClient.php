@@ -31,15 +31,15 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      * POST /v1.0/transaction/modificationVersementsLibresProgrammes/verifier
      * Check a scheduled free payment edit request.
      *
-     * @param array                         $context
-     * @param ModifVersementLibreProgrammes $scheduledFreePaymentEdit
+     * @param array                          $context
+     * @param ?ModifVersementLibreProgrammes $scheduledFreePaymentEdit
      *
      * @return ApiResponse
      */
-    public function check(array $context = [], ModifVersementLibreProgrammes $scheduledFreePaymentEdit, string $numContract): ApiResponse
+    public function check(array $context = [], ?ModifVersementLibreProgrammes $scheduledFreePaymentEdit = null, string $numContract = ''): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', sprintf('/verifier/%s', $numContract), [
-            'body' => json_encode([
+            'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
                 'modifVersementLibreProgrammes' => $scheduledFreePaymentEdit,
             ]),
@@ -66,7 +66,7 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
         ;
 
         return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
-            'body' => json_encode([
+            'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
                 'options' => $resolver->resolve($options),
             ]),
