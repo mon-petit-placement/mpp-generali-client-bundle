@@ -20,6 +20,16 @@ class FondsInvestissable
     private $investissementObligatoire;
 
     /**
+     * @var string|null
+     */
+    private $categorie;
+
+    /**
+     * @var string|null
+     */
+    private $sousCategorie;
+
+    /**
      * Get the value of fonds.
      *
      * @return Fonds|null
@@ -87,6 +97,46 @@ class FondsInvestissable
     public function setInvestissementObligatoire(?bool $investissementObligatoire): self
     {
         $this->investissementObligatoire = $investissementObligatoire;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCategorie(): ?string
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * @param string|null $categorie
+     *
+     * @return FondsInvestissable
+     */
+    public function setCategorie(?string $categorie): FondsInvestissable
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSousCategorie(): ?string
+    {
+        return $this->sousCategorie;
+    }
+
+    /**
+     * @param string|null $sousCategorie
+     *
+     * @return FondsInvestissable
+     */
+    public function setSousCategorie(?string $sousCategorie): FondsInvestissable
+    {
+        $this->sousCategorie = $sousCategorie;
 
         return $this;
     }

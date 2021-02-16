@@ -5,7 +5,7 @@ namespace Mpp\GeneraliClientBundle\Model;
 class ModifVlpRetour
 {
     /**
-     * @var array<FondsInvestissables>|null
+     * @var array<FondsInvestissable>|null
      */
     private $fondsInvestissables;
 
@@ -27,7 +27,7 @@ class ModifVlpRetour
     /**
      * Get the value of fondsInvestissables.
      *
-     * @return array<FondsInvestissables>|null
+     * @return array<FondsInvestissable>|null
      */
     public function getFondsInvestissables(): ?array
     {
@@ -37,7 +37,7 @@ class ModifVlpRetour
     /**
      * Set the value of fondsInvestissables.
      *
-     * @param array<FondsInvestissables>|null $fondsInvestissables
+     * @param array<FondsInvestissable>|null $fondsInvestissables
      *
      * @return self
      */
