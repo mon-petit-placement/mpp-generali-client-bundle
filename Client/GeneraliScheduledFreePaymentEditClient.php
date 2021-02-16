@@ -14,10 +14,11 @@ class GeneraliScheduledFreePaymentEditClient extends AbstractGeneraliClient
      * Init a scheduled free payment edit request.
      *
      * @param array $context
+     * @param string $numContract
      *
      * @return ApiResponse
      */
-    public function init(array $context = [], string $numContract): ApiResponse
+    public function init(array $context = [], string $numContract = ''): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', sprintf('/initier/%s', $numContract), [
             'body' => $this->serialize([
