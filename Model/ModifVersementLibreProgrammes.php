@@ -10,7 +10,7 @@ class ModifVersementLibreProgrammes
     private $versement;
 
     /**
-     * @var Repartition|null
+     * @var RepartitionModifVLP|null
      */
     private $repartition;
 
@@ -41,9 +41,9 @@ class ModifVersementLibreProgrammes
     /**
      * Get the value of repartition.
      *
-     * @return Repartition|null
+     * @return RepartitionModifVLP|null
      */
-    public function getRepartition(): ?Repartition
+    public function getRepartition(): ?RepartitionModifVLP
     {
         return $this->repartition;
     }
@@ -51,11 +51,11 @@ class ModifVersementLibreProgrammes
     /**
      * Set the value of repartition.
      *
-     * @param Repartition|null $repartition
+     * @param RepartitionModifVLP|null $repartition
      *
      * @return self
      */
-    public function setRepartition(?Repartition $repartition): self
+    public function setRepartition(?RepartitionModifVLP $repartition): self
     {
         $this->repartition = $repartition;
 
