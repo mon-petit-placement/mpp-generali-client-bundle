@@ -32,6 +32,11 @@ class SouscripteurComplement
     /**
      * @var string|null
      */
+    private $cspDerniereProfession;
+
+    /**
+     * @var string|null
+     */
     private $profession;
 
     /**
@@ -170,6 +175,26 @@ class SouscripteurComplement
     public function setCsp(?string $csp): self
     {
         $this->csp = $csp;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCspDerniereProfession(): ?string
+    {
+        return $this->cspDerniereProfession;
+    }
+
+    /**
+     * @param string|null $cspDerniereProfession
+     *
+     * @return self
+     */
+    public function setCspDerniereProfession(?string $cspDerniereProfession): self
+    {
+        $this->cspDerniereProfession = $cspDerniereProfession;
 
         return $this;
     }
