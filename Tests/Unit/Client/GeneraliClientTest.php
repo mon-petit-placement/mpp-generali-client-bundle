@@ -24,12 +24,12 @@ abstract class GeneraliClientTest extends KernelTestCase
      */
     protected static $factory;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::bootKernel();
 
-        self::$registry = self::$container->get(GeneraliClientRegistryInterface::class);
-        self::$referentialHandler = self::$container->get(ReferentialHandler::class);
-        self::$factory = self::$container->get(ModelFactory::class);
+        self::$registry = self::getContainer()->get(GeneraliClientRegistryInterface::class);
+        self::$referentialHandler = self::getContainer()->get(ReferentialHandler::class);
+        self::$factory = self::getContainer()->get(ModelFactory::class);
     }
 }

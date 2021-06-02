@@ -2,6 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Exception;
 
-class GeneraliApiException extends \Exception
+use Exception;
+
+class GeneraliApiException extends Exception
 {
 }

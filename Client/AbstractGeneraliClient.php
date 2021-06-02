@@ -14,6 +14,7 @@ use Mpp\GeneraliClientBundle\Model\Contexte;
 use Mpp\GeneraliClientBundle\Model\ErrorMessage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -136,7 +137,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     {
         $fullPath = sprintf('%s%s', $this->getBasePath(), $path);
         $url = sprintf('%s%s', $this->httpClient->getConfig('base_uri'), $fullPath);
-        $className = (new \ReflectionClass($this))->getName();
+        $className = (new ReflectionClass($this))->getName();
 
         $this->logger->info(sprintf('%s api call', $className), [
             'method' => $method,

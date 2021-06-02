@@ -2,6 +2,9 @@
 
 namespace Mpp\GeneraliClientBundle\Tests;
 
+use EightPoints\Bundle\GuzzleBundle\EightPointsGuzzleBundle;
+use Mpp\GeneraliClientBundle\MppGeneraliClientBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -10,9 +13,9 @@ class TestKernel extends Kernel
     public function registerBundles()
     {
         return [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Mpp\GeneraliClientBundle\MppGeneraliClientBundle(),
-            new \EightPoints\Bundle\GuzzleBundle\EightPointsGuzzleBundle(),
+            new FrameworkBundle(),
+            new MppGeneraliClientBundle(),
+            new EightPointsGuzzleBundle(),
         ];
     }
 

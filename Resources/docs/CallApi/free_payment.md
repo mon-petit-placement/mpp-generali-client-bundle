@@ -3,6 +3,7 @@
 ## How to create a FreePayment ?
 
 Build your $freePayment using the FreePaymentFactory with the following structure:
+
 ```php
 $freePayment = $this->freePaymentFactory->create([
     'externalOperationNumber' => 'dfghjkl',
@@ -104,7 +105,7 @@ $freePayment = $this->freePaymentFactory->create([
         'addressPostBox' => 'toto',
         ]
     ]
-);
+)
 ```
 You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones
 
@@ -145,7 +146,7 @@ The Document will have this structure:
     'title' => 'Carte identité',
     'filename' => null,
     'filePath' => null,
-    'alreadySent' = > false,
+    'alreadySent' => false,
     'required' => true
 ]
 ```

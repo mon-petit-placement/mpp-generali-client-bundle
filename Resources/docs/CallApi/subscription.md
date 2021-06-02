@@ -3,6 +3,7 @@
 ## How to create a Subscription ?
 
 Build your $subscription using the SubsriptionFactory with the following structure:
+
 ```php
 $amount_1 = 5000;
 $amount_2 = 500;
@@ -25,7 +26,7 @@ $subscription = $this->subscriptionFactory->create([
         'civility' => 'MONSIEUR',
         'taxCountry' => 'XXXXXFRANCE',
         'nationality' => 'XXXXXFRANCE',
-        'birthDate' => \DateTime::createFromFormat('Y-m-d', '1980-01-01'),
+        'birthDate' => DateTime::createFromFormat('Y-m-d', '1980-01-01'),
         'birthPlace' => 'toto',
         'birthCountry' => 'XXXXXFRANCE',
         'birthPostalCode' => '65454',
@@ -38,12 +39,12 @@ $subscription = $this->subscriptionFactory->create([
         'siretNumber' => 00000000000000,
         'employerName' => 'MON PETIT PLACEMENT',
         'cspCodeLastProfession' => '32',
-        'startDateInactivity' => \DateTime::createFromFormat('Y-m-d', '2000-01-01'),
+        'startDateInactivity' => DateTime::createFromFormat('Y-m-d', '2000-01-01'),
         'phoneNumber' => '0303030303',
         'cellPhoneNumber' => '0606060606',
         'email' => 'toto',
         'identityDocCode' => 'FE21',
-        'identityDocValidityDate' => \DateTime::createFromFormat('Y-m-d', '2030-01-01'),
+        'identityDocValidityDate' => DateTime::createFromFormat('Y-m-d', '2030-01-01'),
         'addressPostalCode' => '65454',
         'addressCity' => 'toto',
         'addressCountryCode' => 'XXXXXFRANCE',
@@ -95,7 +96,7 @@ $subscription = $this->subscriptionFactory->create([
                 'codeOrigin' => '1',
                 'detail' => '2',
                 'amount' => $amount_1 + 12 * $amount_2,
-                'date' => \DateTime::createFromFormat('Y-m-d', '2020-01-01'),
+                'date' => DateTime::createFromFormat('Y-m-d', '2020-01-01'),
                 'precision' => 'toto',
             ]
         ],

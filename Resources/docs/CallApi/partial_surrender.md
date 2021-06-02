@@ -3,6 +3,7 @@
 ## How to create a Partial Surrender ?
 
 Build your $partialSurrender using the $partialSurrenderFactory with the following structure:
+
 ```php
 $partialSurrender = $this->partialSurrenderFactory->create([
     'amount' => 654.23,
@@ -31,7 +32,7 @@ $partialSurrender = $this->partialSurrenderFactory->create([
             'totalSurrender' => true,
         }
     ]
-];
+]
 ```
 You will need to access to the availables' funds and saving Reachs, see [here](../referentials.md) how to.
 

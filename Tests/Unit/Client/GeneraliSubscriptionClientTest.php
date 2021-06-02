@@ -5,12 +5,16 @@ namespace Mpp\GeneraliClientBundle\Tests\Unit\Client;
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\Contexte;
 use Mpp\GeneraliClientBundle\Model\RetourConsultationSouscription;
-use Mpp\GeneraliClientBundle\Model\RetourFinalisation;
 use Mpp\GeneraliClientBundle\Model\Souscription;
+use Symfony\Component\HttpFoundation\File\File;
 
 class GeneraliSubscriptionClientTest extends GeneraliClientTest
 {
-    public function setUp()
+    private $client;
+    private $subscription;
+    private File $dummyDocument;
+
+    public function setUp(): void
     {
         $this->client = self::$registry->getSubscription();
         $this->subscription = self::$factory->createFromArray(Souscription::class, [
@@ -162,7 +166,7 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
             'dematerialisationCourriers' => true,
             'dateSignature' => '2019-05-24',
         ]);
-        $this->dummyDocument = new File('%s/Tests/Resources/empty_document.pdf', self::$container->getParameter('kernel.project_dir'));
+        $this->dummyDocument = new File('%s/Tests/Resources/empty_document.pdf', self::getContainer()->getParameter('kernel.project_dir'));
     }
 
     public function testGetData()
@@ -186,7 +190,7 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
         $apiResponse = $this->client->init();
         $apiResponse = $this->client->check(
             (new Contexte())->setStatut($apiResponse->getStatut()),
-            $subscription
+            $this->subscription
         );
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
@@ -196,9 +200,9 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
     {
         $apiResponse = $this->client->init();
         $context = (new Contexte())->setStatut($apiResponse->getStatut());
-        $this->client->check($context, $subscription);
+        $this->client->check($context, $this->subscription);
 
-        $apiResponse = $this->registry->getSubscription()->confirm($context);
+        $apiResponse = self::$registry->getSubscription()->confirm($context);
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
         $this->assertNotNull($apiResponse->getDonnees()->getIdTransaction());
@@ -209,9 +213,9 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
     {
         $apiResponse = $this->client->init();
         $context = (new Contexte())->setStatut($apiResponse->getStatut());
-        $this->client->check($context, $subscription);
+        $this->client->check($context, $this->subscription);
 
-        $apiResponse = $this->registry->getSubscription()->confirm($context);
+        $apiResponse = self::$registry->getSubscription()->confirm($context);
 
         $idTransaction = $apiResponse->getDonnees()->getIdTransaction();
 
@@ -220,17 +224,16 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
                 continue;
             }
 
-            $this->registry->getDocument()->uploadDocument(
+            self::$registry->getDocument()->uploadDocument(
                 $idTransaction,
                 $document->setFile($this->dummyDocument)
             );
         }
 
-        $apiResponse = $this->registry->getSubscription()->finalize(
+        $apiResponse = self::$registry->getSubscription()->finalize(
             (new Contexte())->setIdTransaction($idTransaction)
         );
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
-        $this->assertInstanceOf(RetourFinalisation::class, $apiResponse->getDonnees());
     }
 }

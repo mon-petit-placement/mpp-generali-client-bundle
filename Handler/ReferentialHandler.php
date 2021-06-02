@@ -7,6 +7,8 @@ use Mpp\GeneraliClientBundle\Model\Contexte;
 use Mpp\GeneraliClientBundle\Model\Referentiel;
 use Mpp\GeneraliClientBundle\Model\TranchePatrimoine;
 use Mpp\GeneraliClientBundle\Model\TrancheRevenus;
+use ReflectionClass;
+use UnexpectedValueException;
 
 /**
  * Class ReferentialHandler.
@@ -209,14 +211,14 @@ class ReferentialHandler
     private static function getReferentialKeyData(Referentiel $referential, string $referentialKey)
     {
         if (!self::isValidReferentialKey($referentialKey)) {
-            throw new \UnexpectedValueException(sprintf('The given referential key %s is not available', $referentialKey));
+            throw new UnexpectedValueException(sprintf('The given referential key %s is not available', $referentialKey));
         }
 
         $getter = sprintf('get%s', ucfirst($referentialKey));
-        $class = new \ReflectionClass($referential);
+        $class = new ReflectionClass($referential);
 
         if (!$class->hasMethod($getter)) {
-            throw new \UnexpectedValueException(sprintf('The given referential does not contains %s key ', Contexte::ELEMENT_ATTENDU_REFERENTIEL));
+            throw new UnexpectedValueException(sprintf('The given referential does not contains %s key ', Contexte::ELEMENT_ATTENDU_REFERENTIEL));
         }
 
         return $class->getMethod($getter)->invoke($referential);
@@ -233,10 +235,10 @@ class ReferentialHandler
         $referentialModel = self::getReferentialKeyData($referential, $referentialKey);
 
         $getter = sprintf('get%s', ucfirst($subReferentialKey));
-        $class = new \ReflectionClass($referentialModel);
+        $class = new ReflectionClass($referentialModel);
 
         if (!$class->hasMethod($getter)) {
-            throw new \UnexpectedValueException(sprintf('The referential %s does not contains %s sub field ', $referentialKey, $subReferentialKey));
+            throw new UnexpectedValueException(sprintf('The referential %s does not contains %s sub field ', $referentialKey, $subReferentialKey));
         }
 
         return $class->getMethod($getter)->invoke($referentialModel);

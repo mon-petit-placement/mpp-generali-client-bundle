@@ -5,12 +5,13 @@ To build Subscription, FreePayment, ScheduledFreePayment, PartialSurrender, Arbi
 
 For example, if you want to create a "married" subscriber, you will not send the string "married", but the code which mean it for Generali. It permits to normalize the data and exploit it.
 The subscriber will look like:
+
 ```php
 $subscriber = $this->subscriberFactory->create([
 ...
    'familialSituation' => '5'
 ...
-);
+)
 ```
 Here is the list of familySituation that you can send to Generali:
 ```php

@@ -7,7 +7,7 @@ use Mpp\GeneraliClientBundle\Model\Contrat;
 
 class GeneraliContractClientTest extends GeneraliClientTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = self::$registry->getContract();
     }

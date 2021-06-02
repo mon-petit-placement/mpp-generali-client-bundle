@@ -4,7 +4,9 @@ namespace Mpp\GeneraliClientBundle\Tests\Unit\Client;
 
 class GeneraliArbitrationClientTest extends GeneraliClientTest
 {
-    public function setUp()
+    private $client;
+
+    public function setUp(): void
     {
         $this->client = self::$registry->getArbitration();
     }

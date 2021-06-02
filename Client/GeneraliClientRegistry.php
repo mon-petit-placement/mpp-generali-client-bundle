@@ -2,6 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use UnexpectedValueException;
+
 class GeneraliClientRegistry implements GeneraliClientRegistryInterface
 {
     /**
@@ -47,12 +49,12 @@ class GeneraliClientRegistry implements GeneraliClientRegistryInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \UnexpectedValueException if the generali client is not registered
+     * @throws UnexpectedValueException if the generali client is not registered
      */
     public function get(string $alias): GeneraliClientInterface
     {
         if (!isset($this->clients[$alias])) {
-            throw new \UnexpectedValueException(sprintf('Could not retrieve generali client with alias %s', $alias));
+            throw new UnexpectedValueException(sprintf('Could not retrieve generali client with alias %s', $alias));
         }
 
         return $this->clients[$alias];

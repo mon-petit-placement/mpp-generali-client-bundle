@@ -2,6 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
+use InvalidArgumentException;
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\PieceAFournir;
 use Mpp\GeneraliClientBundle\Model\RetourValidation;
@@ -20,7 +21,7 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
     public function uploadDocument(string $transactionId, PieceAFournir $document): void
     {
         if (null === $document->getFilePath() || null === $document->getIdPieceAFournir()) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'The fields "idPieceAFournir" and "filePath" could not be null on object of type %s when using %s::uploadDocument method',
                     PieceAFournir::class,

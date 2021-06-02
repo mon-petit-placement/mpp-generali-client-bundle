@@ -3,6 +3,7 @@
 ## How to create a FreePayment ?
 
 Build your $scheduledFreePayment using the ScheduledFreePaymentFactory with the following structure:
+
 ```php
 $scheduledFreePayment = $this->scheduledFreePaymentFactory->create([
     'amount' => 654.23,
@@ -105,7 +106,7 @@ $scheduledFreePayment = $this->scheduledFreePaymentFactory->create([
           'addressGeographicPoint' => 'toto',
           'addressPostBox' => 'toto'
     ]
-]);
+])
 ```
 You will need to access to the availables' values on some attribute, please check [here](../referentials.md) to see which ones
 

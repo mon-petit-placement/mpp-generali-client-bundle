@@ -2,15 +2,17 @@
 
 namespace Mpp\GeneraliClientBundle\Model;
 
+use DateTimeInterface;
+
 class InfoVLP
 {
     /**
-     * @var \DateTimeInterface|null
+     * @var DateTimeInterface|null
      */
     private $dateProchainPrelevement;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var DateTimeInterface|null
      */
     private $debutPeriode;
 
@@ -37,9 +39,9 @@ class InfoVLP
     /**
      * Get the value of dateProchainPrelevement.
      *
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getDateProchainPrelevement(): ?\DateTimeInterface
+    public function getDateProchainPrelevement(): ?DateTimeInterface
     {
         return $this->dateProchainPrelevement;
     }
@@ -47,11 +49,11 @@ class InfoVLP
     /**
      * Set the value of dateProchainPrelevement.
      *
-     * @param \DateTimeInterface|null $dateProchainPrelevement
+     * @param DateTimeInterface|null $dateProchainPrelevement
      *
      * @return self
      */
-    public function setDateProchainPrelevement(?\DateTimeInterface $dateProchainPrelevement): self
+    public function setDateProchainPrelevement(?DateTimeInterface $dateProchainPrelevement): self
     {
         $this->dateProchainPrelevement = $dateProchainPrelevement;
 
@@ -61,9 +63,9 @@ class InfoVLP
     /**
      * Get the value of debutPeriode.
      *
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getDebutPeriode(): ?\DateTimeInterface
+    public function getDebutPeriode(): ?DateTimeInterface
     {
         return $this->debutPeriode;
     }
@@ -71,11 +73,11 @@ class InfoVLP
     /**
      * Set the value of debutPeriode.
      *
-     * @param \DateTimeInterface|null $debutPeriode
+     * @param DateTimeInterface|null $debutPeriode
      *
      * @return self
      */
-    public function setDebutPeriode(?\DateTimeInterface $debutPeriode): self
+    public function setDebutPeriode(?DateTimeInterface $debutPeriode): self
     {
         $this->debutPeriode = $debutPeriode;
 
