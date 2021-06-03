@@ -40,6 +40,11 @@ class RachatPartiel
     private $repartitionProportionnelle;
 
     /**
+     * @var array<Repartition>|null
+     */
+    private $repartition;
+
+    /**
      * @var ModeReglement|null
      */
     private $modeReglement;
@@ -232,6 +237,26 @@ class RachatPartiel
     public function setModeReglement(?ModeReglement $modeReglement): self
     {
         $this->modeReglement = $modeReglement;
+
+        return $this;
+    }
+
+    /**
+     * @return Repartition[]|null
+     */
+    public function getRepartition(): ?array
+    {
+        return $this->repartition;
+    }
+
+    /**
+     * @param Repartition[]|null $repartition
+     *
+     * @return RachatPartiel
+     */
+    public function setRepartition(?array $repartition): RachatPartiel
+    {
+        $this->repartition = $repartition;
 
         return $this;
     }
