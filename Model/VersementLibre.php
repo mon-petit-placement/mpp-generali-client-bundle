@@ -25,6 +25,11 @@ class VersementLibre
     private $montant;
 
     /**
+     * @var string|null
+     */
+    private $numeroOperationExterne;
+
+    /**
      * Get the value of dossierClient.
      *
      * @return ConnaissanceClient|null
@@ -116,6 +121,26 @@ class VersementLibre
     public function setMontant(?int $montant): self
     {
         $this->montant = $montant;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNumeroOperationExterne(): ?string
+    {
+        return $this->numeroOperationExterne;
+    }
+
+    /**
+     * @param string|null $numeroOperationExterne
+     *
+     * @return VersementLibre
+     */
+    public function setNumeroOperationExterne(?string $numeroOperationExterne): VersementLibre
+    {
+        $this->numeroOperationExterne = $numeroOperationExterne;
 
         return $this;
     }
