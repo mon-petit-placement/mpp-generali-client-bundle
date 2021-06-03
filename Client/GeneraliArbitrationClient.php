@@ -70,7 +70,7 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
-                'arbitrage' => $arbitration,
+                'arbitrageDemande' => $arbitration,
             ]),
         ]);
     }
