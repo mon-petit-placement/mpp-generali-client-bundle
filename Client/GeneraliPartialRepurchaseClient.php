@@ -65,14 +65,24 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * Confirm a partial repurchase request.
      *
      * @param array $context
+     * @param array $options
      *
      * @return ApiResponse
      */
-    public function confirm(array $context = []): ApiResponse
+    public function confirm(array $context = [], array $options = []): ApiResponse
     {
+        $resolver = (new OptionsResolver())
+            ->setDefaults([
+                'genererUnBulletin' => true,
+                'envoyerUnMailClient' => true,
+                'cloturerLeDossier' => true,
+            ])
+        ;
+
         return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
+                'options' => $resolver->resolve($options),
             ]),
         ]);
     }
