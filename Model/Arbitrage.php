@@ -22,12 +22,12 @@ class Arbitrage
     /**
      * @var array<FondsInvesti>|null
      */
-    private $liseFondsInvestis;
+    private $listeFondsInvesti;
 
     /**
      * @var array<FondsInvesti>|null
      */
-    private $listeFondsDesinvestis;
+    private $listeFondsDesInvesti;
 
     /**
      * Get the value of numOperationExterne.
@@ -106,21 +106,21 @@ class Arbitrage
      *
      * @return array<FondsInvesti>|null
      */
-    public function getLiseFondsInvestis(): ?array
+    public function getListeFondsInvesti(): ?array
     {
-        return $this->liseFondsInvestis;
+        return $this->listeFondsInvesti;
     }
 
     /**
      * Set the value of fondsInvestis.
      *
-     * @param array<FondsInvesti>|null $liseFondsInvestis
+     * @param array<FondsInvesti>|null $listeFondsInvesti
      *
      * @return self
      */
-    public function setLiseFondsInvestis(?array $liseFondsInvestis): self
+    public function setListeFondsInvesti(?array $listeFondsInvesti): self
     {
-        $this->liseFondsInvestis = $liseFondsInvestis;
+        $this->listeFondsInvesti = $listeFondsInvesti;
 
         return $this;
     }
@@ -130,21 +130,21 @@ class Arbitrage
      *
      * @return array<FondsInvesti>|null
      */
-    public function getListeFondsDesinvestis(): ?array
+    public function getListeFondsDesInvesti(): ?array
     {
-        return $this->listeFondsDesinvestis;
+        return $this->listeFondsDesInvesti;
     }
 
     /**
      * Set the value of fondsDesinvestis.
      *
-     * @param array<FondsInvesti>|null $listeFondsDesinvestis
+     * @param array<FondsInvesti>|null $listeFondsDesInvesti
      *
      * @return self
      */
-    public function setListeFondsDesinvestis(?array $listeFondsDesinvestis): self
+    public function setListeFondsDesInvesti(?array $listeFondsDesInvesti): self
     {
-        $this->listeFondsDesinvestis = $listeFondsDesinvestis;
+        $this->listeFondsDesInvesti = $listeFondsDesInvesti;
 
         return $this;
     }
