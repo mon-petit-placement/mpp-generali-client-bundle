@@ -133,9 +133,9 @@ class CompteBancaire
     /**
      * Get the value of actif.
      *
-     * @return bool
+     * @return null|bool
      */
-    public function getActif(): bool
+    public function getActif(): ?bool
     {
         return $this->actif;
     }
@@ -143,11 +143,11 @@ class CompteBancaire
     /**
      * Set the value of actif.
      *
-     * @param bool $actif
+     * @param null|bool $actif
      *
      * @return self
      */
-    public function setActif(bool $actif): self
+    public function setActif(?bool $actif): self
     {
         $this->actif = $actif;
 
@@ -157,9 +157,9 @@ class CompteBancaire
     /**
      * Get the value of autorise.
      *
-     * @return bool
+     * @return null|bool
      */
-    public function getAutorise(): bool
+    public function getAutorise(): ?bool
     {
         return $this->autorise;
     }
@@ -167,11 +167,11 @@ class CompteBancaire
     /**
      * Set the value of autorise.
      *
-     * @param bool $autorise
+     * @param null|bool $autorise
      *
      * @return self
      */
-    public function setAutorise(bool $autorise): self
+    public function setAutorise(?bool $autorise): self
     {
         $this->autorise = $autorise;
 
