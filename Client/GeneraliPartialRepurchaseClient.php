@@ -11,51 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
 {
-    /**
-     * POST /v1.0/donnees/rachatpartiel
-     * Retrieve partial repurchase data.
-     *
-     * @param array $context
-     *
-     * @return ApiResponse
-     */
-    public function getData(array $context): ApiResponse
-    {
-        $resolver = (new OptionsResolver())
-            ->setRequired('utilisateur')->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
-            ->setRequired('numContrat')
-            ->setDefined(['codeApporteur', 'elementsAttendus'])
-        ;
-
-        return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/', [
-            'body' => $this->serialize([
-                'contexte' => $this->getContext($resolver->resolve($context)),
-            ]),
-        ]);
-    }
-
-    /**
-     * POST /v1.0/donnees/rachatpartiel/all
-     * Retrieve all partial repurchase data.
-     *
-     * @param array $context
-     *
-     * @return ApiResponse
-     */
-    public function getAllData(array $context): ApiResponse
-    {
-        $resolver = (new OptionsResolver())
-            ->setRequired(['utilisateur', 'numContrat'])
-            ->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
-            ->setDefined(['codeApporteur'])
-        ;
-
-        return $this->getApiResponse(RetourConsultationRachatPartiel::class, 'POST', '/all', [
-            'body' => $this->serialize([
-                'contexte' => $this->getContext($resolver->resolve($context)),
-            ]),
-        ]);
-    }
 
     /**
      * POST /v1.0/donnees/rachatpartiel/initier
@@ -68,7 +23,8 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
     public function init(array $context): ApiResponse
     {
         $resolver = (new OptionsResolver())
-            ->setRequired(['numContrat'])
+            ->setRequired(['numContrat', 'utilisateur'])
+            ->setAllowedValues('utilisateur', [Contexte::UTILISATEUR_CLIENT, Contexte::UTILISATEUR_APPORTEUR])
             ->setDefined(['codeApporteur'])
         ;
 
@@ -114,7 +70,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      */
     public function confirm(array $context = []): ApiResponse
     {
-        return $this->getApiResponse1(RetourValidation::class, 'POST', '/confirmer', [
+        return $this->getApiResponse(RetourValidation::class, 'POST', '/confirmer', [
             'body' => $this->serialize([
                 'contexte' => $this->getContext($context),
             ]),
@@ -134,6 +90,6 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      */
     public function getBasePath(): string
     {
-        return '/v1.0/donnees/rachatpartiel';
+        return '/v1.0/transaction/rachatpartiel';
     }
 }
