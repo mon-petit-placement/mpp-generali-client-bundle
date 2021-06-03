@@ -20,14 +20,14 @@ class Arbitrage
     private $mandatArbitrage;
 
     /**
-     * @var array<FondsInvesti>|null
+     * @var array<FondsInvestis>|null
      */
-    private $listeFondsInvesti;
+    private $fondsInvestis;
 
     /**
-     * @var array<FondsInvesti>|null
+     * @var array<FondsDesinvestis>|null
      */
-    private $listeFondsDesInvesti;
+    private $fondsDesinvestis;
 
     /**
      * Get the value of numOperationExterne.
@@ -104,23 +104,23 @@ class Arbitrage
     /**
      * Get the value of fondsInvestis.
      *
-     * @return array<FondsInvesti>|null
+     * @return array<FondsInvestis>|null
      */
-    public function getListeFondsInvesti(): ?array
+    public function getFondsInvestis(): ?array
     {
-        return $this->listeFondsInvesti;
+        return $this->fondsInvestis;
     }
 
     /**
      * Set the value of fondsInvestis.
      *
-     * @param array<FondsInvesti>|null $listeFondsInvesti
+     * @param array<FondsInvestis>|null $fondsInvestis
      *
      * @return self
      */
-    public function setListeFondsInvesti(?array $listeFondsInvesti): self
+    public function setFondsInvestis(?array $fondsInvestis): self
     {
-        $this->listeFondsInvesti = $listeFondsInvesti;
+        $this->fondsInvestis = $fondsInvestis;
 
         return $this;
     }
@@ -128,23 +128,23 @@ class Arbitrage
     /**
      * Get the value of fondsDesinvestis.
      *
-     * @return array<FondsInvesti>|null
+     * @return array<FondsInvestis>|null
      */
-    public function getListeFondsDesInvesti(): ?array
+    public function getFondsDesinvestis(): ?array
     {
-        return $this->listeFondsDesInvesti;
+        return $this->fondsDesinvestis;
     }
 
     /**
      * Set the value of fondsDesinvestis.
      *
-     * @param array<FondsInvesti>|null $listeFondsDesInvesti
+     * @param array<FondsInvestis>|null $fondsDesinvestis
      *
      * @return self
      */
-    public function setListeFondsDesInvesti(?array $listeFondsDesInvesti): self
+    public function setFondsDesinvestis(?array $fondsDesinvestis): self
     {
-        $this->listeFondsDesInvesti = $listeFondsDesInvesti;
+        $this->fondsDesinvestis = $fondsDesinvestis;
 
         return $this;
     }
