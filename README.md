@@ -93,6 +93,12 @@ GENERALI_DEFAULT_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
             <td>partial_repruchase</td>
         </tr>
         <tr>
+            <td>Gestion des documents</td>
+            <td>/v2.0/document</td>
+            <td><a href="./Client/GeneraliDocumentClient.php">GeneraliDocumentClient</a></td>
+            <td>document</td>
+        </tr>
+        <tr>
             <td>Souscription</td>
             <td>/v2.0/transaction/souscription</td>
             <td><a href="./Client/GeneraliSubscriptionClient.php">GeneraliSubscriptionClient</a></td>
