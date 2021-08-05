@@ -33,10 +33,10 @@ class GeneraliClientRegistryTest extends GeneraliClientTest
 
     public function testAttachmentClient()
     {
-        $documentClient = self::$registry->getDocument();
+        $attachmentClient = self::$registry->getAttachment();
 
-        $this->assertEquals($documentClient, self::$registry->get('document'));
-        $this->assertInstanceOf(GeneraliAttachmentClient::class, $documentClient);
+        $this->assertEquals($attachmentClient, self::$registry->get('attachment'));
+        $this->assertInstanceOf(GeneraliAttachmentClient::class, $attachmentClient);
     }
 
     public function testFreePaymentClient()
