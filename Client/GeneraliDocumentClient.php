@@ -10,87 +10,69 @@ use Mpp\GeneraliClientBundle\Model\RetourValidation;
 class GeneraliDocumentClient extends AbstractGeneraliClient
 {
     /**
-     * POST /v1.0/transaction/fournirPiece/{idTransaction}/{idDocument}
-     * Upload document for a given request transaction id.
+     * POST /v2.0/document/avenant/{codeApp}/{numContrat}/{numAvenant}/{numOperation}/{controle}
+     * Retrieve binary flux from a PDF amendment
      *
-     * @param string        $idTransaction
-     * @param PieceAFournir $document
-     *
-     * @return void
-     */
-    public function uploadDocument(string $transactionId, PieceAFournir $document): void
-    {
-        if (null === $document->getFilePath() || null === $document->getIdPieceAFournir()) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'The fields "idPieceAFournir" and "filePath" could not be null on object of type %s when using %s::uploadDocument method',
-                    PieceAFournir::class,
-                    self::class
-                )
-            );
-        }
-
-        $this->getApiResponse(null, 'POST', sprintf('/fournirPiece/%s/%s', $transactionId, $document->getIdPieceAFournir()), [
-            'multipart' => [
-                [
-                    'name' => $document->getSousLibelle(),
-                    'contents' => fopen($document->getFilePath(), 'r'),
-                    'filename' => $document->getFileName(),
-                ],
-            ]
-        ]);
-    }
-
-    /**
-     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/ARBITRAGE
-     * List all arbitration files for a given transaction id.
-     *
+     * @param string $codeApp
+     * @param string $contratId
+     * @param string $amendmentId
      * @param string $transactionId
+     * @param string $checkKey
      *
      * @return ApiResponse
      */
-    public function listArbitrationFiles(string $transactionId): ApiResponse
-    {
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/ARBITRAGE', $transactionId, []));
+    public function getAmendment(
+        string $codeApp,
+        string $contratId,
+        string $documentId,
+        string $transactionId,
+        string $checkKey
+    ): ApiResponse {
+        return $this->getApiResponse(
+            null,
+            'GET',
+            sprintf('/avenant/%s/%s/%s/%s/%s', $codeApp, $contratId, $documentId, $transactionId, $checkKey),
+            []
+        );
     }
 
     /**
-     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/SOUSCRIPTION
-     * List all subscription files for a given transaction id.
+     * POST /v2.0/document/editique/{numCourrier}/{controle}
+     * Retrieve binary flux from a PDF state of affairs, unique tax forms or real estate assets prints
      *
-     * @param string $transactionId
+     * @param string $documentId
+     * @param string $checkKey
      *
      * @return ApiResponse
      */
-    public function listSubscriptionFiles(string $transactionId): ApiResponse
+    public function getDocument(string $documentId, string $checkKey): ApiResponse
     {
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/SOUSCRIPTION', $transactionId, []));
+        return $this->getApiResponse(null, 'GET', sprintf('/editique/%s/%s', $documentId, $checkKey), []);
     }
 
     /**
-     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/VERSEMENT_LIBRE
-     * List all free payment files for a given transaction id.
+     * POST /v2.0/document/releveSituation/{codeApp}/{numContrat}/{dateReleve}/{controle}
+     * Retrieve binary flux from a PDF situation report
      *
-     * @param string $transactionId
-     *
-     * @return ApiResponse
-     */
-    public function listFreePaymentFiles(string $transactionId): ApiResponse
-    {
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/VERSEMENT_LIBRE', $transactionId, []));
-    }
-
-    /**
-     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/VERSEMENT_LIBRES_PROGRAMME
-     * List all scheduled free payment files for a given transaction id.
-     *
-     * @param string $transactionId
+     * @param string $codeApp
+     * @param string $contratId
+     * @param string $reportDate
+     * @param string $checkKey
      *
      * @return ApiResponse
      */
-    public function listScheduledFreePaymentFiles(string $transactionId): ApiResponse
-    {
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/VERSEMENT_LIBRES_PROGRAMME', $transactionId, []));
+    public function getSituationReport(
+        string $codeApp,
+        string $contratId,
+        string $reportDate,
+        string $checkKey
+    ): ApiResponse {
+        return $this->getApiResponse(
+            null,
+            'GET',
+            sprintf('/editique/%s/%s', $codeApp, $contratId, $reportDate, $checkKey),
+            []
+        );
     }
 
     /**
@@ -106,6 +88,6 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
      */
     public function getBasePath(): string
     {
-        return '/v1.0/transaction';
+        return '/v2.0/document';
     }
 }

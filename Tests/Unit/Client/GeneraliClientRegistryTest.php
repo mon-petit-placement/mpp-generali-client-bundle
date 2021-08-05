@@ -4,7 +4,7 @@ namespace Mpp\GeneraliClientBundle\Tests\Unit\Client;
 
 use Mpp\GeneraliClientBundle\Client\GeneraliArbitrationClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliContractClient;
-use Mpp\GeneraliClientBundle\Client\GeneraliDocumentClient;
+use Mpp\GeneraliClientBundle\Client\GeneraliAttachmentClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliFreePaymentClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliFundsClient;
 use Mpp\GeneraliClientBundle\Client\GeneraliPartialRepurchaseClient;
@@ -31,12 +31,12 @@ class GeneraliClientRegistryTest extends GeneraliClientTest
         $this->assertInstanceOf(GeneraliContractClient::class, $contractClient);
     }
 
-    public function testDocumentClient()
+    public function testAttachmentClient()
     {
         $documentClient = self::$registry->getDocument();
 
         $this->assertEquals($documentClient, self::$registry->get('document'));
-        $this->assertInstanceOf(GeneraliDocumentClient::class, $documentClient);
+        $this->assertInstanceOf(GeneraliAttachmentClient::class, $documentClient);
     }
 
     public function testFreePaymentClient()
