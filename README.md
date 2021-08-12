@@ -83,7 +83,7 @@ GENERALI_DEFAULT_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
         <tr>
             <td>Pièces justificatives</td>
             <td>/v1.0/transaction/piecesAFournir & /v1.0/transaction/fournirPiece</td>
-            <td><a href="./Client/GeneraliDocumentClient.php">GeneraliDocumentClient</a></td>
+            <td><a href="./Client/GeneraliAttachmentClient.php">GeneraliAttachmentClient</a></td>
             <td>document</td>
         </tr>
         <tr>
@@ -91,6 +91,12 @@ GENERALI_DEFAULT_SUBSCRIPTION_CODE=YOUR_SUBSCRIPTION_CODE
             <td>/v1.0/donnees/rachatpartiel</td>
             <td><a href="./Client/GeneraliPartialRepurchaseClient.php">GeneraliPartialRepurchaseClient</a></td>
             <td>partial_repruchase</td>
+        </tr>
+        <tr>
+            <td>Gestion des documents</td>
+            <td>/v2.0/document</td>
+            <td><a href="./Client/GeneraliDocumentClient.php">GeneraliDocumentClient</a></td>
+            <td>document</td>
         </tr>
         <tr>
             <td>Souscription</td>
@@ -158,7 +164,7 @@ You'll find an exemple of usage of each client below
 
 * [WIP] [GeneraliArbitrationClient](./Resources/docs/examples/arbitration.md) (arbitration)
 * [WIP] [GeneraliContractClient](./Resources/docs/examples/contract.md) (contract)
-* [WIP] [GeneraliDocumentClient](./Resources/docs/examples/document.md) (document)
+* [WIP] [GeneraliAttachmentClient](./Resources/docs/examples/document.md) (document)
 * [WIP] [GeneraliFreePaymentClient](./Resources/docs/examples/free_payment.md) (free_payment)
 * [WIP] [GeneraliFundsClient](./Resources/docs/examples/funds.md) (funds)
 * [WIP] [GeneraliPartialRepurchaseClient](./Resources/docs/examples/partial_repruchase.md) (partial_repruchase)

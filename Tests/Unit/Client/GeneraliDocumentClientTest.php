@@ -2,7 +2,7 @@
 
 namespace Mpp\GeneraliClientBundle\Tests\Unit\Client;
 
-class GeneraliArbitrationClientTest extends GeneraliClientTest
+class GeneraliDocumentClientTest extends GeneraliClientTest
 {
     private $client;
 
@@ -11,28 +11,13 @@ class GeneraliArbitrationClientTest extends GeneraliClientTest
         $this->client = self::$registry->getDocument();
     }
 
-    public function testUploadDocument()
+    public function testGetAmendment()
     {
-        $data = $this->client->uploadDocument();
+        return $this->client->getAmendment();
     }
 
-    public function listArbitrationFiles()
+    public function testGetDocument()
     {
-        return $this->client->listArbitrationFiles();
-    }
-
-    public function listSubscriptionFiles()
-    {
-        return $this->client->listSubscriptionFiles();
-    }
-
-    public function listFreePaymentFiles()
-    {
-        return $this->client->listFreePaymentFiles();
-    }
-
-    public function listScheduledFreePaymentFiles()
-    {
-        return $this->client->listScheduledFreePaymentFiles();
+        return $this->client->getDocument();
     }
 }
