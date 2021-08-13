@@ -30,6 +30,29 @@ class GeneraliContractClient extends AbstractGeneraliClient
     }
 
     /**
+     * POST /v2.0/contrats
+     * Retrieve contract data.
+     *
+     * @param string $contractId
+     * @param array $context
+     *
+     * @return ApiResponse
+     */
+    public function getAmendmentsList(string $contractId, array $context): ApiResponse
+    {
+        $resolver = (new OptionsResolver())
+            ->setRequired('numContrat')
+            ->setDefined(['codeApporteur', 'elementsAttendus'])
+        ;
+
+        return $this->getApiResponse(null, 'POST', sprintf('/%s', $contractId), [
+            'body' => $this->serialize([
+                'contexte' => $this->getContext($resolver->resolve($context)),
+            ]),
+        ]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function getClientAlias(): string
