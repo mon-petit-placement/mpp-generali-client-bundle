@@ -37,7 +37,7 @@ class Avenant
     private $groupe;
 
     /**
-     * @var string|null
+     * @var int|null
      */
     private $numOperation;
 
@@ -189,9 +189,9 @@ class Avenant
     /**
      * Get the value of numOperation
      *
-     * @return  string|null
+     * @return  int|null
      */
-    public function getNumOperation(): ?string
+    public function getNumOperation(): ?int
     {
         return $this->numOperation;
     }
@@ -199,11 +199,11 @@ class Avenant
     /**
      * Set the value of numOperation
      *
-     * @param  string|null  $numOperation
+     * @param  int|null  $numOperation
      *
      * @return  self
      */
-    public function setNumOperation(?string $numOperation): self
+    public function setNumOperation(?int $numOperation): self
     {
         $this->numOperation = $numOperation;
 
