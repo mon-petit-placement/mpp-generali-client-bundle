@@ -2,10 +2,8 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
-use InvalidArgumentException;
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
-use Mpp\GeneraliClientBundle\Model\PieceAFournir;
-use Mpp\GeneraliClientBundle\Model\RetourValidation;
+use Symfony\Component\HttpFoundation\File\File;
 
 class GeneraliDocumentClient extends AbstractGeneraliClient
 {
@@ -27,9 +25,8 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
         string $documentId,
         string $transactionId,
         string $checkKey
-    ): ApiResponse {
-        return $this->getApiResponse(
-            null,
+    ): File {
+        return $this->download(
             'GET',
             sprintf('/avenant/%s/%s/%s/%s/%s', $codeApp, $contratId, $documentId, $transactionId, $checkKey),
             []
@@ -45,9 +42,9 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function getDocument(string $documentId, string $checkKey): ApiResponse
+    public function getDocument(string $documentId, string $checkKey): File
     {
-        return $this->getApiResponse(null, 'GET', sprintf('/editique/%s/%s', $documentId, $checkKey), []);
+        return $this->download('GET', sprintf('/editique/%s/%s', $documentId, $checkKey), []);
     }
 
     /**
@@ -66,9 +63,8 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
         string $contratId,
         string $reportDate,
         string $checkKey
-    ): ApiResponse {
-        return $this->getApiResponse(
-            null,
+    ): File {
+        return $this->download(
             'GET',
             sprintf('/editique/%s/%s', $codeApp, $contratId, $reportDate, $checkKey),
             []
