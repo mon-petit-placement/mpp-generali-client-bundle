@@ -4,17 +4,17 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 class Fiscalite
 {
-    const FISCALITE_ASSURANCE_VIE = 'ASSURANCE_VIE';
-    const FISCALITE_PERP = 'PERP';
-    const FISCALITE_PER = 'PRE';
-    const FISCALITE_PEP = 'PEP';
-    const FISCALITE_PEA = 'PEA';
-    const FISCALITE_LOI_MADELIN = 'LOI_MADELIN';
-    const FISCALITE_CAPITALISATION = 'CAPITALISATION';
-    const FISCALITE_DSK = 'DSK';
-    const FISCALITE_NOUMEA = 'NOUMEA';
-    const FISCALITE_NSK = 'NSK';
-    const FISCALITE_FOURGOUS = 'FOURGOUS';
+    public const FISCALITE_ASSURANCE_VIE = 'ASSURANCE_VIE';
+    public const FISCALITE_PERP = 'PERP';
+    public const FISCALITE_PER = 'PRE';
+    public const FISCALITE_PEP = 'PEP';
+    public const FISCALITE_PEA = 'PEA';
+    public const FISCALITE_LOI_MADELIN = 'LOI_MADELIN';
+    public const FISCALITE_CAPITALISATION = 'CAPITALISATION';
+    public const FISCALITE_DSK = 'DSK';
+    public const FISCALITE_NOUMEA = 'NOUMEA';
+    public const FISCALITE_NSK = 'NSK';
+    public const FISCALITE_FOURGOUS = 'FOURGOUS';
 
     /**
      * @var string|null

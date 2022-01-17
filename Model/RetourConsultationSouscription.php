@@ -4,9 +4,9 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 class RetourConsultationSouscription
 {
-    const MODE_REGLEMENT_AUTHORISE_PRELEVEMENT = 'PRELEVEMENT';
-    const MODE_REGLEMENT_AUTHORISE_VIREMENT = 'VIREMENT';
-    const MODE_REGLEMENT_AUTHORISE_CHEQUE = 'CHEQUE';
+    public const MODE_REGLEMENT_AUTHORISE_PRELEVEMENT = 'PRELEVEMENT';
+    public const MODE_REGLEMENT_AUTHORISE_VIREMENT = 'VIREMENT';
+    public const MODE_REGLEMENT_AUTHORISE_CHEQUE = 'CHEQUE';
     /**
      * @var array<ClausesBenef>|null
      */

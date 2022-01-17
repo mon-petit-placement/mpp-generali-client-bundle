@@ -63,7 +63,7 @@ class GeneraliScheduledFreePaymentClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function check(array $context = [], VersementsLibresProgrammes $scheduledFreePayment): ApiResponse
+    public function check(VersementsLibresProgrammes $scheduledFreePayment, array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([

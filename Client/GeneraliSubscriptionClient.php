@@ -56,7 +56,7 @@ class GeneraliSubscriptionClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function check(array $context = [], Souscription $subscription): ApiResponse
+    public function check(Souscription $subscription, array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([

@@ -65,7 +65,7 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function check(array $context = [], Arbitrage $arbitration): ApiResponse
+    public function check(Arbitrage $arbitration, array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', '/verifier', [
             'body' => $this->serialize([

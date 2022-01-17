@@ -12,7 +12,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    const CONFIGURATION_ROOT = 'mpp_generali_client';
+    public const CONFIGURATION_ROOT = 'mpp_generali_client';
 
     /**
      * @return TreeBuilder
