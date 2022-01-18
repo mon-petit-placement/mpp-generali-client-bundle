@@ -4,9 +4,9 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 class ParametrageVersementLibre
 {
-    const MODE_REGLEMENT_CHEQUE = 'CHEQUE';
-    const MODE_REGLEMENT_PRELEVEMENT = 'PRELEVEMENT';
-    const MODE_REGLEMENT_VIREMENT = 'VIREMENT';
+    public const MODE_REGLEMENT_CHEQUE = 'CHEQUE';
+    public const MODE_REGLEMENT_PRELEVEMENT = 'PRELEVEMENT';
+    public const MODE_REGLEMENT_VIREMENT = 'VIREMENT';
 
     /**
      * @var int|null

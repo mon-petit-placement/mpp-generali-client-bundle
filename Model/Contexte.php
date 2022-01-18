@@ -4,24 +4,24 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 class Contexte
 {
-    const UTILISATEUR_CLIENT = 'CLIENT';
-    const UTILISATEUR_APPORTEUR = 'APPORTEUR';
+    public const UTILISATEUR_CLIENT = 'CLIENT';
+    public const UTILISATEUR_APPORTEUR = 'APPORTEUR';
 
-    const ELEMENT_ATTENDU_REFERENTIEL = 'referentiel';
-    const ELEMENT_ATTENDU_CLAUSES_BENEFS = 'clausesBenefs';
-    const ELEMENT_ATTENDU_GARANTIES_PREVOYANCE = 'garantiesPrevoyance';
-    const ELEMENT_ATTENDU_MODES_REGLEMENT_AUTORISES = 'modesReglementAutorises';
-    const ELEMENT_ATTENDU_MODES_GESTION = 'modesGestion';
-    const ELEMENT_ATTENDU_INFO_PRODUIT = 'infoProduit';
-    const ELEMENT_ATTENDU_FISCALITES = 'fiscalites';
-    const ELEMENT_ATTENDU_TYPES_DUREE = 'typesDuree';
-    const ELEMENT_ATTENDU_TYPES_DENOUEMENT = 'typesDenouement';
-    const ELEMENT_ATTENDU_COMBINAISONS_POSSIBLES_SOUSCRIPTION = 'combinaisonsPossiblesSouscription';
-    const ELEMENT_ATTENDU_PARAM_VERSEMENT_INITIAL = 'paramVersementInitial';
-    const ELEMENT_ATTENDU_PARAM_VERSEMENT_LIBRE_PROGRAMME = 'paramVersementLibreProgramme';
-    const ELEMENT_ATTENDU_PARAM_RACHAT_PARTIEL_PROGRAMME = 'paramRachatPartielProgramme';
+    public const ELEMENT_ATTENDU_REFERENTIEL = 'referentiel';
+    public const ELEMENT_ATTENDU_CLAUSES_BENEFS = 'clausesBenefs';
+    public const ELEMENT_ATTENDU_GARANTIES_PREVOYANCE = 'garantiesPrevoyance';
+    public const ELEMENT_ATTENDU_MODES_REGLEMENT_AUTORISES = 'modesReglementAutorises';
+    public const ELEMENT_ATTENDU_MODES_GESTION = 'modesGestion';
+    public const ELEMENT_ATTENDU_INFO_PRODUIT = 'infoProduit';
+    public const ELEMENT_ATTENDU_FISCALITES = 'fiscalites';
+    public const ELEMENT_ATTENDU_TYPES_DUREE = 'typesDuree';
+    public const ELEMENT_ATTENDU_TYPES_DENOUEMENT = 'typesDenouement';
+    public const ELEMENT_ATTENDU_COMBINAISONS_POSSIBLES_SOUSCRIPTION = 'combinaisonsPossiblesSouscription';
+    public const ELEMENT_ATTENDU_PARAM_VERSEMENT_INITIAL = 'paramVersementInitial';
+    public const ELEMENT_ATTENDU_PARAM_VERSEMENT_LIBRE_PROGRAMME = 'paramVersementLibreProgramme';
+    public const ELEMENT_ATTENDU_PARAM_RACHAT_PARTIEL_PROGRAMME = 'paramRachatPartielProgramme';
 
-    const ELEMENT_ATTENDUS = [
+    public const ELEMENT_ATTENDUS = [
         self::ELEMENT_ATTENDU_REFERENTIEL,
         self::ELEMENT_ATTENDU_CLAUSES_BENEFS,
         self::ELEMENT_ATTENDU_GARANTIES_PREVOYANCE,

@@ -4,9 +4,9 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 class Reglement
 {
-    const REGLEMENT_TYPE_CHEQUE = 'CHEQUE';
-    const REGLEMENT_TYPE_PRELEVEMENT = 'PRELEVEMENT';
-    const REGLEMENT_TYPE_VIREMENT = 'VIREMENT';
+    public const REGLEMENT_TYPE_CHEQUE = 'CHEQUE';
+    public const REGLEMENT_TYPE_PRELEVEMENT = 'PRELEVEMENT';
+    public const REGLEMENT_TYPE_VIREMENT = 'VIREMENT';
 
     /**
      * @var string|null

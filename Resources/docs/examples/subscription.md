@@ -37,7 +37,6 @@ class ExampleController extends AbstractController
         $initApiResponse = $this->registry->getSubscription()->init();
 
         $checkApiResponse = $this->registry->getSubscription()->check(
-            ['statut' => $initApiResponse->getStatut()],
             $this->factory->createFromArray(Souscription::class, [
                 'referencesExternes' => [
                     'refExterne' => 'ERFDV45X',
@@ -186,7 +185,8 @@ class ExampleController extends AbstractController
                 'commentaire' => 'Souscription de test',
                 'dematerialisationCourriers' => true,
                 'dateSignature' => '2019-05-24',
-            ])
+            ]),
+            ['statut' => $initApiResponse->getStatut()],
         );
 
         $idTransaction = $apiResponse->getDonnees()->getIdTransaction();

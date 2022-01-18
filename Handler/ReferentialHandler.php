@@ -15,35 +15,35 @@ use UnexpectedValueException;
  */
 class ReferentialHandler
 {
-    const REFERENTIEL_SITUATIONS_PROFESSIONNELLES = 'situationsProfessionnelles';
-    const REFERENTIEL_SITUATIONS_FAMILIALES = 'situationsFamiliales';
-    const REFERENTIEL_TRANCHES_REVENU = 'tranchesRevenu';
-    const REFERENTIEL_TRANCHES_PATRIMOINE = 'tranchesPatrimoine';
-    const REFERENTIEL_ORIGINES_FONDS = 'originesFonds';
-    const REFERENTIEL_DETAIL = 'detail';
-    const REFERENTIEL_LIENS_CO_CONTRACTANT = 'liensCoContractant';
-    const REFERENTIEL_FONCTIONS_PPE = 'fonctionsPPE';
-    const REFERENTIEL_LIENS_CONTRACTANT_PPE = 'liensContractantPPE';
-    const REFERENTIEL_OBJECTIFS_VERSEMENT = 'objectifsVersement';
-    const REFERENTIEL_CODES_NAF = 'codesNaf';
-    const REFERENTIEL_CSPS = 'csps';
-    const REFERENTIEL_PAYS_RESIDENCE_FISCALE = 'paysResidenceFiscale';
-    const REFERENTIEL_REGIMES_MATRIMONIAUX = 'regimesMatrimoniaux';
-    const REFERENTIEL_REPARTITIONS_PATRIMOINE = 'repartitionsPatrimoine';
-    const REFERENTIEL_ORIGINES_PATRIMOINES = 'originesPatrimoine';
-    const REFERENTIEL_CAPACITES_JURIDIQUES = 'capacitesJuridiques';
-    const REFERENTIEL_NATIONALITES = 'nationalites';
-    const REFERENTIEL_PIECES_JUSTIFICATIVES = 'piecesJustificatives';
-    const REFERENTIEL_PAYS_NAISSANCE = 'paysNaissance';
-    const REFERENTIEL_PAYS_ADRESSES = 'paysAdresses';
-    const REFERENTIEL_PAYS_CRS_OCDE = 'paysCrsOcde';
-    const REFERENTIEL_CIVILITES = 'civilites';
-    const REFERENTIEL_PIECES_IDENTITE = 'piecesIdentite';
-    const REFERENTIEL_SECONDES_PIECES_IDENTITE = 'secondesPiecesIdentite';
-    const REFERENTIEL_FONDS_INVESTISSABLES = 'fondsInvestissables';
-    const REFERENTIEL_EPARGNE_ATTEINTE = 'epargneAtteinte';
+    public const REFERENTIEL_SITUATIONS_PROFESSIONNELLES = 'situationsProfessionnelles';
+    public const REFERENTIEL_SITUATIONS_FAMILIALES = 'situationsFamiliales';
+    public const REFERENTIEL_TRANCHES_REVENU = 'tranchesRevenu';
+    public const REFERENTIEL_TRANCHES_PATRIMOINE = 'tranchesPatrimoine';
+    public const REFERENTIEL_ORIGINES_FONDS = 'originesFonds';
+    public const REFERENTIEL_DETAIL = 'detail';
+    public const REFERENTIEL_LIENS_CO_CONTRACTANT = 'liensCoContractant';
+    public const REFERENTIEL_FONCTIONS_PPE = 'fonctionsPPE';
+    public const REFERENTIEL_LIENS_CONTRACTANT_PPE = 'liensContractantPPE';
+    public const REFERENTIEL_OBJECTIFS_VERSEMENT = 'objectifsVersement';
+    public const REFERENTIEL_CODES_NAF = 'codesNaf';
+    public const REFERENTIEL_CSPS = 'csps';
+    public const REFERENTIEL_PAYS_RESIDENCE_FISCALE = 'paysResidenceFiscale';
+    public const REFERENTIEL_REGIMES_MATRIMONIAUX = 'regimesMatrimoniaux';
+    public const REFERENTIEL_REPARTITIONS_PATRIMOINE = 'repartitionsPatrimoine';
+    public const REFERENTIEL_ORIGINES_PATRIMOINES = 'originesPatrimoine';
+    public const REFERENTIEL_CAPACITES_JURIDIQUES = 'capacitesJuridiques';
+    public const REFERENTIEL_NATIONALITES = 'nationalites';
+    public const REFERENTIEL_PIECES_JUSTIFICATIVES = 'piecesJustificatives';
+    public const REFERENTIEL_PAYS_NAISSANCE = 'paysNaissance';
+    public const REFERENTIEL_PAYS_ADRESSES = 'paysAdresses';
+    public const REFERENTIEL_PAYS_CRS_OCDE = 'paysCrsOcde';
+    public const REFERENTIEL_CIVILITES = 'civilites';
+    public const REFERENTIEL_PIECES_IDENTITE = 'piecesIdentite';
+    public const REFERENTIEL_SECONDES_PIECES_IDENTITE = 'secondesPiecesIdentite';
+    public const REFERENTIEL_FONDS_INVESTISSABLES = 'fondsInvestissables';
+    public const REFERENTIEL_EPARGNE_ATTEINTE = 'epargneAtteinte';
 
-    const AVAILABLE_REFERENTIALS = [
+    public const AVAILABLE_REFERENTIALS = [
         self::REFERENTIEL_SITUATIONS_PROFESSIONNELLES,
         self::REFERENTIEL_SITUATIONS_FAMILIALES,
         self::REFERENTIEL_TRANCHES_REVENU,

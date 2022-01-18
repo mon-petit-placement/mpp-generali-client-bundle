@@ -44,7 +44,7 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      *
      * @return ApiResponse
      */
-    public function check(array $context, RachatPartiel $partialRepurchase): ApiResponse
+    public function check(RachatPartiel $partialRepurchase, array $context = []): ApiResponse
     {
         $resolver = (new OptionsResolver())
             ->setRequired(['statut', 'numContrat', 'utilisateur'])

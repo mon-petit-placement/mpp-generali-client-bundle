@@ -189,8 +189,8 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
     {
         $apiResponse = $this->client->init();
         $apiResponse = $this->client->check(
-            (new Contexte())->setStatut($apiResponse->getStatut()),
-            $this->subscription
+            $this->subscription,
+            (new Contexte())->setStatut($apiResponse->getStatut())
         );
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
@@ -200,7 +200,7 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
     {
         $apiResponse = $this->client->init();
         $context = (new Contexte())->setStatut($apiResponse->getStatut());
-        $this->client->check($context, $this->subscription);
+        $this->client->check($this->subscription, $context);
 
         $apiResponse = self::$registry->getSubscription()->confirm($context);
 
@@ -213,7 +213,7 @@ class GeneraliSubscriptionClientTest extends GeneraliClientTest
     {
         $apiResponse = $this->client->init();
         $context = (new Contexte())->setStatut($apiResponse->getStatut());
-        $this->client->check($context, $this->subscription);
+        $this->client->check($this->subscription, $context);
 
         $apiResponse = self::$registry->getSubscription()->confirm($context);
 
