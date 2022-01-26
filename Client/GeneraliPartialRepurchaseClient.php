@@ -39,8 +39,8 @@ class GeneraliPartialRepurchaseClient extends AbstractGeneraliClient
      * POST /v1.0/donnees/rachatpartiel/verifier
      * Check a partial repurchase request.
      *
-     * @param array         $context
      * @param RachatPartiel $partialRepurchase
+     * @param array         $context
      *
      * @return ApiResponse
      */

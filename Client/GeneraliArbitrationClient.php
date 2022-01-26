@@ -60,8 +60,8 @@ class GeneraliArbitrationClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/arbitrage/verifier
      * Check arbitration request.
      *
-     * @param array       $context
      * @param Arbitrage   $arbitration
+     * @param array       $context
      *
      * @return ApiResponse
      */
