@@ -51,8 +51,8 @@ class GeneraliSubscriptionClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/souscription/verifier
      * Check a subscription request.
      *
-     * @param array        $context
      * @param Souscription $subscription
+     * @param array        $context
      *
      * @return ApiResponse
      */

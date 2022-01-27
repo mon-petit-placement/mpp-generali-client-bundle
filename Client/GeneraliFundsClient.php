@@ -10,12 +10,12 @@ class GeneraliFundsClient extends AbstractGeneraliClient
      * POST /v1.0/fonds/{codeFonds}
      * Retrieve funds data.
      *
-     * @param array  $context
      * @param string $fundsCode
+     * @param array  $context
      *
      * @return ApiResponse
      */
-    public function getData(array $context = [], string $fundsCode): ApiResponse
+    public function getData(string $fundsCode, array $context = []): ApiResponse
     {
         return $this->getApiResponse(null, 'POST', sprintf('/%s', $fundsCode), [
             'body' => $this->serialize([

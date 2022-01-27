@@ -59,8 +59,8 @@ class GeneraliFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementLibre/verifier
      * Check a free payment request.
      *
-     * @param array          $context
      * @param VersementLibre $freePayment
+     * @param array          $context
      *
      * @return ApiResponse
      */

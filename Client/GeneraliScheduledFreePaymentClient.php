@@ -58,8 +58,8 @@ class GeneraliScheduledFreePaymentClient extends AbstractGeneraliClient
      * POST /v2.0/transaction/versementsLibresProgrammes/verifier.
      * Check a partial repruchase request.
      *
-     * @param array $context
      * @param VersementsLibresProgrammes $scheduledFreePayment
+     * @param array $context
      *
      * @return ApiResponse
      */
