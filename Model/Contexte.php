@@ -13,6 +13,7 @@ class Contexte
     public const ELEMENT_ATTENDU_MODES_REGLEMENT_AUTORISES = 'modesReglementAutorises';
     public const ELEMENT_ATTENDU_MODES_GESTION = 'modesGestion';
     public const ELEMENT_ATTENDU_INFO_PRODUIT = 'infoProduit';
+    public const ELEMENT_ATTENDU_INFO_VLP = 'infoVlp';
     public const ELEMENT_ATTENDU_FISCALITES = 'fiscalites';
     public const ELEMENT_ATTENDU_TYPES_DUREE = 'typesDuree';
     public const ELEMENT_ATTENDU_TYPES_DENOUEMENT = 'typesDenouement';
@@ -28,6 +29,7 @@ class Contexte
         self::ELEMENT_ATTENDU_MODES_REGLEMENT_AUTORISES,
         self::ELEMENT_ATTENDU_MODES_GESTION,
         self::ELEMENT_ATTENDU_INFO_PRODUIT,
+        self::ELEMENT_ATTENDU_INFO_VLP,
         self::ELEMENT_ATTENDU_FISCALITES,
         self::ELEMENT_ATTENDU_TYPES_DUREE,
         self::ELEMENT_ATTENDU_TYPES_DENOUEMENT,
