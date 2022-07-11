@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": ">=8.0",
     "ext-json": "*",
     "eightpoints/guzzle-bundle": "^8.0",
     "symfony/dependency-injection": "^4.0 | ^5.0",

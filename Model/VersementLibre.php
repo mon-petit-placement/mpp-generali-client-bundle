@@ -20,7 +20,7 @@ class VersementLibre
     private $reglement;
 
     /**
-     * @var int|null
+     * @var int|float|null
      */
     private $montant;
 
@@ -104,9 +104,9 @@ class VersementLibre
     /**
      * Get the value of montant.
      *
-     * @return int|null
+     * @return int|float|null
      */
-    public function getMontant(): ?int
+    public function getMontant(): int|float|null
     {
         return $this->montant;
     }
@@ -114,11 +114,11 @@ class VersementLibre
     /**
      * Set the value of montant.
      *
-     * @param int|null $montant
+     * @param int|float|null $montant
      *
      * @return self
      */
-    public function setMontant(?int $montant): self
+    public function setMontant(int|float|null $montant): self
     {
         $this->montant = $montant;
 
