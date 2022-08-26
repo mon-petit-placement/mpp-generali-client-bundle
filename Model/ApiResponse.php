@@ -22,7 +22,7 @@ class ApiResponse
     private $donnees;
 
     /**
-     * @var array<Fonds>|null
+     * @var Fonds|null
      */
     private $fonds;
 
@@ -131,9 +131,9 @@ class ApiResponse
     /**
      * Get the value of fonds.
      *
-     * @return array<Fonds>|null
+     * @return Fonds|null
      */
-    public function getFonds(): ?array
+    public function getFonds(): ?Fonds
     {
         return $this->fonds;
     }
@@ -141,11 +141,11 @@ class ApiResponse
     /**
      * Set the value of fonds.
      *
-     * @param array<Fonds>|null $fonds
+     * @param Fonds|null $fonds
      *
      * @return self
      */
-    public function setFonds(?array $fonds): self
+    public function setFonds(?Fonds $fonds): self
     {
         $this->fonds = $fonds;
 

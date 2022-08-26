@@ -50,7 +50,7 @@ class Fonds
     private $sousCategorie;
 
     /**
-     * @var bool|null
+     * @var AvenantFonds|null
      */
     private $avenant;
 
@@ -378,9 +378,9 @@ class Fonds
     /**
      * Get the value of avenant.
      *
-     * @return bool|null
+     * @return AvenantFonds|null
      */
-    public function getAvenant(): ?bool
+    public function getAvenant(): ?AvenantFonds
     {
         return $this->avenant;
     }
@@ -388,11 +388,11 @@ class Fonds
     /**
      * Set the value of avenant.
      *
-     * @param bool|null $avenant
+     * @param AvenantFonds|null $avenant
      *
      * @return self
      */
-    public function setAvenant(?bool $avenant): self
+    public function setAvenant(?AvenantFonds $avenant): self
     {
         $this->avenant = $avenant;
 
