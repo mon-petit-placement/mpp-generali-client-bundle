@@ -10,6 +10,11 @@ class Repartition
     private $code;
 
     /**
+     * @var bool|null
+     */
+    private $avenantValide;
+
+    /**
      * @var string
      */
     private $codeFonds;
@@ -89,6 +94,26 @@ class Repartition
     public function setCode(?string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAvenantValide(): ?bool
+    {
+        return $this->avenantValide;
+    }
+
+    /**
+     * @param bool|null $avenantValide
+     *
+     * @return Repartition
+     */
+    public function setAvenantValide(?bool $avenantValide): Repartition
+    {
+        $this->avenantValide = $avenantValide;
 
         return $this;
     }
