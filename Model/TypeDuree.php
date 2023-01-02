@@ -33,6 +33,11 @@ class TypeDuree
     private $dureeMax;
 
     /**
+     * @var int|null
+     */
+    private $duree;
+
+    /**
      * Get the value of typeDuree.
      *
      * @return string|null
@@ -148,6 +153,30 @@ class TypeDuree
     public function setDureeMax(?int $dureeMax): self
     {
         $this->dureeMax = $dureeMax;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of duree
+     *
+     * @return  int|null
+     */
+    public function getDuree(): ?int
+    {
+        return $this->duree;
+    }
+
+    /**
+     * Set the value of duree
+     *
+     * @param  int|null  $duree
+     *
+     * @return  self
+     */
+    public function setDuree(?int $duree): self
+    {
+        $this->duree = $duree;
 
         return $this;
     }
