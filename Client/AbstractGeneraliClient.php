@@ -219,10 +219,14 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      */
     public function serialize($model): string
     {
-        return $this->serializer->serialize($model, 'json', [
+        $json = $this->serializer->serialize($model, 'json', [
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractObjectNormalizer::PRESERVE_EMPTY_OBJECTS => true,
+            "json_encode_options" =>
+                \JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_AMP | \JSON_HEX_QUOT | \JSON_UNESCAPED_UNICODE,
         ]);
+
+        return str_replace('œ', 'oe', $json);
     }
 
     /**
