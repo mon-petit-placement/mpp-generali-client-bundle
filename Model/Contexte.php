@@ -90,6 +90,11 @@ class Contexte
     private $utilisateur;
 
     /**
+     * @var string|null
+     */
+    private $dateSignature;
+
+    /**
      * Get the value of statut.
      *
      * @return string|null
@@ -325,6 +330,30 @@ class Contexte
     public function setUtilisateur(?string $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of dateSignature
+     *
+     * @return  string|null
+     */
+    public function getDateSignature(): ?string
+    {
+        return $this->dateSignature;
+    }
+
+    /**
+     * Set the value of dateSignature
+     *
+     * @param  string|null  $dateSignature
+     *
+     * @return  self
+     */
+    public function setDateSignature(?string $dateSignature): self
+    {
+        $this->dateSignature = $dateSignature;
 
         return $this;
     }
