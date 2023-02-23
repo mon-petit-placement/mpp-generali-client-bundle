@@ -217,8 +217,13 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      *
      * @return string
      */
+
     public function serialize($model): string
     {
+        $stringReplacementsArray = [
+            'œ' => 'oe',
+            'ÿ' => 'y'
+        ];
         $json = $this->serializer->serialize($model, 'json', [
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractObjectNormalizer::PRESERVE_EMPTY_OBJECTS => true,
@@ -226,7 +231,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
                 \JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_AMP | \JSON_HEX_QUOT | \JSON_UNESCAPED_UNICODE,
         ]);
 
-        return str_replace('œ', 'oe', $json);
+        return str_replace(array_keys($stringReplacementsArray), array_values($stringReplacementsArray), $json);
     }
 
     /**
