@@ -93,11 +93,10 @@ class GeneraliAttachmentClient extends AbstractGeneraliClient
     public function listScheduledFreePaymentFiles(string $transactionId): ApiResponse
     {
         if (str_contains('MEPVLP', $transactionId)) {
-            $transactionType = 'CREATION_VERSEMENT_LIBRE_PROGRAMME';
+            return $this->listStartScheduledFreePaymentFiles($transactionId);
         } else {
-            $transactionType = 'MODIF_VERSEMENT_LIBRE_PROGRAMME';
+            return $this->listUpdateScheduledFreePaymentFiles($transactionId);
         }
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/%s', $transactionId, $transactionType), []);
     }
 
     /**
