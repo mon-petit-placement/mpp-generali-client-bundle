@@ -81,8 +81,10 @@ class GeneraliAttachmentClient extends AbstractGeneraliClient
     }
 
     /**
-     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/VERSEMENT_LIBRES_PROGRAMME
+     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/{transactionType}
      * List all scheduled free payment files for a given transaction id.
+     *
+     * @deprecated use listStartScheduledFreePaymentFiles or listUpdateScheduledFreePaymentFiles methods instead
      *
      * @param string $transactionId
      *
@@ -90,7 +92,38 @@ class GeneraliAttachmentClient extends AbstractGeneraliClient
      */
     public function listScheduledFreePaymentFiles(string $transactionId): ApiResponse
     {
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/VERSEMENT_LIBRES_PROGRAMME', $transactionId), []);
+        if (str_contains('MEPVLP', $transactionId)) {
+            $transactionType = 'CREATION_VERSEMENT_LIBRE_PROGRAMME';
+        } else {
+            $transactionType = 'MODIF_VERSEMENT_LIBRE_PROGRAMME';
+        }
+        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/%s', $transactionId, $transactionType), []);
+    }
+
+    /**
+     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/CREATION_VERSEMENT_LIBRE_PROGRAMME
+     * List all start scheduled free payment files for a given transaction id.
+     *
+     * @param string $transactionId
+     *
+     * @return ApiResponse
+     */
+    public function listStartScheduledFreePaymentFiles(string $transactionId): ApiResponse
+    {
+        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/CREATION_VERSEMENT_LIBRE_PROGRAMME', $transactionId), []);
+    }
+
+    /**
+     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/MODIF_VERSEMENT_LIBRE_PROGRAMME
+     * List all update scheduled free payment files for a given transaction id.
+     *
+     * @param string $transactionId
+     *
+     * @return ApiResponse
+     */
+    public function listUpdateScheduledFreePaymentFiles(string $transactionId): ApiResponse
+    {
+        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/MODIF_VERSEMENT_LIBRE_PROGRAMME', $transactionId), []);
     }
 
     /**
