@@ -218,12 +218,13 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      * @return string
      */
 
-    public function serialize($model): string
+    public function serialize(mixed $model): string
     {
         $stringReplacementsArray = [
             'œ' => 'oe',
             'ÿ' => 'y',
             'ä' => 'a',
+            '’' => "'",
         ];
         $json = $this->serializer->serialize($model, 'json', [
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
