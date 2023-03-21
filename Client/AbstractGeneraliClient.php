@@ -218,7 +218,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      * @return string
      */
 
-    public function serialize(mixed $model): string
+    public function serialize($model): string
     {
         $stringReplacementsArray = [
             'œ' => 'oe',
