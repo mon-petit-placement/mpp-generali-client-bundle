@@ -224,6 +224,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
             'œ' => 'oe',
             'ÿ' => 'y',
             'ä' => 'a',
+            '’' => "'",
         ];
         $json = $this->serializer->serialize($model, 'json', [
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
