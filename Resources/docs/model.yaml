@@ -685,6 +685,7 @@ ModifVersementLibreProgrammes:
 Contrat:
     numContrat: string
     infoVLP: InfoVLP
+    contractant: Contractant
 
 InfoVLP:
     dateProchainPrelevement: DateTime
