@@ -17,6 +17,11 @@ class Contractant
     /**
      * @var string|null
      */
+    private $mail;
+
+    /**
+     * @var string|null
+     */
     private $residenceFiscale;
 
     /**
@@ -83,6 +88,30 @@ class Contractant
     public function setPrenom(?string $prenom): Contractant
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of mail.
+     *
+     * @return string|null
+     */
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    /**
+     * Get the value of mail.
+     *
+     * @param string|null $mail
+     *
+     * @return Contractant
+     */
+    public function setMail(?string $mail): Contractant
+    {
+        $this->mail = $mail;
 
         return $this;
     }
