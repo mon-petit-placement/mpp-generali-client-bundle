@@ -2,7 +2,6 @@
 
 namespace Mpp\GeneraliClientBundle\Client;
 
-use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Symfony\Component\HttpFoundation\File\File;
 
 class GeneraliDocumentClient extends AbstractGeneraliClient
@@ -17,7 +16,7 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
      * @param string $transactionId
      * @param string $checkKey
      *
-     * @return ApiResponse
+     * @return File
      */
     public function getAmendment(
         string $codeApp,
@@ -40,7 +39,7 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
      * @param string $documentId
      * @param string $checkKey
      *
-     * @return ApiResponse
+     * @return File
      */
     public function getDocument(string $documentId, string $checkKey): File
     {
@@ -56,7 +55,7 @@ class GeneraliDocumentClient extends AbstractGeneraliClient
      * @param string $reportDate
      * @param string $checkKey
      *
-     * @return ApiResponse
+     * @return File
      */
     public function getSituationReport(
         string $codeApp,
