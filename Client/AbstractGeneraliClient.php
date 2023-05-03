@@ -3,21 +3,15 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\RequestOptions;
 use Mpp\GeneraliClientBundle\Exception\GeneraliApiException;
 use Mpp\GeneraliClientBundle\Factory\ModelFactory;
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\Contexte;
-use Mpp\GeneraliClientBundle\Model\ErrorMessage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
