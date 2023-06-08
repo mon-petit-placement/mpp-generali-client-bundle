@@ -3,21 +3,15 @@
 namespace Mpp\GeneraliClientBundle\Client;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\RequestOptions;
 use Mpp\GeneraliClientBundle\Exception\GeneraliApiException;
 use Mpp\GeneraliClientBundle\Factory\ModelFactory;
 use Mpp\GeneraliClientBundle\Model\ApiResponse;
 use Mpp\GeneraliClientBundle\Model\Contexte;
-use Mpp\GeneraliClientBundle\Model\ErrorMessage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -217,12 +211,23 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      *
      * @return string
      */
+
     public function serialize($model): string
     {
-        return $this->serializer->serialize($model, 'json', [
+        $stringReplacementsArray = [
+            'œ' => 'oe',
+            'ÿ' => 'y',
+            'ä' => 'a',
+            '’' => "'",
+        ];
+        $json = $this->serializer->serialize($model, 'json', [
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractObjectNormalizer::PRESERVE_EMPTY_OBJECTS => true,
+            "json_encode_options" =>
+                \JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_AMP | \JSON_HEX_QUOT | \JSON_UNESCAPED_UNICODE,
         ]);
+
+        return str_replace(array_keys($stringReplacementsArray), array_values($stringReplacementsArray), $json);
     }
 
     /**

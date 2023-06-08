@@ -17,7 +17,7 @@ class ApiResponse
     private $messages;
 
     /**
-     * @var mixed|null
+     * @var array|null
      */
     private $donnees;
 

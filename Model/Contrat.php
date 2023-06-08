@@ -25,6 +25,11 @@ class Contrat
     private $situation;
 
     /**
+     * @var array<Contractant>|null
+     */
+    private $contractants;
+
+    /**
      * Get the value of numContrat.
      *
      * @return string|null
@@ -116,6 +121,30 @@ class Contrat
     public function setSituation(?Situation $situation): self
     {
         $this->situation = $situation;
+    
+        return $this;
+    }
+  
+    /**
+     * Get the value of contractants.
+     *
+     * @return array<Contractant>|null
+     */
+    public function getContractants(): ?array
+    {
+        return $this->contractants;
+    }
+
+    /**
+     * Set the value of contractants.
+     *
+     * @param array<Contractant>|null $contractants
+     *
+     * @return self
+     */
+    public function setContractants(?array $contractants): self
+    {
+        $this->contractants = $contractants;
 
         return $this;
     }

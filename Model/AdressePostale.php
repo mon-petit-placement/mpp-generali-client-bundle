@@ -7,7 +7,22 @@ class AdressePostale
     /**
      * @var string|null
      */
+    private $adresse1PointRemise;
+
+    /**
+     * @var string|null
+     */
+    private $adresse2PointGeographique;
+
+    /**
+     * @var string|null
+     */
     private $adresse3LibelleVoie;
+
+    /**
+     * @var string|null
+     */
+    private $adresse4LieuDitBP;
 
     /**
      * @var string|null
@@ -145,6 +160,78 @@ class AdressePostale
     public function setNePasNormaliser(?bool $nePasNormaliser): self
     {
         $this->nePasNormaliser = $nePasNormaliser;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adresse1PointRemise
+     *
+     * @return  string|null
+     */
+    public function getAdresse1PointRemise(): ?string
+    {
+        return $this->adresse1PointRemise;
+    }
+
+    /**
+     * Set the value of adresse1PointRemise
+     *
+     * @param  string|null  $adresse1PointRemise
+     *
+     * @return  self
+     */
+    public function setAdresse1PointRemise(?string $adresse1PointRemise): self
+    {
+        $this->adresse1PointRemise = $adresse1PointRemise;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adresse2PointGeographique
+     *
+     * @return  string|null
+     */
+    public function getAdresse2PointGeographique(): ?string
+    {
+        return $this->adresse2PointGeographique;
+    }
+
+    /**
+     * Set the value of adresse2PointGeographique
+     *
+     * @param  string|null  $adresse2PointGeographique
+     *
+     * @return  self
+     */
+    public function setAdresse2PointGeographique(?string $adresse2PointGeographique): self
+    {
+        $this->adresse2PointGeographique = $adresse2PointGeographique;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adresse4LieuDitBP
+     *
+     * @return  string|null
+     */
+    public function getAdresse4LieuDitBP(): ?string
+    {
+        return $this->adresse4LieuDitBP;
+    }
+
+    /**
+     * Set the value of adresse4LieuDitBP
+     *
+     * @param  string|null  $adresse4LieuDitBP
+     *
+     * @return  self
+     */
+    public function setAdresse4LieuDitBP(?string $adresse4LieuDitBP): self
+    {
+        $this->adresse4LieuDitBP = $adresse4LieuDitBP;
 
         return $this;
     }

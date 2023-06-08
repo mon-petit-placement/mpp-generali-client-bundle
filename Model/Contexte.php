@@ -21,6 +21,7 @@ class Contexte
     public const ELEMENT_ATTENDU_PARAM_VERSEMENT_INITIAL = 'paramVersementInitial';
     public const ELEMENT_ATTENDU_PARAM_VERSEMENT_LIBRE_PROGRAMME = 'paramVersementLibreProgramme';
     public const ELEMENT_ATTENDU_PARAM_RACHAT_PARTIEL_PROGRAMME = 'paramRachatPartielProgramme';
+    public const ELEMENT_ATTENDU_PARAM_CONTRACTANTS = 'contractants';
 
     public const ELEMENT_ATTENDUS = [
         self::ELEMENT_ATTENDU_REFERENTIEL,
@@ -37,6 +38,7 @@ class Contexte
         self::ELEMENT_ATTENDU_PARAM_VERSEMENT_INITIAL,
         self::ELEMENT_ATTENDU_PARAM_VERSEMENT_LIBRE_PROGRAMME,
         self::ELEMENT_ATTENDU_PARAM_RACHAT_PARTIEL_PROGRAMME,
+        self::ELEMENT_ATTENDU_PARAM_CONTRACTANTS
     ];
 
     /**
@@ -88,6 +90,11 @@ class Contexte
      * @var string|null
      */
     private $utilisateur;
+
+    /**
+     * @var string|null
+     */
+    private $dateSignature;
 
     /**
      * Get the value of statut.
@@ -325,6 +332,30 @@ class Contexte
     public function setUtilisateur(?string $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of dateSignature
+     *
+     * @return  string|null
+     */
+    public function getDateSignature(): ?string
+    {
+        return $this->dateSignature;
+    }
+
+    /**
+     * Set the value of dateSignature
+     *
+     * @param  string|null  $dateSignature
+     *
+     * @return  self
+     */
+    public function setDateSignature(?string $dateSignature): self
+    {
+        $this->dateSignature = $dateSignature;
 
         return $this;
     }
