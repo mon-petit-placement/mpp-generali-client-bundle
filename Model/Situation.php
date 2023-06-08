@@ -7,12 +7,12 @@ class Situation
     /**
      * @var string|null
      */
-    private $libelleSituation;
+    private ?string $libelleSituation;
 
     /**
      * @var float|null
      */
-    private $niveauGlobalSrri;
+    private ?float $niveauGlobalSrri;
 
     /**
      * Get the value of libelleSituation.
@@ -39,7 +39,7 @@ class Situation
     }
 
     /**
-     * Get the value of libelleSituation.
+     * Get the value of niveauGlobalSrri.
      *
      * @return float|null
      */

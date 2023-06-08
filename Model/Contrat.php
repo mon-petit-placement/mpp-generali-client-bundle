@@ -7,27 +7,27 @@ class Contrat
     /**
      * @var string|null
      */
-    private $numContrat;
+    private ?string $numContrat;
 
     /**
      * @var InfoVLP|null
      */
-    private $infoVLP;
+    private ?InfoVLP $infoVLP;
 
     /**
      * @var array|null
      */
-    private $listeAvenants;
-    
+    private ?array $listeAvenants;
+
     /**
      * @var Situation|null
      */
-    private $situation;
+    private ?Situation $situation;
 
     /**
      * @var array<Contractant>|null
      */
-    private $contractants;
+    private ?array $contractants;
 
     /**
      * Get the value of numContrat.
@@ -102,7 +102,7 @@ class Contrat
     }
 
      /**
-      * Get the value of infoVLP.
+      * Get the value of situation.
       *
       * @return Situation|null
       */
@@ -112,7 +112,7 @@ class Contrat
     }
 
     /**
-     * Set the value of infoVLP.
+     * Set the value of situation.
      *
      * @param Situation|null $situation
      *
@@ -121,10 +121,10 @@ class Contrat
     public function setSituation(?Situation $situation): self
     {
         $this->situation = $situation;
-    
+
         return $this;
     }
-  
+
     /**
      * Get the value of contractants.
      *
