@@ -12,7 +12,7 @@ class Contrat
     /**
      * @var InfoVLP|null
      */
-    private ?InfoVLP $infoVLP;
+    private ?InfoVLP $infoVLP = null;
 
     /**
      * @var array|null
