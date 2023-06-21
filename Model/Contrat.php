@@ -25,9 +25,9 @@ class Contrat
     private ?Situation $situation;
 
     /**
-     * @var array<Contractant>|null
+     * @var Contractants|null
      */
-    private ?array $contractants;
+    private ?Contractants $contractants;
 
     /**
      * Get the value of numContrat.
@@ -128,9 +128,9 @@ class Contrat
     /**
      * Get the value of contractants.
      *
-     * @return array<Contractant>|null
+     * @return Contractants|null
      */
-    public function getContractants(): ?array
+    public function getContractants(): ?Contractants
     {
         return $this->contractants;
     }
@@ -138,11 +138,11 @@ class Contrat
     /**
      * Set the value of contractants.
      *
-     * @param array<Contractant>|null $contractants
+     * @param Contractants|null $contractants
      *
      * @return self
      */
-    public function setContractants(?array $contractants): self
+    public function setContractants(?Contractants $contractants): self
     {
         $this->contractants = $contractants;
 
