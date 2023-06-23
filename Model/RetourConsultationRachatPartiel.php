@@ -30,7 +30,7 @@ class RetourConsultationRachatPartiel
     private $listeFiscalites;
 
     /**
-     * @var EpargneAtteinte|null
+     * @var EpargneAtteinteV1|null
      */
     private $epargneAtteinte;
 
@@ -167,9 +167,9 @@ class RetourConsultationRachatPartiel
     /**
      * Get the value of epargneAtteinte.
      *
-     * @return EpargneAtteinte|null
+     * @return EpargneAtteinteV1|null
      */
-    public function getEpargneAtteinte(): ?EpargneAtteinte
+    public function getEpargneAtteinte(): ?EpargneAtteinteV1
     {
         return $this->epargneAtteinte;
     }
@@ -177,11 +177,11 @@ class RetourConsultationRachatPartiel
     /**
      * Set the value of epargneAtteinte.
      *
-     * @param EpargneAtteinte|null $epargneAtteinte
+     * @param EpargneAtteinteV1|null $epargneAtteinte
      *
      * @return self
      */
-    public function setEpargneAtteinte(?EpargneAtteinte $epargneAtteinte): self
+    public function setEpargneAtteinte(?EpargneAtteinteV1 $epargneAtteinte): self
     {
         $this->epargneAtteinte = $epargneAtteinte;
 
