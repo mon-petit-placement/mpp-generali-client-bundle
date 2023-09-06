@@ -20,6 +20,11 @@ class Contrat
     private ?array $listeAvenants;
 
     /**
+     * @var EtatSituation[]|null
+     */
+    private ?array $listeEtatsSituation;
+
+    /**
      * @var Situation|null
      */
     private ?Situation $situation;
@@ -101,11 +106,35 @@ class Contrat
         return $this;
     }
 
-     /**
-      * Get the value of situation.
-      *
-      * @return Situation|null
-      */
+    /**
+     * Get the value of listeEtatsSituation
+     *
+     * @return EtatSituation[]|null
+     */
+    public function getListeEtatsSituation(): ?array
+    {
+        return $this->listeEtatsSituation;
+    }
+
+    /**
+     * Set the value of listeEtatsSituation
+     *
+     * @param EtatSituation[]|null $listeEtatsSituation
+     *
+     * @return self
+     */
+    public function setListeEtatsSituation(?array $listeEtatsSituation): self
+    {
+        $this->listeEtatsSituation = $listeEtatsSituation;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of situation.
+     *
+     * @return Situation|null
+     */
     public function getSituation(): ?Situation
     {
         return $this->situation;
