@@ -6,13 +6,15 @@ use Mpp\GeneraliClientBundle\Exception\GeneraliApiException;
 
 class ApiResponse
 {
+    const CriticiteError = "ERROR";
+
     /**
      * @var string|null
      */
     private $statut;
 
     /**
-     * @var array<ErrorMessage>|null
+     * @var array<Message>|null
      */
     private $messages;
 
@@ -37,8 +39,8 @@ class ApiResponse
     private $modifVlpRetour;
 
     /**
-    * @var array<PieceAFournir>|null
-    */
+     * @var array<PieceAFournir>|null
+     */
     private $piecesAFournir;
 
     /**
@@ -83,7 +85,7 @@ class ApiResponse
     /**
      * Get the value of messages.
      *
-     * @return array<ErrorMessage>|null
+     * @return array<Message>|null
      */
     public function getMessages(): ?array
     {
@@ -93,7 +95,7 @@ class ApiResponse
     /**
      * Set the value of messages.
      *
-     * @param array<ErrorMessage>|null $messages
+     * @param array<Message>|null $messages
      *
      * @return self
      */
@@ -296,8 +298,15 @@ class ApiResponse
         return $this;
     }
 
-    public function hasErrors()
+    public function getErrors(): array
     {
-        return count($this->getMessages()) > 0;
+        $errorMessages = [];
+        foreach ($this->getMessages() as $message) {
+            if (self::CriticiteError === $message->getCriticite()) {
+                $errorMessages[] = $message;
+            }
+        }
+
+        return $errorMessages ?? [];
     }
 }

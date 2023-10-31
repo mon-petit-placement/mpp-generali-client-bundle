@@ -4,7 +4,7 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 use Mpp\GeneraliClientBundle\Exception\GeneraliApiException;
 
-class ErrorMessage
+class Message
 {
     /**
      * @var string|null
