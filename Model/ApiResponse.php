@@ -309,4 +309,9 @@ class ApiResponse
 
         return $errorMessages ?? [];
     }
+
+    public function hasErrors(): bool
+    {
+        return !empty($this->getErrors());
+    }
 }

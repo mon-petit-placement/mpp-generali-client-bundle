@@ -188,7 +188,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
         /** @var ApiResponse $apiResponse */
         $apiResponse = $this->getModelFactory()->createFromJson(ApiResponse::class, $contents);
 
-        if (count($apiResponse->getErrors()) > 0) {
+        if ($apiResponse->hasErrors()) {
             throw new GeneraliApiException(
                 'Generali API response has error messages: ' .
                 json_encode($apiResponse->getErrors())
@@ -196,7 +196,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
         }
 
         $donnees = $apiResponse->getDonnees();
-        if (null !== $className && null !== $apiResponse->getDonnees()) {
+        if (null !== $className && null !== $donnees) {
             $donnees = $this->getModelFactory()->createFromArray($className, $donnees);
         }
 
