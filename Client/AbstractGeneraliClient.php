@@ -122,8 +122,8 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      *
      * @param string $method
      * @param string $path
-     * @param array  $options
-     * @param bool   $isSign
+     * @param array $options
+     * @param bool $isSign
      *
      * @return ResponseInterface
      */
@@ -148,7 +148,7 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
      *
      * @param string $method
      * @param string $path
-     * @param array  $options
+     * @param array $options
      *
      * @return File
      */
@@ -165,13 +165,12 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
     /**
      * Make a request and deserialize the Guzzle response to an object of the given class name and put it in api response object.
      *
-     * @param string $className
+     * @param string|null $className
      * @param string $method
      * @param string $path
-     * @param array  $options
-     * @param bool   $isSign
-     *
+     * @param array $options
      * @return ApiResponse|null
+     * @throws GeneraliApiException
      */
     public function getApiResponse(?string $className, string $method, string $path, array $options = []): ?ApiResponse
     {
@@ -183,22 +182,22 @@ abstract class AbstractGeneraliClient implements GeneraliClientInterface
         }
 
         if (!self::isValidJson($contents)) {
-            throw new GeneraliApiException(sprintf('Generali API response isn\'t a valid JSON: %s', $contents));
+            throw new GeneraliApiException('Generali API response isn\'t a valid JSON: ' . $contents);
         }
 
+        /** @var ApiResponse $apiResponse */
         $apiResponse = $this->getModelFactory()->createFromJson(ApiResponse::class, $contents);
 
         if ($apiResponse->hasErrors()) {
-            $errorMessages = json_encode(array_map(function ($message) {
-                return (string) $message;
-            }, $apiResponse->getMessages()));
-
-            throw new GeneraliApiException(sprintf('Generali API response has error messages: %s', $errorMessages));
+            throw new GeneraliApiException(
+                'Generali API response has error messages: ' .
+                json_encode($apiResponse->getErrors())
+            );
         }
 
         $donnees = $apiResponse->getDonnees();
-        if (null !== $className && null !== $apiResponse->getDonnees()) {
-            $donnees = $this->getModelFactory()->createFromArray($className, $apiResponse->getDonnees());
+        if (null !== $className && null !== $donnees) {
+            $donnees = $this->getModelFactory()->createFromArray($className, $donnees);
         }
 
         return $apiResponse->setDonnees($donnees);
