@@ -4,6 +4,14 @@ namespace Mpp\GeneraliClientBundle\Model;
 
 class Situation
 {
+    public const LIBELLE_SITUATION_SANS_EFFET = 'Sans Effet';
+
+    public const LIBELLE_SITUATION_EN_COURS = 'En cours';
+
+    public const LIBELLE_SITUATION_RACHETE = 'Racheté';
+
+    public const LIBELLE_SITUATION_RENONCIATION = 'Renonciation';
+
     /**
      * @var string|null
      */
