@@ -68,6 +68,19 @@ class GeneraliAttachmentClient extends AbstractGeneraliClient
     }
 
     /**
+     * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/MAJDOSSCLT
+     * List all kyc update files for a given transaction id.
+     *
+     * @param string $transactionId
+     *
+     * @return ApiResponse
+     */
+    public function listKycUpdateFiles(string $transactionId): ApiResponse
+    {
+        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/MAJDOSSCLT', $transactionId), []);
+    }
+
+    /**
      * POST /v1.0/transaction/piecesAFournir/list/{idTransaction}/VERSEMENT_LIBRE
      * List all free payment files for a given transaction id.
      *

@@ -26,6 +26,11 @@ class GeneraliAttachmentClientTest extends GeneraliClientTest
         return $this->client->listSubscriptionFiles();
     }
 
+    public function listKycUpdateFiles()
+    {
+        return $this->client->listKycUpdateFiles();
+    }
+
     public function listFreePaymentFiles()
     {
         return $this->client->listFreePaymentFiles();
