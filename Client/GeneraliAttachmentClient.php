@@ -77,7 +77,7 @@ class GeneraliAttachmentClient extends AbstractGeneraliClient
      */
     public function listKycUpdateFiles(string $transactionId): ApiResponse
     {
-        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/MAJDOSSCLT', $transactionId), []);
+        return $this->getApiResponse(null, 'GET', sprintf('/piecesAFournir/list/%s/MAJ_DOSSIER_CLIENT', $transactionId), []);
     }
 
     /**
