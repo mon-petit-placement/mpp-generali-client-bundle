@@ -97,6 +97,11 @@ class Contexte
     private $dateSignature;
 
     /**
+     * @var bool|null
+     */
+    private $conventionDePreuve;
+
+    /**
      * Get the value of statut.
      *
      * @return string|null
@@ -356,6 +361,30 @@ class Contexte
     public function setDateSignature(?string $dateSignature): self
     {
         $this->dateSignature = $dateSignature;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of conventionDePreuve
+     *
+     * @return  bool|null
+     */
+    public function getConventionDePreuve(): ?bool
+    {
+        return $this->conventionDePreuve;
+    }
+
+    /**
+     * Set the value of conventionDePreuve
+     *
+     * @param  bool|null  $conventionDePreuve
+     *
+     * @return  self
+     */
+    public function setConventionDePreuve(?bool $conventionDePreuve): self
+    {
+        $this->conventionDePreuve = $conventionDePreuve;
 
         return $this;
     }

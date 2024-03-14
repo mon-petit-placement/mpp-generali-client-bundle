@@ -44,7 +44,7 @@ class GeneraliCustomerFileClient extends AbstractGeneraliClient
     {
         $resolver = (new OptionsResolver())
             ->setRequired('numContrat')
-            ->setDefined(['codeApporteur', 'elementsAttendus'])
+            ->setDefined(['codeApporteur', 'elementsAttendus', 'utilisateur'])
         ;
 
         return $this->getApiResponse(null, 'POST', '/initier', [
