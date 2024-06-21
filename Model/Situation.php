@@ -12,6 +12,8 @@ class Situation
 
     public const LIBELLE_SITUATION_RENONCIATION = 'Renonciation';
 
+    public const LIBELLE_SITUATION_VLP_SUSPENDU = 'VLP suspendu';
+
     /**
      * @var string|null
      */
